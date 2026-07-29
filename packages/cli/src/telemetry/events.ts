@@ -1,5 +1,5 @@
-import { redactTelemetryString, type OutputResolutionIssueKind } from "@hyperframes/core";
-import type { SubTimelineWaitOutcome } from "@hyperframes/engine";
+import { redactTelemetryString, type OutputResolutionIssueKind } from "@frames/core";
+import type { SubTimelineWaitOutcome } from "@frames/engine";
 import { FEEDBACK_RATING_SCALE } from "../utils/feedbackRating.js";
 import { flush, shouldTrack, trackEvent } from "./client.js";
 import { readConfig } from "./config.js";
@@ -26,7 +26,7 @@ function powerStateFields(): { on_battery?: boolean; low_power_mode?: boolean } 
   };
 }
 
-// run_id is attached only when the orchestrator set HYPERFRAMES_RUN_ID — an
+// run_id is attached only when the orchestrator set FRAMES_RUN_ID — an
 // absent property, never null/"" (PostHog treats those as real values).
 function runIdField(runId: string | undefined): { run_id?: string } {
   return runId !== undefined ? { run_id: runId } : {};
@@ -176,7 +176,7 @@ export function trackRenderComplete(
     // Worker auto-sizing provenance (RenderPerfSummary.workerSizing). Answers
     // "why N workers?" fleet-wide, and validates the advisory per-worker heap
     // budget before it's enforced (field OOM: 6 auto workers on a 24GB/4GB-heap
-    // machine — see computeWorkerSizing in @hyperframes/engine).
+    // machine — see computeWorkerSizing in @frames/engine).
     workersBoundBy?: string;
     workersCpuBased?: number;
     workersMemoryBased?: number;
@@ -224,7 +224,7 @@ export function trackRenderComplete(
     deBlankRecaptures?: number;
     deBoundaryFrames?: number;
     deNcprFallbacks?: number;
-    // "cli" when triggered by `hyperframes render` (default), "studio" when
+    // "cli" when triggered by `frames render` (default), "studio" when
     // triggered by a studio preview-server render (POST /api/projects/:id/render).
     source?: "cli" | "studio";
     // Composition metadata

@@ -1,33 +1,33 @@
 {
-  "name": "hyperframes",
+  "name": "frames",
   "owner": {
     "name": "HeyGen",
-    "email": "hyperframes@heygen.com",
-    "url": "https://hyperframes.heygen.com"
+    "email": "frames@heygen.com",
+    "url": "https://frames.hanzo.ai"
   },
   "plugins": [
     {
       "name": "core-skills",
       "source": "./",
-      "description": "The HyperFrames core set \u2014 install this one: the /hyperframes router, the hyperframes-* domain skills, and media-use. The router installs each creation workflow on demand. The full bundle (all skills at once) is `hyperframes`.",
-      "homepage": "https://hyperframes.heygen.com",
+      "description": "The Frames core set \u2014 install this one: the /frames router, the frames-* domain skills, and media-use. The router installs each creation workflow on demand. The full bundle (all skills at once) is `frames`.",
+      "homepage": "https://frames.hanzo.ai",
       "license": "Apache-2.0",
       "skills": [
-        "./skills/hyperframes",
-        "./skills/hyperframes-animation",
-        "./skills/hyperframes-cli",
-        "./skills/hyperframes-core",
-        "./skills/hyperframes-creative",
-        "./skills/hyperframes-keyframes",
-        "./skills/hyperframes-registry",
+        "./skills/frames",
+        "./skills/frames-animation",
+        "./skills/frames-cli",
+        "./skills/frames-core",
+        "./skills/frames-creative",
+        "./skills/frames-keyframes",
+        "./skills/frames-registry",
         "./skills/media-use"
       ]
     },
     {
-      "name": "hyperframes",
+      "name": "frames",
       "source": "./",
-      "description": "All HyperFrames skills in one static bundle. Most setups want `core-skills` instead \u2014 the router installs creation workflows on demand. HyperFrames by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for HyperFrames.",
-      "homepage": "https://hyperframes.heygen.com",
+      "description": "All Frames skills in one static bundle. Most setups want `core-skills` instead \u2014 the router installs creation workflows on demand. Frames by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for Frames.",
+      "homepage": "https://frames.hanzo.ai",
       "license": "Apache-2.0"
     }
   ]

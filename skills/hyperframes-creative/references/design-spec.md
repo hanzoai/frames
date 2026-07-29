@@ -4,7 +4,7 @@ The single source of truth for **what a design spec is, how to find it, and how 
 
 ## What `frame.md` is
 
-`frame.md` is the **frame-scale design system** for a video / hyperframes project — the video-first companion to `design.md` (which is written for web / static pages). Same file format as `design.md`; it reframes the brand with the frame as the unit.
+`frame.md` is the **frame-scale design system** for a video / frames project — the video-first companion to `design.md` (which is written for web / static pages). Same file format as `design.md`; it reframes the brand with the frame as the unit.
 
 A spec is **YAML frontmatter + a markdown body**, and the two layers are not equal:
 
@@ -23,7 +23,7 @@ frame.md  →  design.md  →  DESIGN.md
 SPEC=$(ls frame.md design.md DESIGN.md 2>/dev/null | head -1)
 ```
 
-- `frame.md` is the preferred spec for video / hyperframes projects and wins when more than one exists.
+- `frame.md` is the preferred spec for video / frames projects and wins when more than one exists.
 - `frame.md` is **always lowercase** — there is no `FRAME.md` variant. (`design.md` and `DESIGN.md` are genuinely different files on Linux; a frame-preset ships an uppercase `FRAME.md` _template_, adopted as lowercase `frame.md` — see "Starting from a preset" below.)
 
 Load the spec **once, in Step 1**; every later step (expansion, authoring, adherence) consumes the already-loaded spec rather than re-resolving it.

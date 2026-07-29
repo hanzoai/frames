@@ -2,7 +2,7 @@
 import { describe, it, expect } from "vitest";
 import * as core from "./index.js";
 
-describe("@hyperframes/core public API exports", () => {
+describe("@frames/core public API exports", () => {
   describe("type-related constants and utilities", () => {
     it("exports CANVAS_DIMENSIONS", () => {
       expect(core.CANVAS_DIMENSIONS).toBeDefined();
@@ -65,8 +65,8 @@ describe("@hyperframes/core public API exports", () => {
 
     it("exports resolveResolutionFlagPair — the pair every distributed entrypoint must forward", () => {
       // The single source of truth every distributed adapter reads
-      // (`hyperframes cloudrun render`, `hyperframes lambda render`,
-      // `hyperframes lambda render-batch`). Divergent copies across those
+      // (`frames cloudrun render`, `frames lambda render`,
+      // `frames lambda render-batch`). Divergent copies across those
       // callers is what shipped the portrait-1080p failure this helper
       // exists to prevent (PR #2529). Case-insensitive on the raw input.
       expect(core.resolveResolutionFlagPair("1080p")).toEqual({
@@ -170,7 +170,7 @@ describe("@hyperframes/core public API exports", () => {
   });
 
   describe("generator exports", () => {
-    it("exports hyperframes generator functions", () => {
+    it("exports frames generator functions", () => {
       expect(typeof core.generateHyperframesHtml).toBe("function");
       expect(typeof core.generateGsapTimelineScript).toBe("function");
       expect(typeof core.generateHyperframesStyles).toBe("function");
@@ -189,10 +189,10 @@ describe("@hyperframes/core public API exports", () => {
   });
 
   describe("lint exports", () => {
-    it("exposes lintHyperframeHtml via the @hyperframes/core/lint back-compat stub", async () => {
-      // Lint moved to @hyperframes/lint; core's main entry no longer re-exports
+    it("exposes lintHyperframeHtml via the @frames/core/lint back-compat stub", async () => {
+      // Lint moved to @frames/lint; core's main entry no longer re-exports
       // it (that would cycle through the lint package). The subpath stub keeps
-      // existing @hyperframes/core/lint imports working.
+      // existing @frames/core/lint imports working.
       const lint = await import("./lint/index.js");
       expect(typeof lint.lintHyperframeHtml).toBe("function");
     });

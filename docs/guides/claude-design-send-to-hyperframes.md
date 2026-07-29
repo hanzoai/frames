@@ -1,26 +1,26 @@
 ---
-title: "Send to HyperFrames"
-description: "Author a Claude Design as a single-file HyperFrames composition for the \"Send to HyperFrames\" URL import."
+title: "Send to Frames"
+description: "Author a Claude Design as a single-file Frames composition for the \"Send to Frames\" URL import."
 ---
 
-# Claude Design → "Send to HyperFrames" (Single-File Import)
+# Claude Design → "Send to Frames" (Single-File Import)
 
-> This guide is **fully self-contained**: everything needed to author a valid "Send to HyperFrames" composition is inline here. Do not rely on fetching any other document — produce the composition from this guide alone.
+> This guide is **fully self-contained**: everything needed to author a valid "Send to Frames" composition is inline here. Do not rely on fetching any other document — produce the composition from this guide alone.
 
-Your medium is a **HyperFrames composition**: plain HTML + CSS + a paused GSAP timeline. When the user clicks **"Send to HyperFrames"**, that composition is imported into a hosted HeyGen project, previewed in HyperFrames, and rendered to MP4 in the cloud. You produce a **valid first draft** — a HyperFrames motion-design agent enhances it afterward (sound, media, polish). You are not producing the final video.
+Your medium is a **Frames composition**: plain HTML + CSS + a paused GSAP timeline. When the user clicks **"Send to Frames"**, that composition is imported into a hosted HeyGen project, previewed in Frames, and rendered to MP4 in the cloud. You produce a **valid first draft** — a Frames motion-design agent enhances it afterward (sound, media, polish). You are not producing the final video.
 
 ---
 
 ## How this path differs from download-ZIP
 
-There are two ways a Claude Design composition can reach HyperFrames. **This guide is only about "Send to HyperFrames."**
+There are two ways a Claude Design composition can reach Frames. **This guide is only about "Send to Frames."**
 
-| | Download-ZIP flow | **Send to HyperFrames (this guide)** |
+| | Download-ZIP flow | **Send to Frames (this guide)** |
 | --- | --- | --- |
 | Wire format | multi-file ZIP (`index.html` + `fonts/` + README) | **one self-contained HTML file** |
 | How it travels | user downloads the ZIP | **the importer fetches one HTML** |
 | Assets | referenced from sibling files (`fonts/…`) | **resolvable from the one file: inline `data:` URIs (preferred) or a publicly-fetchable absolute URL** |
-| Next step | a coding agent polishes locally, renders via CLI | **enhanced inside HyperFrames; rendered in the cloud** |
+| Next step | a coding agent polishes locally, renders via CLI | **enhanced inside Frames; rendered in the cloud** |
 
 The single most important consequence: **there is no file tree on the other side.** A relative path or sibling-file reference (`fonts/…`, `uploads/…`) simply does not arrive. Every asset must be **resolvable**: an inline `data:` URI (preferred — the only fully self-contained form) or a publicly-fetchable absolute URL, never a relative path or local-file variable (see *Asset & fidelity rules*).
 
@@ -28,9 +28,9 @@ The single most important consequence: **there is no file tree on the other side
 
 ## The workflow you're feeding into
 
-1. **You (Claude Design)** — author a valid HyperFrames composition as a single self-contained HTML.
-2. **Send to HyperFrames** — one click. The importer fetches your HTML, validates it, and creates a hosted HeyGen project. **Import is free.**
-3. **Enhance in HyperFrames** — a motion-design agent adds what your export can't: sound effects, background music, and (later) HeyGen media. **Enhance turns are free.**
+1. **You (Claude Design)** — author a valid Frames composition as a single self-contained HTML.
+2. **Send to Frames** — one click. The importer fetches your HTML, validates it, and creates a hosted HeyGen project. **Import is free.**
+3. **Enhance in Frames** — a motion-design agent adds what your export can't: sound effects, background music, and (later) HeyGen media. **Enhance turns are free.**
 4. **Render** — the cloud pipeline produces the MP4. **Render is the paid step:** free accounts get 3 renders per month; paid plans are charged 20 credits per rendered minute.
 
 Your job is step 1: a composition that imports cleanly and is a strong on-brand starting point.
@@ -45,7 +45,7 @@ One `.html` file. Everything the composition needs to display its own content mu
 - All **brand assets** (fonts, images, logos) inlined as base64 `data:` URIs.
 - The GSAP timeline defined synchronously at page load and registered on `window.__timelines`.
 
-The HyperFrames runtime, GSAP, and shader-transitions are loaded from the jsdelivr CDN (`cdn.jsdelivr.net/npm/@hyperframes/...`, `gsap@…`) — the render pipeline fetches those at render time by design. GSAP is version-pinned (`gsap@3.14.2`); the `@hyperframes` packages are served unversioned (latest published runtime), matching what a real import ships. Do **not** inline the runtime.
+The Frames runtime, GSAP, and shader-transitions are loaded from the jsdelivr CDN (`cdn.jsdelivr.net/npm/@frames/...`, `gsap@…`) — the render pipeline fetches those at render time by design. GSAP is version-pinned (`gsap@3.14.2`); the `@frames` packages are served unversioned (latest published runtime), matching what a real import ships. Do **not** inline the runtime.
 
 **Do NOT send a bundled / splash-loader artifact.** If your tooling wraps the composition in a loader that assembles the real content at runtime (a `<template>` splash, a base64 asset manifest, a `window.__resources` blob), the importer cannot read it and rejects it. Send the **raw composition HTML** whose real content is in the live DOM.
 
@@ -172,8 +172,8 @@ A 1920×1080, 8s, 5-scene launch/stat reel — hard cuts with one shader at the 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@hyperframes/core/dist/hyperframe.runtime.iife.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@hyperframes/shader-transitions/dist/index.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@frames/core/dist/hyperframe.runtime.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@frames/shader-transitions/dist/index.global.js"></script>
     <style>
       /* === FILL: inline your brand font(s) as base64 — one @font-face per weight you use (do NOT use a Google Fonts link) === */
       @font-face {
@@ -394,7 +394,7 @@ A composition is a *rebuild* of your design into a timed video, so it adapts the
 
 ## What "enhance" adds after import (in-flight — intent, not a stable contract)
 
-Your export is **silent** and visual-only. Sending it to HyperFrames levels it up with things Claude Design can't add:
+Your export is **silent** and visual-only. Sending it to Frames levels it up with things Claude Design can't add:
 
 - **Sound** — background music and sound effects timed to the animation (the immediate win).
 - **Motion polish** — easing, timing, transition refinement via a purpose-built motion-design agent.
@@ -404,7 +404,7 @@ You don't author any of this. Produce a clean, on-brand, correctly-timed silent 
 
 ---
 
-## Self-review checklist (run before "Send to HyperFrames")
+## Self-review checklist (run before "Send to Frames")
 
 **Import will accept it:**
 - [ ] Exactly one live root with `data-composition-id="main"`, **not** inside a `<template>`

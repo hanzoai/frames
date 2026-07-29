@@ -59,7 +59,7 @@ async function getPreviewSignature(projectDir: string): Promise<string> {
   const response = await app.request("http://localhost/projects/demo/preview");
   expect(response.status).toBe(200);
   const html = await response.text();
-  const match = /<meta name="hyperframes-project-signature" content="([^"]+)">/.exec(html);
+  const match = /<meta name="frames-project-signature" content="([^"]+)">/.exec(html);
   expect(match?.[1]).toBeTruthy();
   return match![1]!;
 }
@@ -71,7 +71,7 @@ describe("registerPreviewRoutes", () => {
       join(projectDir, "index.html"),
       "<!doctype html><html><head></head><body><div id='card'></div></body></html>",
     );
-    const manifestDir = join(projectDir, ".hyperframes");
+    const manifestDir = join(projectDir, ".frames");
     mkdirSync(manifestDir, { recursive: true });
     writeFileSync(
       join(manifestDir, "studio-motion.json"),
@@ -95,7 +95,7 @@ describe("registerPreviewRoutes", () => {
       join(projectDir, "index.html"),
       "<!doctype html><html><head></head><body><div id='card'></div></body></html>",
     );
-    const manifestDir = join(projectDir, ".hyperframes");
+    const manifestDir = join(projectDir, ".frames");
     mkdirSync(manifestDir, { recursive: true });
     writeFileSync(
       join(manifestDir, "studio-motion.json"),
@@ -176,7 +176,7 @@ describe("registerPreviewRoutes", () => {
       join(projectDir, "compositions/scene.html"),
       `<template><section id="card" data-composition-id="scene" data-width="1280" data-height="720"></section></template>`,
     );
-    const manifestDir = join(projectDir, ".hyperframes");
+    const manifestDir = join(projectDir, ".frames");
     mkdirSync(manifestDir, { recursive: true });
     writeFileSync(
       join(manifestDir, "studio-motion.json"),
@@ -323,7 +323,7 @@ describe("registerPreviewRoutes", () => {
     expect(response.status).toBe(200);
     expect(getProjectSignature).toHaveBeenCalledWith(projectDir);
     expect(html).toContain(
-      '<meta name="hyperframes-project-signature" content="cached-signature">',
+      '<meta name="frames-project-signature" content="cached-signature">',
     );
   });
 
@@ -342,7 +342,7 @@ describe("registerPreviewRoutes", () => {
 
   it("updates the preview signature after Studio manifest edits", async () => {
     const projectDir = createProjectDir();
-    const manifestDir = join(projectDir, ".hyperframes");
+    const manifestDir = join(projectDir, ".frames");
     mkdirSync(manifestDir, { recursive: true });
     const motionFile = join(manifestDir, "studio-motion.json");
     writeFileSync(motionFile, `{"version":1,"motions":[]}`);

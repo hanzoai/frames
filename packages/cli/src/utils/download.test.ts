@@ -76,7 +76,7 @@ describe("downloadFile", () => {
       return request as unknown as ClientRequest;
     }) as typeof httpsGet);
 
-    const dir = mkdtempSync(join(tmpdir(), "hyperframes-download-"));
+    const dir = mkdtempSync(join(tmpdir(), "frames-download-"));
     tempDirs.push(dir);
     const dest = join(dir, "model.onnx");
 

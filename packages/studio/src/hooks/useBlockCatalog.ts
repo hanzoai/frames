@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import type { RegistryItem } from "@hyperframes/core/registry";
+import type { RegistryItem } from "@frames/core/registry";
 import {
   BLOCK_CATEGORIES,
   type BlockCategory,

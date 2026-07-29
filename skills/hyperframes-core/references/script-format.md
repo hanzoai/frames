@@ -47,6 +47,6 @@ A header block, then one section per spoken line.
 ## To TTS
 
 Feed each line's spoken text to the provider documented in
-`media-use/audio/references/tts.md`. The `hyperframes tts` command is
+`media-use/audio/references/tts.md`. The `frames tts` command is
 Kokoro-only; use its `--voice` flag, or use the bundled HeyGen helper when word
 timestamps are required. Real per-word timing replaces the `**Time:**` guides.

@@ -36,10 +36,10 @@ import {
   findUnsafeMutationValues,
   type UnsafeMutationValue,
 } from "../helpers/finiteMutation.js";
-import type { GsapAnimation } from "@hyperframes/parsers";
-import { classifyPropertyGroup } from "@hyperframes/parsers/gsap-constants";
-import { parseGsapScriptAcorn } from "@hyperframes/parsers/gsap-parser-acorn";
-import { unrollComputedTimeline } from "@hyperframes/parsers";
+import type { GsapAnimation } from "@frames/parsers";
+import { classifyPropertyGroup } from "@frames/parsers/gsap-constants";
+import { parseGsapScriptAcorn } from "@frames/parsers/gsap-parser-acorn";
+import { unrollComputedTimeline } from "@frames/parsers";
 import {
   updateAnimationInScript,
   addAnimationToScript,
@@ -67,7 +67,7 @@ import {
   scalePositionsInScript,
   dedupePositionWritesInScript,
   syncPositionHoldsBeforeKeyframes,
-} from "@hyperframes/parsers/gsap-writer-acorn";
+} from "@frames/parsers/gsap-writer-acorn";
 import {
   removeElementFromHtml,
   patchElementInHtml,
@@ -98,7 +98,7 @@ import { resolveGsapWriter } from "./gsapMutationCapabilities.js";
  * for the recast write path (the default until the migration gate graduates).
  */
 async function loadGsapParser() {
-  return import("@hyperframes/parsers/gsap-parser-recast");
+  return import("@frames/parsers/gsap-parser-recast");
 }
 
 // ── Shared helpers ──────────────────────────────────────────────────────────
@@ -1152,7 +1152,7 @@ async function prepareGsapMutationScript(
   let block = extractGsapScriptBlock(html);
   if (!block && (firstMutation.type === "add" || firstMutation.type === "add-with-keyframes")) {
     const compId = html.match(/data-composition-id="([^"]+)"/)?.[1] ?? "main";
-    const { GSAP_CDN } = await import("@hyperframes/core");
+    const { GSAP_CDN } = await import("@frames/core");
     const bootstrap = [
       `<script src="${GSAP_CDN}"></script>`,
       "<script>",
@@ -1206,7 +1206,7 @@ async function applyGsapMutations(
   let writer: "recast" | "acorn";
   try {
     writer = resolveGsapWriter({
-      HYPERFRAMES_GSAP_WRITER: process.env["HYPERFRAMES_GSAP_WRITER"],
+      FRAMES_GSAP_WRITER: process.env["FRAMES_GSAP_WRITER"],
     });
   } catch (error) {
     return c.json({ error: error instanceof Error ? error.message : String(error) }, 400);
@@ -2447,7 +2447,7 @@ export function registerFileRoutes(api: Hono, adapter: StudioApiAdapter): void {
     let writer: "recast" | "acorn";
     try {
       writer = resolveGsapWriter({
-        HYPERFRAMES_GSAP_WRITER: process.env["HYPERFRAMES_GSAP_WRITER"],
+        FRAMES_GSAP_WRITER: process.env["FRAMES_GSAP_WRITER"],
       });
     } catch (error) {
       return c.json({ error: error instanceof Error ? error.message : String(error) }, 400);

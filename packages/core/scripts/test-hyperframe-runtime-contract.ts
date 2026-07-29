@@ -19,7 +19,7 @@ const requiredSnippets = [
   "hf-preview",
   "hf-parent",
   "renderSeek",
-  "__hyperframes",
+  "__frames",
   "fitTextFontSize",
 ];
 

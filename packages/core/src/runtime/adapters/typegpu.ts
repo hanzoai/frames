@@ -2,7 +2,7 @@ import type { RuntimeDeterministicAdapter } from "../types";
 import { dispatchSeekEvent } from "./seek-dispatch";
 
 /**
- * TypeGPU / WebGPU adapter for HyperFrames
+ * TypeGPU / WebGPU adapter for Frames
  *
  * Enables seekable GPU-rendered compositions built with TypeGPU or raw WebGPU.
  * Since WebGPU pipelines are not introspectable from outside (unlike GSAP
@@ -30,7 +30,7 @@ import { dispatchSeekEvent } from "./seek-dispatch";
  *     // ... submit command encoder ...
  *   }
  *
- *   // Seek: fired by HyperFrames whenever the player scrubs or plays
+ *   // Seek: fired by Frames whenever the player scrubs or plays
  *   window.addEventListener("hf-seek", (e) => render(e.detail.time));
  *
  *   // Initial frame at t=0

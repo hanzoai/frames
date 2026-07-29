@@ -1,7 +1,7 @@
 /**
  * Shared `--output-resolution` / `--resolution` normalizer for the distributed
- * render entrypoints (`hyperframes cloudrun render{,-batch}`, `hyperframes
- * lambda render{,-batch}`) plus the local `hyperframes render` command.
+ * render entrypoints (`frames cloudrun render{,-batch}`, `frames
+ * lambda render{,-batch}`) plus the local `frames render` command.
  *
  * The one field this helper carries that the previous per-surface copies
  * were dropping is `outputResolutionAspectAgnostic`: `true` when the raw
@@ -19,8 +19,8 @@
  * composition dimensions.
  */
 
-import { type CanvasResolution, resolveResolutionFlagPair } from "@hyperframes/core";
-import { VALID_CANVAS_RESOLUTIONS } from "@hyperframes/core";
+import { type CanvasResolution, resolveResolutionFlagPair } from "@frames/core";
+import { VALID_CANVAS_RESOLUTIONS } from "@frames/core";
 
 /**
  * Free-text prefix the thrown error is scoped to (e.g. `"[cloudrun render]"`,

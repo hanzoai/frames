@@ -1,2 +1,2 @@
-/** @deprecated Import from @hyperframes/studio-server */
-export * from "@hyperframes/studio-server";
+/** @deprecated Import from @frames/studio-server */
+export * from "@frames/studio-server";

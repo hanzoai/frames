@@ -5,11 +5,11 @@ describe("studioProxyEnv", () => {
   it("forwards an explicit --proxy decision to a Studio child process", () => {
     expect(studioProxyEnv(true, { KEEP: "yes" })).toEqual({
       KEEP: "yes",
-      HYPERFRAMES_AUTO_PROXY: "true",
+      FRAMES_AUTO_PROXY: "true",
     });
     expect(studioProxyEnv(false, { KEEP: "yes" })).toEqual({
       KEEP: "yes",
-      HYPERFRAMES_AUTO_PROXY: "false",
+      FRAMES_AUTO_PROXY: "false",
     });
   });
 });

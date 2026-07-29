@@ -4,7 +4,7 @@
  * when blocks/components need it for the `add` command.
  */
 
-import type { ItemType, RegistryItem, RegistryManifestEntry } from "@hyperframes/core";
+import type { ItemType, RegistryItem, RegistryManifestEntry } from "@frames/core";
 import { fetchItemManifest, fetchRegistryManifest, DEFAULT_REGISTRY_URL } from "./remote.js";
 
 export interface ResolveOptions {
@@ -20,7 +20,7 @@ export interface ResolveOptions {
 }
 
 function defaultWarn(message: string): void {
-  process.stderr.write(`hyperframes:registry ${message}\n`);
+  process.stderr.write(`frames:registry ${message}\n`);
 }
 
 /**

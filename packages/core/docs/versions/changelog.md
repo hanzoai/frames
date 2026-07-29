@@ -1,4 +1,4 @@
-# HyperFrames Core Changelog
+# Frames Core Changelog
 
 ## v0.1
 

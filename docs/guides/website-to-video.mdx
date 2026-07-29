@@ -14,10 +14,10 @@ Give your AI agent a URL and a creative direction. It captures the site, extract
 
 <Steps>
   <Step title="Install skills">
-    Skills teach your AI agent how to capture websites and create HyperFrames compositions. Install once — they persist across sessions.
+    Skills teach your AI agent how to capture websites and create Frames compositions. Install once — they persist across sessions.
 
     ```bash
-    npx skills add heygen-com/hyperframes
+    npx skills add hanzoai/frames
     ```
 
     Works with [Claude Code](https://claude.ai/claude-code), [Cursor](https://cursor.sh), [Gemini CLI](https://github.com/google-gemini/gemini-cli), and [Codex CLI](https://github.com/openai/codex).
@@ -37,14 +37,14 @@ Give your AI agent a URL and a creative direction. It captures the site, extract
   </Step>
   <Step title="Preview">
     ```bash
-    npx hyperframes preview
+    npx frames preview
     ```
 
     Opens the video in your browser. Edits reload automatically.
   </Step>
   <Step title="Render to MP4">
     ```bash
-    npx hyperframes render --output my-video.mp4
+    npx frames render --output my-video.mp4
     ```
 
     ```
@@ -55,7 +55,7 @@ Give your AI agent a URL and a creative direction. It captures the site, extract
 </Steps>
 
 <Note>
-  You don't need to run `npx hyperframes capture` manually — the skill instructs the agent to capture as the first step. The capture command is documented [below](#capture-command) for advanced use.
+  You don't need to run `npx frames capture` manually — the skill instructs the agent to capture as the first step. The capture command is documented [below](#capture-command) for advanced use.
 </Note>
 
 ## How the Pipeline Works
@@ -106,7 +106,7 @@ echo "GEMINI_API_KEY=your-key-here" > .env
 echo "OPENROUTER_API_KEY=your-key-here" > .env
 ```
 
-OpenRouter is used when its key is present (it takes priority if both are set). The default model is `google/gemini-3.1-flash-lite`; override it with `HYPERFRAMES_OPENROUTER_MODEL` (any vision-capable OpenRouter model), just as `HYPERFRAMES_GEMINI_MODEL` overrides the Gemini default.
+OpenRouter is used when its key is present (it takes priority if both are set). The default model is `google/gemini-3.1-flash-lite`; override it with `FRAMES_OPENROUTER_MODEL` (any vision-capable OpenRouter model), just as `FRAMES_GEMINI_MODEL` overrides the Gemini default.
 
 <Tabs>
   <Tab title="Without Gemini">
@@ -136,7 +136,7 @@ A typical capture with 40 images costs about **$0.04** on the paid tier.
 The skill runs capture automatically, but you can run it directly for pre-caching, debugging, or using the data outside of video production.
 
 ```bash
-npx hyperframes capture https://stripe.com
+npx frames capture https://stripe.com
 ```
 
 ```
@@ -174,7 +174,7 @@ npx hyperframes capture https://stripe.com
 Capture key frames from a built video as PNGs — verify compositions without a full render:
 
 ```bash
-npx hyperframes snapshot my-project --at 2.9,10.4,18.7
+npx frames snapshot my-project --at 2.9,10.4,18.7
 ```
 
 | Flag | Default | Description |
@@ -200,7 +200,7 @@ See the [pipeline guide](/guides/pipeline#iterating) for more re-entry patterns.
     Increase the timeout for sites with Cloudflare or heavy client-side rendering:
 
     ```bash
-    npx hyperframes capture https://example.com --timeout 180000
+    npx frames capture https://example.com --timeout 180000
     ```
   </Accordion>
   <Accordion title="Few assets captured">
@@ -213,7 +213,7 @@ See the [pipeline guide](/guides/pipeline#iterating) for more re-entry patterns.
     Verify skills are installed:
 
     ```bash
-    npx skills add heygen-com/hyperframes
+    npx skills add hanzoai/frames
     ```
 
     Lead your prompt with _"Use the /product-launch-video skill"_ for the most reliable results — site tours route there too. Agents also discover it automatically when they see a URL and a video request.
@@ -227,7 +227,7 @@ See the [pipeline guide](/guides/pipeline#iterating) for more re-entry patterns.
     The canonical 7-step structure this workflow follows.
   </Card>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    New to HyperFrames? Start here.
+    New to Frames? Start here.
   </Card>
   <Card title="GSAP Animation" icon="wand-magic-sparkles" href="/guides/gsap-animation">
     Animation patterns used in compositions.

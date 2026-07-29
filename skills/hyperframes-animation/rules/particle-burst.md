@@ -40,7 +40,7 @@ The whole event is **one driver tween and one formula**:
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="burst-stage">
   <div class="particle-field" id="particle-field"></div>
   <div class="burst-hero" id="burst-hero">{heroWord}</div>

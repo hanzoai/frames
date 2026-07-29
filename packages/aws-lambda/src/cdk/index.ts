@@ -1,5 +1,5 @@
 /**
- * CDK subpath export — `@hyperframes/aws-lambda/cdk`.
+ * CDK subpath export — `@frames/aws-lambda/cdk`.
  *
  * Pulled into its own subpath so SDK-only consumers don't import
  * `aws-cdk-lib`. The construct itself depends on `aws-cdk-lib` and

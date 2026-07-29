@@ -11,18 +11,18 @@ import { getDoctorSummary } from "../telemetry/feedback.js";
 import { readConfig, type RecentRenderRecord } from "../telemetry/config.js";
 import { publishProjectArchive } from "../utils/publishProject.js";
 import { submitFeedback } from "../utils/submitFeedback.js";
-import { buildIssueUrl, HYPERFRAMES_REPO_URL } from "../utils/feedbackIssue.js";
+import { buildIssueUrl, FRAMES_REPO_URL } from "../utils/feedbackIssue.js";
 import { VERSION } from "../version.js";
 import { c } from "../ui/colors.js";
 import { parseFeedbackRating } from "../utils/feedbackRating.js";
 import { lintFeedbackComment, type FeedbackLintInput } from "../utils/feedbackLint.js";
 
 export const examples: Example[] = [
-  ["Submit render feedback", 'hyperframes feedback --rating 8 --comment "fast but font missing"'],
-  ["Quick rating only", "hyperframes feedback --rating 10"],
+  ["Submit render feedback", 'frames feedback --rating 8 --comment "fast but font missing"'],
+  ["Quick rating only", "frames feedback --rating 10"],
   [
     "Also file a GitHub issue with a published repro",
-    'hyperframes feedback --rating 3 --comment "GSAP timeline froze" --file-issue',
+    'frames feedback --rating 3 --comment "GSAP timeline froze" --file-issue',
   ],
 ];
 
@@ -140,7 +140,7 @@ async function fileGithubIssue(opts: {
   if (!(await confirmFileIssue(dir, opts.yes))) return;
   const repoPublicUrl = await publishRepro(dir);
   const url = buildIssueUrl({
-    repoUrl: HYPERFRAMES_REPO_URL,
+    repoUrl: FRAMES_REPO_URL,
     rating: opts.rating,
     comment: opts.comment,
     repoPublicUrl,

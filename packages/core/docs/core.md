@@ -1,8 +1,8 @@
-# HyperFrames Schema
+# Frames Schema
 
-Reference for generating and editing HyperFrames HTML compositions. This is your source of truth for how to author compositions.
+Reference for generating and editing Frames HTML compositions. This is your source of truth for how to author compositions.
 
-**New to HyperFrames?** Start with the [quickstart template](./quickstart-template.html) — a copy-paste composition with inline comments explaining every required piece. See [common mistakes](./common-mistakes.md) for pitfalls that break compositions.
+**New to Frames?** Start with the [quickstart template](./quickstart-template.html) — a copy-paste composition with inline comments explaining every required piece. See [common mistakes](./common-mistakes.md) for pitfalls that break compositions.
 
 For Frame adapters and deterministic frame rendering direction, see [`../../FRAME.md`](../../FRAME.md) and [`../adapters/README.md`](../adapters/README.md).
 
@@ -14,7 +14,7 @@ Producer-canonical parity note:
 
 ## Overview
 
-HyperFrames uses HTML as the source of truth for describing a video:
+Frames uses HTML as the source of truth for describing a video:
 
 - **HTML clips** = video, image, audio, composition
 - **Data attributes** = timing, metadata, styling
@@ -58,7 +58,7 @@ To position or size individual clips (e.g., picture-in-picture, overlay placemen
 
 ## Compositions
 
-A composition is the fundamental grouping unit in HyperFrames. Every clip — video, image, audio — must live inside a composition. The `index.html` file is itself a composition (the top-level one), and it can contain nested compositions within it. Any composition can be imported into another composition as a sub-composition — there is no special "root" type.
+A composition is the fundamental grouping unit in Frames. Every clip — video, image, audio — must live inside a composition. The `index.html` file is itself a composition (the top-level one), and it can contain nested compositions within it. Any composition can be imported into another composition as a sub-composition — there is no special "root" type.
 
 A composition carries the same core attributes as any other clip (`id`, `data-start`, `data-track-index`), so it can be placed and timed on a timeline just like a video or image. A composition's length is determined by its GSAP timeline — there is no `data-duration` on compositions. This means compositions can be nested: a composition clip inside another composition behaves like a self-contained video within the parent timeline.
 

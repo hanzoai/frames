@@ -6,7 +6,7 @@ import {
   bundleToSingleHtml,
   extractCompiledHtmlParityContract,
   injectScriptsIntoHtml,
-} from "@hyperframes/core/compiler";
+} from "@frames/core/compiler";
 import { compileForRender } from "./htmlCompiler.js";
 import { getVerifiedHyperframeRuntimeSource } from "./hyperframeRuntimeLoader.js";
 

@@ -30,9 +30,9 @@ describe("getVariableUsage", () => {
   it("cross-references used, unused, and undeclared ids", async () => {
     const comp = await openComposition(
       doc(`
-        const { title, ghost } = __hyperframes.getVariables();
+        const { title, ghost } = __frames.getVariables();
         document.querySelector("h1").textContent = title;
-        const vars = __hyperframes.getVariables();
+        const vars = __frames.getVariables();
         el.style.color = vars.accent;
       `),
     );

@@ -8,16 +8,16 @@ import { describe, it } from "node:test";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const HELPERS = [
-  join(REPO_ROOT, "skills", "hyperframes-animation", "scripts", "animation-map.mjs"),
-  join(REPO_ROOT, "skills", "hyperframes-creative", "scripts", "contrast-report.mjs"),
+  join(REPO_ROOT, "skills", "frames-animation", "scripts", "animation-map.mjs"),
+  join(REPO_ROOT, "skills", "frames-creative", "scripts", "contrast-report.mjs"),
 ];
 
-describe("HyperFrames skill helpers", () => {
+describe("Frames skill helpers", () => {
   for (const helper of HELPERS)
     it(`${helper.split("/").at(-1)} bundles modular input and uses rational fps`, () => {
-      const root = mkdtempSync(join(tmpdir(), "hyperframes-skill-helper-test-"));
-      const packageDir = join(root, "node_modules", "@hyperframes", "producer");
-      const corePackageDir = join(root, "node_modules", "@hyperframes", "core");
+      const root = mkdtempSync(join(tmpdir(), "frames-skill-helper-test-"));
+      const packageDir = join(root, "node_modules", "@frames", "producer");
+      const corePackageDir = join(root, "node_modules", "@frames", "core");
       const sharpPackageDir = join(root, "node_modules", "sharp");
       const compositionDir = join(root, "composition");
       mkdirSync(packageDir, { recursive: true });
@@ -26,7 +26,7 @@ describe("HyperFrames skill helpers", () => {
       mkdirSync(compositionDir, { recursive: true });
       writeFileSync(
         join(packageDir, "package.json"),
-        JSON.stringify({ name: "@hyperframes/producer", type: "module", exports: "./index.mjs" }),
+        JSON.stringify({ name: "@frames/producer", type: "module", exports: "./index.mjs" }),
       );
       writeFileSync(
         join(packageDir, "index.mjs"),
@@ -51,7 +51,7 @@ describe("HyperFrames skill helpers", () => {
       writeFileSync(
         join(corePackageDir, "package.json"),
         JSON.stringify({
-          name: "@hyperframes/core",
+          name: "@frames/core",
           type: "module",
           exports: { ".": "./index.mjs", "./compiler": "./compiler.mjs" },
         }),
@@ -88,7 +88,7 @@ describe("HyperFrames skill helpers", () => {
             encoding: "utf8",
             env: {
               ...process.env,
-              HYPERFRAMES_SKILL_NODE_MODULES: join(root, "node_modules"),
+              FRAMES_SKILL_NODE_MODULES: join(root, "node_modules"),
             },
           },
         );
@@ -103,7 +103,7 @@ describe("HyperFrames skill helpers", () => {
             encoding: "utf8",
             env: {
               ...process.env,
-              HYPERFRAMES_SKILL_NODE_MODULES: join(root, "node_modules"),
+              FRAMES_SKILL_NODE_MODULES: join(root, "node_modules"),
             },
           },
         );
@@ -123,13 +123,13 @@ describe("HyperFrames skill helpers", () => {
 // that a future fix could land in one copy and silently miss in the other —
 // the exact drift class the audio.mjs identity pin was born to catch.
 describe("package-loader parity", () => {
-  it("package-loader.mjs is byte-identical to hyperframes-creative's copy (the stated contract)", () => {
+  it("package-loader.mjs is byte-identical to frames-creative's copy (the stated contract)", () => {
     const here = readFileSync(
-      join(REPO_ROOT, "skills", "hyperframes-animation", "scripts", "package-loader.mjs"),
+      join(REPO_ROOT, "skills", "frames-animation", "scripts", "package-loader.mjs"),
       "utf8",
     );
     const sibling = readFileSync(
-      join(REPO_ROOT, "skills", "hyperframes-creative", "scripts", "package-loader.mjs"),
+      join(REPO_ROOT, "skills", "frames-creative", "scripts", "package-loader.mjs"),
       "utf8",
     );
     assert.equal(here, sibling);
@@ -145,8 +145,8 @@ describe("package-loader parity", () => {
 
 /** Write a fake node_modules with the given producer index.mjs source. */
 function writeFakeEnv(root, producerIndexSource) {
-  const packageDir = join(root, "node_modules", "@hyperframes", "producer");
-  const corePackageDir = join(root, "node_modules", "@hyperframes", "core");
+  const packageDir = join(root, "node_modules", "@frames", "producer");
+  const corePackageDir = join(root, "node_modules", "@frames", "core");
   const sharpPackageDir = join(root, "node_modules", "sharp");
   const compositionDir = join(root, "composition");
   mkdirSync(packageDir, { recursive: true });
@@ -155,13 +155,13 @@ function writeFakeEnv(root, producerIndexSource) {
   mkdirSync(compositionDir, { recursive: true });
   writeFileSync(
     join(packageDir, "package.json"),
-    JSON.stringify({ name: "@hyperframes/producer", type: "module", exports: "./index.mjs" }),
+    JSON.stringify({ name: "@frames/producer", type: "module", exports: "./index.mjs" }),
   );
   writeFileSync(join(packageDir, "index.mjs"), producerIndexSource);
   writeFileSync(
     join(corePackageDir, "package.json"),
     JSON.stringify({
-      name: "@hyperframes/core",
+      name: "@frames/core",
       type: "module",
       exports: { ".": "./index.mjs", "./compiler": "./compiler.mjs" },
     }),
@@ -185,7 +185,7 @@ function writeFakeEnv(root, producerIndexSource) {
 function runHelper(helper, root, compositionDir) {
   const result = spawnSync(process.execPath, [helper, compositionDir, "--out", join(root, "out")], {
     encoding: "utf8",
-    env: { ...process.env, HYPERFRAMES_SKILL_NODE_MODULES: join(root, "node_modules") },
+    env: { ...process.env, FRAMES_SKILL_NODE_MODULES: join(root, "node_modules") },
   });
   return `${result.stdout}\n${result.stderr}`;
 }
@@ -200,7 +200,7 @@ const FAKE_PRODUCER_COMMON = [
 describe("transient-init retry", () => {
   for (const helper of HELPERS) {
     it(`${helper.split("/").at(-1)} retries a transient zero-duration init once with a fresh session`, () => {
-      const root = mkdtempSync(join(tmpdir(), "hyperframes-skill-retry-test-"));
+      const root = mkdtempSync(join(tmpdir(), "frames-skill-retry-test-"));
       try {
         const compositionDir = writeFakeEnv(
           root,
@@ -233,7 +233,7 @@ describe("transient-init retry", () => {
     });
 
     it(`${helper.split("/").at(-1)} does NOT retry a genuine authoring failure (Runtime ready: true)`, () => {
-      const root = mkdtempSync(join(tmpdir(), "hyperframes-skill-retry-test-"));
+      const root = mkdtempSync(join(tmpdir(), "frames-skill-retry-test-"));
       try {
         const compositionDir = writeFakeEnv(
           root,
@@ -259,7 +259,7 @@ describe("transient-init retry", () => {
   }
 
   it("prefers the producer's own isTransientBrowserError classifier when exported", () => {
-    const root = mkdtempSync(join(tmpdir(), "hyperframes-skill-retry-test-"));
+    const root = mkdtempSync(join(tmpdir(), "frames-skill-retry-test-"));
     try {
       const compositionDir = writeFakeEnv(
         root,

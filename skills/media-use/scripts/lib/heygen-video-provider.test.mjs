@@ -66,7 +66,7 @@ async function withFakeHeygen(options, run) {
     HEYGEN_VIDEO_MODE: process.env.HEYGEN_VIDEO_MODE,
     HEYGEN_VIDEO_RESPONSE: process.env.HEYGEN_VIDEO_RESPONSE,
     HEYGEN_DISCOVERY_MODE: process.env.HEYGEN_DISCOVERY_MODE,
-    HYPERFRAMES_NO_TELEMETRY: process.env.HYPERFRAMES_NO_TELEMETRY,
+    FRAMES_NO_TELEMETRY: process.env.FRAMES_NO_TELEMETRY,
   };
 
   writeFileSync(
@@ -102,7 +102,7 @@ esac
   process.env.HEYGEN_VIDEO_MODE = options.mode ?? "success";
   process.env.HEYGEN_VIDEO_RESPONSE = options.response ?? "";
   process.env.HEYGEN_DISCOVERY_MODE = options.discoveryMode ?? "";
-  process.env.HYPERFRAMES_NO_TELEMETRY = "1";
+  process.env.FRAMES_NO_TELEMETRY = "1";
 
   try {
     return await run({
@@ -132,7 +132,7 @@ test("downloads a generated avatar video and returns the generated MP4 result", 
       { response: JSON.stringify({ data: { video_url: url } }) },
       async ({ invocations }) => {
         const heygenVideoGenerate = await freshGenerate();
-        const intent = "Welcome to the HyperFrames launch";
+        const intent = "Welcome to the Frames launch";
         const result = await heygenVideoGenerate(intent, {});
         localPath = result?.localPath;
         const calls = invocations();

@@ -5,10 +5,10 @@ import { randomUUID } from "node:crypto";
 import { normalizeErrorMessage } from "../utils/errorMessage.js";
 
 // ---------------------------------------------------------------------------
-// Config directory: ~/.hyperframes/
+// Config directory: ~/.frames/
 // ---------------------------------------------------------------------------
 
-const CONFIG_DIR = join(homedir(), ".hyperframes");
+const CONFIG_DIR = join(homedir(), ".frames");
 const CONFIG_FILE = join(CONFIG_DIR, "config.json");
 
 export interface HyperframesConfig {
@@ -87,7 +87,7 @@ export interface HyperframesConfig {
    */
   deParallelRouterTrialRenderCount?: number;
   /**
-   * Ring of the last few local renders (newest last). `hyperframes feedback`
+   * Ring of the last few local renders (newest last). `frames feedback`
    * attaches these ids — which are the `render_job_id` /
    * `observability_render_job_id` on this install's PostHog events — to the
    * feedback it submits, so a wild bug report can be joined to the exact

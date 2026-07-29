@@ -40,7 +40,7 @@ We architected Hyperframes to be the most native to agents while making it easy 
 | Distributed rendering | [AWS Lambda](/deploy/aws-lambda) support | [Remotion Lambda](https://www.remotion.dev/lambda), mature and production-tested |
 | [HDR output](/guides/hdr) | Supported | Documented as unsupported |
 | Visual editor over render source | Native; same DOM is editable | Source is code plus a build step |
-| License | [Apache 2.0](https://github.com/heygen-com/hyperframes/blob/main/LICENSE) | [Commercial](https://www.remotion.pro/license) |
+| License | [Apache 2.0](https://github.com/hanzoai/frames/blob/main/LICENSE) | [Commercial](https://www.remotion.pro/license) |
 
 The rest of this guide walks through what each row means and where each tool actually wins.
 
@@ -66,17 +66,17 @@ From running both systems in production: an agent asked to write a Remotion comp
 
 Asking an agent to port a GSAP animation or an existing web page into Remotion loses details on the first try: timing nuances, audio level relationships, text sizing. The HTML-first path avoids the translation step entirely.
 
-We gave both tools the same 4-second GSAP timeline: 11 letters of "HYPERFRAMES" enter staggered with a back-out ease, hold for 1.5 seconds, then each letter rotates and falls out of frame. Identical animation code, identical easings, identical stagger. The only thing we changed was the renderer.
+We gave both tools the same 4-second GSAP timeline: 11 letters of "FRAMES" enter staggered with a back-out ease, hold for 1.5 seconds, then each letter rotates and falls out of frame. Identical animation code, identical easings, identical stagger. The only thing we changed was the renderer.
 
 **Hyperframes output — what the animation is meant to look like:**
 
-<img src="https://static.heygen.ai/hyperframes-oss/docs/images/comparisons/gsap-hf.gif" alt="Hyperframes GSAP render — letters enter, hold, then fall away over the full 4 seconds" />
+<img src="https://static.heygen.ai/frames-oss/docs/images/comparisons/gsap-hf.gif" alt="Hyperframes GSAP render — letters enter, hold, then fall away over the full 4 seconds" />
 
 All four seconds are used. Letters fly in one by one, the full word holds in the center for about a second and a half, then the letters spin and drop away.
 
 **Remotion output — same timeline, same code:**
 
-<img src="https://static.heygen.ai/hyperframes-oss/docs/images/comparisons/gsap-remotion.gif" alt="Remotion GSAP render — GSAP plays through its entire timeline in the first second, leaving most of the render as an empty stage" />
+<img src="https://static.heygen.ai/frames-oss/docs/images/comparisons/gsap-remotion.gif" alt="Remotion GSAP render — GSAP plays through its entire timeline in the first second, leaving most of the render as an empty stage" />
 
 GSAP plays through its entire 4-second animation in roughly the first second of render wall-clock time. By the time Remotion captures later frames, GSAP's timeline has already completed and every letter has exited — the remainder of the render captures an empty stage.
 
@@ -132,7 +132,7 @@ This is one of the clearest differences between the two projects, and one of the
 | | **Hyperframes** | **Remotion** |
 | --- | --- | --- |
 | Classification | Open source ([OSI-approved](https://opensource.org/licenses/Apache-2.0)) | Source-available, not open source |
-| License | [Apache 2.0](https://github.com/heygen-com/hyperframes/blob/main/LICENSE) | [Custom Remotion License](https://www.remotion.pro/license) |
+| License | [Apache 2.0](https://github.com/hanzoai/frames/blob/main/LICENSE) | [Custom Remotion License](https://www.remotion.pro/license) |
 | Commercial use | Free at any scale | Requires a paid company license above small-team thresholds |
 | Per-render fees | None | Yes, above thresholds |
 | Redistribution | Permitted under Apache 2.0 | Restricted by the Remotion License |

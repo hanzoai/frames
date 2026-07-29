@@ -13,7 +13,7 @@ import { SpeedMenu } from "./SpeedMenu";
 
 gsap.registerPlugin(MorphSVGPlugin);
 
-// Play glyph: the right-hand blade from the HyperFrames favicon (points right).
+// Play glyph: the right-hand blade from the Frames favicon (points right).
 // Pause glyph: two bars centred in the same coordinate space so MorphSVG can
 // tween one `d` into the other. Both shapes live in the favicon's 0-100 space
 // and the svg viewBox frames the blade's bounding box.

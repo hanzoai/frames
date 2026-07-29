@@ -1,9 +1,9 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { isLottieAnimationLoaded } from "@hyperframes/core/runtime/lottie-readiness";
+import { isLottieAnimationLoaded } from "@frames/core/runtime/lottie-readiness";
 import { useMountEffect } from "../../hooks/useMountEffect";
 import { applyPreviewVariablesToUrl } from "../../hooks/previewVariablesStore";
 import { HyperframesLoader } from "../../components/ui";
-// NOTE: importing "@hyperframes/player" registers a class extending HTMLElement
+// NOTE: importing "@frames/player" registers a class extending HTMLElement
 // at module load, which throws under SSR. Defer the import to the mount effect
 // so it only runs in the browser.
 
@@ -106,7 +106,7 @@ export function hasUnloadedAssets(iframe: HTMLIFrameElement, lastResult: boolean
 }
 
 /**
- * Renders a composition preview using the <hyperframes-player> web component.
+ * Renders a composition preview using the <frames-player> web component.
  *
  * The web component handles iframe scaling, dimension detection, and
  * ResizeObserver internally. This wrapper bridges its inner iframe to the
@@ -161,11 +161,11 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
       let cleanup: (() => void) | undefined;
 
       // Dynamic import registers the custom element in the browser only.
-      import("@hyperframes/player").then(() => {
+      import("@frames/player").then(() => {
         if (canceled) return;
 
         // Create the web component imperatively to avoid JSX custom-element typing.
-        const player = document.createElement("hyperframes-player") as HyperframesPlayerElement;
+        const player = document.createElement("frames-player") as HyperframesPlayerElement;
         const srcUrl = new URL(
           directUrl || `/api/projects/${projectId}/preview`,
           window.location.origin,
@@ -368,7 +368,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
         {showCompositionOverlay && (
           <div
             className="absolute inset-0 bg-black flex items-center justify-center z-30 select-none"
-            data-hyperframes-ignore=""
+            data-frames-ignore=""
             data-testid="composition-loading-overlay"
             draggable={false}
             onDragStart={(event) => event.preventDefault()}
@@ -385,7 +385,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
         {showAssetOverlay && (
           <div
             className="absolute inset-0 bg-black flex items-center justify-center z-20 select-none"
-            data-hyperframes-ignore=""
+            data-frames-ignore=""
             draggable={false}
             style={{
               opacity: assetOverlayFading ? 0 : 1,
@@ -406,7 +406,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
         {previewError && (
           <div
             className="absolute inset-0 z-40 flex items-center justify-center bg-black/90 px-6 text-center"
-            data-hyperframes-ignore=""
+            data-frames-ignore=""
             data-testid="composition-preview-error"
           >
             <div className="max-w-sm">

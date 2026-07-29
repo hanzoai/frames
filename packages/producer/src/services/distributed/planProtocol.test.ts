@@ -155,7 +155,7 @@ describe("readPlanProtocol()", () => {
     for (const protocol of [
       { ...CURRENT_PLAN_PROTOCOL, schemaVersion: 2 },
       { ...CURRENT_PLAN_PROTOCOL, artifactLayout: "plan-dir-v2" },
-      { ...CURRENT_PLAN_PROTOCOL, hashSchema: "hyperframes-plan-hash-v2" },
+      { ...CURRENT_PLAN_PROTOCOL, hashSchema: "frames-plan-hash-v2" },
     ]) {
       expectUnsupported(() => readPlanProtocol({ protocol }));
     }
@@ -198,7 +198,7 @@ describe("getDistributedRenderCapabilities()", () => {
     const futureV2: PlanProtocolDescriptor = {
       schemaVersion: 2,
       artifactLayout: "plan-dir-v2",
-      hashSchema: "hyperframes-plan-hash-v2",
+      hashSchema: "frames-plan-hash-v2",
     };
     const rolloutCapabilities: DistributedRenderCapabilities = {
       roles: {

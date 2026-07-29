@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://hyperframes.heygen.com/schema/hyperframes.json",
+  "$id": "https://frames.hanzo.ai/schema/frames.json",
   "title": "Hyperframes Project Config",
-  "description": "Per-project configuration for a Hyperframes project (hyperframes.json). Tells `hyperframes add` which registry to pull items from and where to drop them in the project tree. Created by `hyperframes init`; users may edit it to point at custom registries or reshape their project layout.",
+  "description": "Per-project configuration for a Hyperframes project (frames.json). Tells `frames add` which registry to pull items from and where to drop them in the project tree. Created by `frames init`; users may edit it to point at custom registries or reshape their project layout.",
   "type": "object",
   "required": ["registry", "paths"],
   "additionalProperties": false,
@@ -10,7 +10,7 @@
     "$schema": {
       "type": "string",
       "format": "uri",
-      "description": "JSON Schema URL — https://hyperframes.heygen.com/schema/hyperframes.json."
+      "description": "JSON Schema URL — https://frames.hanzo.ai/schema/frames.json."
     },
     "registry": {
       "type": "string",
@@ -27,12 +27,12 @@
         "blocks": {
           "type": "string",
           "minLength": 1,
-          "description": "Where `hyperframes:block` items land. Defaults to `compositions`."
+          "description": "Where `frames:block` items land. Defaults to `compositions`."
         },
         "components": {
           "type": "string",
           "minLength": 1,
-          "description": "Where `hyperframes:component` items land. Defaults to `compositions/components`."
+          "description": "Where `frames:component` items land. Defaults to `compositions/components`."
         },
         "assets": {
           "type": "string",
@@ -55,7 +55,7 @@
     "authoringSkill": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
-      "description": "Owning authoring-workflow skill slug (e.g. product-launch-video). Set by `hyperframes init --skill` or seeded from the first `hyperframes render --skill`; every render of this project is then attributed to it on anonymous telemetry, without re-passing the flag."
+      "description": "Owning authoring-workflow skill slug (e.g. product-launch-video). Set by `frames init --skill` or seeded from the first `frames render --skill`; every render of this project is then attributed to it on anonymous telemetry, without re-passing the flag."
     }
   }
 }

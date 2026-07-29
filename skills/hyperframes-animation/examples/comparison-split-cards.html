@@ -6,10 +6,10 @@
     <title>Scene 09 — Split Comparison Reveal</title>
 
     <!--
-      HyperFrames composition.tsx.
+      Frames composition.tsx.
 
       Choreography (3 phases, 5 seconds total):
-        0.17 – 0.83s   Title slides down from top: "Build Video With HyperFrames"
+        0.17 – 0.83s   Title slides down from top: "Build Video With Frames"
         0.50 – 1.83s   Left card "HTML Composition" enters from left (+16° rotateY)
         0.83 – 1.83s   Right card "Render Pipeline" enters from right (-16° rotateY)
         1.67 – 2.17s   Left pill badge "Seekable Timeline" pops in with back.out(1.7)
@@ -21,7 +21,7 @@
         - All continuous floating consolidated into one shared scene-ticker onUpdate
           (6 gsap.set calls per frame, batched by the browser)
         - Phase offset Math.PI between the two cards' floats — opposed breathing
-        - Card images are HyperFrames workflow mockups (no asset files needed)
+        - Card images are Frames workflow mockups (no asset files needed)
         - Ambient dual-glow via two radial-gradients in a single overlay
     -->
 
@@ -363,7 +363,7 @@
         <div class="bg"></div>
 
         <!-- Title -->
-        <div class="title" id="title">Build Video With <span class="accent">HyperFrames</span></div>
+        <div class="title" id="title">Build Video With <span class="accent">Frames</span></div>
 
         <!-- Cards row -->
         <div class="cards-row">

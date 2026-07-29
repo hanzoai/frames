@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // In-memory fake filesystem so these tests exercise the REAL config.ts
 // module (parsing, caching, readConfigFresh's cache-bypass) without ever
-// touching the developer/CI machine's actual ~/.hyperframes/config.json —
+// touching the developer/CI machine's actual ~/.frames/config.json —
 // homedir() is resolved once at config.ts's module-load time, so faking
 // HOME via env var would only work in a fresh process, not inside a shared
 // vitest worker.

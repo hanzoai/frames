@@ -13,7 +13,7 @@
  * clip's pixels to black.
  *
  * Two field signals defined the failure surface this exists to close
- * (both `#hyperframes-cli-feedback`, both `check`/`snapshot` pass /
+ * (both `#frames-cli-feedback`, both `check`/`snapshot` pass /
  * final MP4 wrong):
  *
  *   • ts=1784139267 · win32/x64 CLI 0.7.58 156s render, 15 injected
@@ -45,7 +45,7 @@
  */
 
 import { parseHTML } from "linkedom";
-import type { ExtractedFrames, VideoElement } from "@hyperframes/engine";
+import type { ExtractedFrames, VideoElement } from "@frames/engine";
 
 export interface VideoFrameCoverageReport {
   videoId: string;
@@ -64,7 +64,7 @@ export interface VideoFrameCoverageReport {
  * see `DrawElementVerificationError` for the same problem).
  */
 export interface VideoFrameCoverageErrorDetails {
-  readonly hyperframesVideoFrameCoverageError: true;
+  readonly framesVideoFrameCoverageError: true;
   readonly threshold: number;
   readonly worst: VideoFrameCoverageReport;
   readonly failedReports: VideoFrameCoverageReport[];
@@ -73,14 +73,14 @@ export interface VideoFrameCoverageErrorDetails {
 export class VideoFrameCoverageError extends Error {
   // Read structurally by isVideoFrameCoverageError and cross-module callers.
   // fallow-ignore-next-line unused-class-member
-  readonly hyperframesVideoFrameCoverageError = true as const;
+  readonly framesVideoFrameCoverageError = true as const;
   readonly threshold: number;
   readonly worst: VideoFrameCoverageReport;
   readonly failedReports: VideoFrameCoverageReport[];
 
   constructor(
     message: string,
-    details: Omit<VideoFrameCoverageErrorDetails, "hyperframesVideoFrameCoverageError">,
+    details: Omit<VideoFrameCoverageErrorDetails, "framesVideoFrameCoverageError">,
   ) {
     super(message);
     this.name = "VideoFrameCoverageError";
@@ -94,7 +94,7 @@ export function isVideoFrameCoverageError(err: unknown): err is VideoFrameCovera
   return (
     typeof err === "object" &&
     err !== null &&
-    (err as { hyperframesVideoFrameCoverageError?: unknown }).hyperframesVideoFrameCoverageError ===
+    (err as { framesVideoFrameCoverageError?: unknown }).framesVideoFrameCoverageError ===
       true
   );
 }

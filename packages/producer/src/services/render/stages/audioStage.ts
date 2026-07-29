@@ -16,7 +16,7 @@
  */
 
 import { join } from "node:path";
-import { processCompositionAudio, type AudioProcessingFailure } from "@hyperframes/engine";
+import { processCompositionAudio, type AudioProcessingFailure } from "@frames/engine";
 import type { CompositionMetadata } from "../shared.js";
 
 export interface AudioStageInput {

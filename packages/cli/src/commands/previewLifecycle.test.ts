@@ -12,7 +12,7 @@ import {
   writePreviewSession,
 } from "./previewLifecycle.js";
 
-const projectDir = resolve("/tmp/hyperframes-preview-lifecycle-project");
+const projectDir = resolve("/tmp/frames-preview-lifecycle-project");
 const server: ActiveServer = {
   port: 3210,
   projectName: "preview-lifecycle-project",
@@ -51,13 +51,13 @@ describe("background preview lifecycle", () => {
   it("builds a detached child invocation without recursively preserving --background", () => {
     expect(
       buildBackgroundPreviewArgs([
-        "/opt/hyperframes/cli.js",
+        "/opt/frames/cli.js",
         "preview",
         projectDir,
         "--background",
         "--open",
       ]),
-    ).toEqual(["/opt/hyperframes/cli.js", "preview", projectDir, "--no-open"]);
+    ).toEqual(["/opt/frames/cli.js", "preview", projectDir, "--no-open"]);
   });
 
   it("reuses an already-running server for the same project", async () => {
@@ -65,7 +65,7 @@ describe("background preview lifecycle", () => {
     const scan = vi.fn(async () => [server]);
 
     const result = await startBackgroundPreview(projectDir, 3002, {
-      argv: ["/opt/hyperframes/cli.js", "preview", projectDir, "--background"],
+      argv: ["/opt/frames/cli.js", "preview", projectDir, "--background"],
       execPath: "/usr/bin/node",
       scan,
       spawn,
@@ -102,7 +102,7 @@ describe("background preview lifecycle", () => {
     const stateHome = mkdtempSync(join(tmpdir(), "hf-preview-state-"));
 
     const result = await startBackgroundPreview(projectDir, 3002, {
-      argv: ["/opt/hyperframes/cli.js", "preview", projectDir, "--background"],
+      argv: ["/opt/frames/cli.js", "preview", projectDir, "--background"],
       execPath: "/usr/bin/node",
       scan,
       spawn,

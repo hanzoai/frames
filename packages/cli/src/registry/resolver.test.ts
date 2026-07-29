@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
-import type { RegistryItem, RegistryManifest } from "@hyperframes/core";
+import type { RegistryItem, RegistryManifest } from "@frames/core";
 import {
   listRegistryItems,
   loadAllItems,
@@ -8,18 +8,18 @@ import {
 } from "./resolver.js";
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://frames.hanzo.ai/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
-    { name: "alpha", type: "hyperframes:example" },
-    { name: "beta", type: "hyperframes:example" },
-    { name: "gamma", type: "hyperframes:block" },
+    { name: "alpha", type: "frames:example" },
+    { name: "beta", type: "frames:example" },
+    { name: "gamma", type: "frames:block" },
   ],
 };
 
-function buildItem(name: string, type: "hyperframes:example" | "hyperframes:block"): RegistryItem {
-  if (type === "hyperframes:example") {
+function buildItem(name: string, type: "frames:example" | "frames:block"): RegistryItem {
+  if (type === "frames:example") {
     return {
       name,
       type,
@@ -27,7 +27,7 @@ function buildItem(name: string, type: "hyperframes:example" | "hyperframes:bloc
       description: `${name} desc`,
       dimensions: { width: 1920, height: 1080 },
       duration: 10,
-      files: [{ path: "index.html", target: "index.html", type: "hyperframes:composition" }],
+      files: [{ path: "index.html", target: "index.html", type: "frames:composition" }],
     };
   }
   return {
@@ -41,7 +41,7 @@ function buildItem(name: string, type: "hyperframes:example" | "hyperframes:bloc
       {
         path: `${name}.html`,
         target: `compositions/${name}.html`,
-        type: "hyperframes:composition",
+        type: "frames:composition",
       },
     ],
   };
@@ -64,7 +64,7 @@ function mockFetch(
       }
       const m = /\/(examples|blocks|components)\/([^/]+)\/registry-item\.json$/.exec(url);
       if (m && !overrides.missing?.includes(m[2]!)) {
-        const type = m[1] === "examples" ? "hyperframes:example" : "hyperframes:block";
+        const type = m[1] === "examples" ? "frames:example" : "frames:block";
         const item = buildItem(m[2]!, type);
         if (overrides.dependencies && item.name in overrides.dependencies) {
           item.registryDependencies = overrides.dependencies[item.name];
@@ -93,10 +93,10 @@ describe("registry resolver", () => {
 
     it("filters by type", async () => {
       const baseUrl = uniqueBaseUrl();
-      const examples = await listRegistryItems({ type: "hyperframes:example" }, { baseUrl });
+      const examples = await listRegistryItems({ type: "frames:example" }, { baseUrl });
       expect(examples.map((i) => i.name)).toEqual(["alpha", "beta"]);
 
-      const blocks = await listRegistryItems({ type: "hyperframes:block" }, { baseUrl });
+      const blocks = await listRegistryItems({ type: "frames:block" }, { baseUrl });
       expect(blocks.map((i) => i.name)).toEqual(["gamma"]);
     });
 
@@ -136,7 +136,7 @@ describe("registry resolver", () => {
       const baseUrl = uniqueBaseUrl();
       const item = await resolveItem("alpha", { baseUrl });
       expect(item.name).toBe("alpha");
-      expect(item.type).toBe("hyperframes:example");
+      expect(item.type).toBe("frames:example");
       expect(item.files).toHaveLength(1);
     });
 

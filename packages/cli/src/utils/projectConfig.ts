@@ -1,9 +1,9 @@
 /**
- * Read and write `hyperframes.json` — the per-project config that tells
- * `hyperframes add` which registry to pull items from and where to drop them
+ * Read and write `frames.json` — the per-project config that tells
+ * `frames add` which registry to pull items from and where to drop them
  * in the user's project tree.
  *
- * The file is created by `hyperframes init` and optionally edited by users to
+ * The file is created by `frames init` and optionally edited by users to
  * point at custom registries or reshape their project layout.
  */
 
@@ -12,13 +12,13 @@ import { join, resolve } from "node:path";
 import { DEFAULT_REGISTRY_URL } from "../registry/index.js";
 import { normalizeSkillSlug } from "../telemetry/skill.js";
 
-export const PROJECT_CONFIG_FILENAME = "hyperframes.json";
-const PROJECT_CONFIG_SCHEMA_URL = "https://hyperframes.heygen.com/schema/hyperframes.json";
+export const PROJECT_CONFIG_FILENAME = "frames.json";
+const PROJECT_CONFIG_SCHEMA_URL = "https://frames.hanzo.ai/schema/frames.json";
 
 export interface ProjectConfigPaths {
-  /** Where `hyperframes:block` items land, relative to project root. */
+  /** Where `frames:block` items land, relative to project root. */
   blocks: string;
-  /** Where `hyperframes:component` items land, relative to project root. */
+  /** Where `frames:component` items land, relative to project root. */
   components: string;
   /** Where asset files (images, fonts, videos) land, relative to project root. */
   assets: string;
@@ -43,7 +43,7 @@ export interface ProjectConfig {
   media?: ProjectConfigMedia;
   /**
    * Owning authoring-workflow skill slug (e.g. "product-launch-video"). Stamped
-   * by `hyperframes init --skill` or seeded from the first `hyperframes render
+   * by `frames init --skill` or seeded from the first `frames render
    * --skill`, then read back so every later render of this project — re-render,
    * `npm run render`, `--batch`, preview — is attributed to it on anonymous
    * telemetry without the caller re-passing the flag.
@@ -69,7 +69,7 @@ export function projectConfigPath(projectDir: string): string {
   return join(resolve(projectDir), PROJECT_CONFIG_FILENAME);
 }
 
-/** Read `hyperframes.json` from a project directory. */
+/** Read `frames.json` from a project directory. */
 export function readProjectConfig(projectDir: string): ProjectConfig | undefined {
   const path = projectConfigPath(projectDir);
   try {
@@ -107,7 +107,7 @@ export function normalizeConfig(partial: Partial<ProjectConfig>): ProjectConfig 
   };
 }
 
-/** Write `hyperframes.json` to a project directory. Overwrites if present. */
+/** Write `frames.json` to a project directory. Overwrites if present. */
 export function writeProjectConfig(
   projectDir: string,
   config: ProjectConfig = DEFAULT_PROJECT_CONFIG,
@@ -129,7 +129,7 @@ export function loadProjectConfig(projectDir: string): ProjectConfig {
  * Resolve whether auto-proxying of browser-hostile video codecs (HEVC, etc.)
  * is enabled for a project's live-preview surfaces. A caller's explicit
  * `--proxy`/`--no-proxy` flag always wins over the project config, in either
- * direction. Falls back to the committed `hyperframes.json`
+ * direction. Falls back to the committed `frames.json`
  * `media.autoProxy` setting, and finally to `true` when neither is set.
  * Render is never affected by this setting: it always uses the original file.
  */
@@ -151,7 +151,7 @@ function isFileNotFound(error: unknown): boolean {
 }
 
 /**
- * Persist the owning authoring-skill slug into `hyperframes.json` so every
+ * Persist the owning authoring-skill slug into `frames.json` so every
  * later render of this project — re-render, `npm run render`, `--batch`,
  * preview — is attributed to the workflow that created it, without the caller
  * re-passing `--skill`.
@@ -162,7 +162,7 @@ function isFileNotFound(error: unknown): boolean {
  * empty slug is ignored. Best effort: a read-only or missing project directory
  * never fails the render it rode in on.
  *
- * This is the only writer that touches an ALREADY EXISTING `hyperframes.json`
+ * This is the only writer that touches an ALREADY EXISTING `frames.json`
  * (every other `writeProjectConfig` call site is guarded to write only when the
  * file is absent), so it must not round-trip through {@link normalizeConfig}:
  * that rebuilds the object from a field whitelist, which would drop keys it

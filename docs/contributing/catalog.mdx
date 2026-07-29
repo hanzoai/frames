@@ -1,25 +1,25 @@
 ---
 title: Contributing to the Catalog
-description: How to add blocks and components to the HyperFrames registry.
+description: How to add blocks and components to the Frames registry.
 ---
 
-Your agent already knows how to build video components. It writes HTML. HyperFrames renders it. The registry is the collection of everything that's been built — 52 blocks and counting.
+Your agent already knows how to build video components. It writes HTML. Frames renders it. The registry is the collection of everything that's been built — 52 blocks and counting.
 
 This guide shows you how to add to it.
 
 <Info>
-**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `hyperframes lint` + `validate`. Publish with `npx hyperframes publish`. Open a PR.
+**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `frames lint` + `validate`. Publish with `npx frames publish`. Open a PR.
 </Info>
 
 ## Why Contribute?
 
-Every block in the registry exists because someone needed it and built it. When you add a block, every HyperFrames user gets it with one command:
+Every block in the registry exists because someone needed it and built it. When you add a block, every Frames user gets it with one command:
 
 ```bash
-npx hyperframes add instagram-follow
+npx frames add instagram-follow
 ```
 
-The registry grows, HyperFrames gets more useful, and your work ships to everyone.
+The registry grows, Frames gets more useful, and your work ships to everyone.
 
 ## Two Paths
 
@@ -31,7 +31,7 @@ You spot visual trends before anyone. That's the most valuable contribution.
 - Sketch a lower-third in Figma with fonts, colors, and timing
 - Install a component, preview it, report what feels off
 
-Open an issue on [GitHub](https://github.com/heygen-com/hyperframes/issues) with a visual reference. Tag it `component-request`.
+Open an issue on [GitHub](https://github.com/hanzoai/frames/issues) with a visual reference. Tag it `component-request`.
 
 <Tip>The bar for ideas is low. We'd rather have 100 and build the best 10.</Tip>
 
@@ -39,11 +39,11 @@ Open an issue on [GitHub](https://github.com/heygen-com/hyperframes/issues) with
 
 Every block is a single HTML file. No build step, no framework.
 
-If you use Claude Code with HyperFrames skills:
+If you use Claude Code with Frames skills:
 
 > "I want to contribute a new transition that looks like \[description\]"
 
-The `/hyperframes-registry` skill scaffolds the structure, validates, renders a preview, publishes to [hyperframes.dev](https://hyperframes.dev), and prepares the PR.
+The `/frames-registry` skill scaffolds the structure, validates, renders a preview, publishes to [frames.hanzo.ai](https://frames.hanzo.ai), and prepares the PR.
 
 ## What Goes in the Registry
 
@@ -63,9 +63,9 @@ registry/blocks/my-block/
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "my-block",
-  "type": "hyperframes:block",
+  "type": "frames:block",
   "title": "My Block",
   "description": "What this block does in one sentence",
   "tags": ["category", "subcategory"],
@@ -75,7 +75,7 @@ registry/blocks/my-block/
     {
       "path": "my-block.html",
       "target": "compositions/my-block.html",
-      "type": "hyperframes:composition"
+      "type": "frames:composition"
     }
   ]
 }
@@ -130,7 +130,7 @@ Not everything belongs in the registry. The bar is production quality.
 
 <Steps>
   <Step title="Fork and create">
-    Fork [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) and create your block directory:
+    Fork [hanzoai/frames](https://github.com/hanzoai/frames) and create your block directory:
     ```bash
     mkdir -p registry/blocks/your-block
     ```
@@ -140,8 +140,8 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Validate">
     ```bash
-    hyperframes lint
-    hyperframes check
+    frames lint
+    frames check
     npx oxfmt your-block.html
     ```
   </Step>
@@ -154,14 +154,14 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Render preview">
     ```bash
-    hyperframes render -o preview.mp4
+    frames render -o preview.mp4
     ```
   </Step>
   <Step title="Publish and PR">
     ```bash
-    npx hyperframes publish
+    npx frames publish
     ```
-    Open a PR with your [hyperframes.dev](https://hyperframes.dev) preview link.
+    Open a PR with your [frames.hanzo.ai](https://frames.hanzo.ai) preview link.
   </Step>
 </Steps>
 

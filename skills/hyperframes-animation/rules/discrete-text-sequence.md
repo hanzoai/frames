@@ -16,7 +16,7 @@ The typing is authored as a sparse array of `{ t, text }` states; on every `onUp
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="terminal">
   <div class="prompt">$</div>
   <div class="text-wrap">

@@ -16,7 +16,7 @@ Two cards side-by-side with opposing `rotateY` (left `+TILT`, right `âˆ’TILT`) â
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="split-stage">
   <div class="card card-left">
     <div class="card-eyebrow">{leftEyebrow}</div>

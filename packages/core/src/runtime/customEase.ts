@@ -97,7 +97,7 @@ export function installStudioCustomEase(gsap: GsapEaseApi): boolean {
   const springEaseCache = new Map<number, RuntimeEase>();
   const wiggleEaseCache = new Map<string, RuntimeEase>();
 
-  // Single source of truth for "hyperframes ease string -> function". Both the
+  // Single source of truth for "frames ease string -> function". Both the
   // public parseEase override and the internal registerEase configs below route
   // through this, so the resolution rules live in exactly one place.
   const resolveHyperframesEase = (ease: string | RuntimeEase): RuntimeEase | null => {

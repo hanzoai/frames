@@ -9,7 +9,7 @@
 import { copyFileSync, existsSync, linkSync, mkdirSync, readdirSync, rmSync } from "fs";
 import { isAbsolute, join, posix, resolve, sep } from "path";
 import { parseHTML } from "linkedom";
-import { decodeUrlPathVariants, MEDIA_DURATION_CLAMP_EPSILON_SECONDS } from "@hyperframes/core";
+import { decodeUrlPathVariants, MEDIA_DURATION_CLAMP_EPSILON_SECONDS } from "@frames/core";
 import { resolveReferencedStart, type RefResolverEl } from "./referenceResolver.js";
 import { extractMediaMetadata, type VideoMetadata } from "../utils/ffprobe.js";
 import {
@@ -181,7 +181,7 @@ export interface VideoExtractionFailure {
 }
 
 export class VideoSourceExtractionError extends Error {
-  readonly hyperframesVideoSourceExtractionError = true as const;
+  readonly framesVideoSourceExtractionError = true as const;
 
   constructor(
     readonly kind: VideoExtractionFailureKind,
@@ -198,8 +198,8 @@ export function isVideoSourceExtractionError(error: unknown): error is VideoSour
   return (
     typeof error === "object" &&
     error !== null &&
-    "hyperframesVideoSourceExtractionError" in error &&
-    error.hyperframesVideoSourceExtractionError === true
+    "framesVideoSourceExtractionError" in error &&
+    error.framesVideoSourceExtractionError === true
   );
 }
 
@@ -1083,7 +1083,7 @@ export async function extractAllVideoFrames(
         if (!warnedSrcs.has(video.src)) {
           warnedSrcs.add(video.src);
           process.stderr.write(
-            `[hyperframes:render] WARNING: video src="${video.src}" ` +
+            `[frames:render] WARNING: video src="${video.src}" ` +
               `could not be resolved on disk (looked for ${videoPath}). ` +
               `The rendered output will show this video's first frame for the entire clip duration. ` +
               `If your <video> lives inside a sub-composition, prefer project-root-relative paths ` +
@@ -1274,7 +1274,7 @@ export async function extractAllVideoFrames(
       cacheRootDir = configuredCacheRootDir;
     } catch {
       process.stderr.write(
-        `[hyperframes:render] WARNING: extraction cache dir ${configuredCacheRootDir} is not writable; caching disabled for this render\n`,
+        `[frames:render] WARNING: extraction cache dir ${configuredCacheRootDir} is not writable; caching disabled for this render\n`,
       );
     }
   }

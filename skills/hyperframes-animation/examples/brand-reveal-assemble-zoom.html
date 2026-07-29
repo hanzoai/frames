@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <title>Scene 3 — Assembly Focus Reveal (hyperframes)</title>
+    <title>Scene 3 — Assembly Focus Reveal (frames)</title>
 
     <!--
-      HyperFrames composition.tsx.
+      Frames composition.tsx.
 
       Choreography (5 phases, 5 seconds total):
         0.00 – 0.67s   "Just use" assembles in a discrete sequence (with hold)
@@ -158,7 +158,7 @@
                     class="logo-mark"
                     viewBox="0 0 100 100"
                     role="img"
-                    aria-label="hyperframes logo"
+                    aria-label="frames logo"
                   >
                     <defs>
                       <linearGradient id="hfMark" x1="0" y1="0" x2="1" y2="1">
@@ -239,7 +239,7 @@
       ];
 
       /* ================================================================
-         TIMELINE — built synchronously so HyperFrames can seek it.
+         TIMELINE — built synchronously so Frames can seek it.
          ================================================================ */
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });

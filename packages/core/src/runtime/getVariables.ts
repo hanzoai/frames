@@ -3,11 +3,11 @@
  *
  * Top-level path: declared defaults from `<html data-composition-variables="...">`
  * merged with `window.__hfVariables` (set at render time by the engine when
- * the user passes `hyperframes render --variables '<json>'`).
+ * the user passes `frames render --variables '<json>'`).
  *
  * Sub-comp path (per-instance scoping): when called inside a sub-composition
  * script wrapped by `compositionScoping.ts`, the wrapper shadows
- * `__hyperframes.getVariables` with a scoped variant that returns the
+ * `__frames.getVariables` with a scoped variant that returns the
  * pre-merged values from `window.__hfVariablesByComp[compositionId]`. The
  * loader populates that table before running scripts, layering the host
  * element's `data-variable-values` over the sub-comp's declared defaults.
@@ -203,7 +203,7 @@ export function parseHostVariableValues(host: Element): Record<string, unknown> 
   return parsed as Record<string, unknown>;
 }
 
-/** Render-time variable overrides (`hyperframes render --variables`). */
+/** Render-time variable overrides (`frames render --variables`). */
 export function readRenderOverrides(): Record<string, unknown> {
   if (typeof window === "undefined") return {};
   const raw = (window as Window & { __hfVariables?: unknown }).__hfVariables;

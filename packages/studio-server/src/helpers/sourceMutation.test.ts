@@ -40,7 +40,7 @@ describe("patchElementInHtml", () => {
 <div id="root" data-composition-id="main">
   <div class="layer" data-composition-id="overlay" data-composition-src="compositions/overlay.html">
     <div class="chrome">
-      <span class="brand">HyperFrames</span>
+      <span class="brand">Frames</span>
     </div>
   </div>
   <div id="hero" class="hero-heading" style="font-size: 48px">Hello World</div>
@@ -377,7 +377,7 @@ describe("probeElementInSource", () => {
 <div id="root" data-composition-id="main">
   <div class="layer" data-composition-id="overlay" data-composition-src="compositions/overlay.html">
     <div class="chrome">
-      <span class="brand">HyperFrames</span>
+      <span class="brand">Frames</span>
     </div>
   </div>
   <div id="hero" class="hero-heading" style="font-size: 48px">Hello World</div>

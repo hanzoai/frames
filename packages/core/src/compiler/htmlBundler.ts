@@ -324,7 +324,7 @@ function warnColorGradingLutNotInlined(lutSrc: string): void {
   const trimmed = lutSrc.trim();
   if (!isRelativeUrl(trimmed)) return;
   console.warn(
-    `[HyperFrames] Could not inline color grading LUT "${trimmed}". The rendered bundle may not be self-contained.`,
+    `[Frames] Could not inline color grading LUT "${trimmed}". The rendered bundle may not be self-contained.`,
   );
 }
 
@@ -630,10 +630,10 @@ function coalesceHeadStylesAndBodyScripts(document: Document): void {
 function injectTextRenderingRule(document: Document): void {
   const head = document.head;
   if (!head) return;
-  if (document.querySelector("style[data-hyperframes-text-rendering]")) return;
+  if (document.querySelector("style[data-frames-text-rendering]")) return;
 
   const styleEl = document.createElement("style");
-  styleEl.setAttribute("data-hyperframes-text-rendering", "true");
+  styleEl.setAttribute("data-frames-text-rendering", "true");
   styleEl.textContent = "html,body,*{text-rendering:geometricPrecision}";
   head.insertBefore(styleEl, head.firstChild);
 }
@@ -679,7 +679,7 @@ export interface BundleOptions {
   /** Optional media duration prober (e.g., ffprobe). If omitted, media durations are not resolved. */
   probeMediaDuration?: MediaDurationProber;
   /**
-   * How to handle the HyperFrames runtime <script> tag. Default: `"inline"`.
+   * How to handle the Frames runtime <script> tag. Default: `"inline"`.
    *
    * - `"inline"` — embed the runtime IIFE body directly into the bundle. Produces
    *   genuinely self-contained HTML. Right for CLI render output, validate,
@@ -706,7 +706,7 @@ export interface BundleOptions {
  * Bundle a project's index.html into a single self-contained HTML file.
  *
  * - Compiles timing attributes and optionally resolves media durations
- * - Injects the HyperFrames runtime script
+ * - Injects the Frames runtime script
  * - Inlines local CSS and JS files
  * - Inlines sub-composition HTML fragments (data-composition-src)
  * - Inlines small textual assets as data URLs
@@ -768,14 +768,14 @@ function hoistCompositionScripts(
           ? wrapScopedCompositionScript(
               scriptEl.textContent || "",
               opts.compId,
-              "[HyperFrames] composition script error:",
+              "[Frames] composition script error:",
               opts.runtimeScope,
               opts.runtimeCompId || opts.compId,
               opts.authoredRootId,
             )
           : wrapInlineScriptWithErrorBoundary(
               scriptEl.textContent || "",
-              "[HyperFrames] composition script error:",
+              "[Frames] composition script error:",
             ),
       );
     }
@@ -902,7 +902,7 @@ export async function bundleToSingleHtml(
     readVariableDefaults: readDeclaredDefaults,
     parseHostVariables: parseHostVariableValues,
     buildScopeSelector: (compId: string) => cssAttributeSelector("data-composition-id", compId),
-    scriptErrorLabel: "[HyperFrames] composition script error:",
+    scriptErrorLabel: "[Frames] composition script error:",
     onMissingComposition: (srcPath: string, reason?: string) => {
       console.warn(
         `[Bundler] Skipping sub-composition "${srcPath}": ${reason ?? "the file could not be found"}.`,

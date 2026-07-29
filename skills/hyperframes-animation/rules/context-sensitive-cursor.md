@@ -16,7 +16,7 @@ The text is authored as a SEQUENCE of `{ t, text, segment, color }` entries; a l
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="terminal">
   <div class="prompt">$</div>
   <div class="text-wrap">

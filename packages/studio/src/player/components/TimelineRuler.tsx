@@ -3,7 +3,7 @@ import type { TimelineTheme } from "./timelineTheme";
 import { RULER_H, formatTimelineTickLabel } from "./timelineLayout";
 import { usePlayerStore } from "../store/playerStore";
 import { secondsToFrame } from "../lib/time";
-import type { MusicBeatAnalysis } from "@hyperframes/core/beats";
+import type { MusicBeatAnalysis } from "@frames/core/beats";
 
 interface TimelineRulerProps {
   major: number[];

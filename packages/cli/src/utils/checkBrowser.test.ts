@@ -66,12 +66,12 @@ vi.mock("./staticProjectServer.js", () => ({
 }));
 
 // `preResolveHostileMediaProxies` reaches these two studio-server helpers via
-vi.mock("@hyperframes/studio-server/media-codec-map", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@hyperframes/studio-server/media-codec-map")>()),
+vi.mock("@frames/studio-server/media-codec-map", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@frames/studio-server/media-codec-map")>()),
   scanProjectMediaCodecMap: mocks.scanProjectMediaCodecMap,
   proxyVariantFor: (facts: { hasAlpha?: boolean }) => (facts.hasAlpha ? "vp8" : "h264"),
 }));
-vi.mock("@hyperframes/studio-server/proxy-transcoder", () => ({
+vi.mock("@frames/studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
 }));
 
@@ -86,8 +86,8 @@ afterEach(() => {
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
   document.body.innerHTML = "";
-  Reflect.deleteProperty(window, "__hyperframesGeometryCandidates");
-  Reflect.deleteProperty(window, "__hyperframesLayoutAudit");
+  Reflect.deleteProperty(window, "__framesGeometryCandidates");
+  Reflect.deleteProperty(window, "__framesLayoutAudit");
   Reflect.deleteProperty(window, "__contrastAuditPrepare");
   Reflect.deleteProperty(window, "__contrastAuditFinish");
   Reflect.deleteProperty(window, "__contrastAuditRestores");
@@ -341,10 +341,10 @@ it("surfaces the runtime's media-proxy-fallback console.info line as an info fin
   const page = fakePage();
   const fallbackMessage = fakeConsoleMessage(
     "info",
-    '[hyperframes] runtime_media_proxy_fallback: "assets/clip.mp4" uses a codec (hevc) this browser can\'t decode; ' +
+    '[frames] runtime_media_proxy_fallback: "assets/clip.mp4" uses a codec (hevc) this browser can\'t decode; ' +
       "auto-swapped to an authoring proxy for this preview only. Render output is unaffected.",
   );
-  const unrelatedInfo = fakeConsoleMessage("info", "[hyperframes] render runtime fps 30");
+  const unrelatedInfo = fakeConsoleMessage("info", "[frames] render runtime fps 30");
   const authorInfo = fakeConsoleMessage("info", "debug runtime_media_proxy_probe");
   page.on = vi.fn(
     (event: string, handler: (message: ReturnType<typeof fakeConsoleMessage>) => void) => {
@@ -385,7 +385,7 @@ it("surfaces the runtime's media-proxy-unavailable console.info line as its own 
   const page = fakePage();
   const unavailableMessage = fakeConsoleMessage(
     "info",
-    '[hyperframes] runtime_media_proxy_unavailable: "https://cdn.example.com/video.mp4" (cross_origin): ' +
+    '[frames] runtime_media_proxy_unavailable: "https://cdn.example.com/video.mp4" (cross_origin): ' +
       "video reports zero decodable width but its source is cross-origin; no local proxy can be served for it",
   );
   page.on = vi.fn(
@@ -468,10 +468,10 @@ describe("preResolveHostileMediaProxies", () => {
     expect(settled).toBe(true);
   });
 
-  it("does nothing (no scan, no resolveProxy) when autoProxy is off in hyperframes.json", async () => {
+  it("does nothing (no scan, no resolveProxy) when autoProxy is off in frames.json", async () => {
     const projectDir = mkProjectDir();
     writeFileSync(
-      join(projectDir, "hyperframes.json"),
+      join(projectDir, "frames.json"),
       JSON.stringify({ media: { autoProxy: false } }),
     );
 

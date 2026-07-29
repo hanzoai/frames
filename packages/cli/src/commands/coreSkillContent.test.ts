@@ -7,26 +7,26 @@ import { describe, expect, it } from "vitest";
 const REPO_ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..", "..", "..", "..");
 const read = (...parts: string[]): string => readFileSync(join(REPO_ROOT, ...parts), "utf8");
 
-describe("hyperframes-core contract docs", () => {
+describe("frames-core contract docs", () => {
   it("keeps root data-start in the minimal composition skeleton", () => {
-    const minimal = read("skills", "hyperframes-core", "references", "minimal-composition.md");
+    const minimal = read("skills", "frames-core", "references", "minimal-composition.md");
 
     expect(minimal).toMatch(/data-composition-id="main"[\s\S]{0,300}data-start="0"/);
     expect(minimal).toContain('Root `<div>` with `data-composition-id`, `data-start="0"`');
   });
 
   it("teaches check as the canonical quality gate", () => {
-    const skill = read("skills", "hyperframes-core", "SKILL.md");
-    const brief = read("skills", "hyperframes-core", "references", "brief-contract.md");
+    const skill = read("skills", "frames-core", "SKILL.md");
+    const brief = read("skills", "frames-core", "references", "brief-contract.md");
 
-    expect(skill).toContain("`npx hyperframes check`");
-    expect(brief).toContain("`hyperframes check`");
+    expect(skill).toContain("`npx frames check`");
+    expect(brief).toContain("`frames check`");
     expect(brief).not.toContain("`lint` / `validate` / `inspect`");
   });
 
   it("requires actionable reproduction packets in CLI defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
+    const skill = read("skills", "frames-cli", "SKILL.md");
+    const renderReference = read("skills", "frames-cli", "references", "preview-render.md");
 
     expect(skill).toContain("reproduction packet");
     expect(renderReference).toContain("REPRO COMMAND:");
@@ -37,8 +37,8 @@ describe("hyperframes-core contract docs", () => {
   });
 
   it("mandates a composition-structure block for visual-defect feedback", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const renderReference = read("skills", "hyperframes-cli", "references", "preview-render.md");
+    const skill = read("skills", "frames-cli", "SKILL.md");
+    const renderReference = read("skills", "frames-cli", "references", "preview-render.md");
 
     // Skill teaches the mandate at a high level.
     expect(skill).toContain("COMPOSITION_STRUCTURE:");
@@ -51,12 +51,12 @@ describe("hyperframes-core contract docs", () => {
   });
 
   it("teaches safe cloud archive size remediation", () => {
-    const skill = read("skills", "hyperframes-cli", "SKILL.md");
-    const cloudReference = read("skills", "hyperframes-cli", "references", "cloud.md");
+    const skill = read("skills", "frames-cli", "SKILL.md");
+    const cloudReference = read("skills", "frames-cli", "references", "cloud.md");
 
     expect(skill).toContain("cloud render --dry-run --json");
     expect(skill).toContain("Never ignore an asset merely because it is large");
-    expect(cloudReference).toContain(".hyperframesignore");
+    expect(cloudReference).toContain(".framesignore");
     expect(cloudReference).toContain("Never ignore all of `assets/`");
     expect(cloudReference).toContain("dynamically computed asset path");
   });
@@ -67,24 +67,24 @@ describe("media-use TTS documentation", () => {
     const tts = read("skills", "media-use", "audio", "references", "tts.md");
     const captions = read("skills", "media-use", "audio", "references", "tts-to-captions.md");
 
-    expect(tts).not.toMatch(/hyperframes tts[^\n]*--provider/);
-    expect(tts).not.toMatch(/hyperframes tts[^\n]*--words/);
-    expect(captions).not.toMatch(/hyperframes tts[^\n]*--provider/);
+    expect(tts).not.toMatch(/frames tts[^\n]*--provider/);
+    expect(tts).not.toMatch(/frames tts[^\n]*--words/);
+    expect(captions).not.toMatch(/frames tts[^\n]*--provider/);
     expect(captions).toContain("heygen-tts.mjs");
   });
 });
 
 describe("media treatment routing documentation", () => {
   it("routes vague composition-media feedback to the canonical workflow", () => {
-    const router = read("skills", "hyperframes", "SKILL.md");
+    const router = read("skills", "frames", "SKILL.md");
     const mediaUse = read("skills", "media-use", "SKILL.md");
     const treatments = read("skills", "media-use", "references", "media-treatments.md");
 
     expect(router).toContain("dark/flat/boring footage");
     expect(router).toContain("`/media-use`");
     expect(mediaUse).toContain("references/media-treatments.md");
-    expect(mediaUse).toContain("`hyperframes media-treatment`");
-    expect(treatments).toContain("Persist pixel settings with `hyperframes media-treatment`");
+    expect(mediaUse).toContain("`frames media-treatment`");
+    expect(treatments).toContain("Persist pixel settings with `frames media-treatment`");
     expect(treatments).toContain("apply to the entire selected real `<img>` or");
     expect(treatments).toContain("external segmentation/tracking tool");
   });
@@ -93,11 +93,11 @@ describe("media treatment routing documentation", () => {
     const treatments = read("skills", "media-use", "references", "media-treatments.md");
     const recipes = read("skills", "media-use", "references", "media-treatment-recipes.md");
 
-    expect(treatments).toContain("hyperframes media-treatment --capabilities --json");
+    expect(treatments).toContain("frames media-treatment --capabilities --json");
     expect(treatments).toContain("--capability <id>");
     expect(treatments).toContain("Recipes are optional macros");
     expect(recipes).toContain("optional tested seeds");
-    expect(treatments).toContain("hyperframes add <name> --dir <project>");
+    expect(treatments).toContain("frames add <name> --dir <project>");
     expect(treatments).toContain("snapshots/treatment-before/contact-sheet.jpg");
     expect(treatments).toMatch(/Do not report visual\s+quality from command success alone/);
   });

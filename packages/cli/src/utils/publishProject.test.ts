@@ -102,7 +102,7 @@ function uploadResponse(overrides?: Record<string, unknown>): Response {
     JSON.stringify({
       data: {
         upload_url: "https://s3.example.com/upload",
-        upload_key: "ephemeral_store/hyperframes/project_uploads/upload-1/demo.zip",
+        upload_key: "ephemeral_store/frames/project_uploads/upload-1/demo.zip",
         upload_headers: { "content-type": "application/zip" },
         content_type: "application/zip",
         ...overrides,
@@ -120,7 +120,7 @@ function publishedResponse(overrides?: Record<string, unknown>): Response {
         project_id: "hfp_123",
         title: "demo",
         file_count: 1,
-        url: "https://hyperframes.dev/p/hfp_123",
+        url: "https://frames.hanzo.ai/p/hfp_123",
         claim_token: "claim-token",
         ...overrides,
       },
@@ -231,7 +231,7 @@ describe("createPublishArchive", () => {
     }
   });
 
-  it("applies gitignore-style rules from .hyperframesignore", () => {
+  it("applies gitignore-style rules from .framesignore", () => {
     const dir = makeProjectDir();
     try {
       writeFileSync(join(dir, "index.html"), "<html></html>", "utf-8");
@@ -241,7 +241,7 @@ describe("createPublishArchive", () => {
       writeFileSync(join(dir, "assets", "discard.psd"), "discard", "utf-8");
       writeFileSync(join(dir, "assets", "keep.psd"), "keep", "utf-8");
       writeFileSync(
-        join(dir, ".hyperframesignore"),
+        join(dir, ".framesignore"),
         ["# Generated source files", "/exports/", "*.psd", "!assets/keep.psd", ""].join("\n"),
         "utf-8",
       );
@@ -252,19 +252,19 @@ describe("createPublishArchive", () => {
       expect(entries).toContain("assets/keep.psd");
       expect(entries).not.toContain("exports/draft.mp4");
       expect(entries).not.toContain("assets/discard.psd");
-      expect(entries).not.toContain(".hyperframesignore");
+      expect(entries).not.toContain(".framesignore");
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
   });
 
-  it("allows .hyperframesignore to re-include a default output directory", () => {
+  it("allows .framesignore to re-include a default output directory", () => {
     const dir = makeProjectDir();
     try {
       writeFileSync(join(dir, "index.html"), "<html></html>", "utf-8");
       mkdirSync(join(dir, "snapshots"));
       writeFileSync(join(dir, "snapshots", "reference.png"), "reference", "utf-8");
-      writeFileSync(join(dir, ".hyperframesignore"), "!/snapshots/\n", "utf-8");
+      writeFileSync(join(dir, ".framesignore"), "!/snapshots/\n", "utf-8");
 
       const zip = new AdmZip(createPublishArchive(dir).buffer);
       expect(zip.getEntries().map((entry) => entry.entryName)).toContain("snapshots/reference.png");
@@ -273,14 +273,14 @@ describe("createPublishArchive", () => {
     }
   });
 
-  it("fails clearly when .hyperframesignore excludes index.html", () => {
+  it("fails clearly when .framesignore excludes index.html", () => {
     const dir = makeProjectDir();
     try {
       writeFileSync(join(dir, "index.html"), "<html></html>", "utf-8");
-      writeFileSync(join(dir, ".hyperframesignore"), "/index.html\n", "utf-8");
+      writeFileSync(join(dir, ".framesignore"), "/index.html\n", "utf-8");
 
       expect(() => createPublishArchive(dir)).toThrow(
-        "Project archive must include index.html at the root. Check that .hyperframesignore does not exclude it.",
+        "Project archive must include index.html at the root. Check that .framesignore does not exclude it.",
       );
     } finally {
       rmSync(dir, { recursive: true, force: true });
@@ -532,7 +532,7 @@ describe("uploadTimeoutMs", () => {
 beforeEach(() => {
   authMocks.tryResolveCredential.mockReset().mockResolvedValue(null);
   linkMocks.writeProjectLink.mockReset();
-  vi.stubEnv("HYPERFRAMES_PUBLISHED_PROJECTS_API_URL", "");
+  vi.stubEnv("FRAMES_PUBLISHED_PROJECTS_API_URL", "");
   vi.stubEnv("HEYGEN_API_URL", "");
 });
 
@@ -569,13 +569,13 @@ describe("publishProjectArchive", () => {
       expect(getPublishApiBaseUrl()).toBe("https://api2.heygen.com");
       expect(result).toMatchObject({
         projectId: "hfp_123",
-        url: "https://hyperframes.dev/p/hfp_123",
+        url: "https://frames.hanzo.ai/p/hfp_123",
       });
       expect(fetchMock).toHaveBeenCalledTimes(3);
       expectFetchCall(
         fetchMock,
         1,
-        "https://api2.heygen.com/v1/hyperframes/projects/publish/upload",
+        "https://api2.heygen.com/v1/frames/projects/publish/upload",
         {
           method: "POST",
           headers: jsonHeaders,
@@ -592,7 +592,7 @@ describe("publishProjectArchive", () => {
       expectFetchCall(
         fetchMock,
         3,
-        "https://api2.heygen.com/v1/hyperframes/projects/publish/complete",
+        "https://api2.heygen.com/v1/frames/projects/publish/complete",
         {
           method: "POST",
           headers: jsonHeaders,
@@ -650,7 +650,7 @@ describe("publishProjectArchive", () => {
 
       expect(result.projectId).toBe("hfp_123");
       expect(fetchMock).toHaveBeenCalledTimes(2);
-      expectFetchCall(fetchMock, 2, "https://api2.heygen.com/v1/hyperframes/projects/publish", {
+      expectFetchCall(fetchMock, 2, "https://api2.heygen.com/v1/frames/projects/publish", {
         method: "POST",
         headers: { heygen_route: "canary" },
       });
@@ -735,7 +735,7 @@ describe("publishProjectArchive", () => {
 function ownedStagedFetch() {
   return stagedFetch({
     project_id: "hfp_stable",
-    url: "https://hyperframes.dev/p/hfp_stable",
+    url: "https://frames.hanzo.ai/p/hfp_stable",
     claim_token: "",
     claimed: true,
   });
@@ -760,7 +760,7 @@ describe("publishProjectArchive", () => {
       expect(result.claimToken).toBe("");
       expect(linkMocks.writeProjectLink).toHaveBeenCalledWith(dir, {
         projectId: "hfp_stable",
-        url: "https://hyperframes.dev/p/hfp_stable",
+        url: "https://frames.hanzo.ai/p/hfp_stable",
       });
     } finally {
       rmSync(dir, { recursive: true, force: true });

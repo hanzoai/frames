@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 import { buildFromSkin } from "./captions.mjs";
 
 const presetsDir = fileURLToPath(
-  new URL("../../hyperframes-creative/frame-presets/", import.meta.url),
+  new URL("../../frames-creative/frame-presets/", import.meta.url),
 );
 const skins = readdirSync(presetsDir, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
@@ -13,7 +13,7 @@ const skins = readdirSync(presetsDir, { withFileTypes: true })
     name: entry.name,
     source: readFileSync(
       new URL(
-        `../../hyperframes-creative/frame-presets/${entry.name}/caption-skin.html`,
+        `../../frames-creative/frame-presets/${entry.name}/caption-skin.html`,
         import.meta.url,
       ),
       "utf8",

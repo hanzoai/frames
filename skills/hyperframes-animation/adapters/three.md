@@ -1,20 +1,20 @@
 ---
-name: hyperframes-three
-description: Three.js and WebGL adapter patterns for HyperFrames. Use when creating deterministic Three.js scenes, WebGL canvas layers, AnimationMixer timelines, camera motion, shader-driven visuals, or canvas renders that respond to HyperFrames hf-seek events.
+name: frames-three
+description: Three.js and WebGL adapter patterns for Frames. Use when creating deterministic Three.js scenes, WebGL canvas layers, AnimationMixer timelines, camera motion, shader-driven visuals, or canvas renders that respond to Frames hf-seek events.
 ---
 
-# Three.js for HyperFrames
+# Three.js for Frames
 
-HyperFrames supports Three.js through its `three` runtime adapter. The adapter does not own your scene. It publishes HyperFrames time and dispatches a seek event so your composition can render the exact frame.
+Frames supports Three.js through its `three` runtime adapter. The adapter does not own your scene. It publishes Frames time and dispatches a seek event so your composition can render the exact frame.
 
 ## Contract
 
 - Create the scene, camera, renderer, materials, and assets synchronously when possible.
-- Render from HyperFrames time, not wall-clock time.
+- Render from Frames time, not wall-clock time.
 - Listen for the `hf-seek` event and render exactly that time.
 - Load models, textures, and HDRIs before render-critical seeking. Do not fetch them at seek time.
 - Avoid `requestAnimationFrame` or `renderer.setAnimationLoop` as the source of truth for render-critical motion.
-- **Always set `data-duration="<seconds>"` on the root `[data-composition-id]` element.** Unlike CSS/WAAPI/Lottie, the `three` adapter has no duration auto-inference — it only forwards time via `hf-seek`/`__hfThreeTime`, it doesn't inspect your scene for an `AnimationClip`/`AnimationMixer` length. Without `data-duration` (and no GSAP timeline), the render engine has no way to know how long to capture and fails with "Composition has zero duration". `npx hyperframes lint` errors on this (`root_composition_missing_duration_source`).
+- **Always set `data-duration="<seconds>"` on the root `[data-composition-id]` element.** Unlike CSS/WAAPI/Lottie, the `three` adapter has no duration auto-inference — it only forwards time via `hf-seek`/`__hfThreeTime`, it doesn't inspect your scene for an `AnimationClip`/`AnimationMixer` length. Without `data-duration` (and no GSAP timeline), the render engine has no way to know how long to capture and fails with "Composition has zero duration". `npx frames lint` errors on this (`root_composition_missing_duration_source`).
 
 The adapter sets `window.__hfThreeTime` and dispatches `new CustomEvent("hf-seek", { detail: { time } })` on each seek.
 
@@ -66,7 +66,7 @@ The adapter sets `window.__hfThreeTime` and dispatches `new CustomEvent("hf-seek
 
 ## Loading Addons (`GLTFLoader`, `OrbitControls`, etc.)
 
-For anything under `three/addons/`, use an importmap so bare specifiers resolve. The HyperFrames lint recognizes both this form and the inline `+esm` import above — pick whichever your composition needs.
+For anything under `three/addons/`, use an importmap so bare specifiers resolve. The Frames lint recognizes both this form and the inline `+esm` import above — pick whichever your composition needs.
 
 ```html
 <script type="importmap">
@@ -119,13 +119,13 @@ If several mixers exist, seek all of them from the same `time`.
 After editing a Three.js composition:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx frames lint
+npx frames check
 ```
 
 ## Credits And References
 
-- HyperFrames adapter source: `packages/core/src/runtime/adapters/three.ts`.
+- Frames adapter source: `packages/core/src/runtime/adapters/three.ts`.
 - Why `data-duration` is required here specifically (no auto-inference for this adapter): `packages/core/src/runtime/init.ts` (`resolveAdapterDurationFloorSeconds`) and the CSS/WAAPI/Lottie adapters' `getInferredDurationSeconds`, which the `three` adapter deliberately does not implement.
 - Three.js `WebGLRenderer` docs: https://threejs.org/docs/pages/WebGLRenderer.html
 - Three.js `AnimationMixer.setTime()` docs: https://threejs.org/docs/pages/AnimationMixer.html

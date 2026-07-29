@@ -18,7 +18,7 @@ const SIGNATURE_TEXT_EXTENSIONS = new Set([
 const SIGNATURE_EXCLUDED_DIRS = new Set([
   ".cache",
   ".git",
-  ".hyperframes",
+  ".frames",
   ".next",
   ".vite",
   "build",
@@ -30,8 +30,8 @@ const SIGNATURE_EXCLUDED_DIRS = new Set([
 ]);
 const MAX_SIGNATURE_TEXT_BYTES = 2_000_000;
 const STUDIO_SIGNATURE_MANIFEST_PATHS = [
-  ".hyperframes/studio-manual-edits.json",
-  ".hyperframes/studio-motion.json",
+  ".frames/studio-manual-edits.json",
+  ".frames/studio-motion.json",
 ] as const;
 
 interface ProjectSignatureFile {

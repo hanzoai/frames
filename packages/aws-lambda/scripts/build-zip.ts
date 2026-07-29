@@ -190,25 +190,25 @@ async function bundleHandler(stagingDir: string): Promise<void> {
   const workspaceAliasPlugin: esbuild.Plugin = {
     name: "workspace-alias",
     setup(build) {
-      build.onResolve({ filter: /^@hyperframes\/producer\/distributed$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/producer\/distributed$/ }, () => ({
         path: resolve(monorepoRoot, "packages/producer/src/distributed.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/producer$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/producer$/ }, () => ({
         path: resolve(monorepoRoot, "packages/producer/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/engine$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/engine$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/engine\/alpha-blit$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/engine\/alpha-blit$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/utils/alphaBlit.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/engine\/shader-transitions$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/engine\/shader-transitions$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/utils/shaderTransitions.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/core$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/core$/ }, () => ({
         path: resolve(monorepoRoot, "packages/core/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@hyperframes\/core\/lint$/ }, () => ({
+      build.onResolve({ filter: /^@frames\/core\/lint$/ }, () => ({
         path: resolve(monorepoRoot, "packages/core/src/lint/index.ts"),
       }));
     },
@@ -256,7 +256,7 @@ function stageRuntimeModules(stagingDir: string, source: BuildOptions["source"])
   // into staging/ that declares the production deps, then `npm install`
   // there. npm flattens transitive deps into staging/node_modules/.
   const pkg: Record<string, unknown> = {
-    name: "hyperframes-aws-lambda-bundled",
+    name: "frames-aws-lambda-bundled",
     version: "0.0.0",
     private: true,
     dependencies: {
@@ -335,7 +335,7 @@ function stageHyperframeRuntime(stagingDir: string): void {
   if (!existsSync(manifestSrc) || !existsSync(iifeSrc)) {
     throw new Error(
       `[build-zip] hyperframe runtime artifacts missing under ${coreDist}. ` +
-        `Run 'bun run --filter @hyperframes/core build:hyperframes-runtime:modular' first.`,
+        `Run 'bun run --filter @frames/core build:frames-runtime:modular' first.`,
     );
   }
   cpSync(manifestSrc, join(stagingDir, "hyperframe.manifest.json"));

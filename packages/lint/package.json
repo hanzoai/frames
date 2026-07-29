@@ -1,9 +1,9 @@
 {
-  "name": "@hyperframes/lint",
+  "name": "@frames/lint",
   "version": "0.7.81",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/lint"
   },
   "files": [
@@ -53,7 +53,7 @@
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
-    "@hyperframes/parsers": "workspace:*",
+    "@frames/parsers": "workspace:*",
     "htmlparser2": "^10.1.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8",

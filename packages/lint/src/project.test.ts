@@ -321,12 +321,12 @@ describe("hevc_preview_codec", () => {
   }
 
   beforeEach(() => {
-    process.env.HYPERFRAMES_FFPROBE_PATH = FAKE_FFPROBE_PATH;
+    process.env.FRAMES_FFPROBE_PATH = FAKE_FFPROBE_PATH;
     mockExecFile.mockReset();
   });
 
   afterEach(() => {
-    delete process.env.HYPERFRAMES_FFPROBE_PATH;
+    delete process.env.FRAMES_FFPROBE_PATH;
     mockExecFile.mockReset();
   });
 
@@ -375,7 +375,7 @@ describe("hevc_preview_codec", () => {
 
   it("does not flag anything, and lint completes normally, when ffprobe cannot be resolved", async () => {
     const { project } = makeVideoProject("clip.mp4");
-    process.env.HYPERFRAMES_FFPROBE_PATH = join(project, "missing-ffprobe");
+    process.env.FRAMES_FFPROBE_PATH = join(project, "missing-ffprobe");
 
     const { results, totalErrors } = await lintProject(project);
 

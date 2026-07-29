@@ -8,8 +8,8 @@ import {
   truncateSnippet,
   WINDOW_TIMELINE_ASSIGN_PATTERN,
 } from "../utils";
-import { COMPOSITION_VARIABLE_TYPES } from "@hyperframes/parsers/composition";
-import { COMPOSITION_ATTRIBUTES, readClipTiming } from "@hyperframes/parsers/composition-contract";
+import { COMPOSITION_VARIABLE_TYPES } from "@frames/parsers/composition";
+import { COMPOSITION_ATTRIBUTES, readClipTiming } from "@frames/parsers/composition-contract";
 
 // Agent guidance thresholds: warning-only nudges for files/tracks that become hard
 // to inspect and revise reliably in a single composition.
@@ -21,7 +21,7 @@ const CAPTION_CUE_TOKEN =
 
 // composition_heavy_overlay_count_high — warn when a composition carries this
 // many or more elements whose CSS uses filter:blur, clip-path (non-none), or
-// radial-gradient. Field signal ts=1784040753 (#hyperframes-cli-feedback):
+// radial-gradient. Field signal ts=1784040753 (#frames-cli-feedback):
 // a composition with ~40 such elements captures solid-black for the first
 // ~half of the render, recovering near the end. Presence alone matters —
 // opacity:0 and visibility:hidden overlays still contribute — so the rule
@@ -100,7 +100,7 @@ export function isRegistrySourceFile(filePath?: string): boolean {
 }
 
 export function isRegistryInstalledFile(rawSource: string): boolean {
-  return /^\s*<!--\s*hyperframes-registry-item:[^>]*-->/i.test(rawSource.slice(0, 512));
+  return /^\s*<!--\s*frames-registry-item:[^>]*-->/i.test(rawSource.slice(0, 512));
 }
 
 function isCompositionRootOrMount(rawTag: string): boolean {
@@ -568,7 +568,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
         message: `<${tag.name}${elementId ? ` id="${elementId}"` : ""}> has timing attributes but no class="clip". The element will be visible for the entire composition instead of only during its scheduled time range.`,
         elementId,
         fixHint:
-          'Add class="clip" to the element. The HyperFrames runtime uses .clip to control visibility based on data-start/data-duration.',
+          'Add class="clip" to the element. The Frames runtime uses .clip to control visibility based on data-start/data-duration.',
         snippet: truncateSnippet(tag.raw),
       });
     }
@@ -1062,7 +1062,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
     if (options.isSubComposition) return [];
     if (!rootTag) return [];
     // Not every file linted as a "root" HTML document is a video composition
-    // — e.g. a slideshow demo.html mounts <hyperframes-player src="index.html">
+    // — e.g. a slideshow demo.html mounts <frames-player src="index.html">
     // with no data-composition-id of its own. Nothing to capture there, so
     // there's no duration contract to enforce.
     if (readDecodedAttr(rootTag.raw, "data-composition-id") === null) return [];
@@ -1174,7 +1174,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
   },
 
   // composition_heavy_overlay_count_high
-  // Field signal ts=1784040753 (#hyperframes-cli-feedback): a composition
+  // Field signal ts=1784040753 (#frames-cli-feedback): a composition
   // with ~40 heavy overlay DOM elements — `filter:blur`, oversized
   // `radial-gradient`, and `clip-path` animations — captures solid-black for
   // the first ~half of the render, recovering near the end. Reproduces
@@ -1251,7 +1251,7 @@ export const compositionRules: Array<(ctx: LintContext) => HyperframeLintFinding
           `(opacity:0 / visibility:hidden) contribute — either remove truly unused ones from ` +
           `the source or scope them into their own per-transition sub-composition. If an ` +
           `overlay is genuinely inert for the whole clip, use display:none so it never enters ` +
-          `the render tree. Field ref ts=1784040753 (#hyperframes-cli-feedback).`,
+          `the render tree. Field ref ts=1784040753 (#frames-cli-feedback).`,
       },
     ];
   },

@@ -16,7 +16,7 @@ A masked window of fixed height `ITEM_HEIGHT` (`overflow: hidden`) holds a verti
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="ticker" id="ticker">
   <div class="stack-inner" id="stack-inner">
     <div class="item">{item0}</div>

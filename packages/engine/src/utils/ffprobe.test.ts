@@ -165,7 +165,7 @@ function createSpawnSpy(outcomes: SpawnOutcome[]): {
 }
 
 describe("ffprobe missing-binary fallback", () => {
-  const originalFfprobePath = process.env.HYPERFRAMES_FFPROBE_PATH;
+  const originalFfprobePath = process.env.FRAMES_FFPROBE_PATH;
   const originalPath = process.env.PATH;
 
   function hidePathBinaries(): void {
@@ -175,14 +175,14 @@ describe("ffprobe missing-binary fallback", () => {
   afterEach(() => {
     vi.resetModules();
     vi.doUnmock("child_process");
-    if (originalFfprobePath === undefined) delete process.env.HYPERFRAMES_FFPROBE_PATH;
-    else process.env.HYPERFRAMES_FFPROBE_PATH = originalFfprobePath;
+    if (originalFfprobePath === undefined) delete process.env.FRAMES_FFPROBE_PATH;
+    else process.env.FRAMES_FFPROBE_PATH = originalFfprobePath;
     if (originalPath === undefined) delete process.env.PATH;
     else process.env.PATH = originalPath;
   });
 
-  it("spawns the configured absolute FFprobe path when HYPERFRAMES_FFPROBE_PATH is set", async () => {
-    process.env.HYPERFRAMES_FFPROBE_PATH = "/tools/ffprobe.exe";
+  it("spawns the configured absolute FFprobe path when FRAMES_FFPROBE_PATH is set", async () => {
+    process.env.FRAMES_FFPROBE_PATH = "/tools/ffprobe.exe";
     const successfulStderr = "recoverable diagnostic on a successful probe";
     const { spawn, calls } = createSpawnSpy([
       {
@@ -351,7 +351,7 @@ describe("ffprobe missing-binary fallback", () => {
     });
   });
 
-  // Regression: newer libavformat builds (and the output of `hyperframes
+  // Regression: newer libavformat builds (and the output of `frames
   // remove-background` itself) write the VP9-alpha sidecar tag as
   // `ALPHA_MODE` (uppercase). The lowercase-only check classified those
   // files as having no alpha, the producer extracted them as JPGs, and

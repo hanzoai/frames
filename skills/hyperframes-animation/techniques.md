@@ -1,6 +1,6 @@
 # Visual Techniques Reference
 
-13 proven techniques from production HyperFrames videos. Use these in your storyboard and compositions to create visually rich, professional output. Each technique includes a minimal code pattern you can adapt.
+13 proven techniques from production Frames videos. Use these in your storyboard and compositions to create visually rich, professional output. Each technique includes a minimal code pattern you can adapt.
 
 These are NOT advanced — they're standard motion design patterns that every composition should use at least 2-3 of.
 
@@ -197,7 +197,7 @@ Vector animations that play inside a composition. Use for logos, character anima
 </script>
 ```
 
-`autoplay: false` + `loop: false` + `window.__hfLottie.push()` are mandatory — HyperFrames seeks each registered player to composition time, so anything left on `autoplay`/`loop` runs in wall-clock and renders non-deterministically. The adapter seeks absolute time (no modulo loop, no playback-rate scaling): bake repeating cycles or non-default speed into the Lottie asset or an explicit timeline, then verify the render. Full contract + `.lottie`/dotLottie variant: `adapters/lottie.md`.
+`autoplay: false` + `loop: false` + `window.__hfLottie.push()` are mandatory — Frames seeks each registered player to composition time, so anything left on `autoplay`/`loop` runs in wall-clock and renders non-deterministically. The adapter seeks absolute time (no modulo loop, no playback-rate scaling): bake repeating cycles or non-default speed into the Lottie asset or an explicit timeline, then verify the render. Full contract + `.lottie`/dotLottie variant: `adapters/lottie.md`.
 
 ---
 
@@ -221,7 +221,7 @@ Embed real video footage inside compositions. Videos must be `muted` with `plays
 </script>
 ```
 
-The HyperFrames runtime handles video seeking and playback.
+The Frames runtime handles video seeking and playback.
 
 ---
 
@@ -236,7 +236,7 @@ Terminal typing effect using `tl.call()` to update text content character by cha
   <span class="cursor" style="width:11px;height:22px;background:#333;display:inline-block;"></span>
 </div>
 <script>
-  var CMD = "npx hyperframes init";
+  var CMD = "npx frames init";
   var typed = document.getElementById("typed-text");
 
   // Cursor blinks
@@ -383,12 +383,12 @@ for (var f = 0; f < AUDIO_DATA.totalFrames; f++) {
 Per-frame sampling is required — a single tween will not react. Use the extract script:
 
 ```bash
-python3 skills/hyperframes-creative/scripts/extract-audio-data.py narration.wav --fps 30 --bands 16 -o audio-data.json
+python3 skills/frames-creative/scripts/extract-audio-data.py narration.wav --fps 30 --bands 16 -o audio-data.json
 ```
 
 Keep text/logo intensity subtle (≤5% scale, ≤30% glow) — audio-reactive motion on tiny elements reads as jitter. Bigger backgrounds can push to 10–30%.
 
-**Never do:** equalizer bars, spectrum analyzers, waveform displays, strobing, rainbow color cycling. The audio provides _timing and intensity_; the visual vocabulary still comes from the brand. See `skills/hyperframes-creative/references/audio-reactive.md` for the full API and anti-patterns.
+**Never do:** equalizer bars, spectrum analyzers, waveform displays, strobing, rainbow color cycling. The audio provides _timing and intensity_; the visual vocabulary still comes from the brand. See `skills/frames-creative/references/audio-reactive.md` for the full API and anti-patterns.
 
 ---
 

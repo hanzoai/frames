@@ -28,7 +28,7 @@ Elements are PARKED at their scatter points (`gsap.set`, opacity 0) before any t
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="cloud-stage">
   <div class="frag" data-target-x="-260" data-target-y="0">{glyph1}</div>
   <div class="frag" data-target-x="-130" data-target-y="0">{glyph2}</div>

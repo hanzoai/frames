@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://hyperframes.heygen.com/schema/registry.json",
+  "$id": "https://frames.hanzo.ai/schema/registry.json",
   "title": "Hyperframes Registry Manifest",
   "description": "Top-level manifest describing all items in a Hyperframes registry.",
   "type": "object",
@@ -14,7 +14,7 @@
     "name": {
       "type": "string",
       "minLength": 1,
-      "description": "Registry name (e.g. \"hyperframes\")."
+      "description": "Registry name (e.g. \"frames\")."
     },
     "homepage": {
       "type": "string",
@@ -36,7 +36,7 @@
           },
           "type": {
             "type": "string",
-            "enum": ["hyperframes:example", "hyperframes:block", "hyperframes:component"]
+            "enum": ["frames:example", "frames:block", "frames:component"]
           }
         }
       }

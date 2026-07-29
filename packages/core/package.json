@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/core",
+  "name": "@frames/core",
   "version": "0.7.81",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/core"
   },
   "files": [
@@ -71,10 +71,10 @@
       "types": "./src/slideshow/index.ts"
     },
     "./generators": {
-      "bun": "./src/generators/hyperframes.ts",
-      "node": "./dist/generators/hyperframes.js",
-      "import": "./src/generators/hyperframes.ts",
-      "types": "./src/generators/hyperframes.ts"
+      "bun": "./src/generators/frames.ts",
+      "node": "./dist/generators/frames.js",
+      "import": "./src/generators/frames.ts",
+      "types": "./src/generators/frames.ts"
     },
     "./lint": {
       "bun": "./src/lint/index.ts",
@@ -327,8 +327,8 @@
         "types": "./dist/slideshow/index.d.ts"
       },
       "./generators": {
-        "import": "./dist/generators/hyperframes.js",
-        "types": "./dist/generators/hyperframes.d.ts"
+        "import": "./dist/generators/frames.js",
+        "types": "./dist/generators/frames.d.ts"
       },
       "./lint": {
         "import": "./dist/lint/index.js",
@@ -478,7 +478,7 @@
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "bun run build:hyperframes-runtime && bun run build:position-edits-render && tsc && tsx scripts/rewrite-esm-extensions.ts",
+    "build": "bun run build:frames-runtime && bun run build:position-edits-render && tsc && tsx scripts/rewrite-esm-extensions.ts",
     "test": "bun run check:position-edits-render && vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
@@ -486,11 +486,11 @@
     "typecheck": "tsc --noEmit && bun run typecheck:runtime",
     "typecheck:runtime": "tsc --noEmit -p tsconfig.runtime.json",
     "lint:runtime-preview-guards": "bun scripts/lint-runtime-preview-guards.ts",
-    "build:hyperframes-runtime": "tsx scripts/build-hyperframes-runtime-artifact.ts",
+    "build:frames-runtime": "tsx scripts/build-frames-runtime-artifact.ts",
     "build:position-edits-render": "tsx scripts/build-position-edits-render.ts",
     "check:position-edits-render": "bun run build:position-edits-render && git diff --exit-code -- src/generated/position-edits-render-inline.ts",
-    "build:hyperframes-runtime:modular": "SANDBOX_RUNTIME_VARIANT=modular tsx scripts/build-hyperframes-runtime-artifact.ts",
-    "build:hyperframe-runtime": "tsx scripts/build-hyperframes-runtime-artifact.ts",
+    "build:frames-runtime:modular": "SANDBOX_RUNTIME_VARIANT=modular tsx scripts/build-frames-runtime-artifact.ts",
+    "build:hyperframe-runtime": "tsx scripts/build-frames-runtime-artifact.ts",
     "test:hyperframe-runtime-contract": "tsx scripts/test-hyperframe-runtime-contract.ts",
     "test:hyperframe-runtime-behavior": "tsx scripts/test-hyperframe-runtime-behavior.ts",
     "test:hyperframe-runtime-seek": "tsx scripts/test-hyperframe-runtime-seek.ts",
@@ -498,16 +498,16 @@
     "test:hyperframe-runtime-parity": "tsx scripts/test-hyperframe-runtime-parity.ts",
     "test:hyperframe-runtime-security": "tsx scripts/test-hyperframe-runtime-security.ts",
     "test:hyperframe-linter": "bun scripts/test-hyperframe-linter.ts",
-    "test:hyperframe-runtime-ci": "bun run typecheck:runtime && bun run lint:runtime-preview-guards && bun run build:hyperframes-runtime && bun run test:hyperframe-runtime-contract && bun run test:hyperframe-runtime-behavior && bun run test:hyperframe-runtime-seek && bun run test:hyperframe-runtime-duration-guards && bun run test:hyperframe-runtime-parity && bun run test:hyperframe-runtime-security && bun run test:runtime-coverage && bun run test:hyperframe-linter",
+    "test:hyperframe-runtime-ci": "bun run typecheck:runtime && bun run lint:runtime-preview-guards && bun run build:frames-runtime && bun run test:hyperframe-runtime-contract && bun run test:hyperframe-runtime-behavior && bun run test:hyperframe-runtime-seek && bun run test:hyperframe-runtime-duration-guards && bun run test:hyperframe-runtime-parity && bun run test:hyperframe-runtime-security && bun run test:runtime-coverage && bun run test:hyperframe-linter",
     "check:hyperframe-html": "bun scripts/check-hyperframe-static.ts",
     "debug:timeline": "tsx scripts/debug-timeline.ts",
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.5",
-    "@hyperframes/lint": "workspace:*",
-    "@hyperframes/parsers": "workspace:*",
-    "@hyperframes/studio-server": "workspace:*",
+    "@frames/lint": "workspace:*",
+    "@frames/parsers": "workspace:*",
+    "@frames/studio-server": "workspace:*",
     "bpm-detective": "^2.0.5",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8"

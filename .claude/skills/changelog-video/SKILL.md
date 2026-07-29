@@ -5,8 +5,8 @@ description: Turn a weekly changelog .md into a finished branded changelog video
 
 # Changelog → Branded Video
 
-Input: a changelog .md (themes + items, like the weekly HyperFrames digest).
-Output: a lint-clean, seam-gate-green HyperFrames project in
+Input: a changelog .md (themes + items, like the weekly Frames digest).
+Output: a lint-clean, seam-gate-green Frames project in
 `projects/active/weekly-changelog-<range>/`. Render only when asked.
 
 **Load first, non-negotiable:** `motion-doctrine` (+ `cut-the-curve`,
@@ -76,11 +76,11 @@ Save as `script-tokens.json` in the project.
 
 ```bash
 # spoken-layer text only; words JSON = ground-truth timestamps of the SPOKEN text
-# Repo-native path: the changelog-video skill runs from the hyperframes repo root,
-# so it uses the tracked hyperframes-media TTS helper directly (no `npx hyperframes
+# Repo-native path: the changelog-video skill runs from the frames repo root,
+# so it uses the tracked frames-media TTS helper directly (no `npx frames
 # skills` install step). If you've copied the skill into another repo, swap in
-# your own path to the media-use / hyperframes-media heygen-tts.mjs.
-node skills/hyperframes-media/scripts/heygen-tts.mjs ./vo-spoken.txt \
+# your own path to the media-use / frames-media heygen-tts.mjs.
+node skills/frames-media/scripts/heygen-tts.mjs ./vo-spoken.txt \
   -o voiceover.mp3 --words vo-words.json \
   --voice 330290724a1b470fb63153f34d4c0183   # Annie — lifelike (do not substitute)
 ```
@@ -145,10 +145,10 @@ scaffold.
 
 ### 6 · Gates (all green before presenting)
 
-1. `bun run --cwd packages/cli hyperframes check` (or the installed
-   `hyperframes` CLI from the repo-local `skills/hyperframes-cli/` skill) —
+1. `bun run --cwd packages/cli frames check` (or the installed
+   `frames` CLI from the repo-local `skills/frames-cli/` skill) —
    0 errors (contrast: dim text ≥ .66 alpha). Do NOT reach for
-   `npx hyperframes@latest`; the tracked repo-local CLI is the source of
+   `npx frames@latest`; the tracked repo-local CLI is the source of
    truth for the composition contract this skill produces against.
 2. `seam-gate.mjs verify` — 0 fail.
 3. Restart the preview server (it caches the bundle), spot-check 3-4 beats

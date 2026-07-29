@@ -35,7 +35,7 @@ function makeFetchOk(): typeof fetch {
 
 describe("uploadZipViaDirectUpload", () => {
   it("sends the correct filename, content_type, size_bytes, and SHA256 to createAssetUpload", async () => {
-    const bytes = new TextEncoder().encode("hello-hyperframes-zip");
+    const bytes = new TextEncoder().encode("hello-frames-zip");
     const expectedSha = sha256Hex(bytes);
     const client = makeClient();
     const fetchImpl = makeFetchOk();

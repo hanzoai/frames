@@ -1,6 +1,6 @@
 /**
  * Probes an iframe document to discover the composition's playback adapter
- * and detect whether the HyperFrames runtime needs to be injected.
+ * and detect whether the Frames runtime needs to be injected.
  *
  * The probe interval polls every 200 ms until one of:
  *   - A `PlaybackDurationAdapter` resolves with a positive duration, or
@@ -19,18 +19,18 @@ import {
   isRuntimeDurationAdapter,
 } from "./timeline-adapters.js";
 
-declare const __HYPERFRAMES_RUNTIME_CDN_URL__: string;
+declare const __FRAMES_RUNTIME_CDN_URL__: string;
 
 export function runtimeCdnUrlForVersion(version: string): string {
   if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(version)) {
-    throw new Error(`Invalid HyperFrames runtime version: ${version}`);
+    throw new Error(`Invalid Frames runtime version: ${version}`);
   }
-  return `https://cdn.jsdelivr.net/npm/@hyperframes/core@${version}/dist/hyperframe.runtime.iife.js`;
+  return `https://cdn.jsdelivr.net/npm/@frames/core@${version}/dist/hyperframe.runtime.iife.js`;
 }
 
 const RUNTIME_CDN_URL =
-  typeof __HYPERFRAMES_RUNTIME_CDN_URL__ === "string"
-    ? __HYPERFRAMES_RUNTIME_CDN_URL__
+  typeof __FRAMES_RUNTIME_CDN_URL__ === "string"
+    ? __FRAMES_RUNTIME_CDN_URL__
     : runtimeCdnUrlForVersion("0.0.0-dev");
 
 export interface ProbeResult {
@@ -50,7 +50,7 @@ export interface ProbeCallbacks {
 /**
  * Parse a composition dimension, rejecting anything that isn't a positive
  * finite number. Exported because the `width`/`height` attribute handlers in
- * hyperframes-player.ts need the same guard: dimensions feed
+ * frames-player.ts need the same guard: dimensions feed
  * scaleIframeToFit's `w / compositionWidth` division, where NaN produces an
  * invalid `scale(NaN)` transform and zero a division by zero — both render
  * the player blank with no signal.

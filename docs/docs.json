@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "name": "HyperFrames",
+  "name": "Frames",
   "theme": "maple",
   "colors": {
     "primary": "#0a0a0a",
@@ -40,7 +40,7 @@
         "description": "Report a bug or request a feature",
         "icon": "github",
         "iconType": "brands",
-        "href": "https://github.com/heygen-com/hyperframes/issues/new"
+        "href": "https://github.com/hanzoai/frames/issues/new"
       }
     ]
   },
@@ -87,10 +87,10 @@
               "guides/antigravity",
               "guides/copilot-cli",
               "guides/claude-design",
-              "guides/claude-design-send-to-hyperframes",
+              "guides/claude-design-send-to-frames",
               "guides/open-design",
               "guides/prompting",
-              "guides/hyperframes-vs-remotion",
+              "guides/frames-vs-remotion",
               "guides/gsap-animation",
               "guides/keyframes",
               "guides/rendering",
@@ -113,7 +113,7 @@
               "deploy/aws-lambda",
               "deploy/gcp-cloud-run",
               "deploy/templates-on-lambda",
-              "deploy/migrating-to-hyperframes-lambda"
+              "deploy/migrating-to-frames-lambda"
             ]
           }
         ]
@@ -411,7 +411,7 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/heygen-com/hyperframes"
+      "github": "https://github.com/hanzoai/frames"
     }
   }
 }

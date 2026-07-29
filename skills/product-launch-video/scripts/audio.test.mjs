@@ -23,7 +23,7 @@ writeFileSync(flag("--out"), JSON.stringify({ voices: [], bgm: null, sfx: [] }))
   );
   const result = spawnSync(
     process.execPath,
-    [script, "--hyperframes", dir, "--storyboard", join(dir, "STORYBOARD.md"), ...args],
+    [script, "--frames", dir, "--storyboard", join(dir, "STORYBOARD.md"), ...args],
     { encoding: "utf8", env: { ...process.env, HF_MEDIA_ENGINE: engine, ...env } },
   );
   assert.equal(result.status, 0, result.stderr);
@@ -69,7 +69,7 @@ writeFileSync(flag("--out"), JSON.stringify({ voices: [], bgm: null, sfx: [] }))
   );
   const result = spawnSync(
     process.execPath,
-    [script, "--hyperframes", dir, "--storyboard", join(dir, "STORYBOARD.md")],
+    [script, "--frames", dir, "--storyboard", join(dir, "STORYBOARD.md")],
     { encoding: "utf8", env: { ...process.env, HF_MEDIA_ENGINE: engine } },
   );
   return { dir, result };

@@ -22,7 +22,7 @@ const producerState = vi.hoisted(() => ({
 // where readConfig/readConfigFresh both read one live object hides exactly
 // the class of bug where production code reads the stale cache when it
 // needed a fresh disk read (review finding). `failWrites` simulates the
-// real writeConfig's silent fs-error swallowing (unwritable ~/.hyperframes):
+// real writeConfig's silent fs-error swallowing (unwritable ~/.frames):
 // the next N writes are recorded but never reach `disk`.
 const configState = vi.hoisted(
   (): {
@@ -225,12 +225,12 @@ describe("renderLocal browser GPU config", () => {
     orphanCleanupState.killed = 0;
     resetTrialState();
     savedEnv.clear();
-    savedEnv.set("HYPERFRAMES_FFMPEG_PATH", process.env.HYPERFRAMES_FFMPEG_PATH);
-    savedEnv.set("HYPERFRAMES_FFPROBE_PATH", process.env.HYPERFRAMES_FFPROBE_PATH);
+    savedEnv.set("FRAMES_FFMPEG_PATH", process.env.FRAMES_FFMPEG_PATH);
+    savedEnv.set("FRAMES_FFPROBE_PATH", process.env.FRAMES_FFPROBE_PATH);
     savedEnv.set("PRODUCER_HEADLESS_SHELL_PATH", process.env.PRODUCER_HEADLESS_SHELL_PATH);
     savedEnv.set("HF_DE_PARALLEL_ROUTER", process.env.HF_DE_PARALLEL_ROUTER);
-    delete process.env.HYPERFRAMES_FFMPEG_PATH;
-    delete process.env.HYPERFRAMES_FFPROBE_PATH;
+    delete process.env.FRAMES_FFMPEG_PATH;
+    delete process.env.FRAMES_FFPROBE_PATH;
     delete process.env.PRODUCER_HEADLESS_SHELL_PATH;
     delete process.env.HF_DE_PARALLEL_ROUTER;
   });
@@ -384,8 +384,8 @@ describe("renderLocal browser GPU config", () => {
       quiet: true,
     });
 
-    expect(process.env.HYPERFRAMES_FFMPEG_PATH).toBe("/usr/bin/ffmpeg");
-    expect(process.env.HYPERFRAMES_FFPROBE_PATH).toBe("/usr/bin/ffprobe");
+    expect(process.env.FRAMES_FFMPEG_PATH).toBe("/usr/bin/ffmpeg");
+    expect(process.env.FRAMES_FFPROBE_PATH).toBe("/usr/bin/ffprobe");
     expect(process.env.PRODUCER_HEADLESS_SHELL_PATH).toBe("/mock/chrome");
   });
 
@@ -723,12 +723,12 @@ describe("renderLocal — DE parallel-router CLI trial", () => {
     resetTrialState();
     savedEnv.clear();
     savedEnv.set("HF_DE_PARALLEL_ROUTER", process.env.HF_DE_PARALLEL_ROUTER);
-    savedEnv.set("HYPERFRAMES_FFMPEG_PATH", process.env.HYPERFRAMES_FFMPEG_PATH);
-    savedEnv.set("HYPERFRAMES_FFPROBE_PATH", process.env.HYPERFRAMES_FFPROBE_PATH);
+    savedEnv.set("FRAMES_FFMPEG_PATH", process.env.FRAMES_FFMPEG_PATH);
+    savedEnv.set("FRAMES_FFPROBE_PATH", process.env.FRAMES_FFPROBE_PATH);
     savedEnv.set("PRODUCER_HEADLESS_SHELL_PATH", process.env.PRODUCER_HEADLESS_SHELL_PATH);
     delete process.env.HF_DE_PARALLEL_ROUTER;
-    delete process.env.HYPERFRAMES_FFMPEG_PATH;
-    delete process.env.HYPERFRAMES_FFPROBE_PATH;
+    delete process.env.FRAMES_FFMPEG_PATH;
+    delete process.env.FRAMES_FFPROBE_PATH;
     delete process.env.PRODUCER_HEADLESS_SHELL_PATH;
   });
 
@@ -795,7 +795,7 @@ describe("renderLocal — DE parallel-router CLI trial", () => {
     expect(process.env.HF_DE_PARALLEL_ROUTER).toBeUndefined();
   });
 
-  it("does not enable the trial when config.telemetryEnabled is false, even if shouldTrack() is stale-true (e.g. `hyperframes telemetry off` mid-batch)", async () => {
+  it("does not enable the trial when config.telemetryEnabled is false, even if shouldTrack() is stale-true (e.g. `frames telemetry off` mid-batch)", async () => {
     configState.disk = {
       telemetryEnabled: false,
       deParallelRouterTrialFired: false,
@@ -1041,7 +1041,7 @@ describe("renderLocal — DE parallel-router CLI trial", () => {
     await renderLocal("/tmp/project", "/tmp/out.mp4", baseOptions);
     expect(process.env.HF_DE_PARALLEL_ROUTER).toBe("true");
 
-    // Another process runs `hyperframes telemetry off`, writing straight to
+    // Another process runs `frames telemetry off`, writing straight to
     // "disk" — this process's cache still says telemetryEnabled: true, so a
     // cached read at the arm site would keep arming (review finding).
     configState.disk = { ...configState.disk, telemetryEnabled: false };
@@ -1078,7 +1078,7 @@ describe("renderLocal — DE parallel-router CLI trial", () => {
       deParallelRouterTrialFired: false,
       telemetryNoticeShown: true,
     };
-    configState.failWrites = Number.MAX_SAFE_INTEGER; // ~/.hyperframes is unwritable
+    configState.failWrites = Number.MAX_SAFE_INTEGER; // ~/.frames is unwritable
     producerState.executeImpl = async (job) => {
       job.perfSummary = {
         resolution: { width: 100, height: 100 },
@@ -1272,7 +1272,7 @@ describe("checkRenderResolutionPreflight", () => {
       expect(result?.kind).toBe("aspect-mismatch");
       // No sibling preset to suggest → message falls back to the "pick a preset
       // whose orientation matches" hint (see `buildAspectMismatch` in
-      // `@hyperframes/parsers/outputResolutionCompatibility`).
+      // `@frames/parsers/outputResolutionCompatibility`).
       expect(result?.message).toMatch(/preset whose orientation matches|omit --resolution/i);
     });
 

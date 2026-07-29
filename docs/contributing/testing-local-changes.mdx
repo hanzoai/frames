@@ -3,7 +3,7 @@ title: Testing Local CLI Changes
 description: How to test unreleased CLI changes outside the monorepo using your local build.
 ---
 
-When you modify the CLI or any package it bundles (core, engine, producer, studio), you need to test those changes against real projects _outside_ the monorepo — the same way an end user would run `hyperframes preview`.
+When you modify the CLI or any package it bundles (core, engine, producer, studio), you need to test those changes against real projects _outside_ the monorepo — the same way an end user would run `frames preview`.
 
 ## Prerequisites
 
@@ -16,27 +16,27 @@ bun run build
 
 ## Option 1: bun link (recommended)
 
-`bun link` makes the `hyperframes` binary in your `$PATH` point at your local build. It survives across terminal sessions and auto-picks up new builds without re-linking.
+`bun link` makes the `frames` binary in your `$PATH` point at your local build. It survives across terminal sessions and auto-picks up new builds without re-linking.
 
 ```bash
-# If you previously installed hyperframes globally, remove it first —
+# If you previously installed frames globally, remove it first —
 # a global install takes priority over bun link and shadows your local build.
-npm uninstall -g hyperframes 2>/dev/null
+npm uninstall -g frames 2>/dev/null
 
 # Link your local build
 cd packages/cli
 bun link
 
 # Verify — should print your local version AND point to the monorepo
-hyperframes --version
-which hyperframes
+frames --version
+which frames
 ```
 
-Now use `hyperframes` normally in any directory:
+Now use `frames` normally in any directory:
 
 ```bash
 cd ~/my-video-project
-hyperframes preview .
+frames preview .
 ```
 
 **After every `bun run build`** the linked binary is already up to date — no re-linking needed.
@@ -44,8 +44,8 @@ hyperframes preview .
 To restore the published release when you're done:
 
 ```bash
-bun unlink hyperframes
-npm install -g hyperframes@latest
+bun unlink frames
+npm install -g frames@latest
 ```
 
 ## Option 2: node alias (no PATH changes)
@@ -54,13 +54,13 @@ If you don't want to touch your global `$PATH`, add a shell alias or call `node`
 
 ```bash
 # Temporary alias for your current shell session
-alias hyperframes="node /path/to/hyperframes/packages/cli/dist/cli.js"
+alias frames="node /path/to/frames/packages/cli/dist/cli.js"
 
 # Or invoke directly
-node /path/to/hyperframes/packages/cli/dist/cli.js preview .
+node /path/to/frames/packages/cli/dist/cli.js preview .
 ```
 
-Replace `/path/to/hyperframes` with your actual monorepo path.
+Replace `/path/to/frames` with your actual monorepo path.
 
 ## Option 3: npm pack (test the exact published artifact)
 
@@ -69,13 +69,13 @@ Use this when you want to verify what would actually ship in a release, includin
 ```bash
 cd packages/cli
 npm pack
-# Creates: hyperframes-<version>.tgz
+# Creates: frames-<version>.tgz
 
 # Test it in an isolated directory
 mkdir /tmp/pack-test && cd /tmp/pack-test
-npx /path/to/hyperframes/packages/cli/hyperframes-<version>.tgz init my-video
+npx /path/to/frames/packages/cli/frames-<version>.tgz init my-video
 cd my-video
-npx /path/to/hyperframes/packages/cli/hyperframes-<version>.tgz preview .
+npx /path/to/frames/packages/cli/frames-<version>.tgz preview .
 ```
 
 ## Testing the fix branches
@@ -85,7 +85,7 @@ When validating a specific bug fix, extract one of the test project archives and
 ```bash
 # Example: testing audio-after-seek fix
 unzip golden-lyric-video.zip && cd golden-lyric-video
-hyperframes preview .
+frames preview .
 # 1. Press Play — confirm audio plays
 # 2. Drag the timeline scrubber to a different position
 # 3. Press Play again — audio should resume from the seeked position
@@ -106,27 +106,27 @@ Common test scenarios:
 
 **Changes not reflected after `bun run build`**
 
-The CLI binary is a single bundled file at `packages/cli/dist/cli.js`. If your change is in `@hyperframes/core` or another workspace package, make sure `bun run build` rebuilt _all_ packages — the CLI bundles its dependencies at build time.
+The CLI binary is a single bundled file at `packages/cli/dist/cli.js`. If your change is in `@frames/core` or another workspace package, make sure `bun run build` rebuilt _all_ packages — the CLI bundles its dependencies at build time.
 
-**`hyperframes` still shows the old version / old UI**
+**`frames` still shows the old version / old UI**
 
-A globally installed `hyperframes` package shadows `bun link`. Check which binary is active:
+A globally installed `frames` package shadows `bun link`. Check which binary is active:
 
 ```bash
-which hyperframes
+which frames
 ```
 
 If it points to a global store rather than your monorepo, remove the global install and re-link:
 
 ```bash
-npm uninstall -g hyperframes
+npm uninstall -g frames
 cd packages/cli && bun link
 ```
 
 **Port already in use**
 
-`hyperframes preview` defaults to port 3002 and auto-increments if it's taken. Pass `--port` to use a specific port:
+`frames preview` defaults to port 3002 and auto-increments if it's taken. Pass `--port` to use a specific port:
 
 ```bash
-hyperframes preview . --port 4000
+frames preview . --port 4000
 ```

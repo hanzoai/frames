@@ -4,18 +4,18 @@ import type { Example } from "./_examples.js";
 import { existsSync, readFileSync } from "node:fs";
 
 export const examples: Example[] = [
-  ["Play the current project", "hyperframes play"],
-  ["Play a specific project directory", "hyperframes play ./my-video"],
-  ["Use a custom port", "hyperframes play --port 8080"],
-  ["Start without opening the browser", "hyperframes play --no-open"],
-  ["Open with a specific browser", "hyperframes play --browser-path /usr/bin/chromium"],
+  ["Play the current project", "frames play"],
+  ["Play a specific project directory", "frames play ./my-video"],
+  ["Use a custom port", "frames play --port 8080"],
+  ["Start without opening the browser", "frames play --no-open"],
+  ["Open with a specific browser", "frames play --browser-path /usr/bin/chromium"],
   [
     "Open with CDP enabled (requires browser path + isolated profile)",
-    "hyperframes play --browser-path /usr/bin/chromium --user-data-dir /tmp/hf-profile --remote-debugging-port 9222",
+    "frames play --browser-path /usr/bin/chromium --user-data-dir /tmp/hf-profile --remote-debugging-port 9222",
   ],
   [
     "Disable auto-proxying of browser-hostile video codecs (HEVC, ProRes, AV1)",
-    "hyperframes play --no-proxy",
+    "frames play --no-proxy",
   ],
 ];
 import { resolve } from "node:path";
@@ -42,14 +42,14 @@ import {
   resolveProxy,
   ProxyCapacityError,
   ProxyTranscodeError,
-} from "@hyperframes/studio-server/proxy-transcoder";
+} from "@frames/studio-server/proxy-transcoder";
 import {
   decideMediaProxyEligibility,
   isProxyVariantRequest,
   probeAssetCodec,
   resolveProxyVariantRequest,
   PROXY_VARIANT_CONFIG,
-} from "@hyperframes/studio-server/media-codec-map";
+} from "@frames/studio-server/media-codec-map";
 
 export default defineCommand({
   meta: { name: "play", description: "Play a composition in a lightweight browser player" },
@@ -76,7 +76,7 @@ export default defineCommand({
     proxy: {
       type: "boolean",
       description:
-        "Auto-transcode browser-hostile video codecs (HEVC, ProRes, AV1) to a cached authoring proxy for preview (default: on; overrides hyperframes.json's media.autoProxy)",
+        "Auto-transcode browser-hostile video codecs (HEVC, ProRes, AV1) to a cached authoring proxy for preview (default: on; overrides frames.json's media.autoProxy)",
       negativeDescription: "Disable auto-proxying of browser-hostile video codecs",
     },
   },
@@ -117,7 +117,7 @@ export default defineCommand({
     // Resolve runtime path — same logic as studioServer.ts
     const runtimePath = resolveRuntimePath();
     if (!runtimePath) {
-      clack.log.error("HyperFrames runtime not found. Run `bun run build` first.");
+      clack.log.error("Frames runtime not found. Run `bun run build` first.");
       setCommandExitCode(1);
       return;
     }
@@ -126,7 +126,7 @@ export default defineCommand({
     const playerPath = resolvePlayerPath();
     if (!playerPath) {
       clack.log.error(
-        "@hyperframes/player not found. Run `bun run --cwd packages/player build` first.",
+        "@frames/player not found. Run `bun run --cwd packages/player build` first.",
       );
       setCommandExitCode(1);
       return;
@@ -161,7 +161,7 @@ export default defineCommand({
       return ctx.html(buildPlayerPage(project.name));
     });
 
-    clack.intro(c.bold("hyperframes play"));
+    clack.intro(c.bold("frames play"));
     const s = clack.spinner();
     s.start("Starting player...");
 
@@ -208,7 +208,7 @@ export async function registerCompositionRoute(
   project: ProjectDir,
   autoProxy: boolean,
 ): Promise<void> {
-  const { isSafePath } = await import("@hyperframes/core/studio-api");
+  const { isSafePath } = await import("@frames/core/studio-api");
 
   // fallow-ignore-next-line complexity
   app.get("/composition/*", async (ctx) => {
@@ -277,7 +277,7 @@ function buildPlayerPage(projectName: string): string {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${projectName} — HyperFrames Player</title>
+    <title>${projectName} — Frames Player</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
@@ -291,7 +291,7 @@ function buildPlayerPage(projectName: string): string {
         width: 100%; max-width: 1280px; aspect-ratio: 16/9;
         border-radius: 8px; overflow: hidden;
       }
-      hyperframes-player { width: 100%; height: 100%; }
+      frames-player { width: 100%; height: 100%; }
       .info {
         margin-top: 16px; font-size: 12px; color: #444;
         font-family: monospace;
@@ -300,9 +300,9 @@ function buildPlayerPage(projectName: string): string {
   </head>
   <body>
     <div class="player-wrap">
-      <hyperframes-player src="/composition/index.html" controls muted></hyperframes-player>
+      <frames-player src="/composition/index.html" controls muted></frames-player>
     </div>
-    <div class="info">${projectName} — hyperframes play</div>
+    <div class="info">${projectName} — frames play</div>
     <script src="/player.js"></script>
   </body>
 </html>`;

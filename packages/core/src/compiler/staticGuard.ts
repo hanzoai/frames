@@ -1,4 +1,4 @@
-import { lintHyperframeHtml } from "@hyperframes/lint";
+import { lintHyperframeHtml } from "@frames/lint";
 
 export type HyperframeStaticFailureReason =
   | "missing_composition_id"

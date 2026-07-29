@@ -1,5 +1,5 @@
 /**
- * Poll a HyperFrames render until it reaches a terminal state.
+ * Poll a Frames render until it reaches a terminal state.
  *
  * Defaults: 10s interval, 60min cap — confirmed with the API owner. The
  * `start_to_close` timeout on the underlying Temporal workflow is the
@@ -46,7 +46,7 @@ export function isTerminal(status: HyperframesRenderStatus): boolean {
 }
 
 /**
- * Poll `GET /v3/hyperframes/renders/{id}` until status is `completed` or
+ * Poll `GET /v3/frames/renders/{id}` until status is `completed` or
  * `failed`, or `maxWaitMs` elapses (in which case throws
  * {@link PollTimeoutError}). Errors from the underlying request bubble
  * up immediately — they are not retried, because every error class the

@@ -1,28 +1,28 @@
 ---
-title: "@hyperframes/studio"
+title: "@frames/studio"
 description: "Visual composition editor with live preview, timeline view, and hot reload."
 ---
 
 The studio package provides a browser-based visual editor for creating and previewing Hyperframes compositions. It gives you a real-time preview of your video, a visual timeline of all clips, and player controls for seeking and playback — all updating live as you edit your HTML.
 
 ```bash
-npm install @hyperframes/studio
+npm install @frames/studio
 ```
 
 ## When to Use
 
-**Use `@hyperframes/studio` when you need to:**
+**Use `@frames/studio` when you need to:**
 - Build a custom composition editor UI (e.g., embedded in your own web application)
 - Integrate the Hyperframes preview player into a larger product
 - Extend the editor with custom panels, toolbars, or integrations
 
 **Use a different package if you want to:**
-- Preview compositions during development — use the [CLI](/packages/cli) (`npx hyperframes preview`), which launches the studio for you
+- Preview compositions during development — use the [CLI](/packages/cli) (`npx frames preview`), which launches the studio for you
 - Render compositions to MP4 — use the [CLI](/packages/cli) or [producer](/packages/producer)
 - Capture frames programmatically — use the [engine](/packages/engine)
 
 <Tip>
-  **For most development workflows, you do not need to install the studio directly.** Running `npx hyperframes preview` starts the studio automatically with hot reload. Install `@hyperframes/studio` only if you are embedding the editor into your own application.
+  **For most development workflows, you do not need to install the studio directly.** Running `npx frames preview` starts the studio automatically with hot reload. Install `@frames/studio` only if you are embedding the editor into your own application.
 </Tip>
 
 ## Running the Studio
@@ -30,7 +30,7 @@ npm install @hyperframes/studio
 ### Via the CLI (recommended)
 
 ```bash
-npx hyperframes preview
+npx frames preview
 ```
 
 This starts the studio development server, opens your composition in the browser, and watches for file changes. This is the easiest way to get a live preview.
@@ -42,7 +42,7 @@ This starts the studio development server, opens your composition in the browser
 bun run dev
 
 # Or target the studio package directly
-bun run --filter @hyperframes/studio dev
+bun run --filter @frames/studio dev
 ```
 
 ## Package Exports
@@ -51,8 +51,8 @@ The studio has two entry points:
 
 | Import | Description |
 |--------|-------------|
-| `@hyperframes/studio` | React components, hooks, and types |
-| `@hyperframes/studio/tailwind-preset` | Tailwind CSS preset for studio styling |
+| `@frames/studio` | React components, hooks, and types |
+| `@frames/studio/tailwind-preset` | Tailwind CSS preset for studio styling |
 
 Peer dependencies: `react` (19), `react-dom` (19), `zustand` (4 or 5).
 
@@ -61,8 +61,8 @@ Peer dependencies: `react` (19), `react-dom` (19), `zustand` (4 or 5).
 ### Layout
 
 ```typescript
-import { NLELayout, NLEPreview, CompositionBreadcrumb } from '@hyperframes/studio';
-import type { CompositionLevel } from '@hyperframes/studio';
+import { NLELayout, NLEPreview, CompositionBreadcrumb } from '@frames/studio';
+import type { CompositionLevel } from '@frames/studio';
 
 // Main NLE (Non-Linear Editor) layout container
 <NLELayout>
@@ -83,8 +83,8 @@ import {
   Player,
   PlayerControls,
   Timeline,
-} from '@hyperframes/studio';
-import type { TimelineElement } from '@hyperframes/studio';
+} from '@frames/studio';
+import type { TimelineElement } from '@frames/studio';
 
 // Embed the preview player
 <Player />
@@ -99,7 +99,7 @@ import type { TimelineElement } from '@hyperframes/studio';
 ### Editor Components
 
 ```typescript
-import { SourceEditor, PropertyPanel, FileTree } from '@hyperframes/studio';
+import { SourceEditor, PropertyPanel, FileTree } from '@frames/studio';
 
 // Code editor (CodeMirror-based) for HTML, CSS, and JavaScript
 <SourceEditor />
@@ -114,7 +114,7 @@ import { SourceEditor, PropertyPanel, FileTree } from '@hyperframes/studio';
 ### Full Application
 
 ```typescript
-import { StudioApp } from '@hyperframes/studio';
+import { StudioApp } from '@frames/studio';
 
 // The complete studio application (wraps all components)
 <StudioApp />
@@ -127,7 +127,7 @@ import { StudioApp } from '@hyperframes/studio';
 Manages player state and playback control:
 
 ```typescript
-import { useTimelinePlayer } from '@hyperframes/studio';
+import { useTimelinePlayer } from '@frames/studio';
 
 const player = useTimelinePlayer();
 // player.play(), player.pause(), player.togglePlay(), player.seek(time)
@@ -139,7 +139,7 @@ const player = useTimelinePlayer();
 Zustand store for player state:
 
 ```typescript
-import { usePlayerStore, liveTime, formatTime } from '@hyperframes/studio';
+import { usePlayerStore, liveTime, formatTime } from '@frames/studio';
 
 const store = usePlayerStore();
 // Access current time, duration, playing state, etc.
@@ -153,7 +153,7 @@ const display = formatTime(liveTime.current);
 Element selection from the preview:
 
 ```typescript
-import { useElementPicker } from '@hyperframes/studio';
+import { useElementPicker } from '@frames/studio';
 
 const picker = useElementPicker(iframeRef);
 // picker.isPickMode, picker.pickedElement
@@ -218,7 +218,7 @@ The studio is a React application with the following structure:
 
 2. **Runtime bridge** — the studio communicates with the iframe via `postMessage` to control playback (play, pause, seek) and receive state updates (current time, duration, readiness).
 
-3. **Timeline component** — parses the composition using `@hyperframes/core` to extract clip timing data and renders the visual timeline panel.
+3. **Timeline component** — parses the composition using `@frames/core` to extract clip timing data and renders the visual timeline panel.
 
 4. **File watcher** — a development server (Vite-based) watches your project files and triggers hot module replacement when changes are detected.
 
@@ -228,7 +228,7 @@ The studio exports a Tailwind CSS preset for consistent styling:
 
 ```typescript
 // tailwind.config.ts
-import studioPreset from '@hyperframes/studio/tailwind-preset';
+import studioPreset from '@frames/studio/tailwind-preset';
 
 export default {
   presets: [studioPreset],
@@ -240,7 +240,7 @@ export default {
 
 <CardGroup cols={2}>
   <Card title="CLI" icon="terminal" href="/packages/cli">
-    Launches the studio via `npx hyperframes preview` — the easiest way to preview compositions.
+    Launches the studio via `npx frames preview` — the easiest way to preview compositions.
   </Card>
   <Card title="Core" icon="cube" href="/packages/core">
     Types, parsing, and runtime that the studio uses for preview and timeline rendering.

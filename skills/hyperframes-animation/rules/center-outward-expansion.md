@@ -16,7 +16,7 @@ Each element carries its final offset as `data-target-x/y`. Its position lerps b
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="burst-wrap">
   <div class="burst-item" data-target-x="-360" data-target-y="-180">{itemA}</div>
   <div class="burst-item" data-target-x="360" data-target-y="-180">{itemB}</div>

@@ -1,4 +1,4 @@
-import { buildHyperframesRuntimeScript } from "./hyperframesRuntime.engine";
+import { buildHyperframesRuntimeScript } from "./framesRuntime.engine";
 import { HYPERFRAME_BRIDGE_SOURCES, HYPERFRAME_RUNTIME_GLOBALS } from "./runtimeContract";
 
 export const HYPERFRAME_RUNTIME_ARTIFACTS = {

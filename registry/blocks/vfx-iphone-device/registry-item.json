@@ -1,7 +1,7 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "vfx-iphone-device",
-  "type": "hyperframes:block",
+  "type": "frames:block",
   "title": "iPhone & MacBook 3D Showcase",
   "description": "Real GLTF iPhone 15 Pro Max and MacBook Pro models with live HTML-in-Canvas screen content, morphing glass lens, product review camera choreography, and 360° turntable.",
   "stability": "experimental",
@@ -15,7 +15,7 @@
     {
       "path": "vfx-iphone-device.html",
       "target": "compositions/vfx-iphone-device.html",
-      "type": "hyperframes:composition"
+      "type": "frames:composition"
     },
     {
       "path": "models/iphone.glb",
@@ -28,18 +28,18 @@
       "type": "asset"
     },
     {
-      "path": "models/hyperframes-mobile.png",
-      "target": "models/hyperframes-mobile.png",
+      "path": "models/frames-mobile.png",
+      "target": "models/frames-mobile.png",
       "type": "asset"
     },
     {
-      "path": "models/hyperframes-desktop.png",
-      "target": "models/hyperframes-desktop.png",
+      "path": "models/frames-desktop.png",
+      "target": "models/frames-desktop.png",
       "type": "asset"
     }
   ],
   "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-iphone-device.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/vfx-iphone-device.png"
+    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/vfx-iphone-device.mp4",
+    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/vfx-iphone-device.png"
   }
 }

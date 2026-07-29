@@ -1,4 +1,4 @@
-import { ensureHfIds } from "@hyperframes/parsers/hf-ids";
+import { ensureHfIds } from "@frames/parsers/hf-ids";
 import {
   closeSync,
   constants,
@@ -40,7 +40,7 @@ export function persistHfIdsIfNeeded(filePath: string, html: string): string {
     } catch (err) {
       // Non-fatal — serve with ids even if the disk write fails (e.g. read-only
       // filesystem, sandboxed environment). Log so the failure is diagnosable.
-      console.warn("[hyperframes] persistHfIdsIfNeeded: failed to write ids to disk:", err);
+      console.warn("[frames] persistHfIdsIfNeeded: failed to write ids to disk:", err);
     }
   }
   return normalized;
@@ -96,7 +96,7 @@ export function stampFileHfIds(filePath: string): string | null {
     }
     return normalized;
   } catch (err) {
-    console.warn("[hyperframes] stampFileHfIds: failed to stamp ids:", err);
+    console.warn("[frames] stampFileHfIds: failed to stamp ids:", err);
     return null;
   } finally {
     closeSync(fd);

@@ -1,5 +1,5 @@
 /**
- * Direct-upload flow for `hyperframes cloud render` project asset uploads.
+ * Direct-upload flow for `frames cloud render` project asset uploads.
  *
  * The legacy `POST /v3/assets` path proxies bytes through the API and is
  * capped at 32 MB in-memory. This module implements the three-step

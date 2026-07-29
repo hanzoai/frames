@@ -35,7 +35,7 @@ import {
   applyPositionEditToElement,
   composeTranslate,
   readCurrentTranslate,
-} from "@hyperframes/core/runtime/position-edits";
+} from "@frames/core/runtime/position-edits";
 import type { PreviewAdapter, ElementAtPointResult, DraftProps } from "./types.js";
 import type { EditOp, Composition } from "../types.js";
 import { applyPatchesToDocument, applyOverrideSet } from "../engine/apply-patches.js";
@@ -329,7 +329,7 @@ function warnTaintOnce(src: string): void {
   // taints the canvas, so alpha hit-test is unavailable and we fall back to
   // opaque. Without this, the fall-back is invisible ("hit-test feels wrong").
   console.warn(
-    `[hyperframes] image-alpha hit-test unavailable for cross-origin/tainted image; treating as opaque: ${src}`,
+    `[frames] image-alpha hit-test unavailable for cross-origin/tainted image; treating as opaque: ${src}`,
   );
 }
 
@@ -761,7 +761,7 @@ class IframePreviewAdapter implements PreviewAdapter {
         // Don't let a bad snapshot prevent the ongoing subscription below
         // from attaching — future patches should still mirror even if this
         // composition's current overrides couldn't be applied.
-        console.warn("[hyperframes] attachSync: override sync failed:", err);
+        console.warn("[frames] attachSync: override sync failed:", err);
       }
     };
 

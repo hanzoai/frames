@@ -18,7 +18,7 @@ One `fromTo` carries the whole arrival: from `{ scale: 0, opacity: 0 }` (explici
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="pop-hero" id="hero">{heroLabel}</div>
 
 <div class="pop-grid">

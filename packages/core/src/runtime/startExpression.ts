@@ -16,4 +16,4 @@ export {
   parseNumeric,
   parseStartExpression,
   type ReferenceExpression,
-} from "@hyperframes/parsers/composition-contract";
+} from "@frames/parsers/composition-contract";

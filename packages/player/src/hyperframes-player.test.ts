@@ -138,7 +138,7 @@ describe("HyperframesPlayer parent-frame media", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
 
     mockAudio = {
       src: "",
@@ -156,7 +156,7 @@ describe("HyperframesPlayer parent-frame media", () => {
       () => mockAudio as unknown as HTMLAudioElement,
     );
 
-    player = document.createElement("hyperframes-player") as PlayerElement;
+    player = document.createElement("frames-player") as PlayerElement;
   });
 
   afterEach(() => {
@@ -269,7 +269,7 @@ describe("HyperframesPlayer parent-frame media", () => {
   }
 
   it("does not mute iframe media on autoplay fallback inside presenter slideshow", () => {
-    const slideshow = document.createElement("hyperframes-slideshow");
+    const slideshow = document.createElement("frames-slideshow");
     slideshow.appendChild(player);
     document.body.appendChild(slideshow);
 
@@ -281,7 +281,7 @@ describe("HyperframesPlayer parent-frame media", () => {
   });
 
   it("does not promote autoplay fallback inside audience slideshow", () => {
-    const slideshow = document.createElement("hyperframes-slideshow");
+    const slideshow = document.createElement("frames-slideshow");
     slideshow.setAttribute("mode", "audience");
     slideshow.appendChild(player);
     document.body.appendChild(slideshow);
@@ -503,7 +503,7 @@ describe("HyperframesPlayer shader transition options", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
   });
 
   afterEach(() => {
@@ -512,7 +512,7 @@ describe("HyperframesPlayer shader transition options", () => {
   });
 
   it("observes shader capture scale and loading attributes", () => {
-    const player = document.createElement("hyperframes-player");
+    const player = document.createElement("frames-player");
     const Ctor = player.constructor as typeof HTMLElement & {
       observedAttributes: string[];
     };
@@ -522,7 +522,7 @@ describe("HyperframesPlayer shader transition options", () => {
   });
 
   it("passes shader options through src query parameters", () => {
-    const player = document.createElement("hyperframes-player") as PlayerWithIframe;
+    const player = document.createElement("frames-player") as PlayerWithIframe;
     player.setAttribute("shader-capture-scale", "0.5");
     player.setAttribute("shader-loading", "player");
     player.setAttribute("src", "/api/projects/demo/preview?x=1#stage");
@@ -536,7 +536,7 @@ describe("HyperframesPlayer shader transition options", () => {
   });
 
   it("injects shader options into srcdoc before composition scripts run", () => {
-    const player = document.createElement("hyperframes-player") as PlayerWithIframe;
+    const player = document.createElement("frames-player") as PlayerWithIframe;
     player.setAttribute("shader-capture-scale", "0.5");
     player.setAttribute("shader-loading", "player");
     player.setAttribute(
@@ -547,14 +547,14 @@ describe("HyperframesPlayer shader transition options", () => {
     const srcdoc = player.iframeElement.srcdoc;
     expect(srcdoc).toContain('window.__HF_SHADER_CAPTURE_SCALE="0.5";');
     expect(srcdoc).toContain('window.__HF_SHADER_LOADING="player";');
-    expect(srcdoc.indexOf("data-hyperframes-player-shader-options")).toBeLessThan(
+    expect(srcdoc.indexOf("data-frames-player-shader-options")).toBeLessThan(
       srcdoc.indexOf("composition.js"),
     );
   });
 
   it("shows and hides the player-owned shader loader from transition state messages", () => {
     vi.useFakeTimers();
-    const player = document.createElement("hyperframes-player") as PlayerWithIframe;
+    const player = document.createElement("frames-player") as PlayerWithIframe;
     player.setAttribute("shader-loading", "player");
     document.body.appendChild(player);
 
@@ -632,7 +632,7 @@ describe("HyperframesPlayer adoptedStyleSheets", () => {
   type PlayerWithShadow = HTMLElement & { shadowRoot: AdoptingShadowRoot | null };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
   });
 
   afterEach(() => {
@@ -640,8 +640,8 @@ describe("HyperframesPlayer adoptedStyleSheets", () => {
   });
 
   it("shares a single CSSStyleSheet across multiple player instances", () => {
-    const a = document.createElement("hyperframes-player") as PlayerWithShadow;
-    const b = document.createElement("hyperframes-player") as PlayerWithShadow;
+    const a = document.createElement("frames-player") as PlayerWithShadow;
+    const b = document.createElement("frames-player") as PlayerWithShadow;
     document.body.appendChild(a);
     document.body.appendChild(b);
 
@@ -654,7 +654,7 @@ describe("HyperframesPlayer adoptedStyleSheets", () => {
   });
 
   it("does not inject a per-instance <style> when adoption succeeds", () => {
-    const player = document.createElement("hyperframes-player") as PlayerWithShadow;
+    const player = document.createElement("frames-player") as PlayerWithShadow;
     document.body.appendChild(player);
 
     expect(player.shadowRoot?.querySelector("style")).toBeNull();
@@ -677,7 +677,7 @@ describe("HyperframesPlayer media MutationObserver scoping", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
   });
 
   afterEach(() => {
@@ -688,7 +688,7 @@ describe("HyperframesPlayer media MutationObserver scoping", () => {
   it("attaches the observer to each top-level composition host (not the body)", () => {
     const observeSpy = vi.spyOn(MutationObserver.prototype, "observe");
 
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
     // The constructor doesn't install an observer — only `_observeDynamicMedia`
     // does — so the spy starts clean for the call we care about.
@@ -732,7 +732,7 @@ describe("HyperframesPlayer media MutationObserver scoping", () => {
     // a composition tree yet (e.g. a blank iframe between src changes).
     const observeSpy = vi.spyOn(MutationObserver.prototype, "observe");
 
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
     observeSpy.mockClear();
 
@@ -773,8 +773,8 @@ describe("HyperframesPlayer parent-proxy time-mirror coalescing", () => {
   let player: PlayerInternal;
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as PlayerInternal;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
     // No audio-src was set, so `_parentMedia` is empty. Tests push synthetic
     // POJO entries — `_mirrorParentMediaTime` only reads/writes
@@ -830,7 +830,7 @@ describe("HyperframesPlayer parent-proxy time-mirror coalescing", () => {
       () => mockAudio as unknown as HTMLAudioElement,
     );
 
-    const fresh = document.createElement("hyperframes-player") as PlayerInternal;
+    const fresh = document.createElement("frames-player") as PlayerInternal;
     fresh.setAttribute("audio-src", "https://cdn.example.com/narration.mp3");
     document.body.appendChild(fresh);
 
@@ -995,8 +995,8 @@ describe("HyperframesPlayer seek() sync path", () => {
   let player: PlayerInternal;
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as PlayerInternal;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
   });
 
@@ -1302,8 +1302,8 @@ describe("HyperframesPlayer loop end-state handling", () => {
   let frameWindow: Window;
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as PlayerInternal;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as PlayerInternal;
     frameWindow = window;
     vi.spyOn(frameWindow, "postMessage").mockImplementation(() => undefined);
     Object.defineProperty(player.iframe, "contentWindow", {
@@ -1451,13 +1451,13 @@ describe("HyperframesPlayer srcdoc attribute", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
   });
 
   it("includes srcdoc in observedAttributes", () => {
     // `attributeChangedCallback` only fires for observed attributes. Without
     // this, runtime srcdoc swaps from studio would silently drop on the floor.
-    const ctor = customElements.get("hyperframes-player") as
+    const ctor = customElements.get("frames-player") as
       | (typeof HTMLElement & { observedAttributes: string[] })
       | undefined;
     expect(ctor).toBeDefined();
@@ -1468,7 +1468,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
     // Studio's primary use case: render the player with composition HTML
     // already in hand, no network round-trip. Setting the attribute before
     // the element is connected must still apply on connect.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     const html = "<!doctype html><html><body>hello</body></html>";
     player.setAttribute("srcdoc", html);
     document.body.appendChild(player);
@@ -1481,7 +1481,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
   it("forwards a srcdoc attribute set after connect to the iframe", () => {
     // The composition-switching flow: same player element, new HTML.
     // Without `attributeChangedCallback` wiring this would no-op.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
 
     const html = "<!doctype html><html><body>after connect</body></html>";
@@ -1496,7 +1496,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
     // The ready flag gates probe intervals, controls hookup, and poster
     // tear-down. Switching documents must invalidate it so the next `load`
     // event re-runs that setup against the fresh window.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
     player._ready = true;
 
@@ -1511,7 +1511,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
     // Per HTML spec, iframe.srcdoc beats iframe.src whenever both are
     // present. Studio's fetch-fail fallback path needs srcdoc cleared so
     // setting src afterwards actually navigates to that URL.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     player.setAttribute("srcdoc", "<!doctype html><html></html>");
     document.body.appendChild(player);
     expect(player.iframe.hasAttribute("srcdoc")).toBe(true);
@@ -1527,7 +1527,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
     // `setAttribute("srcdoc", "")` and `removeAttribute("srcdoc")` send
     // different signals from the caller — empty string means "load a blank
     // doc," removal means "fall back to src." We have to distinguish them.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     document.body.appendChild(player);
 
     player.setAttribute("srcdoc", "");
@@ -1542,7 +1542,7 @@ describe("HyperframesPlayer srcdoc attribute", () => {
     // We deliberately don't strip src when srcdoc is set: the HTML spec
     // already says srcdoc wins, and keeping both lets the browser fall back
     // to src automatically if the embed re-renders without srcdoc.
-    const player = document.createElement("hyperframes-player") as PlayerInternal;
+    const player = document.createElement("frames-player") as PlayerInternal;
     player.setAttribute("src", "/api/projects/foo/preview");
     player.setAttribute("srcdoc", "<!doctype html><html></html>");
     document.body.appendChild(player);
@@ -1575,7 +1575,7 @@ describe("HyperframesPlayer volume and mute", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
 
     mockAudio = {
       preload: "",
@@ -1592,7 +1592,7 @@ describe("HyperframesPlayer volume and mute", () => {
       () => mockAudio as unknown as HTMLAudioElement,
     );
 
-    player = document.createElement("hyperframes-player") as typeof player;
+    player = document.createElement("frames-player") as typeof player;
   });
 
   afterEach(() => {
@@ -1787,8 +1787,8 @@ describe("HyperframesPlayer audio lock", () => {
   let player: HTMLElement & { muted: boolean; audioLocked: boolean };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as typeof player;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as typeof player;
   });
 
   afterEach(() => {
@@ -1925,8 +1925,8 @@ describe("HyperframesPlayer runtime ready handshake", () => {
   }
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as PlayerInternal;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as PlayerInternal;
     frameWindow = window;
     postSpy = vi.spyOn(frameWindow, "postMessage").mockImplementation(() => undefined);
     Object.defineProperty(player.iframe, "contentWindow", {
@@ -1991,7 +1991,7 @@ describe("HyperframesPlayer runtime ready handshake", () => {
   });
 
   it("disables runtime WebAudio media inside slideshow embeds", () => {
-    const slideshow = document.createElement("hyperframes-slideshow");
+    const slideshow = document.createElement("frames-slideshow");
     slideshow.appendChild(player);
     document.body.appendChild(slideshow);
     postSpy.mockClear();
@@ -2122,8 +2122,8 @@ describe("HyperframesPlayer audio lock — Claude desktop UA fallback", () => {
       Object.getPrototypeOf(navigator),
       "userAgent",
     );
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as typeof player;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as typeof player;
   });
 
   afterEach(() => {
@@ -2223,7 +2223,7 @@ describe("HyperframesPlayer playback rate", () => {
   };
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
+    await import("./frames-player.js");
 
     mockAudio = {
       preload: "",
@@ -2240,7 +2240,7 @@ describe("HyperframesPlayer playback rate", () => {
       () => mockAudio as unknown as HTMLAudioElement,
     );
 
-    player = document.createElement("hyperframes-player") as typeof player;
+    player = document.createElement("frames-player") as typeof player;
   });
 
   afterEach(() => {
@@ -2337,8 +2337,8 @@ describe("HyperframesPlayer composition dimension attributes", () => {
   let player: PlayerWithDimensions;
 
   beforeEach(async () => {
-    await import("./hyperframes-player.js");
-    player = document.createElement("hyperframes-player") as PlayerWithDimensions;
+    await import("./frames-player.js");
+    player = document.createElement("frames-player") as PlayerWithDimensions;
     document.body.appendChild(player);
   });
 

@@ -1,4 +1,4 @@
-import { buildHyperframesRuntimeScript } from "../src/inline-scripts/hyperframesRuntime.engine";
+import { buildHyperframesRuntimeScript } from "../src/inline-scripts/framesRuntime.engine";
 
 function assert(condition: unknown, message: string): void {
   if (!condition) {

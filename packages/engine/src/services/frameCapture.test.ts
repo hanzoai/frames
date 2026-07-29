@@ -124,11 +124,11 @@ describe("isFontResourceError", () => {
 });
 
 describe("formatConsoleDiagnostic", () => {
-  it("surfaces HyperFrames page logs with a dedicated host prefix", () => {
+  it("surfaces Frames page logs with a dedicated host prefix", () => {
     expect(
-      formatConsoleDiagnostic("info", "[hyperframes] render runtime fps JSHandle@object", ""),
+      formatConsoleDiagnostic("info", "[frames] render runtime fps JSHandle@object", ""),
     ).toEqual({
-      text: "[HyperFrames] render runtime fps JSHandle@object",
+      text: "[Frames] render runtime fps JSHandle@object",
       suppressHostLog: false,
     });
   });

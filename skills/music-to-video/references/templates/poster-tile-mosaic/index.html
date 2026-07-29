@@ -167,8 +167,8 @@
         var vars = Object.assign(
           {},
           defaults,
-          window.__hyperframes && window.__hyperframes.getVariables
-            ? window.__hyperframes.getVariables()
+          window.__frames && window.__frames.getVariables
+            ? window.__frames.getVariables()
             : {},
         );
         var N = Math.max(2, parseInt(vars.tiles, 10) || 12);

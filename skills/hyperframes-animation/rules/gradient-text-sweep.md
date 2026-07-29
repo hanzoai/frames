@@ -25,7 +25,7 @@ The text carries a gradient background **wider than its own box** (`background-s
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <!-- Forms A/C: gradient headline; solid twin behind for the Form C settle -->
 <div class="headline-stack">
   <h1 class="headline solid-twin">{headlineText}</h1>
@@ -127,7 +127,7 @@ tl.to(
 - **`ease: "none"` on position sweeps** — this is supposed to read as light, not an accelerating object.
 - **Seamless ends for a crawl** — first and last stops equal, or the wrap point flashes a hard edge mid-hold.
 - **Stacked copies pixel-identical** — same box, font, weight, tracking, one grid cell; any metric drift makes the crossfade a double-exposure.
-- **`data-layout-allow-occlusion` on the twin** — pixel-identical stacked copies trip `hyperframes check`'s `text_occluded` gate by construction; the flag is the sanctioned waiver for this mechanism.
+- **`data-layout-allow-occlusion` on the twin** — pixel-identical stacked copies trip `frames check`'s `text_occluded` gate by construction; the flag is the sanctioned waiver for this mechanism.
 - **Settle by crossfade, never by tweening stops**; and the glyphs never move — if the type must travel, that's a separate rule on the wrapper.
 - **No CSS `@keyframes` shimmer** — wall-clock animation desyncs from seek; every sweep is a timeline tween.
 

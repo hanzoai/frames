@@ -1,10 +1,10 @@
-# HyperFrames Composition Project
+# Frames Composition Project
 
 ## Skills — USE THESE FIRST
 
 **Always invoke the relevant skill before writing or modifying compositions.** Skills encode framework-specific patterns (e.g., `window.__timelines` registration, `data-*` attribute semantics, shader-compatible CSS rules) that are NOT in generic web docs. Skipping them produces broken compositions.
 
-**Doing anything with HyperFrames?** Start at `/hyperframes` — it tells you what HyperFrames can do and which skill or workflow handles your intent (make a video, TTS / BGM, prep footage, author / animate, render, install blocks), confirms your brief up front (the intent layer), and routes every "make me a…" request (a video, a deck, a composition port) to the right workflow. Read it first, especially when there's no project context to orient you. The workflows it routes to:
+**Doing anything with Frames?** Start at `/frames` — it tells you what Frames can do and which skill or workflow handles your intent (make a video, TTS / BGM, prep footage, author / animate, render, install blocks), confirms your brief up front (the intent layer), and routes every "make me a…" request (a video, a deck, a composition port) to the right workflow. Read it first, especially when there's no project context to orient you. The workflows it routes to:
 
 - `/product-launch-video` — any **website** URL or brief / script → a product launch / SaaS / promo video, or a site tour / showcase featuring the site's own captured visuals.
 - `/faceless-explainer` — arbitrary text (topic / article / notes), **no URL, no website capture** → 60-90s faceless explainer.
@@ -14,19 +14,19 @@
 - `/motion-graphics` — a short (typically under 10s) design-led **motion graphic**, motion-is-the-message, no narration: kinetic type, a stat / number count-up, a chart, a logo sting, a lower-third / overlay, or an animated tweet / headline / captured-page highlight; rendered to MP4 or a transparent overlay. Longer / narrated / custom → `/general-video`.
 - `/music-to-video` — a **music track** (audio file, or video to pull audio from) → beat-synced video (lyric / slideshow / kinetic promo). Music drives pacing; user-supplied images / videos are cut onto the same beat grid.
 - `/slideshow` — a **presentation / pitch deck / interactive deck** — discrete slides, fragment reveals, branching, hotspot navigation, presenter mode. Output is a navigable deck, not a rendered video.
-- `/general-video` — fallback for any other video (title card, longer brand / sizzle reel, multi-scene montage, static loop, custom composition) and the home of **companion mode** — co-create with the full HyperFrames toolbox; the original hyperframes authoring flow, any length.
+- `/general-video` — fallback for any other video (title card, longer brand / sizzle reel, multi-scene montage, static loop, custom composition) and the home of **companion mode** — co-create with the full Frames toolbox; the original frames authoring flow, any length.
 
-**Porting an existing composition?** `/remotion-to-hyperframes` translates a Remotion (React) composition into HyperFrames HTML — a source migration, separate from the creation workflows above.
+**Porting an existing composition?** `/remotion-to-frames` translates a Remotion (React) composition into Frames HTML — a source migration, separate from the creation workflows above.
 
-The domain skills (`/hyperframes-core`, `/hyperframes-animation`, `/hyperframes-keyframes`, `/hyperframes-creative`, `/hyperframes-cli`, `/media-use`, `/hyperframes-registry`, `/figma`) and the full capability map live inside `/hyperframes` — it is the single source of truth for which skill handles which intent.
+The domain skills (`/frames-core`, `/frames-animation`, `/frames-keyframes`, `/frames-creative`, `/frames-cli`, `/media-use`, `/frames-registry`, `/figma`) and the full capability map live inside `/frames` — it is the single source of truth for which skill handles which intent.
 
 **Changing how real footage or images look or reveal?** Load `/media-use` and its media-treatment policy before editing, even when the request only says dark, flat, boring, retro, private, or “make the reveal cooler.” Use canonical media treatments and seek-safe motion; do not improvise equivalent CSS/SVG filters or overlays.
 
-> **Tailwind v4 projects** (`hyperframes init --tailwind`): see `/hyperframes-core` → `references/tailwind.md`.
+> **Tailwind v4 projects** (`frames init --tailwind`): see `/frames-core` → `references/tailwind.md`.
 
-> **Skill missing or stale?** Run `npx hyperframes skills update <name>` to install/refresh
-> the specific skill you need (the `/hyperframes` router does this automatically before
-> entering a workflow), or bare `npx hyperframes skills update` to refresh the core set plus
+> **Skill missing or stale?** Run `npx frames skills update <name>` to install/refresh
+> the specific skill you need (the `/frames` router does this automatically before
+> entering a workflow), or bare `npx frames skills update` to refresh the core set plus
 > everything already installed — neither pulls the full set. Restart the agent session so
 > newly installed skills load.
 
@@ -37,23 +37,23 @@ npm run dev          # start the preview server (long-running — keep it alive 
 npm run check        # lint + runtime + layout + motion + contrast (one command)
 npm run render       # render to MP4
 npm run publish      # publish and get a shareable link
-npx hyperframes lint --verbose  # include info-level findings
-npx hyperframes lint --json     # machine-readable output for CI
-npx hyperframes docs <topic> # reference docs in terminal
+npx frames lint --verbose  # include info-level findings
+npx frames lint --json     # machine-readable output for CI
+npx frames docs <topic> # reference docs in terminal
 ```
 
 > **`npm run dev` is a long-running server, not a one-shot command.** It blocks until stopped.
 > In Claude Code, always run it with `run_in_background: true`. Never run it as a foreground
 > command — it will time out and the server will die, breaking the browser preview.
 
-> **Pinned CLI version.** These scripts pin an exact `hyperframes@X.Y.Z` so this project re-renders identically over time. Weeks later that pin lags fixes shipped since. To move up: `npx hyperframes@latest upgrade --project . --check` (shows the delta), then `npx hyperframes@latest upgrade --project .` to rewrite the pins. Always unpinned — the pinned script re-runs the old version against itself.
+> **Pinned CLI version.** These scripts pin an exact `frames@X.Y.Z` so this project re-renders identically over time. Weeks later that pin lags fixes shipped since. To move up: `npx frames@latest upgrade --project . --check` (shows the delta), then `npx frames@latest upgrade --project .` to rewrite the pins. Always unpinned — the pinned script re-runs the old version against itself.
 
 ## Documentation
 
 **For quick reference**, use the local CLI docs command (no network required):
 
 ```bash
-npx hyperframes docs <topic>
+npx frames docs <topic>
 ```
 
 Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `troubleshooting`
@@ -61,7 +61,7 @@ Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `tro
 **For full documentation**, discover pages via the machine-readable index — do NOT guess URLs:
 
 ```
-https://hyperframes.heygen.com/llms.txt
+https://frames.hanzo.ai/llms.txt
 ```
 
 ## Project Structure

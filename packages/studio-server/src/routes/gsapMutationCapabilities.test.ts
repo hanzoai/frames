@@ -69,8 +69,8 @@ describe("GSAP writer capability matrix", () => {
 
   it("defaults to Recast and requires an explicit Acorn canary selection", () => {
     expect(resolveGsapWriter({})).toBe("recast");
-    expect(resolveGsapWriter({ HYPERFRAMES_GSAP_WRITER: "acorn" })).toBe("acorn");
-    expect(() => resolveGsapWriter({ HYPERFRAMES_GSAP_WRITER: "unknown" })).toThrow(
+    expect(resolveGsapWriter({ FRAMES_GSAP_WRITER: "acorn" })).toBe("acorn");
+    expect(() => resolveGsapWriter({ FRAMES_GSAP_WRITER: "unknown" })).toThrow(
       "expected recast or acorn",
     );
   });

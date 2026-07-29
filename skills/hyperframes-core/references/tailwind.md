@@ -1,10 +1,10 @@
-# HyperFrames Tailwind
+# Frames Tailwind
 
-HyperFrames `init --tailwind` uses the Tailwind browser runtime pinned by the scaffold. Treat it as Tailwind v4, not Studio's Tailwind v3 setup.
+Frames `init --tailwind` uses the Tailwind browser runtime pinned by the scaffold. Treat it as Tailwind v4, not Studio's Tailwind v3 setup.
 
 ## When To Use
 
-- The project was scaffolded with `npx hyperframes init --tailwind`.
+- The project was scaffolded with `npx frames init --tailwind`.
 - `index.html` contains `window.__tailwindReady`.
 - The task asks for Tailwind utility classes, `@theme`, custom utilities, or v3-to-v4 fixes in a composition.
 - Rendered frames have missing Tailwind styles or frame-0 flashes.
@@ -13,7 +13,7 @@ HyperFrames `init --tailwind` uses the Tailwind browser runtime pinned by the sc
 
 - **Pinned: `@tailwindcss/browser@4.2.4`** (source of truth: `packages/cli/src/commands/init.ts` `TAILWIND_BROWSER_VERSION`).
 - Do not replace the scaffolded runtime with `cdn.tailwindcss.com` (unpinned, defeats reproducibility).
-- Keep the readiness shim deterministic; HyperFrames waits for `window.__tailwindReady` before frame 0 capture.
+- Keep the readiness shim deterministic; Frames waits for `window.__tailwindReady` before frame 0 capture.
 - For offline / locked-down / production-stable renders, compile Tailwind to CSS and ship the stylesheet instead of the browser runtime.
 
 ## v4 Browser Runtime Rules
@@ -48,7 +48,7 @@ Do not add `tailwind.config.js` only for composition colors, fonts, spacing, or 
 
 ## Composition Pattern
 
-Use Tailwind for static layout and style. Keep render-critical timing in GSAP or another seekable HyperFrames adapter.
+Use Tailwind for static layout and style. Keep render-critical timing in GSAP or another seekable Frames adapter.
 
 ```html
 <section
@@ -104,20 +104,20 @@ v4 + render-mode footguns. Every bullet is a hard rule:
 ## Validation
 
 ```bash
-npx hyperframes check
+npx frames check
 
 # Render proof — frame 0 must NOT flash unstyled content. Preview alone can hide this.
-npx hyperframes render . --workers 1 --quality draft --output tailwind-proof.mp4
+npx frames render . --workers 1 --quality draft --output tailwind-proof.mp4
 ```
 
 ## Quick Debug Checklist
 
 When Tailwind styles don't apply in a render, check in order:
 
-1. Project scaffolded with `npx hyperframes init --tailwind`?
+1. Project scaffolded with `npx frames init --tailwind`?
 2. `index.html` `<head>` has `<script src="…@tailwindcss/browser@4.2.4…">` (not `cdn.tailwindcss.com`)?
 3. `window.__tailwindReady` Promise present in `<head>`?
 4. No v3 directives (`@tailwind base/components/utilities`) in the file?
 5. Tokens moved from `tailwind.config.js` to `@theme` (or `@config` reference for v3 migration)?
 6. Every render-critical class appears as a complete static token (no `bg-${color}-500` style assembly)?
-7. Re-run `npx hyperframes check`, then the render proof above.
+7. Re-run `npx frames check`, then the render proof above.

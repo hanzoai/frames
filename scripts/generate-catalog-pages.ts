@@ -27,7 +27,7 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
 const registryDir = resolve(repoRoot, "registry");
 const docsDir = resolve(repoRoot, "docs");
-const catalogImageBase = "https://static.heygen.ai/hyperframes-oss/docs/images/catalog";
+const catalogImageBase = "https://static.heygen.ai/frames-oss/docs/images/catalog";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -65,9 +65,9 @@ function discoverItems(): { kind: ItemKind; manifest: RegistryItem }[] {
 
   for (const item of registryManifest.items ?? []) {
     const kind =
-      item.type === "hyperframes:block"
+      item.type === "frames:block"
         ? "block"
-        : item.type === "hyperframes:component"
+        : item.type === "frames:component"
           ? "component"
           : null;
 
@@ -99,7 +99,7 @@ function typeLabel(kind: ItemKind): string {
 }
 
 function typeDir(kind: ItemKind): string {
-  return ITEM_TYPE_DIRS[kind === "block" ? "hyperframes:block" : "hyperframes:component"];
+  return ITEM_TYPE_DIRS[kind === "block" ? "frames:block" : "frames:component"];
 }
 
 function textureGroupsFor(manifest: RegistryItem): TextureGroup[] {
@@ -203,7 +203,7 @@ function generateTextureAgentUsage(
     `Use the ${manifest.title} catalog component.`,
     "",
     "1. From the project root, run:",
-    `   npx hyperframes add ${manifest.name}`,
+    `   npx frames add ${manifest.name}`,
     "2. That command creates this installed snippet:",
     `   ${installedSnippet}`,
     "3. Open that file and paste the real <style> block",
@@ -222,7 +222,7 @@ function generateTextureAgentUsage(
     "   </div>",
     "```",
     "",
-    `After install, the snippet lives at \`${installedSnippet}\` inside the project where you ran \`npx hyperframes add ${manifest.name}\`. The part to paste is the real \`<style>\` element near the bottom of that file; the texture PNGs install to \`assets/${manifest.name}/masks/\` and are referenced by project-root URLs in that CSS.`,
+    `After install, the snippet lives at \`${installedSnippet}\` inside the project where you ran \`npx frames add ${manifest.name}\`. The part to paste is the real \`<style>\` element near the bottom of that file; the texture PNGs install to \`assets/${manifest.name}/masks/\` and are referenced by project-root URLs in that CSS.`,
     "",
     `Swap \`${firstClass}\` for the class shown on any texture card below. The base class \`hf-texture-text\` is always required.`,
     "",
@@ -316,7 +316,7 @@ function yamlString(value: string): string {
 function generateItemMdx(kind: ItemKind, manifest: RegistryItem): string {
   const tags = manifest.tags ?? [];
   const tagBadges = tags.map((t) => `\`${t}\``).join(" ");
-  const installCmd = `npx hyperframes add ${manifest.name}`;
+  const installCmd = `npx frames add ${manifest.name}`;
   const source = manifest as RegistryItem & SourceMetadata;
   const textureGroups = textureGroupsFor(manifest);
 
@@ -417,8 +417,8 @@ function generateItemMdx(kind: ItemKind, manifest: RegistryItem): string {
 
   // Usage hint — find the primary file by type, not array position.
   const primaryFile =
-    manifest.files.find((f) => f.type === "hyperframes:composition") ??
-    manifest.files.find((f) => f.type === "hyperframes:snippet") ??
+    manifest.files.find((f) => f.type === "frames:composition") ??
+    manifest.files.find((f) => f.type === "frames:snippet") ??
     manifest.files[0];
   const primaryTarget = primaryFile?.target ?? `compositions/${manifest.name}.html`;
 
@@ -440,7 +440,7 @@ function generateItemMdx(kind: ItemKind, manifest: RegistryItem): string {
       lines.push(
         "## Usage",
         "",
-        `After \`${installCmd}\`, the installed snippet lives at \`${primaryTarget}\` inside your current HyperFrames project. Open that file and paste the real \`<style>\` element near the bottom into your composition once; it defines \`hf-texture-text\` and every \`hf-texture-*\` class used by the examples above. Keep the installed texture PNGs in \`assets/${manifest.name}/masks/\`; the CSS references them with project-root URLs.`,
+        `After \`${installCmd}\`, the installed snippet lives at \`${primaryTarget}\` inside your current Frames project. Open that file and paste the real \`<style>\` element near the bottom into your composition once; it defines \`hf-texture-text\` and every \`hf-texture-*\` class used by the examples above. Keep the installed texture PNGs in \`assets/${manifest.name}/masks/\`; the CSS references them with project-root URLs.`,
         "",
       );
     } else {

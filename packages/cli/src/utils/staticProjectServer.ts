@@ -1,14 +1,14 @@
 import { createServer, type ServerResponse } from "node:http";
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
-import { getMimeType } from "@hyperframes/core/studio-api";
+import { getMimeType } from "@frames/core/studio-api";
 import { resolveAutoProxy } from "./projectConfig.js";
 import { injectMediaCodecMap } from "./compositionServer.js";
 import {
   resolveProxy,
   ProxyCapacityError,
   ProxyTranscodeError,
-} from "@hyperframes/studio-server/proxy-transcoder";
+} from "@frames/studio-server/proxy-transcoder";
 import {
   decideMediaProxyEligibility,
   isProxyVariantRequest,
@@ -16,7 +16,7 @@ import {
   resolveProxyVariantRequest,
   PROXY_VARIANT_CONFIG,
   type ProxyVariantRequest,
-} from "@hyperframes/studio-server/media-codec-map";
+} from "@frames/studio-server/media-codec-map";
 
 export interface StaticProjectServer {
   url: string;
@@ -29,7 +29,7 @@ export interface StaticProjectServer {
  * to determine the duration of formats that carry it in a trailing/implicit
  * position (notably WAV, which otherwise reports `.duration` as `Infinity`
  * however long it buffers). A plain 200 with no `Accept-Ranges` makes the
- * media element non-seekable, so `hyperframes validate` would spuriously warn
+ * media element non-seekable, so `frames validate` would spuriously warn
  * that a perfectly valid local WAV's duration "could not be read".
  */
 function serveFileWithRange(
@@ -158,7 +158,7 @@ export async function serveStaticProjectHtml(
   // temp dir of localized remote assets).
   assetRoots: readonly string[] = [],
   // Explicit CLI --proxy/--no-proxy value. Undefined preserves the project's
-  // committed hyperframes.json setting.
+  // committed frames.json setting.
   autoProxyOverride?: boolean,
 ): Promise<StaticProjectServer> {
   const roots = [projectDir, ...assetRoots];

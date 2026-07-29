@@ -19,10 +19,10 @@ import {
 import type { CaptionZoneOptions, FrameCheckOptions, LayoutOptions } from "../utils/checkTypes.js";
 
 export const examples: Example[] = [
-  ["Run the full verification gate", "hyperframes check"],
-  ["Output one agent-readable envelope", "hyperframes check --json"],
-  ["Persist the five audited contrast frames", "hyperframes check --snapshots"],
-  ["Also fail on warnings", "hyperframes check --strict"],
+  ["Run the full verification gate", "frames check"],
+  ["Output one agent-readable envelope", "frames check --json"],
+  ["Persist the five audited contrast frames", "frames check --snapshots"],
+  ["Also fail on warnings", "frames check --strict"],
 ];
 
 export interface CheckCommandDependencies {
@@ -102,7 +102,7 @@ export function createCheckCommand(
       proxy: {
         type: "boolean",
         description:
-          "Auto-transcode browser-hostile video codecs (default: hyperframes.json media.autoProxy, which defaults on)",
+          "Auto-transcode browser-hostile video codecs (default: frames.json media.autoProxy, which defaults on)",
         default: undefined,
       },
       snapshots: {

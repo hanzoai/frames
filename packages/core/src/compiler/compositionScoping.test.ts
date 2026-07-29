@@ -115,7 +115,7 @@ body { margin: 0; }
     expect(scoped).not.toContain('[data-start="0"]');
   });
 
-  it("exposes a scoped __hyperframes.getVariables that reads __hfVariablesByComp[compId]", () => {
+  it("exposes a scoped __frames.getVariables that reads __hfVariablesByComp[compId]", () => {
     const { document } = parseHTML(`<div data-composition-id="card-1"></div>`);
     const fakeWindow: Record<string, unknown> = {
       document,
@@ -124,13 +124,13 @@ body { margin: 0; }
         "card-1": { title: "Pro", price: "$29" },
         "card-2": { title: "Enterprise", price: "Custom" },
       },
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = __hyperframes.getVariables();`,
+      `window.__captured = __frames.getVariables();`,
       "card-1",
     );
 
@@ -139,11 +139,11 @@ body { margin: 0; }
     expect(fakeWindow.__captured).toEqual({ title: "Pro", price: "$29" });
   });
 
-  it("routes the documented window.__hyperframes.getVariables() to the scoped variant too", () => {
-    // Regression: the docs (variables-and-media.md) show `window.__hyperframes.
+  it("routes the documented window.__frames.getVariables() to the scoped variant too", () => {
+    // Regression: the docs (variables-and-media.md) show `window.__frames.
     // getVariables()`, but inside a sub-comp the scoped `window` proxy used to
-    // fall through to the HOST page's base __hyperframes, returning the wrong
-    // (or empty) variables — the bare `__hyperframes` param was the only form
+    // fall through to the HOST page's base __frames, returning the wrong
+    // (or empty) variables — the bare `__frames` param was the only form
     // that worked. Both spellings must now resolve to this comp's variables.
     const { document } = parseHTML(`<div data-composition-id="card-1"></div>`);
     const fakeWindow: Record<string, unknown> = {
@@ -153,13 +153,13 @@ body { margin: 0; }
         "card-1": { title: "Pro", price: "$29" },
         "card-2": { title: "Enterprise", price: "Custom" },
       },
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = window.__hyperframes.getVariables();`,
+      `window.__captured = window.__frames.getVariables();`,
       "card-1",
     );
 
@@ -168,14 +168,14 @@ body { margin: 0; }
     expect(fakeWindow.__captured).toEqual({ title: "Pro", price: "$29" });
   });
 
-  it("preserves non-getVariables members on window.__hyperframes (only getVariables is rescoped)", () => {
+  it("preserves non-getVariables members on window.__frames (only getVariables is rescoped)", () => {
     const { document } = parseHTML(`<div data-composition-id="card-1"></div>`);
     let fitCalled = false;
     const fakeWindow: Record<string, unknown> = {
       document,
       __timelines: {},
       __hfVariablesByComp: { "card-1": { title: "Pro" } },
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => {
           fitCalled = true;
@@ -183,7 +183,7 @@ body { margin: 0; }
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__hyperframes.fitTextFontSize();`,
+      `window.__frames.fitTextFontSize();`,
       "card-1",
     );
 
@@ -201,15 +201,15 @@ body { margin: 0; }
         scene: { title: "Wrong" },
         scene__hf1: { title: "Right" },
       },
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = __hyperframes.getVariables();`,
+      `window.__captured = __frames.getVariables();`,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "scene__hf1",
     );
@@ -224,13 +224,13 @@ body { margin: 0; }
     const fakeWindow: Record<string, unknown> = {
       document,
       __timelines: {},
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({ title: "TOP-LEVEL-LEAK" }),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `window.__captured = __hyperframes.getVariables();`,
+      `window.__captured = __frames.getVariables();`,
       "missing",
     );
 
@@ -248,13 +248,13 @@ body { margin: 0; }
       document,
       __timelines: {},
       __hfVariablesByComp: variablesByComp,
-      __hyperframes: {
+      __frames: {
         getVariables: () => ({}),
         fitTextFontSize: () => undefined,
       },
     };
     const wrapped = wrapScopedCompositionScript(
-      `var v = __hyperframes.getVariables(); v.title = "MUTATED"; v.added = "extra";`,
+      `var v = __frames.getVariables(); v.title = "MUTATED"; v.added = "extra";`,
       "card-1",
     );
 
@@ -395,7 +395,7 @@ window.__selectedTitle =
     ?.textContent || "missing";
 `,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "scene",
       "scene-root",
@@ -437,7 +437,7 @@ window.__selectedHref =
     ?.getAttribute("href") || "missing";
 `,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "scene",
       "scene-root",
@@ -479,7 +479,7 @@ window.__selectedTimedCount = select('[data-composition-id="scene"][data-start="
 window.__selectedTitle = select('#scene-root .title')[0]?.textContent || "missing";
 `,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "scene",
       "scene-root",
@@ -619,7 +619,7 @@ window.__timelines.scene = "updated";
 window.__afterTimeline = window.__timelines.scene;
 `,
       "scene",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "host",
     );
@@ -693,7 +693,7 @@ window.__afterTimeline = window.__timelines.scene;
       "scene",
     );
 
-    expect(wrapped).toContain("(function(document, gsap, window, __hyperframes)");
+    expect(wrapped).toContain("(function(document, gsap, window, __frames)");
     expect(wrapped).not.toContain("</script><script>");
     expect(wrapped).toContain("<\\/script>");
   });
@@ -701,7 +701,7 @@ window.__afterTimeline = window.__timelines.scene;
   it("wraps unscoped composition script source as a string literal", () => {
     const wrapped = wrapInlineScriptWithErrorBoundary(
       'window.payload = "</script><script>window.pwned = true;</script>";',
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
     );
 
     expect(wrapped).toContain("Function(");
@@ -873,7 +873,7 @@ tl.fromTo('#intro .title', { opacity: 0 }, { opacity: 1, duration: 0.5 }, 0.2);
 window.__timelines['intro'] = tl;
 `,
       "intro",
-      "[HyperFrames] composition script error:",
+      "[Frames] composition script error:",
       undefined,
       "intro",
       "intro",

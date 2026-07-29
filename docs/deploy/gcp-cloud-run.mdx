@@ -1,11 +1,11 @@
 ---
 title: Google Cloud Run
-description: "Deploy distributed HyperFrames rendering to Google Cloud Run + Cloud Workflows, and drive renders from a laptop or CI."
+description: "Deploy distributed Frames rendering to Google Cloud Run + Cloud Workflows, and drive renders from a laptop or CI."
 ---
 
-HyperFrames ships a Google Cloud deployment that mirrors the [AWS Lambda](/deploy/aws-lambda) one: a single Cloud Run service fronts a Cloud Workflows definition that fans renders out across many parallel chunk workers, with intermediate artifacts in Google Cloud Storage. The render primitives are identical — only the storage, compute, and orchestration adapters differ.
+Frames ships a Google Cloud deployment that mirrors the [AWS Lambda](/deploy/aws-lambda) one: a single Cloud Run service fronts a Cloud Workflows definition that fans renders out across many parallel chunk workers, with intermediate artifacts in Google Cloud Storage. The render primitives are identical — only the storage, compute, and orchestration adapters differ.
 
-It's the right choice for teams already running their backend and storage on Google Cloud who want distributed HyperFrames rendering without adding AWS infrastructure.
+It's the right choice for teams already running their backend and storage on Google Cloud who want distributed Frames rendering without adding AWS infrastructure.
 
 ## Architecture
 
@@ -19,9 +19,9 @@ It's the right choice for teams already running their backend and storage on Goo
 ┌──────────────────────────────────────────────────────────────────┐
 │ One Cloud Run service (packages/gcp-cloud-run/Dockerfile)        │
 │   dist/server.js                                                 │
-│     ├─ Action="plan"        → @hyperframes/producer/distributed  │
-│     ├─ Action="renderChunk" → @hyperframes/producer/distributed  │
-│     └─ Action="assemble"    → @hyperframes/producer/distributed  │
+│     ├─ Action="plan"        → @frames/producer/distributed  │
+│     ├─ Action="renderChunk" → @frames/producer/distributed  │
+│     └─ Action="assemble"    → @frames/producer/distributed  │
 └──────────────────────────────────────────────────────────────────┘
                               │ GCS download / upload
                               ▼
@@ -41,7 +41,7 @@ The Terraform module at `packages/gcp-cloud-run/terraform` provisions the GCS bu
 ```bash
 # 1. Build + push the render image.
 gcloud builds submit . \
-  --tag us-central1-docker.pkg.dev/PROJECT/hyperframes/hyperframes-render:v1
+  --tag us-central1-docker.pkg.dev/PROJECT/frames/frames-render:v1
 
 # 2. Apply the module.
 cd packages/gcp-cloud-run/terraform
@@ -49,7 +49,7 @@ terraform init
 terraform apply \
   -var project_id=PROJECT \
   -var region=us-central1 \
-  -var image=us-central1-docker.pkg.dev/PROJECT/hyperframes/hyperframes-render:v1
+  -var image=us-central1-docker.pkg.dev/PROJECT/frames/frames-render:v1
 ```
 
 Terraform outputs `render_bucket_name`, `service_url`, `workflow_name`, and `region`. Pass those into the SDK.
@@ -64,16 +64,16 @@ The target GCP project must have **billing enabled** — Cloud Run, Cloud Workfl
 import {
   renderToCloudRun,
   getRenderProgress,
-} from "@hyperframes/gcp-cloud-run/sdk";
+} from "@frames/gcp-cloud-run/sdk";
 
 const handle = await renderToCloudRun({
   projectDir: "./my-composition",
   config: { fps: 30, width: 1920, height: 1080, format: "mp4" },
-  bucketName: "hyperframes-render-my-project",
+  bucketName: "frames-render-my-project",
   projectId: "my-project",
   location: "us-central1",
-  workflowId: "hyperframes-render",
-  serviceUrl: "https://hyperframes-render-abc.us-central1.run.app",
+  workflowId: "frames-render",
+  serviceUrl: "https://frames-render-abc.us-central1.run.app",
 });
 
 let progress = await getRenderProgress({ executionName: handle.executionName });

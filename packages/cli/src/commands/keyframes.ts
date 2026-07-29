@@ -1,7 +1,7 @@
 import { defineCommand } from "citty";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve, dirname, basename, join, relative, sep } from "node:path";
-import { parseGsapScript, type GsapAnimation } from "@hyperframes/core/gsap-parser";
+import { parseGsapScript, type GsapAnimation } from "@frames/core/gsap-parser";
 import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
 import { ensureDOMParser } from "../utils/dom.js";
@@ -9,11 +9,11 @@ import { resolveProject } from "../utils/project.js";
 import { withMeta } from "../utils/updateCheck.js";
 
 export const examples: Example[] = [
-  ["Surface every keyframe + motion path in the project", "hyperframes keyframes"],
-  ["Inspect one composition file", "hyperframes keyframes compositions/scene.html"],
-  ["Machine-readable output for an agent", "hyperframes keyframes --json"],
-  ["Only one element's keyframes", "hyperframes keyframes --selector '#puck-a'"],
-  ["Runtime-aware hint for CSS/Anime compositions", "hyperframes keyframes --runtime all"],
+  ["Surface every keyframe + motion path in the project", "frames keyframes"],
+  ["Inspect one composition file", "frames keyframes compositions/scene.html"],
+  ["Machine-readable output for an agent", "frames keyframes --json"],
+  ["Only one element's keyframes", "frames keyframes --selector '#puck-a'"],
+  ["Runtime-aware hint for CSS/Anime compositions", "frames keyframes --runtime all"],
 ];
 
 // ── Surfaced shapes ──────────────────────────────────────────────────────────
@@ -886,7 +886,7 @@ const defaultKeyframesCommand: KeyframesCommandOptions = {
   name: "keyframes",
   description:
     "See, debug, and refine keyframes — surface GSAP, CSS @keyframes, Anime.js, paths, and onion-shot diagnostics",
-  invocation: "hyperframes keyframes",
+  invocation: "frames keyframes",
   defaultRuntime: "all",
 };
 

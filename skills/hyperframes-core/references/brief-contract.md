@@ -1,6 +1,6 @@
 # Brief contract
 
-The intent layer (`/hyperframes` → `references/intent-interview.md`) asks creation questions once. The executing workflow writes the confirmed result to `BRIEF.md` and does not ask those questions again. This contract defines the canonical run-shape fields, shared brief fields, and question rules. Route-specific options live in `/hyperframes` → `references/routes/<workflow>.md`.
+The intent layer (`/frames` → `references/intent-interview.md`) asks creation questions once. The executing workflow writes the confirmed result to `BRIEF.md` and does not ask those questions again. This contract defines the canonical run-shape fields, shared brief fields, and question rules. Route-specific options live in `/frames` → `references/routes/<workflow>.md`.
 
 ## Contents
 
@@ -42,7 +42,7 @@ Default to `collaborative` only when a legacy project lacks enough state to deri
 | ------------------------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
 | Preference: preset, voice, caption identity                                     | Ask when the workflow marks it as required.                     | Decide and state the choice with a one-line reason.             |
 | Checkpoint: plan, sketches, pre-render review                                   | Ask and wait.                                                   | Post the same summary, then continue.                           |
-| Quality: fetch completeness, `lint`, `hyperframes check`, workflow verification | Run and stop on errors.                                         | Run and stop on errors.                                         |
+| Quality: fetch completeness, `lint`, `frames check`, workflow verification | Run and stop on errors.                                         | Run and stop on errors.                                         |
 | Routing ambiguity                                                               | Resolve explicitly; a wrong route changes the deliverable.      | Same requirement.                                               |
 | Sign-in or credential unavailable                                               | Show status and wait for sign-in or explicit offline selection. | Show status and continue through an available offline provider. |
 
@@ -52,7 +52,7 @@ Rendering remains user-gated in both modes. After checks pass, collaborative run
 
 ### Studio comments
 
-Checkpoint feedback may arrive in chat or in `.hyperframes/frame-comments.json` (format: `storyboard-format.md`). When the user replies to a checkpoint, read that file before interpreting the chat reply. Apply only the named frame changes, delete the comments file after handling it, and re-present the affected frames. A board submission does not notify the agent, so tell the user to reply in chat after submitting comments.
+Checkpoint feedback may arrive in chat or in `.frames/frame-comments.json` (format: `storyboard-format.md`). When the user replies to a checkpoint, read that file before interpreting the chat reply. Apply only the named frame changes, delete the comments file after handling it, and re-present the affected frames. A board submission does not notify the agent, so tell the user to reply in chat after submitting comments.
 
 Autonomous is not silent: replace absorbed questions with visible decisions and short reasons. Every autonomous visual or video delivery names the final preview or rendered artifact as applicable, reports the actual duration for a time-based deliverable, and includes a contact sheet or snapshot sheet plus relevant frame identifiers when available. For multi-scene work, use scene midpoints; for a single-scene piece, use one or more proof times. This gives the user a review surface even though intermediate checkpoints did not pause.
 
@@ -75,10 +75,10 @@ Ask only fields used by the selected route. Route entries identify their must-ha
 
 ### Remembered defaults
 
-Let `<MEDIA_DIR>` be the installed `/media-use` skill directory. Let `<MEMORY_ROOT>` be the existing project root. Before scaffolding, use a deliberately nonexistent probe path with no `.media` ancestor, such as `/tmp/hyperframes-intent-memory-<run-id>`; never use the current workspace as the probe. Read merged preferences with:
+Let `<MEDIA_DIR>` be the installed `/media-use` skill directory. Let `<MEMORY_ROOT>` be the existing project root. Before scaffolding, use a deliberately nonexistent probe path with no `.media` ancestor, such as `/tmp/frames-intent-memory-<run-id>`; never use the current workspace as the probe. Read merged preferences with:
 
 ```bash
-node <MEDIA_DIR>/scripts/prefs.mjs get --hyperframes <MEMORY_ROOT> --json
+node <MEDIA_DIR>/scripts/prefs.mjs get --frames <MEMORY_ROOT> --json
 ```
 
 For the pre-project probe, `<MEMORY_ROOT>` is the nonexistent probe path, so only the personal tier can contribute. If that path already exists or contains `.media`, choose another. Do not claim project provenance before the real project exists.

@@ -57,11 +57,11 @@ Expand into a full production prompt with these sections:
 
 ## Output
 
-Write the expanded prompt to `.hyperframes/expanded-prompt.md` in the project directory. Do NOT dump it into the chat — it will be hundreds of lines.
+Write the expanded prompt to `.frames/expanded-prompt.md` in the project directory. Do NOT dump it into the chat — it will be hundreds of lines.
 
 Tell the user:
 
-> "I've expanded your prompt into a full production breakdown. Review it here: `.hyperframes/expanded-prompt.md`
+> "I've expanded your prompt into a full production breakdown. Review it here: `.frames/expanded-prompt.md`
 >
 > It has [N] scenes across [duration] seconds with specific visual elements, transitions, and pacing. Edit anything you want, then let me know when you're ready to proceed."
 

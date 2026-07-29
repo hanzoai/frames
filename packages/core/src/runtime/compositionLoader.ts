@@ -555,7 +555,7 @@ async function mountCompositionContent(params: {
       injectedScript.textContent = wrapScopedCompositionScript(
         scriptPayload.content,
         scriptPayload.scopeCompositionId,
-        "[HyperFrames] composition script error:",
+        "[Frames] composition script error:",
         runtimeScopeSelector,
         runtimeScopeCompositionId || scriptPayload.scopeCompositionId,
         authoredRootId,

@@ -1,5 +1,5 @@
 {
-  "package": "@hyperframes/core",
+  "package": "@frames/core",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {
@@ -57,9 +57,9 @@
       "environments": ["browser", "bun", "node"]
     },
     "./generators": {
-      "source": "./src/generators/hyperframes.ts",
-      "runtime": "./dist/generators/hyperframes.js",
-      "types": "./dist/generators/hyperframes.d.ts",
+      "source": "./src/generators/frames.ts",
+      "runtime": "./dist/generators/frames.js",
+      "types": "./dist/generators/frames.d.ts",
       "environments": ["browser", "bun", "node"]
     },
     "./lint": {

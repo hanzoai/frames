@@ -8,26 +8,26 @@ import {
 } from "./check-dockerfile-workspaces.mjs";
 
 const workspaces = [
-  workspace("core", "@hyperframes/core", {
-    "@hyperframes/lint": "workspace:*",
-    "@hyperframes/studio-server": "workspace:*",
+  workspace("core", "@frames/core", {
+    "@frames/lint": "workspace:*",
+    "@frames/studio-server": "workspace:*",
   }),
-  workspace("engine", "@hyperframes/engine", {
-    "@hyperframes/core": "workspace:*",
-    "@hyperframes/parsers": "workspace:*",
+  workspace("engine", "@frames/engine", {
+    "@frames/core": "workspace:*",
+    "@frames/parsers": "workspace:*",
   }),
-  workspace("gcp-cloud-run", "@hyperframes/gcp-cloud-run", {
-    "@hyperframes/producer": "workspace:*",
+  workspace("gcp-cloud-run", "@frames/gcp-cloud-run", {
+    "@frames/producer": "workspace:*",
   }),
-  workspace("lint", "@hyperframes/lint", { "@hyperframes/parsers": "workspace:*" }),
-  workspace("parsers", "@hyperframes/parsers"),
-  workspace("producer", "@hyperframes/producer", {
-    "@hyperframes/core": "workspace:*",
-    "@hyperframes/engine": "workspace:*",
+  workspace("lint", "@frames/lint", { "@frames/parsers": "workspace:*" }),
+  workspace("parsers", "@frames/parsers"),
+  workspace("producer", "@frames/producer", {
+    "@frames/core": "workspace:*",
+    "@frames/engine": "workspace:*",
   }),
-  workspace("sdk", "@hyperframes/sdk"),
-  workspace("studio-server", "@hyperframes/studio-server", {
-    "@hyperframes/core": "workspace:*",
+  workspace("sdk", "@frames/sdk"),
+  workspace("studio-server", "@frames/studio-server", {
+    "@frames/core": "workspace:*",
   }),
 ];
 const runtimeDirectories = [
@@ -126,7 +126,7 @@ describe("GCP Cloud Run Dockerfile workspace checker", () => {
     const input = dockerfile()
       .replace(
         "RUN bun run --cwd packages/core build",
-        "RUN bun run --cwd packages/core build:hyperframes-runtime:modular",
+        "RUN bun run --cwd packages/core build:frames-runtime:modular",
       )
       .concat("\n# bun run --cwd packages/core build");
     assert.deepEqual(listDockerfileWorkspaceIssues(input, workspaces), [

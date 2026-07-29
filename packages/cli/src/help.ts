@@ -1,5 +1,5 @@
 /**
- * Custom help renderer for the hyperframes CLI.
+ * Custom help renderer for the frames CLI.
  *
  * Root-level: grouped command categories + examples.
  * Subcommands: citty's standard USAGE/ARGUMENTS/OPTIONS + appended examples.
@@ -79,7 +79,7 @@ const GROUPS: Group[] = [
   {
     title: "AI & Integrations",
     commands: [
-      ["skills", "Install HyperFrames and GSAP skills for AI coding tools"],
+      ["skills", "Install Frames and GSAP skills for AI coding tools"],
       [
         "transcribe",
         "Transcribe audio/video to word-level timestamps, or import an existing transcript",
@@ -105,14 +105,14 @@ const GROUPS: Group[] = [
 import type { Example } from "./commands/_examples.js";
 
 const ROOT_EXAMPLES: Example[] = [
-  ["Create a new project", "hyperframes init my-video"],
-  ["Start the live preview studio", "hyperframes preview"],
-  ["Publish to hyperframes.dev", "hyperframes publish"],
-  ["Render to MP4", "hyperframes render -o out.mp4"],
-  ["Transparent WebM overlay", "hyperframes render --format webm -o out.webm"],
-  ["Validate your composition", "hyperframes lint"],
-  ["Inspect visual layout", "hyperframes inspect"],
-  ["Check system dependencies", "hyperframes doctor"],
+  ["Create a new project", "frames init my-video"],
+  ["Start the live preview studio", "frames preview"],
+  ["Publish to frames.hanzo.ai", "frames publish"],
+  ["Render to MP4", "frames render -o out.mp4"],
+  ["Transparent WebM overlay", "frames render --format webm -o out.webm"],
+  ["Validate your composition", "frames lint"],
+  ["Inspect visual layout", "frames inspect"],
+  ["Check system dependencies", "frames doctor"],
 ];
 
 // ── Per-command examples loaded from command files ────────────────────────
@@ -125,9 +125,9 @@ const ROOT_EXAMPLES: Example[] = [
 // fallow-ignore-next-line complexity
 async function loadExamples(name: string, parentName?: string): Promise<Example[] | undefined> {
   // Skip the parent-scoped lookup for the root command — `parentName`
-  // is `'hyperframes'` for every top-level subcommand and no
-  // `./commands/hyperframes/<name>.js` directory will ever exist.
-  if (parentName && parentName !== "hyperframes") {
+  // is `'frames'` for every top-level subcommand and no
+  // `./commands/frames/<name>.js` directory will ever exist.
+  if (parentName && parentName !== "frames") {
     const examples = await tryLoadExamples(`./commands/${parentName}/${name}.js`);
     if (examples) return examples;
   }
@@ -149,7 +149,7 @@ async function tryLoadExamples(modulePath: string): Promise<Example[] | undefine
 
 // Commands without their own file (e.g. listed in help but not yet a real command)
 const STATIC_EXAMPLES: Record<string, Example[]> = {
-  skills: [["Install all skills to all supported AI tools", "hyperframes skills"]],
+  skills: [["Install all skills to all supported AI tools", "frames skills"]],
 };
 
 // ── Render root help ───────────────────────────────────────────────────────
@@ -159,10 +159,10 @@ function renderRootHelp(): string {
   const lines: string[] = [];
 
   lines.push(
-    `${c.bold("hyperframes")} ${c.dim(`v${VERSION}`)} — Create and render HTML video compositions`,
+    `${c.bold("frames")} ${c.dim(`v${VERSION}`)} — Create and render HTML video compositions`,
   );
   lines.push("");
-  lines.push(`${c.bold("Usage:")}  hyperframes ${c.cyan("<command>")} [options]`);
+  lines.push(`${c.bold("Usage:")}  frames ${c.cyan("<command>")} [options]`);
   lines.push("");
 
   for (const group of GROUPS) {
@@ -179,7 +179,7 @@ function renderRootHelp(): string {
   }
   lines.push("");
 
-  lines.push(`Run ${c.cyan("hyperframes <command> --help")} for more information about a command.`);
+  lines.push(`Run ${c.cyan("frames <command> --help")} for more information about a command.`);
 
   return lines.join("\n");
 }

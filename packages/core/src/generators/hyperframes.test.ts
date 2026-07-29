@@ -6,7 +6,7 @@ import {
   generateHyperframesHtml,
   generateGsapTimelineScript,
   generateHyperframesStyles,
-} from "./hyperframes.js";
+} from "./frames.js";
 import { GSAP_CDN } from "../templates/constants.js";
 import type { TimelineTextElement, TimelineMediaElement } from "../core.types";
 

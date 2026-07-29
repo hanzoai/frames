@@ -15,7 +15,7 @@ import {
 } from "./draft-changelog.ts";
 
 const ROOT = join(import.meta.dirname, "..");
-const REPO_URL = "https://github.com/heygen-com/hyperframes";
+const REPO_URL = "https://github.com/hanzoai/frames";
 const DOCS_MARKER =
   "{/* New weekly digest entries are prepended by `bun run changelog:weekly --from YYYY-MM-DD --to YYYY-MM-DD --write`. */}";
 const WEEKLY_REVIEW_TODO = "<!-- TODO: review and rewrite before publishing. -->";
@@ -301,7 +301,7 @@ function renderDocsUpdate(
     ">",
     WEEKLY_REVIEW_TODO,
     "",
-    "A curated summary of the most important HyperFrames changes this week.",
+    "A curated summary of the most important Frames changes this week.",
     "",
     renderHighlights(highlights, renderMdxWeeklyBullet),
     "",
@@ -319,7 +319,7 @@ function renderWeeklyNotes(
   highlights: WeeklyCommit[],
 ) {
   return [
-    `# HyperFrames weekly digest - ${range}`,
+    `# Frames weekly digest - ${range}`,
     "",
     WEEKLY_REVIEW_TODO,
     "",
@@ -347,7 +347,7 @@ function renderWeeklyNotes(
 
 function renderDiscordDraft(range: string, highlights: WeeklyCommit[]) {
   return [
-    `# HyperFrames weekly update - ${range}`,
+    `# Frames weekly update - ${range}`,
     "",
     WEEKLY_REVIEW_TODO,
     "",
@@ -366,7 +366,7 @@ function renderXDraft(range: string, highlights: WeeklyCommit[]) {
       : ["TODO: add the most important user-facing highlights from this week."];
 
   return [
-    `HyperFrames weekly update - ${range}`,
+    `Frames weekly update - ${range}`,
     "",
     WEEKLY_REVIEW_TODO,
     "",

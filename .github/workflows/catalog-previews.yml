@@ -3,10 +3,10 @@ name: Catalog Previews
 permissions:
   contents: read
 
-# Suppress hyperframes CLI telemetry from HeyGen's own CI runs.
+# Suppress frames CLI telemetry from HeyGen's own CI runs.
 # External users' CI continues to emit telemetry unless they set this themselves.
 env:
-  HYPERFRAMES_NO_TELEMETRY: "1"
+  FRAMES_NO_TELEMETRY: "1"
 
 on:
   pull_request:

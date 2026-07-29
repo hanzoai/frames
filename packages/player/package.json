@@ -1,30 +1,30 @@
 {
-  "name": "@hyperframes/player",
+  "name": "@frames/player",
   "version": "0.7.81",
-  "description": "Embeddable web component for HyperFrames compositions",
+  "description": "Embeddable web component for Frames compositions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/player"
   },
   "files": [
     "dist"
   ],
   "type": "module",
-  "main": "./dist/hyperframes-player.js",
-  "types": "./dist/hyperframes-player.d.ts",
+  "main": "./dist/frames-player.js",
+  "types": "./dist/frames-player.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/hyperframes-player.d.ts",
-      "script": "./dist/hyperframes-player.global.js",
-      "import": "./dist/hyperframes-player.js",
-      "require": "./dist/hyperframes-player.cjs"
+      "types": "./dist/frames-player.d.ts",
+      "script": "./dist/frames-player.global.js",
+      "import": "./dist/frames-player.js",
+      "require": "./dist/frames-player.cjs"
     },
     "./slideshow": {
-      "types": "./dist/slideshow/hyperframes-slideshow.d.ts",
-      "script": "./dist/slideshow/hyperframes-slideshow.global.js",
-      "import": "./dist/slideshow/hyperframes-slideshow.js",
-      "require": "./dist/slideshow/hyperframes-slideshow.cjs"
+      "types": "./dist/slideshow/frames-slideshow.d.ts",
+      "script": "./dist/slideshow/frames-slideshow.global.js",
+      "import": "./dist/slideshow/frames-slideshow.js",
+      "require": "./dist/slideshow/frames-slideshow.cjs"
     }
   },
   "scripts": {
@@ -34,7 +34,7 @@
     "perf": "bun run tests/perf/index.ts"
   },
   "dependencies": {
-    "@hyperframes/core": "workspace:*"
+    "@frames/core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "^1.1.0",

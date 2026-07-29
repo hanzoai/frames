@@ -6,7 +6,7 @@ const AUTO_DISMISS_MS = 20_000;
 
 function isFeedbackDisabled(): boolean {
   try {
-    return import.meta.env.VITE_HYPERFRAMES_NO_FEEDBACK === "1";
+    return import.meta.env.VITE_FRAMES_NO_FEEDBACK === "1";
   } catch {
     return false;
   }
@@ -15,7 +15,7 @@ function isFeedbackDisabled(): boolean {
 // fallow-ignore-next-line complexity
 function getFeedbackInterval(): number {
   try {
-    const v = import.meta.env.VITE_HYPERFRAMES_FEEDBACK_INTERVAL as string | undefined;
+    const v = import.meta.env.VITE_FRAMES_FEEDBACK_INTERVAL as string | undefined;
     if (v) {
       const n = parseInt(v, 10);
       if (Number.isFinite(n) && n > 0) return n;
@@ -27,8 +27,8 @@ function getFeedbackInterval(): number {
 }
 
 const STORAGE_KEYS = {
-  sessionCount: "hyperframes-studio:feedbackSessionCount",
-  lastPromptedAt: "hyperframes-studio:feedbackLastPromptedAt",
+  sessionCount: "frames-studio:feedbackSessionCount",
+  lastPromptedAt: "frames-studio:feedbackLastPromptedAt",
 } as const;
 
 // fallow-ignore-next-line complexity
@@ -43,7 +43,7 @@ function shouldShowFeedback(): boolean {
   }
 }
 
-const SESSION_COUNTED_KEY = "hyperframes-studio:feedbackSessionCounted";
+const SESSION_COUNTED_KEY = "frames-studio:feedbackSessionCounted";
 
 // fallow-ignore-next-line complexity
 function incrementSessionCount(): void {
@@ -180,7 +180,7 @@ export const StudioFeedbackBar = memo(function StudioFeedbackBar() {
         </>
       ) : (
         <>
-          <span className="text-neutral-500 flex-shrink-0">Recommend HyperFrames?</span>
+          <span className="text-neutral-500 flex-shrink-0">Recommend Frames?</span>
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 11 }, (_, n) => n).map((n) => (
               <button

@@ -140,14 +140,14 @@ describe("bundleToSingleHtml", () => {
 
     const bundled = await bundleToSingleHtml(dir);
     const runtimeBlock = bundled.match(
-      /<script\b[^>]*data-hyperframes-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
+      /<script\b[^>]*data-frames-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
     )?.[0];
 
     expect(runtimeBlock).toBeDefined();
     // The runtime block must contain the inlined HF runtime IIFE — bundled
     // output is self-contained, so the bundle's runtime body is loaded inline,
     // not referenced via src.
-    expect(runtimeBlock).toMatch(/data-hyperframes-preview-runtime="1">/);
+    expect(runtimeBlock).toMatch(/data-frames-preview-runtime="1">/);
     expect(runtimeBlock).not.toMatch(/src=""/);
     // The author's specific composition script must NOT be merged INTO the
     // runtime tag — it stays as its own <script> elsewhere in the document.
@@ -219,7 +219,7 @@ describe("bundleToSingleHtml", () => {
     }
 
     const runtimeBlock = bundled.match(
-      /<script\b[^>]*data-hyperframes-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
+      /<script\b[^>]*data-frames-preview-runtime[^>]*>[\s\S]*?<\/script>/i,
     )?.[0];
     expect(runtimeBlock).toBeDefined();
     // Must NOT have an empty src attribute (would self-fetch).
@@ -264,7 +264,7 @@ describe("bundleToSingleHtml", () => {
     expect(original).toContain("$&");
 
     const runtimeBlock = bundled.match(
-      /<script\b[^>]*data-hyperframes-preview-runtime[^>]*>([\s\S]*?)<\/script>/i,
+      /<script\b[^>]*data-frames-preview-runtime[^>]*>([\s\S]*?)<\/script>/i,
     );
     expect(runtimeBlock).not.toBeNull();
     const runtimeBody = runtimeBlock?.[1] ?? "";
@@ -867,7 +867,7 @@ describe("bundleToSingleHtml", () => {
     <div id="card-root" data-composition-id="card" data-width="1920" data-height="1080">
       <script>
         window.__timelines = window.__timelines || {};
-        window.__timelines[document.currentScript?.dataset.slot || "missing"] = __hyperframes.getVariables();
+        window.__timelines[document.currentScript?.dataset.slot || "missing"] = __frames.getVariables();
       </script>
     </div>
   </body>
@@ -958,7 +958,7 @@ describe("bundleToSingleHtml", () => {
     expect(bundled).toContain('[data-composition-id="scene"] .title { color: red; }');
     expect(bundled).toContain("new Proxy(window.document");
     expect(bundled).toContain("new Proxy(__hfBaseGsap");
-    expect(bundled).toContain("(function(document, gsap, window, __hyperframes)");
+    expect(bundled).toContain("(function(document, gsap, window, __frames)");
     expect(bundled).toContain('tl.to(".title"');
   });
 
@@ -1337,7 +1337,7 @@ describe("bundleToSingleHtml", () => {
 
     const bundled = await bundleToSingleHtml(dir);
     const { document } = parseHTML(bundled);
-    const styleEls = document.querySelectorAll("style[data-hyperframes-text-rendering]");
+    const styleEls = document.querySelectorAll("style[data-frames-text-rendering]");
 
     expect(styleEls.length).toBe(1);
     expect((styleEls[0]?.textContent || "").replace(/\s+/g, "")).toContain(

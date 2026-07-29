@@ -8,20 +8,20 @@ import { defineCommand, runCommand } from "citty";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["Create a project with the interactive wizard", "hyperframes init my-video"],
-  ["Pick a starter example", "hyperframes init my-video --example warm-grain"],
-  ["Scaffold a 4K project", "hyperframes init my-video --resolution 4k"],
-  ["Scaffold a portrait video", "hyperframes init my-video --resolution portrait"],
-  ["Start from an existing video file", "hyperframes init my-video --video clip.mp4"],
-  ["Start from an audio file", "hyperframes init my-video --audio track.mp3"],
-  ["Scaffold with Tailwind CSS", "hyperframes init my-video --example blank --tailwind"],
+  ["Create a project with the interactive wizard", "frames init my-video"],
+  ["Pick a starter example", "frames init my-video --example warm-grain"],
+  ["Scaffold a 4K project", "frames init my-video --resolution 4k"],
+  ["Scaffold a portrait video", "frames init my-video --resolution portrait"],
+  ["Start from an existing video file", "frames init my-video --video clip.mp4"],
+  ["Start from an audio file", "frames init my-video --audio track.mp3"],
+  ["Scaffold with Tailwind CSS", "frames init my-video --example blank --tailwind"],
   [
     "Non-interactive mode (for CI or AI agents)",
-    "hyperframes init my-video --example blank --non-interactive",
+    "frames init my-video --example blank --non-interactive",
   ],
   [
     "Opt out of the GitHub skills check (CI/tests only)",
-    "HYPERFRAMES_SKIP_SKILLS=1 hyperframes init my-video --example blank --non-interactive",
+    "FRAMES_SKIP_SKILLS=1 frames init my-video --example blank --non-interactive",
   ],
 ];
 import {
@@ -54,7 +54,7 @@ import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
   type CanvasResolution,
-} from "@hyperframes/core";
+} from "@frames/core";
 
 interface VideoMeta {
   durationSeconds: number;
@@ -245,23 +245,23 @@ function toPackageName(projectName: string): string {
     .replace(/-+/g, "-")
     .replace(/^[-.]+|[-.]+$/g, "");
 
-  return normalized || "hyperframes-project";
+  return normalized || "frames-project";
 }
 
 function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "hyperframes" : `hyperframes@${VERSION}`;
+  return VERSION === "0.0.0-dev" ? "frames" : `frames@${VERSION}`;
 }
 
-function hyperframesScript(command: string): string {
+function framesScript(command: string): string {
   return `npx --yes ${getHyperframesPackageSpecifier()} ${command}`;
 }
 
 function buildPackageScripts(): Record<string, string> {
   return {
-    dev: hyperframesScript("preview"),
-    check: hyperframesScript("check"),
-    render: hyperframesScript("render"),
-    publish: hyperframesScript("publish"),
+    dev: framesScript("preview"),
+    check: framesScript("check"),
+    render: framesScript("render"),
+    publish: framesScript("publish"),
   };
 }
 
@@ -587,11 +587,11 @@ async function scaffoldProject(
     "utf-8",
   );
 
-  // Write hyperframes.json so `hyperframes add` knows which registry to use
+  // Write frames.json so `frames add` knows which registry to use
   // and where to drop block/component files. Overwritten only if absent.
   // When the scaffolding workflow declared itself via --skill, stamp the owning
   // skill here so every later render of this project is attributed to it.
-  if (!existsSync(resolve(destDir, "hyperframes.json"))) {
+  if (!existsSync(resolve(destDir, "frames.json"))) {
     const { writeProjectConfig, DEFAULT_PROJECT_CONFIG } =
       await import("../utils/projectConfig.js");
     const { normalizeSkillSlug } = await import("../telemetry/skill.js");
@@ -619,10 +619,10 @@ async function scaffoldProject(
 
 /**
  * Keep the AI coding skills present and current — TARGETED, not the full
- * set. Guarantees the core set (the `/hyperframes` entry router + shared
+ * set. Guarantees the core set (the `/frames` entry router + shared
  * domain skills) and refreshes any skill already installed; the end-user
  * workflow skills are NOT pulled here — they install on demand when their
- * workflow is triggered (`hyperframes skills update <name>`, which the router
+ * workflow is triggered (`frames skills update <name>`, which the router
  * runs before entering a workflow). Re-running `init` on an up-to-date machine
  * is a no-op, and `init` never expands a deliberate partial install.
  * Best-effort: offline, it degrades to a presence check and never breaks init.
@@ -645,7 +645,7 @@ async function keepSkillsCurrent(destDir: string): Promise<void> {
       // "up to date"; the engine already reported what it could verify or
       // blind-install. Point at the recovery command instead.
       console.log(
-        c.dim("Skills freshness unverified — run `npx hyperframes skills update` when online."),
+        c.dim("Skills freshness unverified — run `npx frames skills update` when online."),
       );
     } else if (result.installed.length === 0) {
       console.log(c.success("AI coding skills are already up to date."));
@@ -725,7 +725,7 @@ export default defineCommand({
     "skip-skills": {
       type: "boolean",
       description:
-        "[temporarily ignored] init always checks AI skills against GitHub while the skills.sh registry catches up; set HYPERFRAMES_SKIP_SKILLS=1 to opt out (CI/tests)",
+        "[temporarily ignored] init always checks AI skills against GitHub while the skills.sh registry catches up; set FRAMES_SKIP_SKILLS=1 to opt out (CI/tests)",
     },
     tailwind: {
       type: "boolean",
@@ -740,7 +740,7 @@ export default defineCommand({
       type: "string",
       description:
         "Owning authoring workflow slug (e.g. product-launch-video). Stamped into " +
-        "hyperframes.json so every render of this project is attributed to it on " +
+        "frames.json so every render of this project is attributed to it on " +
         "anonymous telemetry, without re-passing --skill on each render. Ignored unless it is a slug.",
     },
   },
@@ -750,7 +750,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx hyperframes init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  npx frames init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       failCommand();
@@ -758,7 +758,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx hyperframes init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx frames init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       failCommand();
@@ -777,10 +777,10 @@ export default defineCommand({
     // guidance lives in SKILL.md, which ships through the same laggy skills.sh
     // channel and can't be relied on to reach the agent — so the guarantee has to
     // live in the CLI, the one channel that updates promptly (`npx
-    // hyperframes@latest`). CI and unit tests still opt out via the
-    // HYPERFRAMES_SKIP_SKILLS=1 env var, which the agent/user CLI path never sets.
+    // frames@latest`). CI and unit tests still opt out via the
+    // FRAMES_SKIP_SKILLS=1 env var, which the agent/user CLI path never sets.
     // Revert to `args["skip-skills"] === true` once skills.sh catches up.
-    const skipSkills = process.env.HYPERFRAMES_SKIP_SKILLS === "1";
+    const skipSkills = process.env.FRAMES_SKIP_SKILLS === "1";
     const skipSkillsFlagIgnored = args["skip-skills"] === true && !skipSkills;
     const tailwind = args.tailwind === true;
     const nonInteractive = args["non-interactive"] === true;
@@ -944,7 +944,7 @@ export default defineCommand({
       console.log();
       if (skipSkills) {
         console.log(`  ${c.accent("1.")} Install AI coding skills (one-time):`);
-        console.log(`     ${c.accent("npx hyperframes skills update")}`);
+        console.log(`     ${c.accent("npx frames skills update")}`);
       } else {
         console.log(
           `  ${c.accent("1.")} Restart your AI agent (new session) so it loads the skills.`,
@@ -958,9 +958,9 @@ export default defineCommand({
       console.log();
       console.log(`  ${c.accent("3.")} Try a starter prompt:`);
       console.log(
-        `     ${c.dim('"Using /hyperframes, create a 15-second intro about [your topic]"')}`,
+        `     ${c.dim('"Using /frames, create a 15-second intro about [your topic]"')}`,
       );
-      console.log(`     ${c.dim("More patterns: hyperframes.heygen.com/guides/prompting")}`);
+      console.log(`     ${c.dim("More patterns: frames.hanzo.ai/guides/prompting")}`);
       console.log();
       console.log(`  ${c.accent("4.")} Preview in the browser:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run dev")}`);
@@ -971,7 +971,7 @@ export default defineCommand({
       console.log(`  ${c.accent("6.")} Render to MP4 when ready:`);
       console.log(`     ${c.accent(`cd ${name}`)} && ${c.accent("npm run render")}`);
       console.log();
-      console.log(`  ${c.dim("Full docs: hyperframes.heygen.com")}`);
+      console.log(`  ${c.dim("Full docs: frames.hanzo.ai")}`);
       return;
     }
 
@@ -979,7 +979,7 @@ export default defineCommand({
     // Interactive mode
     // -----------------------------------------------------------------------
     printBanner();
-    clack.intro("Create a new HyperFrames project");
+    clack.intro("Create a new Frames project");
 
     // 1. Project name
     let name: string;
@@ -1156,7 +1156,7 @@ export default defineCommand({
     // Check skills against GitHub and refresh only what's stale — the core set
     // plus anything already installed; workflow skills install on demand. The
     // --skip-skills flag is temporarily neutered (see above); CI/tests opt out
-    // via HYPERFRAMES_SKIP_SKILLS=1.
+    // via FRAMES_SKIP_SKILLS=1.
     if (!skipSkills) {
       await keepSkillsCurrent(destDir);
     }

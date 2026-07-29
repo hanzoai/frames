@@ -29,16 +29,16 @@ type FontCompressionOptions = {
 
 function defaultCacheDir(): string {
   const root =
-    process.env.HYPERFRAMES_FONT_CACHE_DIR ??
+    process.env.FRAMES_FONT_CACHE_DIR ??
     (process.env.AWS_LAMBDA_FUNCTION_NAME
-      ? join(tmpdir(), "hyperframes", "fonts")
-      : join(homedir(), ".cache", "hyperframes", "fonts"));
+      ? join(tmpdir(), "frames", "fonts")
+      : join(homedir(), ".cache", "frames", "fonts"));
   return join(root, "local-compression-v1");
 }
 
 function cachedCompressionPath(input: Buffer, originalFormat: string, cacheDir: string): string {
   const digest = createHash("sha256")
-    .update("hyperframes-local-font-compression-v1\0")
+    .update("frames-local-font-compression-v1\0")
     .update(originalFormat)
     .update("\0")
     .update(input)

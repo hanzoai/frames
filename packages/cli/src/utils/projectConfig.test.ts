@@ -148,7 +148,7 @@ describe("projectConfig", () => {
   });
 
   describe("writeProjectConfig", () => {
-    it("writes to hyperframes.json at the project root", () => {
+    it("writes to frames.json at the project root", () => {
       const dir = tmp();
       try {
         writeProjectConfig(dir);
@@ -290,7 +290,7 @@ describe("projectConfig", () => {
       }
     });
 
-    // The seed is the only writer that touches an existing hyperframes.json,
+    // The seed is the only writer that touches an existing frames.json,
     // which is normally committed — a render must not diff it beyond the one
     // key being added. Guards against round-tripping through normalizeConfig.
     it("preserves config keys outside the known schema", () => {

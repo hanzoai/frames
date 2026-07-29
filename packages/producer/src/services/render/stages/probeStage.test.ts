@@ -57,7 +57,7 @@ function resetRetryMocks() {
   durationProbeSessions.length = 0;
 }
 
-mock.module("@hyperframes/engine", () => ({
+mock.module("@frames/engine", () => ({
   createCaptureSession: async (
     _url: string,
     _dir: string,

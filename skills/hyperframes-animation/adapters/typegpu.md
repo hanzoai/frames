@@ -1,20 +1,20 @@
 ---
-name: hyperframes-typegpu
-description: TypeGPU and raw WebGPU adapter patterns for HyperFrames. Use when creating GPU-rendered compositions with TypeGPU, raw WebGPU, WGSL fragment shaders, compute pipelines, liquid glass effects, particle systems, or any canvas layer driven by navigator.gpu that responds to HyperFrames hf-seek events.
+name: frames-typegpu
+description: TypeGPU and raw WebGPU adapter patterns for Frames. Use when creating GPU-rendered compositions with TypeGPU, raw WebGPU, WGSL fragment shaders, compute pipelines, liquid glass effects, particle systems, or any canvas layer driven by navigator.gpu that responds to Frames hf-seek events.
 ---
 
-# TypeGPU / WebGPU for HyperFrames
+# TypeGPU / WebGPU for Frames
 
-HyperFrames supports TypeGPU and raw WebGPU through its `typegpu` runtime adapter. The adapter does not own your pipeline. It publishes HyperFrames time and dispatches a seek event so your composition can render the exact GPU frame.
+Frames supports TypeGPU and raw WebGPU through its `typegpu` runtime adapter. The adapter does not own your pipeline. It publishes Frames time and dispatches a seek event so your composition can render the exact GPU frame.
 
 ## Render-environment prerequisite (WebGPU + html-in-canvas)
 
-The render engine auto-passes `--enable-unsafe-webgpu` and `--enable-features=CanvasDrawElement` to its Chrome launch args. Stock Chromium and the bundled headless-shell **do not** support WebGPU + `drawElementImage` together — the combo that liquid-glass blocks need (`ios26-liquid-glass`, `macos-tahoe-liquid-glass`, `liquid-glass-*`, `vfx-liquid-glass`). For those blocks, point the engine at Brave (or Chrome canary) by setting `PRODUCER_HEADLESS_SHELL_PATH` to the browser binary before running `npx hyperframes render` / `preview`. Plain TypeGPU layers without HTML-as-texture work in headless-shell — only the html-in-canvas + WebGPU combination needs the override.
+The render engine auto-passes `--enable-unsafe-webgpu` and `--enable-features=CanvasDrawElement` to its Chrome launch args. Stock Chromium and the bundled headless-shell **do not** support WebGPU + `drawElementImage` together — the combo that liquid-glass blocks need (`ios26-liquid-glass`, `macos-tahoe-liquid-glass`, `liquid-glass-*`, `vfx-liquid-glass`). For those blocks, point the engine at Brave (or Chrome canary) by setting `PRODUCER_HEADLESS_SHELL_PATH` to the browser binary before running `npx frames render` / `preview`. Plain TypeGPU layers without HTML-as-texture work in headless-shell — only the html-in-canvas + WebGPU combination needs the override.
 
 ## Contract
 
-- Initialize WebGPU asynchronously (`await navigator.gpu.requestAdapter()`), but register all GSAP tweens **synchronously** — before any `await`. The HyperFrames player reads the timeline immediately at page load.
-- Render from HyperFrames time, not `performance.now()`.
+- Initialize WebGPU asynchronously (`await navigator.gpu.requestAdapter()`), but register all GSAP tweens **synchronously** — before any `await`. The Frames player reads the timeline immediately at page load.
+- Render from Frames time, not `performance.now()`.
 - Listen for the `hf-seek` event and re-render at exactly that time.
 - Guard against environments where WebGPU is unavailable — the adapter does not check for you.
 - For video renders, call `await device.queue.onSubmittedWorkDone()` after submitting GPU work to ensure the canvas is flushed before the frame is captured.

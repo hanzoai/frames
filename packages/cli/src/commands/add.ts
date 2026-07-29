@@ -3,17 +3,17 @@ import { defineCommand } from "citty";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["Add a block to the current project", "hyperframes add claude-code-window"],
-  ["Add a component effect", "hyperframes add shader-wipe"],
-  ["Add all HTML-in-Canvas blocks", "hyperframes add html-in-canvas"],
-  ["Add all caption blocks", "hyperframes add captions"],
-  ["Target a specific project directory", "hyperframes add shader-wipe --dir ./my-video"],
-  ["Skip the clipboard copy (CI/headless)", "hyperframes add shader-wipe --no-clipboard"],
+  ["Add a block to the current project", "frames add claude-code-window"],
+  ["Add a component effect", "frames add shader-wipe"],
+  ["Add all HTML-in-Canvas blocks", "frames add html-in-canvas"],
+  ["Add all caption blocks", "frames add captions"],
+  ["Target a specific project directory", "frames add shader-wipe --dir ./my-video"],
+  ["Skip the clipboard copy (CI/headless)", "frames add shader-wipe --no-clipboard"],
 ];
 
 import { existsSync } from "node:fs";
 import { resolve, relative } from "node:path";
-import { ITEM_TYPE_DIRS, type RegistryItem } from "@hyperframes/core";
+import { ITEM_TYPE_DIRS, type RegistryItem } from "@frames/core";
 import { c } from "../ui/colors.js";
 import { installItem, resolveItemsByTag } from "../registry/index.js";
 import { resolveItemWithDependencies } from "../registry/resolver.js";
@@ -32,7 +32,7 @@ import { copyToClipboard } from "../utils/clipboard.js";
 // ── Target-path resolution ──────────────────────────────────────────────────
 // `registry-item.json` files specify `target` paths relative to the project
 // root. For blocks and components we override the default path with the
-// user's `hyperframes.json#paths` so a project can reshape its layout
+// user's `frames.json#paths` so a project can reshape its layout
 // without editing every item's manifest.
 
 export function remapTarget(
@@ -40,14 +40,14 @@ export function remapTarget(
   originalTarget: string,
   paths: { blocks: string; components: string },
 ): string {
-  if (item.type === "hyperframes:block") {
+  if (item.type === "frames:block") {
     // Anchored to the default target prefix from DEFAULT_PROJECT_CONFIG.paths.blocks.
     // Targets that don't start with "compositions/" pass through unchanged.
     // Strip trailing slashes to prevent double-slash in output.
     const blocksDir = paths.blocks.replace(/\/+$/, "");
     return originalTarget.replace(/^compositions\//, `${blocksDir}/`);
   }
-  if (item.type === "hyperframes:component") {
+  if (item.type === "frames:component") {
     // Anchored to the default target prefix from DEFAULT_PROJECT_CONFIG.paths.components.
     const componentsDir = paths.components.replace(/\/+$/, "");
     return originalTarget.replace(/^compositions\/components\//, `${componentsDir}/`);
@@ -61,7 +61,7 @@ export function remapTarget(
 // their host composition. Copied to clipboard by default.
 
 export function buildSnippet(item: RegistryItem, relativeTarget: string): string {
-  if (item.type === "hyperframes:block") {
+  if (item.type === "frames:block") {
     // data-start omitted — adjust to your timeline position after pasting.
     const dims =
       "dimensions" in item && item.dimensions
@@ -69,7 +69,7 @@ export function buildSnippet(item: RegistryItem, relativeTarget: string): string
         : "";
     return `<div data-composition-src="${relativeTarget}" data-duration="${item.duration}"${dims}></div>`;
   }
-  if (item.type === "hyperframes:component") {
+  if (item.type === "frames:component") {
     return `<!-- paste from ${relativeTarget} into your composition -->`;
   }
   return "";
@@ -174,9 +174,9 @@ export async function runAdd(opts: RunAddArgs): Promise<RunAddResult> {
   // so the final element is the item the user asked for.
   const item = resolved[resolved.length - 1]!;
 
-  if (item.type === "hyperframes:example") {
+  if (item.type === "frames:example") {
     throw new AddError(
-      `"${item.name}" is an example — use \`hyperframes init <dir> --example ${item.name}\` instead.`,
+      `"${item.name}" is an example — use \`frames init <dir> --example ${item.name}\` instead.`,
       "example-type",
     );
   }
@@ -200,8 +200,8 @@ export async function runAdd(opts: RunAddArgs): Promise<RunAddResult> {
   // 6. Build include snippet + clipboard copy for the requested item.
   const itemForInstall = installPlan[installPlan.length - 1]!;
   const primaryFile =
-    itemForInstall.files.find((f) => f.type === "hyperframes:snippet") ??
-    itemForInstall.files.find((f) => f.type === "hyperframes:composition") ??
+    itemForInstall.files.find((f) => f.type === "frames:snippet") ??
+    itemForInstall.files.find((f) => f.type === "frames:composition") ??
     itemForInstall.files[0];
   const snippetTargetRel = primaryFile?.target ?? "";
   const snippet = buildSnippet(item, snippetTargetRel);

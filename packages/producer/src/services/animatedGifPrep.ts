@@ -11,8 +11,8 @@ import {
 } from "node:fs";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { parseHTML } from "linkedom";
-import { parseAnimatedGifMetadata, type AnimatedGifMetadata } from "@hyperframes/core";
-import { DEFAULT_VP9_CPU_USED, runFfmpeg } from "@hyperframes/engine";
+import { parseAnimatedGifMetadata, type AnimatedGifMetadata } from "@frames/core";
+import { DEFAULT_VP9_CPU_USED, runFfmpeg } from "@frames/engine";
 import { isHttpUrl } from "../utils/urlDownloader.js";
 
 const PREPARED_GIF_SUBDIR = "_animated_gif";

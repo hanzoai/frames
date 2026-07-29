@@ -61,7 +61,7 @@ Capture artifacts stay in `capture/` so they're cleanly separated from the build
 When the video is grounded in an existing source (a website, a brand site, a competitor reference), start with capture. Hyperframes ships a built-in capture command for websites:
 
 ```bash
-npx hyperframes capture https://example.com -o my-video/capture
+npx frames capture https://example.com -o my-video/capture
 ```
 
 This extracts screenshots at every scroll depth, pixel-sampled color palettes, the CSS font stack (and downloaded woff2 files), images and SVGs with semantic names, Lottie animations, and detected animations on the page. Optional [Gemini vision enrichment](/guides/website-to-video#enriching-captures-with-gemini-vision) adds AI-powered descriptions of every captured asset.
@@ -116,7 +116,7 @@ Each beat in `STORYBOARD.md` typically covers:
 | Narration line   | The exact words spoken during this beat |
 | Mood & camera    | One sentence describing the feel and the shot |
 | Assets           | Which captured images, icons, and fonts go in this beat, referenced by path |
-| Techniques       | 2-3 picks from the [techniques library](https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/references/techniques.md): SVG path drawing, Canvas 2D, CSS 3D, per-word typography, Lottie, video compositing, typing effects, variable fonts, MotionPath, velocity transitions, audio-reactive |
+| Techniques       | 2-3 picks from the [techniques library](https://github.com/hanzoai/frames/blob/main/skills/frames/references/techniques.md): SVG path drawing, Canvas 2D, CSS 3D, per-word typography, Lottie, video compositing, typing effects, variable fonts, MotionPath, velocity transitions, audio-reactive |
 | Transitions      | How this beat enters from the previous one and exits to the next |
 | SFX              | Short, specific sound effects (e.g. _"woosh on logo entry, soft tick on counter"_) |
 
@@ -131,8 +131,8 @@ The storyboard typically opens with a global-direction block: format, voiceover 
 Generate the TTS narration, then transcribe it for word-level timestamps. Those timestamps are the source of truth for every beat duration downstream.
 
 ```bash
-npx hyperframes tts SCRIPT.md --voice af_nova --output narration.wav
-npx hyperframes transcribe narration.wav
+npx frames tts SCRIPT.md --voice af_nova --output narration.wav
+npx frames transcribe narration.wav
 ```
 
 | File             | What it contains |
@@ -153,7 +153,7 @@ This is where the storyboard becomes runnable HTML. Each composition is a self-c
 
 For multi-beat videos, spawn a focused sub-agent per beat. Each one gets fresh context, the storyboard section for its beat, the asset paths it needs, and the relevant technique references. That produces noticeably better output than building every beat in one long-running context.
 
-After each composition is built, run a self-review for layout, asset placement, and animation quality. The [`/hyperframes-core`](/guides/prompting) skill encodes the composition rules — required `class="clip"` attributes, `data-*` attribute semantics — and [`/hyperframes-animation`](/guides/prompting) covers GSAP timeline registration and adapter registries.
+After each composition is built, run a self-review for layout, asset placement, and animation quality. The [`/frames-core`](/guides/prompting) skill encodes the composition rules — required `class="clip"` attributes, `data-*` attribute semantics — and [`/frames-animation`](/guides/prompting) covers GSAP timeline registration and adapter registries.
 
 **Gate:** Every composition is self-reviewed. No overlapping elements, no misplaced assets, no static images sitting unanimated.
 
@@ -164,17 +164,17 @@ After each composition is built, run a self-review for layout, asset placement, 
 Three checks before delivery:
 
 ```bash
-npx hyperframes lint                              # static HTML structure checks
-npx hyperframes check                             # one browser session: runtime errors, layout, motion, contrast
-npx hyperframes snapshot my-video --at 2.9,10.4   # PNGs at beat midpoints
+npx frames lint                              # static HTML structure checks
+npx frames check                             # one browser session: runtime errors, layout, motion, contrast
+npx frames snapshot my-video --at 2.9,10.4   # PNGs at beat midpoints
 ```
 
 `lint` catches missing attributes, timeline registration issues, tween conflicts, and CSS-transform vs. GSAP conflicts. `validate` loads each composition in headless Chrome and surfaces runtime JS errors, missing assets, and failed network requests. `snapshot` captures frames at specific timestamps so you can _see_ your output without a full render.
 
-The pipeline delivers the localhost Studio URL as the handoff. Your AI agent runs `npx hyperframes preview` and shares the project URL. Rendering to MP4 is on-demand:
+The pipeline delivers the localhost Studio URL as the handoff. Your AI agent runs `npx frames preview` and shares the project URL. Rendering to MP4 is on-demand:
 
 ```bash
-npx hyperframes render --output my-video.mp4
+npx frames render --output my-video.mp4
 ```
 
 For personalized or catalog outputs, render the same validated composition with `--batch rows.json --output "renders/{name}.mp4"` and use the generated `manifest.json` as the delivery checklist.
@@ -186,7 +186,7 @@ For personalized or catalog outputs, render the same validated composition with 
 The pipeline is built around named artifacts on disk so you can re-enter anywhere without re-running everything:
 
 - To rework the creative plan, edit `STORYBOARD.md`: change a beat's mood, swap an asset, retime the entrance, then ask the agent to rebuild just that beat.
-- For surgical tweaks, open a composition file directly (e.g. `compositions/beat-3-proof.html`) and adjust animations, colors, or layout. `npx hyperframes preview` shows changes live.
+- For surgical tweaks, open a composition file directly (e.g. `compositions/beat-3-proof.html`) and adjust animations, colors, or layout. `npx frames preview` shows changes live.
 - To rebuild one beat from scratch, prompt the agent: _"Rebuild beat 2 with more energy. Use the product screenshot as full-bleed background."_ It reads `STORYBOARD.md`, `DESIGN.md`, and the transcript, then regenerates just that file.
 - To swap the voice without redoing Step 3, re-run TTS against `narration.txt`, which already has the pronunciation substitutions baked in.
 

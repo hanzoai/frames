@@ -52,11 +52,11 @@ import {
   patchRemove,
 } from "./patches.js";
 import { upsertCssRule } from "./cssWriter.js";
-import { mintHfId, EXCLUDED_TAGS } from "@hyperframes/core/hf-ids";
-import { EDIT_BASE_X_ATTR, EDIT_BASE_Y_ATTR } from "@hyperframes/core/runtime/position-edits";
-import { readClipTiming, writeClipTiming } from "@hyperframes/core/composition-contract";
-import { parseGsapScriptAcornForWrite } from "@hyperframes/core/gsap-parser-acorn";
-import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
+import { mintHfId, EXCLUDED_TAGS } from "@frames/core/hf-ids";
+import { EDIT_BASE_X_ATTR, EDIT_BASE_Y_ATTR } from "@frames/core/runtime/position-edits";
+import { readClipTiming, writeClipTiming } from "@frames/core/composition-contract";
+import { parseGsapScriptAcornForWrite } from "@frames/core/gsap-parser-acorn";
+import type { GsapAnimation } from "@frames/core/gsap-parser";
 import {
   addAnimationToScript,
   addAnimationWithKeyframesToScript,
@@ -77,7 +77,7 @@ import {
   updateArcSegmentInScript,
   removeArcPathFromScript,
   unrollDynamicAnimations,
-} from "@hyperframes/core/gsap-writer-acorn";
+} from "@frames/core/gsap-writer-acorn";
 import { deriveKeyframeBackfillDefaults } from "./keyframeBackfill.js";
 import {
   readVariableDefault,
@@ -89,13 +89,13 @@ import {
 import {
   isCompositionVariable,
   isScalarVariableValue as isScalar,
-} from "@hyperframes/core/variables";
-import type { CompositionVariable } from "@hyperframes/core/variables";
+} from "@frames/core/variables";
+import type { CompositionVariable } from "@frames/core/variables";
 import {
   URI_BEARING_ATTRS,
   DANGEROUS_URI_SCHEMES,
   DANGEROUS_DATA_URI,
-} from "@hyperframes/core/html-attr-safety";
+} from "@frames/core/html-attr-safety";
 
 export interface MutationResult {
   forward: JsonPatchOp[];
@@ -366,7 +366,7 @@ function handleMoveElement(
   y: number,
 ): MutationResult {
   // HF elements are positioned via data-x / data-y (parsed by htmlParser.ts,
-  // emitted by hyperframes generator). CSS left/top is not the convention.
+  // emitted by frames generator). CSS left/top is not the convention.
   //
   // The pre-edit values are captured once per element into
   // data-hf-edit-base-x/y. The runtime (core runtime/positionEdits.ts) renders

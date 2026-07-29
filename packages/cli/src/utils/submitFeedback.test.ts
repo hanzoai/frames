@@ -32,7 +32,7 @@ describe("submitFeedback", () => {
     expect(fetchMock).toHaveBeenCalledOnce();
     expect(getPublishApiBaseUrlMock).toHaveBeenCalledOnce();
     expect(fetchMock).toHaveBeenCalledWith(
-      "https://api.example.com/v1/hyperframes/feedback",
+      "https://api.example.com/v1/frames/feedback",
       expect.objectContaining({
         method: "POST",
         headers: { "content-type": "application/json", heygen_route: "canary" },

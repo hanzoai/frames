@@ -182,10 +182,10 @@ export async function captionImagesWithGemini(
   const useOpenRouter = Boolean(openRouterKey);
   const providerName = useOpenRouter ? "OpenRouter" : "Gemini";
   // Default mirrors the Gemini path's tier (3.x flash-lite). Override per
-  // provider via HYPERFRAMES_OPENROUTER_MODEL / HYPERFRAMES_GEMINI_MODEL.
+  // provider via FRAMES_OPENROUTER_MODEL / FRAMES_GEMINI_MODEL.
   const model = useOpenRouter
-    ? process.env.HYPERFRAMES_OPENROUTER_MODEL || "google/gemini-3.1-flash-lite"
-    : process.env.HYPERFRAMES_GEMINI_MODEL || "gemini-3.1-flash-lite-preview";
+    ? process.env.FRAMES_OPENROUTER_MODEL || "google/gemini-3.1-flash-lite"
+    : process.env.FRAMES_GEMINI_MODEL || "gemini-3.1-flash-lite-preview";
 
   progress("design", `Captioning images with ${providerName} vision...`);
   try {

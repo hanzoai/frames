@@ -4,7 +4,7 @@ These are optional tested seeds, not the complete capability surface. Read the
 shared policy and choose one relevant section through `media-treatments.md`.
 Agents may modify or combine a seed with compatible canonical controls after
 inspecting the media, or assemble a bespoke payload from
-`hyperframes media-treatment --capabilities --json` when no seed fits.
+`frames media-treatment --capabilities --json` when no seed fits.
 
 ## Natural Portrait
 
@@ -305,7 +305,7 @@ When the narrative benefits from explicit recording-device language, install
 the Registry overlay block:
 
 ```bash
-npx hyperframes add camcorder-hud --no-clipboard
+npx frames add camcorder-hud --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host over the intended media range.
@@ -407,7 +407,7 @@ The digital stage is used only for rare horizontal row tears: keep its color
 split, pixelation, block displacement, block opacity, and corruption values at
 zero. Leave blur, CRT curvature, generic pixelation, and a camera HUD off.
 
-These values are an original HyperFrames recipe calibrated on the same public
+These values are an original Frames recipe calibrated on the same public
 Orange Cat source used for the external visual reference. They are not copied
 shader code or a claim of pixel-identical output from the external reference. The scanline count is
 mapped to the reference's approximately 127-cycle primary line pattern; the HF
@@ -426,7 +426,7 @@ that competes with the subject.
 
 Use for personal archive, family-memory, childhood, travel-memory, or explicit
 small-gauge home-movie language. This is stronger and more materially film-like
-than Film Memory, but it is still an owned HyperFrames treatment rather than a
+than Film Memory, but it is still an owned Frames treatment rather than a
 claim to reproduce a named film stock, camera, or laboratory process.
 
 Do not use for literal UI, technical demonstrations, catalog products, clean
@@ -515,7 +515,7 @@ like a transparent dot texture laid over unchanged footage.
 
 Use for poster frames, editorial portraits, music/social cutaways, zine
 graphics, and bold print-led transitions where two visible spot inks are more
-appropriate than photographic color. This is a fixed original HyperFrames
+appropriate than photographic color. This is a fixed original Frames
 vermilion/teal treatment, not a claim to emulate a named printer, ink set, or
 commercial print process.
 
@@ -722,7 +722,7 @@ the six-color **Electric Ink** palette:
 }
 ```
 
-HyperFrames also owns these named ramps. The name is an authoring shortcut;
+Frames also owns these named ramps. The name is an authoring shortcut;
 persist the listed colors through the existing `palette` array:
 
 | Group       | Palette ID       | Ordered colors                                                   |
@@ -740,8 +740,8 @@ persist the listed colors through the existing `palette` array:
 | Mood        | `forest`         | `#1a2e1a`, `#2d4a2d`, `#4a7c4a`, `#7ab37a`, `#c8e6c8`            |
 | Mono        | `sepia`          | `#1a1610`, `#3d3020`, `#6b5a40`, `#a89070`, `#e8dcc8`            |
 | Mono        | `blueprint`      | `#001830`, `#003060`, `#0050a0`, `#0080e0`, `#e0f0ff`            |
-| HyperFrames | `warm-print`     | `#17121a`, `#824c50`, `#e09873`, `#f7ddb1`                       |
-| HyperFrames | `electric-ink`   | `#080717`, `#3c185f`, `#7e2278`, `#d9339f`, `#ff6b66`, `#aafae0` |
+| Frames | `warm-print`     | `#17121a`, `#824c50`, `#e09873`, `#f7ddb1`                       |
+| Frames | `electric-ink`   | `#080717`, `#3c185f`, `#7e2278`, `#d9339f`, `#ff6b66`, `#aafae0` |
 
 Choose by inspected source and project language, not by palette name alone.
 For example, `terminal` fits device/code language, `warm-print` fits editorial
@@ -804,7 +804,7 @@ texture, generic flash, or film-stock emulation.
 Install the Registry overlay block:
 
 ```bash
-npx hyperframes add organic-light-leak-overlay --no-clipboard
+npx frames add organic-light-leak-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host at the intended beat and keep
@@ -824,9 +824,9 @@ Extract the exact deterministic source frame first, then remove its background:
 
 ```bash
 ffmpeg -ss <seconds> -i <source-video> -frames:v 1 -y .media/generated/freeze-source.png
-npx hyperframes remove-background .media/generated/freeze-source.png \
+npx frames remove-background .media/generated/freeze-source.png \
   -o .media/generated/freeze-cutout.png --json
-npx hyperframes add freeze-frame-dressing --no-clipboard
+npx frames add freeze-frame-dressing --no-clipboard
 ```
 
 Add the transparent result as a direct-root timed media layer and insert the
@@ -876,7 +876,7 @@ authored light/motion layers when they do not obscure required information.
 Install the Registry overlay block:
 
 ```bash
-npx hyperframes add editorial-flash-overlay --no-clipboard
+npx frames add editorial-flash-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host so the block's midpoint lands

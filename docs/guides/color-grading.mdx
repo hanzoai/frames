@@ -9,7 +9,7 @@ contract in preview and render.
 
 ## Choose the Right Tool
 
-| Stage | Purpose | HyperFrames tools |
+| Stage | Purpose | Frames tools |
 | --- | --- | --- |
 | Correct | Fix exposure, contrast, tonal balance, and casts | Adjust controls and source analysis |
 | Grade | Shape color and mood | Tonal wheels, RGB curves, hue curves, and HSL color selections |
@@ -49,14 +49,14 @@ paint order follows its authored track and CSS `z-index`.
     frames:
 
     ```bash Terminal
-    npx hyperframes media-treatment \
+    npx frames media-treatment \
       --project . \
       --file compositions/interview.html \
       --selector '#interview' \
       --analyze \
       --json
 
-    npx hyperframes media-treatment \
+    npx frames media-treatment \
       --project . \
       --file compositions/interview.html \
       --selector '#interview' \
@@ -99,7 +99,7 @@ same tonal zone, while hue and amount introduce color.
 - **Red**, **Green**, and **Blue** remap individual channels.
 
 Curve points are normalized `[input, output]` pairs. Resolved curves contain
-input endpoints `0` and `1`; HyperFrames infers missing endpoints, and the
+input endpoints `0` and `1`; Frames infers missing endpoints, and the
 2–16-point limit includes those inferred points. An S-curve increases contrast;
 lifting the lower-left region raises shadows; channel curves can build
 split-tone or cast-removal adjustments.
@@ -121,7 +121,7 @@ correction only inside that matte. This is useful for restrained tasks such as
 reducing an overly saturated shirt, cooling a background color, or protecting
 skin from a broad creative grade.
 
-HyperFrames supports up to four ordered selections. These are static
+Frames supports up to four ordered selections. These are static
 media-level qualifiers: they do not include object tracking, rotoscoping,
 facial recognition, or spatial masks.
 
@@ -140,7 +140,7 @@ and do not modify the grade.
 
 ## Presets
 
-HyperFrames ships tested shader-setting presets, not bundled LUT files:
+Frames ships tested shader-setting presets, not bundled LUT files:
 
 | Intent | Presets |
 | --- | --- |
@@ -168,9 +168,9 @@ Start with the concise capability overview, then query only the contract needed
 for the current intent:
 
 ```bash Terminal
-npx hyperframes media-treatment --capabilities --json
-npx hyperframes media-treatment --capability grading --json
-npx hyperframes media-treatment --capability curves --json
+npx frames media-treatment --capabilities --json
+npx frames media-treatment --capability grading --json
+npx frames media-treatment --capability curves --json
 ```
 
 Focused queries such as `wheels`, `hue-curves`, `secondary`, `scopes`, or `lut`
@@ -231,15 +231,15 @@ bounds. Query the current contract instead of copying bounds into agent
 instructions:
 
 ```bash Terminal
-npx hyperframes media-treatment --capability secondary --json
-npx hyperframes media-treatment --all --json
+npx frames media-treatment --capability secondary --json
+npx frames media-treatment --all --json
 ```
 
 Use `--all` only for exhaustive tooling or contract inspection.
 
 ## Custom LUTs
 
-HyperFrames supports project-local 3D `.cube` LUTs:
+Frames supports project-local 3D `.cube` LUTs:
 
 ```json data-color-grading
 {
@@ -254,10 +254,10 @@ HyperFrames supports project-local 3D `.cube` LUTs:
 - 1D and mixed 1D+3D `.cube` files are not supported.
 - Common `DOMAIN_MIN`, `DOMAIN_MAX`, and DaVinci/IRIDAS-style
   `LUT_3D_INPUT_RANGE` headers are supported.
-- HyperFrames does not bundle third-party LUT packs.
+- Frames does not bundle third-party LUT packs.
 - A LUT is only correct when its expected input color space matches the source.
 - Rec.709 creative LUTs are the safest current workflow.
-- Camera LOG conversion LUTs can be loaded, but HyperFrames does not identify
+- Camera LOG conversion LUTs can be loaded, but Frames does not identify
   camera profiles or apply ACES/OCIO input transforms automatically.
 
 Never paste a `.cube` body into an agent prompt. LUT files commonly contain
@@ -284,11 +284,11 @@ validation, and rendered comparisons to evaluate it.
 The runtime creates a sibling WebGL canvas, uploads the current image/video
 frame as a texture, applies the same grading contract used by Studio, and hides
 the native source after a shader frame is ready. During final rendering,
-HyperFrames injects exact video frames and waits for the grading runtime to
+Frames injects exact video frames and waits for the grading runtime to
 redraw before capture.
 
 That render-parity statement applies to SDR output. In the native HDR render
-path, HyperFrames keeps HDR source pixels out of the SDR DOM capture and
+path, Frames keeps HDR source pixels out of the SDR DOM capture and
 composites them separately at higher bit depth. The current SDR grading canvas
 is therefore not applied to native HDR layers. Convert or tone-map the source to
 SDR first when these grading controls must appear in the result, or use

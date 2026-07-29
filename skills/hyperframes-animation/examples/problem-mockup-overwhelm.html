@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <title>Scene — HyperFrames Problem Mockup Overwhelm</title>
+    <title>Scene — Frames Problem Mockup Overwhelm</title>
 
     <!--
-      Blueprint: problem-mockup-overwhelm (HyperFrames preview)
-      HyperFrames-native version of the scene-02-mockup-morph-overwhelm concept.
+      Blueprint: problem-mockup-overwhelm (Frames preview)
+      Frames-native version of the scene-02-mockup-morph-overwhelm concept.
 
       Choreography (4 phases, 6 seconds total):
-        0.00 – 0.55s   Three HyperFrames workflow mockups spring-in (left → right → center)
+        0.00 – 0.55s   Three Frames workflow mockups spring-in (left → right → center)
                        Check panel left · render queue right · preview timeline center
-        0.33 – 0.95s   Nine scattered HyperFrames tool icons stagger in around the cluster
+        0.33 – 0.95s   Nine scattered Frames tool icons stagger in around the cluster
         3.20 – 3.80s   MORPH:
                          center mockup compositor-scale down to the avatar footprint
                          borderRadius repaint (42px → 50% = reads as circle)
@@ -26,7 +26,7 @@
           paint-only tween. The "rect → circle" effect is completed by the final 0.51s-onward
           opacity hand-off to the avatar element rendered underneath at z-index 20.
         - Both mockup layer and avatar layer stay in DOM (no `{showX && <Y />}` conditional render);
-          opacity gates visibility — required because HyperFrames seek can move time backwards.
+          opacity gates visibility — required because Frames seek can move time backwards.
         - All `Math.sin(frame * ...)` continuous motion replaced by:
             mockup float / bubble float / orbit dots → shared onUpdate scene-ticker reading tl.time()
             avatar breath → finite sine.inOut yoyo (multiplicative onto pop scale)
@@ -272,7 +272,7 @@
         will-change: opacity;
       }
 
-      /* --- HyperFrames Check (left) --- */
+      /* --- Frames Check (left) --- */
       .yt-header {
         padding: 14px 18px;
         background: #f9f9f9;
@@ -384,7 +384,7 @@
         gap: 8px;
       }
 
-      /* --- HyperFrames Preview (center) — content fades during morph --- */
+      /* --- Frames Preview (center) — content fades during morph --- */
       .tt-statusbar {
         padding: 10px 14px;
         display: flex;
@@ -489,7 +489,7 @@
         color: white;
       }
 
-      /* --- HyperFrames Render (right) --- */
+      /* --- Frames Render (right) --- */
       .ig-header {
         padding: 12px 16px;
         border-bottom: 1px solid #efefef;
@@ -749,7 +749,7 @@
       >
         <!-- ===== Phase 1-2: Mockup cluster + scattered icons ===== -->
         <div class="mockup-cluster">
-          <!-- HyperFrames Check mockup (left) -->
+          <!-- Frames Check mockup (left) -->
           <div class="mockup mockup-left">
             <div class="phone-shell">
               <div class="phone-notch"></div>
@@ -773,7 +773,7 @@
                         opacity="0.82"
                       />
                     </svg>
-                    HyperFrames Check
+                    Frames Check
                   </div>
                   <div class="yt-body">
                     <h3>Validate composition</h3>
@@ -799,7 +799,7 @@
             </div>
           </div>
 
-          <!-- HyperFrames Preview mockup (center, morph target) -->
+          <!-- Frames Preview mockup (center, morph target) -->
           <div class="mockup mockup-center">
             <div class="phone-shell">
               <div class="phone-notch"></div>
@@ -840,7 +840,7 @@
             </div>
           </div>
 
-          <!-- HyperFrames Render mockup (right) -->
+          <!-- Frames Render mockup (right) -->
           <div class="mockup mockup-right">
             <div class="phone-shell">
               <div class="phone-notch"></div>
@@ -864,7 +864,7 @@
                     Render Queue
                   </div>
                   <div class="ig-body">
-                    <h3>Export HyperFrames scene</h3>
+                    <h3>Export Frames scene</h3>
                     <div class="ig-warn">
                       <div class="ig-warn-title">Ready for MP4 render</div>
                       <div class="ig-warn-sub">lint · validate · inspect passed</div>
@@ -885,7 +885,7 @@
             </div>
           </div>
 
-          <!-- Nine scattered HyperFrames workflow icons -->
+          <!-- Nine scattered Frames workflow icons -->
           <div class="platform-icon pi-youtube">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <defs>

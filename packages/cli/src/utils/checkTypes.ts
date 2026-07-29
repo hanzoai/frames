@@ -39,7 +39,7 @@ export interface FrameCheckOptions {
   seek?: number[];
 }
 
-/** Layout-audit tuning passed through to `__hyperframesLayoutAudit`. All fields optional. */
+/** Layout-audit tuning passed through to `__framesLayoutAudit`. All fields optional. */
 export interface LayoutOptions {
   /** Prose `text_occluded` coveredFraction floor (0–1; default 0.15); atomic labels still flag at any hit. */
   proseCoverageFloor?: number;
@@ -129,7 +129,7 @@ export interface CheckGeometryCandidate extends CheckAnchor {
 }
 
 /** One rotatable element's geometry at a single seeked sample, produced by
- * `__hyperframesRotationSample` (layout-audit.browser.js) and accumulated
+ * `__framesRotationSample` (layout-audit.browser.js) and accumulated
  * across the grid to detect `rotation_pivot_drift`. */
 export interface RotationSample {
   time: number;
@@ -142,7 +142,7 @@ export interface RotationSample {
 }
 
 /** One elongated rotating SVG figure's material geometry at a single seeked
- * sample, produced by `__hyperframesOffPivotRotationSample`. `(ax,ay)`/`(bx,by)` are
+ * sample, produced by `__framesOffPivotRotationSample`. `(ax,ay)`/`(bx,by)` are
  * two fixed material points on the figure (major-axis endpoints) mapped to
  * screen space, so their cross-frame trajectory recovers the true center of
  * rotation; `(hx,hy)` is the dial's static hub and `hr` its radius. The sample

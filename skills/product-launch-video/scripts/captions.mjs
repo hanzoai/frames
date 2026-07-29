@@ -12,10 +12,10 @@
 // No narration / no words → legal skip: nothing written, assemble-index then omits
 // the captions track (it keys off compositions/captions.html existence).
 //
-//   node captions.mjs build --storyboard ./STORYBOARD.md --audio-meta ./audio_meta.json --hyperframes . --out ./caption_groups.json
+//   node captions.mjs build --storyboard ./STORYBOARD.md --audio-meta ./audio_meta.json --frames . --out ./caption_groups.json
 //
 // CAPTION LOOK — two sources, picked automatically:
-//   1. PRESET SKIN (preferred). If a project-local `.hyperframes/caption-skin.html`
+//   1. PRESET SKIN (preferred). If a project-local `.frames/caption-skin.html`
 //      exists (Step 2 copies the chosen frame-preset's skin into the project), it is
 //      the caption look.
 //      It is a brand-token-strict skin with three reserved holes; this script fills them
@@ -64,19 +64,19 @@ function runBuild(argv) {
     process.exit(1);
   };
 
-  const hyperframesDir = resolve(flag(argv, "hyperframes", "."));
-  const storyboardPath = resolve(flag(argv, "storyboard", join(hyperframesDir, "STORYBOARD.md")));
-  const audioMetaPath = resolve(flag(argv, "audio-meta", join(hyperframesDir, "audio_meta.json")));
-  const outPath = resolve(flag(argv, "out", join(hyperframesDir, "caption_groups.json")));
-  const htmlPath = join(hyperframesDir, "compositions/captions.html");
-  const overridesPath = join(hyperframesDir, "caption-overrides.json");
+  const framesDir = resolve(flag(argv, "frames", "."));
+  const storyboardPath = resolve(flag(argv, "storyboard", join(framesDir, "STORYBOARD.md")));
+  const audioMetaPath = resolve(flag(argv, "audio-meta", join(framesDir, "audio_meta.json")));
+  const outPath = resolve(flag(argv, "out", join(framesDir, "caption_groups.json")));
+  const htmlPath = join(framesDir, "compositions/captions.html");
+  const overridesPath = join(framesDir, "caption-overrides.json");
   const skinArg = flag(argv, "skin", null);
-  const hiddenSkinPath = join(hyperframesDir, ".hyperframes", "caption-skin.html");
-  const legacySkinPath = join(hyperframesDir, "caption-skin.html");
+  const hiddenSkinPath = join(framesDir, ".frames", "caption-skin.html");
+  const legacySkinPath = join(framesDir, "caption-skin.html");
   const skinPath = resolve(
     skinArg ?? (existsSync(hiddenSkinPath) ? hiddenSkinPath : legacySkinPath),
   );
-  const framePath = resolve(flag(argv, "frame", join(hyperframesDir, "frame.md")));
+  const framePath = resolve(flag(argv, "frame", join(framesDir, "frame.md")));
 
   if (!existsSync(storyboardPath)) die(`STORYBOARD.md not found at ${storyboardPath}`);
   const manifest = parseStoryboard(readFileSync(storyboardPath, "utf8"));
@@ -174,7 +174,7 @@ function runBuild(argv) {
   let source;
   if (existsSync(skinPath)) {
     const tokens = frameTokensCss(framePath, H);
-    const faces = brandFontFaces(framePath, hyperframesDir);
+    const faces = brandFontFaces(framePath, framesDir);
     const fonts = existsSync(framePath) ? parseFonts(readFileSync(framePath, "utf8")) : {};
     writeFileSync(
       htmlPath,
@@ -190,7 +190,7 @@ function runBuild(argv) {
         fonts,
       ),
     );
-    source = `preset skin (${skinPath.replace(hyperframesDir + "/", "")})`;
+    source = `preset skin (${skinPath.replace(framesDir + "/", "")})`;
   } else {
     writeFileSync(htmlPath, buildCaptionsHtml(finalized, total, W, H));
     source = "default (built-in pill)";
@@ -286,7 +286,7 @@ export { buildFromSkin };
 // (staged assets/fonts first, else capture/assets/fonts) by family-name prefix, with
 // weight parsed from the filename. Paths are relative to compositions/captions.html.
 // Returns "" when frame.md or font files are absent (then the skin's fallback applies).
-function brandFontFaces(framePath, hyperframesDir) {
+function brandFontFaces(framePath, framesDir) {
   if (!existsSync(framePath)) return "";
   const { display, body } = parseFonts(readFileSync(framePath, "utf8"));
   const families = [
@@ -297,8 +297,8 @@ function brandFontFaces(framePath, hyperframesDir) {
     // ROOT-RELATIVE — compositions are served with the project root as their base URL, so a
     // "../" prefix escapes the root (lint: invalid_parent_traversal_in_asset_path) and 404s in
     // Studio/preview. Mirror what the frame workers use for images.
-    { abs: join(hyperframesDir, "assets/fonts"), rel: "assets/fonts" },
-    { abs: join(hyperframesDir, "capture/assets/fonts"), rel: "capture/assets/fonts" },
+    { abs: join(framesDir, "assets/fonts"), rel: "assets/fonts" },
+    { abs: join(framesDir, "capture/assets/fonts"), rel: "capture/assets/fonts" },
   ].filter((d) => existsSync(d.abs));
   const weightOf = (n) => {
     const s = n.toLowerCase();
@@ -400,7 +400,7 @@ function frameTokensCss(framePath, H) {
 
 // ── default path (no preset skin) ─────────────────────────────────────────────
 // Self-contained captions sub-composition. The <template> holds the band container
-// + style AND the <script> (the HyperFrames loader only executes scripts INSIDE the
+// + style AND the <script> (the Frames loader only executes scripts INSIDE the
 // cloned template — a sibling <script> after </template> never runs, so the timeline
 // never registers and captions render blank). The script builds per-word spans and a
 // paused, seek-safe GSAP timeline (opacity for group show/hide, a quick color tween
@@ -492,7 +492,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   if (sub === "build" || sub === undefined) runBuild(process.argv.slice(sub === "build" ? 3 : 2));
   else {
     console.error(
-      "usage: node captions.mjs build [--storyboard …] [--audio-meta …] [--hyperframes .]",
+      "usage: node captions.mjs build [--storyboard …] [--audio-meta …] [--frames .]",
     );
     process.exit(2);
   }

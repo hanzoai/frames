@@ -1,6 +1,6 @@
 import type { LintContext, HyperframeLintFinding } from "../context";
 import { readAttr, readDecodedAttr, truncateSnippet, isMediaTag } from "../utils";
-import { validateColorGradingContract } from "@hyperframes/parsers/color-grading-contract";
+import { validateColorGradingContract } from "@frames/parsers/color-grading-contract";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -155,7 +155,7 @@ function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFin
         findings.push({
           code: "imperative_media_control",
           severity: "error",
-          message: `Inline <script> imperatively controls managed media via ${kind}. HyperFrames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
+          message: `Inline <script> imperatively controls managed media via ${kind}. Frames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
           elementId: elementId || undefined,
           fixHint:
             "Remove imperative media play/pause/currentTime/muted control. Express timing with data-start/data-duration and media offsets like data-media-start or data-playback-start instead.",
@@ -181,7 +181,7 @@ function findImperativeMediaControlFindings(ctx: LintContext): HyperframeLintFin
           findings.push({
             code: "imperative_media_control",
             severity: "error",
-            message: `Inline <script> imperatively controls managed media via ${kind}. HyperFrames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
+            message: `Inline <script> imperatively controls managed media via ${kind}. Frames must own media play/pause/seek to keep preview, timeline, and renders deterministic.`,
             elementId,
             fixHint:
               "Remove imperative media play/pause/currentTime/muted control. Express timing with data-start/data-duration and media offsets like data-media-start or data-playback-start instead.",
@@ -475,7 +475,7 @@ export const mediaRules: Array<(ctx: LintContext) => HyperframeLintFinding[]> = 
         findings.push({
           code: "media_missing_data_start",
           severity: "error",
-          message: `<${tag.name}${hasId ? ` id="${hasId}"` : ""}> has src but no data-start. HyperFrames cannot own playback for untimed media, so preview and render behavior can diverge.`,
+          message: `<${tag.name}${hasId ? ` id="${hasId}"` : ""}> has src but no data-start. Frames cannot own playback for untimed media, so preview and render behavior can diverge.`,
           elementId: hasId || undefined,
           fixHint: `Add data-start="0" (or the intended start time) and data-duration if the clip should stop before the source ends.`,
           snippet: truncateSnippet(tag.raw),

@@ -29,7 +29,7 @@ import {
   runFfmpeg,
   trackChildProcess,
   type AudioMetadata,
-} from "@hyperframes/engine";
+} from "@frames/engine";
 
 /**
  * Tolerance used to decide whether an audio file is already short enough to

@@ -6,7 +6,7 @@ import { failCommand } from "../utils/commandResult.js";
  * → `String` cascade so the curated `ERROR_CODE_HINTS` table is applied
  * uniformly across `render`/`list`/`get`/`delete`. Without this, each
  * subverb had to remember to consult the hint table (and most didn't,
- * which is why review finding 10 was that `hyperframes_render_not_found`
+ * which is why review finding 10 was that `frames_render_not_found`
  * was unreachable from get/delete).
  */
 
@@ -19,14 +19,14 @@ import { HyperframesApiError } from "./_gen/client.js";
  * say, leave the code out and let the message stand on its own.
  */
 const ERROR_CODE_HINTS: Record<string, string> = {
-  hyperframes_project_too_large:
-    "The zip exceeded the 200 MB limit. Run `hyperframes cloud render --dry-run`, then add only verified-unneeded paths to `.hyperframesignore` or pre-host required large media.",
-  hyperframes_render_not_found:
+  frames_project_too_large:
+    "The zip exceeded the 200 MB limit. Run `frames cloud render --dry-run`, then add only verified-unneeded paths to `.framesignore` or pre-host required large media.",
+  frames_render_not_found:
     "The render_id no longer exists — either soft-deleted or never created.",
   invalid_parameter:
-    "Check the listed parameter against `hyperframes cloud render --help` for the accepted values.",
+    "Check the listed parameter against `frames cloud render --help` for the accepted values.",
   authentication_failed:
-    "Run `hyperframes auth status` to confirm your credential; `hyperframes auth login` to re-auth.",
+    "Run `frames auth status` to confirm your credential; `frames auth login` to re-auth.",
   rate_limit_exceeded: "Retry after the duration in the Retry-After header.",
 };
 
@@ -44,7 +44,7 @@ const ERROR_CODE_HINTS: Record<string, string> = {
  *     `ERROR_CODE_HINTS`.
  *   - `suggestion`: a fallback line shown when no code-specific hint
  *     matches. Use this for caller-context that's always actionable
- *     (e.g. "Resume with: hyperframes cloud get hfr_X" on poll
+ *     (e.g. "Resume with: frames cloud get hfr_X" on poll
  *     errors) so the user can recover without having to remember the
  *     render_id.
  */

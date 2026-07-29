@@ -184,7 +184,7 @@ Roles here map 1:1 to the storyboard frame `type` enum: **Hook**=`hook` · **Pro
 - `ticker-takeover` — options cycle, then the brand mark crashes in and owns the frame.
 - `fixed-anchor-cycle` — the wordmark pins while praise quotes / tagline highlights cycle beside it (optionally accelerating), resolving into the finished lockup.
 
-> Coverage: every role has ≥2 options; every blueprint serves ≥1 role. `kinetic-type-beats` is the workhorse (6 roles); `dataviz-countup` now spans 5; `device-surface-showcase` (once role-narrow) now also serves Product_Intro via the mined stepwise-flow variant. Five shapes — `comparison-split`, `overwhelm-surround`, `ticker-takeover`, `video-text-pivot`, `cta-morph-press` — were added from the hyperframes-animation blueprints; seven more — `prompt-type-submit-generate`, `agent-progress-theater`, `panel-edit-live-sync`, `camera-journey`, `transcript-scroll-artifact-reveal`, `zoom-out-workspace-reveal`, `fixed-anchor-cycle` — were mined from the golden-clip corpus.
+> Coverage: every role has ≥2 options; every blueprint serves ≥1 role. `kinetic-type-beats` is the workhorse (6 roles); `dataviz-countup` now spans 5; `device-surface-showcase` (once role-narrow) now also serves Product_Intro via the mined stepwise-flow variant. Five shapes — `comparison-split`, `overwhelm-surround`, `ticker-takeover`, `video-text-pivot`, `cta-morph-press` — were added from the frames-animation blueprints; seven more — `prompt-type-submit-generate`, `agent-progress-theater`, `panel-edit-live-sync`, `camera-journey`, `transcript-scroll-artifact-reveal`, `zoom-out-workspace-reveal`, `fixed-anchor-cycle` — were mined from the golden-clip corpus.
 
 ## Picking guidance
 

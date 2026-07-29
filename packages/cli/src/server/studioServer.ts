@@ -1,7 +1,7 @@
 /**
- * Embedded studio server for `hyperframes preview` outside the monorepo.
+ * Embedded studio server for `frames preview` outside the monorepo.
  *
- * Uses the shared studio API module from @hyperframes/core/studio-api,
+ * Uses the shared studio API module from @frames/core/studio-api,
  * providing a CLI-specific adapter for single-project, in-process rendering.
  */
 
@@ -30,20 +30,20 @@ import {
   type ResolvedProject,
   type RenderJobState,
   type BackgroundRemovalRender,
-} from "@hyperframes/studio-server";
+} from "@frames/studio-server";
 import { resolveAutoProxy } from "../utils/projectConfig.js";
-import { getElementScreenshotClip } from "@hyperframes/studio-server/screenshot-clip";
-import type { ScreenshotClip } from "@hyperframes/studio-server/screenshot-clip";
-import type { RenderJob } from "@hyperframes/producer";
+import { getElementScreenshotClip } from "@frames/studio-server/screenshot-clip";
+import type { ScreenshotClip } from "@frames/studio-server/screenshot-clip";
+import type { RenderJob } from "@frames/producer";
 
-const STUDIO_MANUAL_EDITS_PATH = ".hyperframes/studio-manual-edits.json";
+const STUDIO_MANUAL_EDITS_PATH = ".frames/studio-manual-edits.json";
 const REMOTE_GIF_IMG_SRC_RE =
   /<img\b[^>]*?\bsrc\s*=\s*["'](https?:\/\/[^"']+\.gif(?:[?#][^"']*)?)["'][^>]*>/gi;
 
 async function loadStudioProducer() {
   return isDevMode()
     ? await import("../../../producer/src/index.js")
-    : await import("@hyperframes/producer");
+    : await import("@frames/producer");
 }
 
 // ── Path resolution ─────────────────────────────────────────────────────────
@@ -168,9 +168,9 @@ async function downloadRemoteGifImageSources(
 // Uses the engine's browser pool so the thumbnail browser and render workers
 // share a single Chrome process instead of running two independent ones.
 
-let _thumbnailBrowserLease: import("@hyperframes/engine").BrowserLease | null = null;
+let _thumbnailBrowserLease: import("@frames/engine").BrowserLease | null = null;
 let _thumbnailBrowserInitializing: Promise<
-  import("@hyperframes/engine").BrowserLease | null
+  import("@frames/engine").BrowserLease | null
 > | null = null;
 
 async function getThumbnailBrowser(): Promise<import("puppeteer-core").Browser | null> {
@@ -182,7 +182,7 @@ async function getThumbnailBrowser(): Promise<import("puppeteer-core").Browser |
   _thumbnailBrowserInitializing = (async () => {
     try {
       const { ensureBrowser } = await import("../browser/manager.js");
-      const { acquireBrowser, buildChromeArgs } = await import("@hyperframes/engine");
+      const { acquireBrowser, buildChromeArgs } = await import("@frames/engine");
 
       try {
         const b = await ensureBrowser({ preferManagedChrome: true });
@@ -233,7 +233,7 @@ export interface StudioServerOptions {
   /**
    * Auto-transcode browser-hostile video codecs to a cached H.264 preview
    * proxy. The preview command passes its resolved `--proxy`/`--no-proxy` +
-   * `hyperframes.json` value; when omitted, the project's `media.autoProxy`
+   * `frames.json` value; when omitted, the project's `media.autoProxy`
    * config (default true) applies.
    */
   autoProxy?: boolean | undefined;
@@ -316,7 +316,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
 
   const adapter: PreviewApiAdapter = {
     // Explicit option wins (preview's resolved --proxy/--no-proxy + config);
-    // otherwise honor the project's hyperframes.json media.autoProxy so every
+    // otherwise honor the project's frames.json media.autoProxy so every
     // createStudioServer caller (e.g. the background preview child) gets the
     // configured behavior without its own plumbing.
     autoProxy: options.autoProxy ?? resolveAutoProxy(projectDir, undefined),
@@ -327,7 +327,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
 
     async bundle(dir: string): Promise<string | null> {
       try {
-        const { bundleToSingleHtml } = await import("@hyperframes/core/compiler");
+        const { bundleToSingleHtml } = await import("@frames/core/compiler");
         // Studio dev server: ask the bundler for an empty `src=""` placeholder so
         // we can point it at our hot-reloadable local runtime endpoint. Inlining
         // ~150 KB of runtime body on every preview render would defeat browser
@@ -337,8 +337,8 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
           inlineColorGradingLuts: false,
         });
         html = html.replace(
-          'data-hyperframes-preview-runtime="1" src=""',
-          'data-hyperframes-preview-runtime="1" src="/api/runtime.js"',
+          'data-frames-preview-runtime="1" src=""',
+          'data-frames-preview-runtime="1" src="/api/runtime.js"',
         );
         return html;
       } catch (err) {
@@ -353,13 +353,13 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       const { prepareAnimatedGifInputs } =
         await import("../../../producer/src/services/animatedGifPrep.js");
       const { downloadToTemp } = await import("../../../producer/src/utils/urlDownloader.js");
-      const gifOutputDir = join(project.dir, ".hyperframes", "prepared-assets", "gif");
-      const gifDownloadDir = join(project.dir, ".hyperframes", "prepared-assets", "downloads");
+      const gifOutputDir = join(project.dir, ".frames", "prepared-assets", "gif");
+      const gifDownloadDir = join(project.dir, ".frames", "prepared-assets", "downloads");
       const prepared = await prepareAnimatedGifInputs(html, {
         projectDir: project.dir,
         downloadDir: gifDownloadDir,
         outputDir: gifOutputDir,
-        outputSrcPrefix: ".hyperframes/prepared-assets/gif",
+        outputSrcPrefix: ".frames/prepared-assets/gif",
         cacheDir: gifOutputDir,
         sourceAssets: await downloadRemoteGifImageSources(html, gifDownloadDir, downloadToTemp),
       });
@@ -373,7 +373,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const { lintHyperframeHtml } = await import("@hyperframes/lint");
+      const { lintHyperframeHtml } = await import("@frames/lint");
       return await lintHyperframeHtml(html, opts);
     },
 
@@ -574,7 +574,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       const { listRegistryItems, loadAllItems } = await import("../registry/resolver.js");
       const entries = await listRegistryItems();
       const blockAndComponentEntries = entries.filter(
-        (e) => e.type === "hyperframes:block" || e.type === "hyperframes:component",
+        (e) => e.type === "frames:block" || e.type === "frames:component",
       );
       return loadAllItems(blockAndComponentEntries);
     },
@@ -587,10 +587,10 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
       // block that depends on other registry items installs completely.
       const items = await resolveItemWithDependencies(opts.blockName);
       // Compatibility-gate the whole set before writing anything (same gate as
-      // `hyperframes add`), so an incompatible block or dep aborts cleanly.
+      // `frames add`), so an incompatible block or dep aborts cleanly.
       const warnings = gateRegistryItemsCompatibility(items);
       for (const warning of warnings) {
-        process.stderr.write(`hyperframes:registry ${warning}\n`);
+        process.stderr.write(`frames:registry ${warning}\n`);
       }
       const written: string[] = [];
       for (const dep of items) {
@@ -614,9 +614,9 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
   const app = new Hono();
 
   // Config probe endpoint — used by port detection to identify existing
-  // HyperFrames instances and reuse them instead of spawning duplicates.
+  // Frames instances and reuse them instead of spawning duplicates.
   // See portUtils.ts detectHyperframesServer() for the consumer.
-  app.get("/__hyperframes_config", (c) => {
+  app.get("/__frames_config", (c) => {
     const serve = async () => {
       const serverBuildSignature = await loadPreviewServerBuildSignature();
       return c.json({
@@ -742,7 +742,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HyperFrames Studio unavailable</title>
+    <title>Frames Studio unavailable</title>
     <style>
       body {
         margin: 0;

@@ -19,21 +19,21 @@ function createProjectDir(): string {
 }
 
 describe("walkDir", () => {
-  it("hides internal HyperFrames backup files from project listings", () => {
+  it("hides internal Frames backup files from project listings", () => {
     const projectDir = createProjectDir();
-    mkdirSync(join(projectDir, ".hyperframes", "backup"), { recursive: true });
-    mkdirSync(join(projectDir, ".hyperframes", "examples"), { recursive: true });
+    mkdirSync(join(projectDir, ".frames", "backup"), { recursive: true });
+    mkdirSync(join(projectDir, ".frames", "examples"), { recursive: true });
     mkdirSync(join(projectDir, ".cache", "examples"), { recursive: true });
     mkdirSync(join(projectDir, "compositions"), { recursive: true });
-    writeFileSync(join(projectDir, ".hyperframes", "backup", "snapshot.html"), "backup");
-    writeFileSync(join(projectDir, ".hyperframes", "examples", "preset.html"), "preset");
+    writeFileSync(join(projectDir, ".frames", "backup", "snapshot.html"), "backup");
+    writeFileSync(join(projectDir, ".frames", "examples", "preset.html"), "preset");
     writeFileSync(join(projectDir, ".cache", "examples", "preset.html"), "preset");
     writeFileSync(join(projectDir, "compositions", "scene.html"), "scene");
 
     const files = walkDir(projectDir);
     expect(files).toContain(".cache/examples/preset.html");
-    expect(files).toContain(".hyperframes/examples/preset.html");
+    expect(files).toContain(".frames/examples/preset.html");
     expect(files).toContain("compositions/scene.html");
-    expect(files).not.toContain(".hyperframes/backup/snapshot.html");
+    expect(files).not.toContain(".frames/backup/snapshot.html");
   });
 });

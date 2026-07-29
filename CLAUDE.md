@@ -4,18 +4,18 @@ Open-source video rendering framework: write HTML, render video.
 
 ## Skills
 
-This repo ships 19 AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set**: the `/hyperframes` router installs each creation workflow on demand; install all 19 only when the user explicitly asks for the full set.
+This repo ships 19 AI agent skills via [vercel-labs/skills](https://github.com/vercel-labs/skills). Install them before writing compositions — they encode framework-specific patterns that generic docs don't cover. **Default to the core set**: the `/frames` router installs each creation workflow on demand; install all 19 only when the user explicitly asks for the full set.
 
 ```bash
-npx hyperframes skills update                                   # default: installs/refreshes the core set — workflows install on demand
-npx skills add heygen-com/hyperframes --full-depth              # interactive picker (terminal only — non-interactive without --skill installs all 19)
-npx skills add heygen-com/hyperframes --all --full-depth        # all 19 at once — only on explicit request
-npx skills add heygen-com/hyperframes --skill <name> --full-depth  # just one (bare name, no leading slash)
+npx frames skills update                                   # default: installs/refreshes the core set — workflows install on demand
+npx skills add hanzoai/frames --full-depth              # interactive picker (terminal only — non-interactive without --skill installs all 19)
+npx skills add hanzoai/frames --all --full-depth        # all 19 at once — only on explicit request
+npx skills add hanzoai/frames --skill <name> --full-depth  # just one (bare name, no leading slash)
 ```
 
-Keep `--full-depth`: it installs the current `main`. Without it, `skills add` fetches the skills.sh registry blob, which lags `main` by hours (you'd get a stale skill). `hyperframes skills update` already uses full-depth.
+Keep `--full-depth`: it installs the current `main`. Without it, `skills add` fetches the skills.sh registry blob, which lags `main` by hours (you'd get a stale skill). `frames skills update` already uses full-depth.
 
-**`/hyperframes` is the entry skill — read it first.** It's the capability map for the domain skills below, the intent layer that confirms every creation brief up front, AND the intent router for the creation workflows. The full README skills section mirrors this list; keep them in sync (see "Skill catalog maintenance" below).
+**`/frames` is the entry skill — read it first.** It's the capability map for the domain skills below, the intent layer that confirms every creation brief up front, AND the intent router for the creation workflows. The full README skills section mirrors this list; keep them in sync (see "Skill catalog maintenance" below).
 
 ### Creation workflows
 
@@ -27,29 +27,29 @@ Keep `--full-depth`: it installs the current `main`. Without it, `skills add` fe
 - `/motion-graphics` — a short (typically under 10s) design-led **motion graphic**, motion-is-the-message, no narration: kinetic type, a stat / number count-up, a chart, a logo sting, a lower-third / overlay, or an animated tweet / headline / captured-page highlight; rendered to MP4 or a transparent overlay. Longer / narrated / custom → `/general-video`.
 - `/music-to-video` — a **music track** (audio file, or video to pull audio from) → beat-synced video (lyric / slideshow / kinetic promo). Music drives pacing; user-supplied images / videos are cut onto the same beat grid.
 - `/slideshow` — a **presentation / pitch deck / interactive deck** — discrete slides, fragment reveals, branching, hotspot navigation, presenter mode. Output is a navigable deck, not a rendered video.
-- `/general-video` — fallback for any other video creation (title card, longer brand / sizzle reel, multi-scene montage, static loop, custom composition) and the home of **companion mode** — co-create with the full HyperFrames toolbox; the original hyperframes flow — design → plan → layout → build → validate, any length.
-- `/remotion-to-hyperframes` — port an existing Remotion (React) composition to HyperFrames HTML. One-way migration, not creation.
+- `/general-video` — fallback for any other video creation (title card, longer brand / sizzle reel, multi-scene montage, static loop, custom composition) and the home of **companion mode** — co-create with the full Frames toolbox; the original frames flow — design → plan → layout → build → validate, any length.
+- `/remotion-to-frames` — port an existing Remotion (React) composition to Frames HTML. One-way migration, not creation.
 
 ### Domain skills (loaded on demand)
 
 Atomic capabilities the creation workflows compose against — pull one when you need that specific layer:
 
-- `/hyperframes-core` — the composition contract: `data-*` timing attributes, `class="clip"`, tracks, sub-compositions, variables, framework-owned media playback, determinism rules. Read before writing composition HTML.
-- `/hyperframes-animation` — all animation knowledge: atomic motion rules, scene blueprints, transitions, runtime adapters (GSAP default, plus Lottie / Three.js / Anime.js / CSS / WAAPI / TypeGPU).
-- `/hyperframes-keyframes` — seek-safe keyframe authoring across runtimes: GSAP timelines, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth; plus `hyperframes keyframes` diagnostics for surfacing and verifying rendered motion.
-- `/hyperframes-creative` — non-animation creative direction: `frame.md` / `design.md` handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns.
+- `/frames-core` — the composition contract: `data-*` timing attributes, `class="clip"`, tracks, sub-compositions, variables, framework-owned media playback, determinism rules. Read before writing composition HTML.
+- `/frames-animation` — all animation knowledge: atomic motion rules, scene blueprints, transitions, runtime adapters (GSAP default, plus Lottie / Three.js / Anime.js / CSS / WAAPI / TypeGPU).
+- `/frames-keyframes` — seek-safe keyframe authoring across runtimes: GSAP timelines, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw, text trails, 3D depth; plus `frames keyframes` diagnostics for surfacing and verifying rendered motion.
+- `/frames-creative` — non-animation creative direction: `frame.md` / `design.md` handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns.
 - `/media-use` — the media OS: resolve any media need (BGM, SFX, image, icon, logo, voice, color grade, LUT) into a frozen local file or paste-ready block + ledger record; generate via TTS / music / image models when the catalog misses; transcribe, caption, remove backgrounds, and reuse assets across projects. One shared `scripts/audio.mjs` engine + manifest tracking; keeps search noise on disk.
-- `/hyperframes-cli` — CLI dev loop: `init`, `add`, `lint`, `check`, `snapshot`, `preview`, `render`, `publish`, `doctor`, `lambda` (AWS Lambda cloud rendering).
-- `/hyperframes-registry` — install and wire registry blocks and components into compositions via `hyperframes add`. Covers authoring a new block or component to contribute upstream.
+- `/frames-cli` — CLI dev loop: `init`, `add`, `lint`, `check`, `snapshot`, `preview`, `render`, `publish`, `doctor`, `lambda` (AWS Lambda cloud rendering).
+- `/frames-registry` — install and wire registry blocks and components into compositions via `frames add`. Covers authoring a new block or component to contribute upstream.
 - `/figma` — import Figma assets, tokens, components, and storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI) plus Motion animations (MCP) and shaders (MCP source / native export) into a composition.
 
 ## Skill catalog maintenance
 
 When adding a new skill, or substantially renaming / repurposing an existing one, update all agent-facing discoverability surfaces in lockstep:
 
-1. The skill list above (CLAUDE.md) AND the workflow list in the root `AGENTS.md` (it carries workflows only, no domain-skill section) AND the `## Skills` section in `README.md` AND `docs/guides/skills.mdx` (rendered at [hyperframes.heygen.com/guides/skills](https://hyperframes.heygen.com/guides/skills)). Out-of-date entries silently kill discovery.
-2. The scaffolded project template `packages/cli/src/templates/_shared/CLAUDE.md` + `AGENTS.md` — written into every `hyperframes init` project, so a stale entry there ships to users. The two template files must stay byte-identical.
-3. If the skill changes the routing surface for "make a video" requests, also update the routing table + intent layer in `skills/hyperframes/SKILL.md` AND that workflow's entry in `skills/hyperframes/references/workflow-catalog.md` (the input/output/trigger contract the router reads before the workflow is installed) — plus its row in `references/route-briefs.md` when the route asks questions.
+1. The skill list above (CLAUDE.md) AND the workflow list in the root `AGENTS.md` (it carries workflows only, no domain-skill section) AND the `## Skills` section in `README.md` AND `docs/guides/skills.mdx` (rendered at [frames.hanzo.ai/guides/skills](https://frames.hanzo.ai/guides/skills)). Out-of-date entries silently kill discovery.
+2. The scaffolded project template `packages/cli/src/templates/_shared/CLAUDE.md` + `AGENTS.md` — written into every `frames init` project, so a stale entry there ships to users. The two template files must stay byte-identical.
+3. If the skill changes the routing surface for "make a video" requests, also update the routing table + intent layer in `skills/frames/SKILL.md` AND that workflow's entry in `skills/frames/references/workflow-catalog.md` (the input/output/trigger contract the router reads before the workflow is installed) — plus its row in `references/route-briefs.md` when the route asks questions.
 4. Mirror the Router / Creation workflows / Domain skills grouping across all surfaces so a skill always lives in the same column.
 5. Skill count appears in the README and CLAUDE.md intro lines ("19 AI agent skills…") — update on add/remove. The `docs/guides/skills.mdx` page and the CLI templates deliberately omit a count to avoid drift; keep them count-free.
 
@@ -80,8 +80,8 @@ Always lint and format changed files before committing. Lefthook pre-commit hook
 After creating or editing any `.html` composition:
 
 ```bash
-npx hyperframes lint       # Static HTML structure check
-npx hyperframes check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
+npx frames lint       # Static HTML structure check
+npx frames check      # Browser gate (headless Chrome — runtime errors, layout, motion, WCAG contrast)
 ```
 
 Both must pass before previewing or considering work complete.
@@ -90,10 +90,10 @@ Both must pass before previewing or considering work complete.
 
 ```
 packages/
-  cli/                  → hyperframes CLI (create, preview, lint, render)
+  cli/                  → frames CLI (create, preview, lint, render)
   core/                 → Types, parsers, generators, linter, runtime, frame adapters
   engine/               → Seekable page-to-video capture engine (Puppeteer + FFmpeg)
-  player/               → Embeddable <hyperframes-player> web component
+  player/               → Embeddable <frames-player> web component
   producer/             → Full rendering pipeline (capture + encode + audio mix)
   shader-transitions/   → WebGL shader transitions for compositions
   studio/               → Browser-based composition editor UI
@@ -101,7 +101,7 @@ registry/
   blocks/               → Installable sub-composition scenes (50+)
   components/           → Installable effects and snippets
   examples/             → Starter project templates
-docs/                   → Mintlify documentation site (hyperframes.heygen.com)
+docs/                   → Mintlify documentation site (frames.hanzo.ai)
 skills/                 → AI agent skill definitions
 ```
 
@@ -116,5 +116,5 @@ skills/                 → AI agent skill definitions
 
 ## Documentation
 
-- Docs: https://hyperframes.heygen.com/introduction
-- Catalog (50+ blocks): https://hyperframes.heygen.com/catalog/blocks/data-chart
+- Docs: https://frames.hanzo.ai/introduction
+- Catalog (50+ blocks): https://frames.hanzo.ai/catalog/blocks/data-chart

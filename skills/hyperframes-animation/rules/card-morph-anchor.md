@@ -16,7 +16,7 @@ Since `width`/`height` tweens are forbidden, **substitute uniform `scale` for ap
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <!-- DOM order = stacking: the anchor renders BEFORE the card, so the card is on top -->
 <div class="next-shot-anchor"><img src="{nextShotAnchor}" alt="anchor" /></div>
 <div class="morph-card">

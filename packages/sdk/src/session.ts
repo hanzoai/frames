@@ -36,15 +36,15 @@ import { parseMutable } from "./engine/model.js";
 import type { ParsedDocument } from "./engine/model.js";
 import { applyOp, validateOp, type MutationResult } from "./engine/mutate.js";
 import { getGsapScripts, resolveScoped, declarationElement } from "./engine/model.js";
-import { extractGsapLabels } from "@hyperframes/core/gsap-parser-acorn";
-import { stripEmbeddedRuntimeScripts } from "@hyperframes/core/compiler/html-document";
-import { readClipTiming, type ClipTiming } from "@hyperframes/core/composition-contract";
+import { extractGsapLabels } from "@frames/core/gsap-parser-acorn";
+import { stripEmbeddedRuntimeScripts } from "@frames/core/compiler/html-document";
+import { readClipTiming, type ClipTiming } from "@frames/core/composition-contract";
 import {
   readDeclaredDefaults,
   validateVariables,
   scanVariableUsage,
-} from "@hyperframes/core/variables";
-import type { CompositionVariable, VariableValidationIssue } from "@hyperframes/core/variables";
+} from "@frames/core/variables";
+import type { CompositionVariable, VariableValidationIssue } from "@frames/core/variables";
 import { readVariableDeclarations } from "./engine/variableModel.js";
 import { serializeDocument } from "./engine/serialize.js";
 import { applyPatchesToDocument, applyOverrideSet } from "./engine/apply-patches.js";

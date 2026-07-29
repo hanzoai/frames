@@ -1,4 +1,4 @@
-# @hyperframes/engine
+# @frames/engine
 
 Seekable web-page-to-video rendering engine built on Puppeteer and FFmpeg.
 
@@ -7,7 +7,7 @@ Framework-agnostic: works with GSAP, Lottie, Three.js, CSS animations, or any we
 ## Install
 
 ```bash
-npm install @hyperframes/engine
+npm install @frames/engine
 ```
 
 **Requirements:** Node.js >= 22, Chrome/Chromium (auto-downloaded by Puppeteer), FFmpeg
@@ -39,7 +39,7 @@ import {
   initializeSession,
   captureFrame,
   closeCaptureSession,
-} from "@hyperframes/engine";
+} from "@frames/engine";
 
 // 1. Launch browser
 const browserLease = await acquireBrowser({ captureMode: "beginFrame" });
@@ -64,14 +64,14 @@ await closeCaptureSession(session);
 await browserLease.release();
 ```
 
-Most users should use `@hyperframes/producer` or the `hyperframes` CLI instead of calling the engine directly.
+Most users should use `@frames/producer` or the `frames` CLI instead of calling the engine directly.
 
 ## Documentation
 
-Full documentation: [hyperframes.heygen.com/packages/engine](https://hyperframes.heygen.com/packages/engine)
+Full documentation: [frames.hanzo.ai/packages/engine](https://frames.hanzo.ai/packages/engine)
 
 ## Related packages
 
-- [`@hyperframes/core`](../core) — types, parsers, frame adapters
-- [`@hyperframes/producer`](../producer) — high-level render pipeline built on this engine
-- [`hyperframes`](../cli) — CLI
+- [`@frames/core`](../core) — types, parsers, frame adapters
+- [`@frames/producer`](../producer) — high-level render pipeline built on this engine
+- [`frames`](../cli) — CLI

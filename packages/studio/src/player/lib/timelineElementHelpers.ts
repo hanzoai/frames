@@ -84,8 +84,8 @@ export function isTimelineIgnoredElement(el: Element): boolean {
   return Boolean(
     el.closest(
       [
-        "[data-hyperframes-ignore]",
-        "[data-hyperframes-picker-ignore]",
+        "[data-frames-ignore]",
+        "[data-frames-picker-ignore]",
         "[data-hf-ignore]",
         "[data-hf-color-grading-canvas]",
       ].join(","),

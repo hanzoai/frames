@@ -1,9 +1,9 @@
 {
-  "name": "@hyperframes/parsers",
+  "name": "@frames/parsers",
   "version": "0.7.81",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/parsers"
   },
   "files": [
@@ -201,7 +201,7 @@
     "recast": "^0.23.11"
   },
   "devDependencies": {
-    "@hyperframes/core": "workspace:*",
+    "@frames/core": "workspace:*",
     "@types/node": "^25.0.10",
     "tsup": "^8.0.0",
     "tsx": "^4.21.0",

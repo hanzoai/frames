@@ -10,8 +10,8 @@
 
 import type { TimelineElement } from "../store/playerStore";
 import type { ClipManifestClip } from "./playbackTypes";
-import { resolveCssStackingContextId } from "@hyperframes/core/runtime/stacking-context";
-import { readClipTiming } from "@hyperframes/core/composition-contract";
+import { resolveCssStackingContextId } from "@frames/core/runtime/stacking-context";
+import { readClipTiming } from "@frames/core/composition-contract";
 import {
   resolveMediaElement,
   applyMediaMetadataFromElement,

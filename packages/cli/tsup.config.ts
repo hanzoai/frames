@@ -49,26 +49,26 @@ var __dirname = __hf_dirname(__filename);`,
     // aws-lambda transitively pulls @aws-sdk/* + @smithy/* which include
     // .browser.js conditional exports esbuild can't bundle cleanly into
     // a node binary. Keep it external; the lambda subverb files dynamic-
-    // import it only when the user runs `hyperframes lambda *`, so the
+    // import it only when the user runs `frames lambda *`, so the
     // CLI's cold start doesn't load it. Runtime resolution comes from
-    // @hyperframes/aws-lambda being a `dependencies` entry in package.json.
-    "@hyperframes/aws-lambda",
-    "@hyperframes/aws-lambda/sdk",
+    // @frames/aws-lambda being a `dependencies` entry in package.json.
+    "@frames/aws-lambda",
+    "@frames/aws-lambda/sdk",
     // Same treatment for the GCP adapter: the cloudrun subverb files
-    // dynamic-import `@hyperframes/gcp-cloud-run/sdk` only when the user runs
-    // `hyperframes cloudrun *`. Keep it external; runtime resolution comes
+    // dynamic-import `@frames/gcp-cloud-run/sdk` only when the user runs
+    // `frames cloudrun *`. Keep it external; runtime resolution comes
     // from the `dependencies`/workspace entry, not the bundled CLI.
-    "@hyperframes/gcp-cloud-run",
-    "@hyperframes/gcp-cloud-run/sdk",
-    "@hyperframes/gcp-cloud-run/terraform",
+    "@frames/gcp-cloud-run",
+    "@frames/gcp-cloud-run/sdk",
+    "@frames/gcp-cloud-run/terraform",
   ],
   noExternal: [
-    "@hyperframes/core",
-    "@hyperframes/parsers",
-    "@hyperframes/studio-server",
-    "@hyperframes/lint",
-    "@hyperframes/producer",
-    "@hyperframes/engine",
+    "@frames/core",
+    "@frames/parsers",
+    "@frames/studio-server",
+    "@frames/lint",
+    "@frames/producer",
+    "@frames/engine",
     "@clack/prompts",
     "@clack/core",
     "picocolors",

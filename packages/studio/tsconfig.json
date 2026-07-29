@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@hyperframes/player": ["../player/src/hyperframes-player.ts"]
+      "@frames/player": ["../player/src/frames-player.ts"]
     },
     "jsx": "react-jsx",
     "strict": true,

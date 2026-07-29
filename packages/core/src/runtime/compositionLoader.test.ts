@@ -17,7 +17,7 @@ describe("loadExternalCompositions", () => {
     document.head.querySelectorAll("style, link").forEach((node) => node.remove());
     delete (window as Window & { gsap?: unknown; __selectedTitle?: unknown }).gsap;
     delete (window as Window & { gsap?: unknown; __selectedTitle?: unknown }).__selectedTitle;
-    delete (window as Window & { __hyperframes?: unknown }).__hyperframes;
+    delete (window as Window & { __frames?: unknown }).__frames;
     delete (window as Window & { __timelines?: unknown }).__timelines;
     delete (window as WindowWithScopedVars).__hfVariablesByComp;
     vi.restoreAllMocks();

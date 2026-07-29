@@ -1,7 +1,7 @@
 # Route: general-video
 
 - **Input:** Any custom creation or edit not covered by a specialized route: a static title card, longer brand or sizzle reel, multi-scene montage, static loop/poster, NLE-like footage remix, or freeform composition. It also executes every `flow: companion` brief.
-- **Output:** A HyperFrames composition of any length or format through design → plan → static layout → animation → check → approval → render.
+- **Output:** A Frames composition of any length or format through design → plan → static layout → animation → check → approval → render.
 - **Triggers:** "make a static title card", "longer brand reel", "multi-scene composition", "static loop", "custom video", or any unmatched video request.
 
 ## Interview

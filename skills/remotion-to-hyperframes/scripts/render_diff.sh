@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # render_diff.sh — compute per-frame SSIM between two video files.
 #
-# The eval primitive for the remotion-to-hyperframes skill: given a Remotion
-# render and a HyperFrames render of the same composition, report whether the
+# The eval primitive for the remotion-to-frames skill: given a Remotion
+# render and a Frames render of the same composition, report whether the
 # translation is visually equivalent.
 #
 # Usage:

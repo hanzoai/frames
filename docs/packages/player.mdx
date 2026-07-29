@@ -1,24 +1,24 @@
 ---
-title: "@hyperframes/player"
-description: "Embeddable web component for playing HyperFrames compositions in any web page."
+title: "@frames/player"
+description: "Embeddable web component for playing Frames compositions in any web page."
 ---
 
-The player package provides a `<hyperframes-player>` custom element that embeds a HyperFrames composition anywhere — in any framework or plain HTML. Zero dependencies, 3KB gzipped.
+The player package provides a `<frames-player>` custom element that embeds a Frames composition anywhere — in any framework or plain HTML. Zero dependencies, 3KB gzipped.
 
 ```bash
-npm install @hyperframes/player
+npm install @frames/player
 ```
 
 ## When to Use
 
-**Use `@hyperframes/player` when you need to:**
+**Use `@frames/player` when you need to:**
 - Embed a rendered composition in a website, dashboard, or app
 - Add a video-like player to a landing page or product demo
 - Show compositions in documentation or blog posts
 
 **Use a different package if you want to:**
 - Edit compositions interactively — use the [studio](/packages/studio)
-- Preview during development — use the [CLI](/packages/cli) (`npx hyperframes preview`)
+- Preview during development — use the [CLI](/packages/cli) (`npx frames preview`)
 - Render to MP4 — use the [CLI](/packages/cli) or [producer](/packages/producer)
 
 ## Quick Start
@@ -26,31 +26,31 @@ npm install @hyperframes/player
 ### Via CDN
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@hyperframes/player"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@frames/player"></script>
 
-<hyperframes-player
+<frames-player
   src="./my-composition/index.html"
   controls
   autoplay
   muted
   style="width: 100%; max-width: 800px; aspect-ratio: 16/9"
-></hyperframes-player>
+></frames-player>
 ```
 
 If you need a classic `<script>` tag instead of ESM, use the explicit global build:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hyperframes/player/dist/hyperframes-player.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@frames/player/dist/frames-player.global.js"></script>
 ```
 
 ### Via npm
 
 ```js
-import '@hyperframes/player';
+import '@frames/player';
 ```
 
 ```html
-<hyperframes-player src="/compositions/intro.html" controls></hyperframes-player>
+<frames-player src="/compositions/intro.html" controls></frames-player>
 ```
 
 ## HTML Attributes
@@ -72,7 +72,7 @@ import '@hyperframes/player';
 The player mirrors the native `<video>` element API:
 
 ```js
-const player = document.querySelector('hyperframes-player');
+const player = document.querySelector('frames-player');
 
 // Playback
 player.play();
@@ -93,7 +93,7 @@ player.loop;            // boolean — get/set loop
 ## Events
 
 ```js
-const player = document.querySelector('hyperframes-player');
+const player = document.querySelector('frames-player');
 
 player.addEventListener('ready', (e) => {
   console.log('Duration:', e.detail.duration);
@@ -123,11 +123,11 @@ player.addEventListener('error', (e) => console.error(e.detail.message));
 ### React
 
 ```jsx
-import '@hyperframes/player';
+import '@frames/player';
 
 function VideoPreview({ src }) {
   return (
-    <hyperframes-player
+    <frames-player
       src={src}
       controls
       style={{ width: '100%', maxWidth: 800 }}
@@ -140,11 +140,11 @@ function VideoPreview({ src }) {
 
 ```vue
 <template>
-  <hyperframes-player :src="compositionUrl" controls />
+  <frames-player :src="compositionUrl" controls />
 </template>
 
 <script setup>
-import '@hyperframes/player';
+import '@frames/player';
 const compositionUrl = './compositions/intro.html';
 </script>
 ```
@@ -152,9 +152,9 @@ const compositionUrl = './compositions/intro.html';
 ### Programmatic
 
 ```js
-import '@hyperframes/player';
+import '@frames/player';
 
-const player = document.createElement('hyperframes-player');
+const player = document.createElement('frames-player');
 player.src = './my-composition/index.html';
 player.controls = true;
 player.addEventListener('ready', () => player.play());
@@ -166,7 +166,7 @@ document.getElementById('player-container').appendChild(player);
 The composition runs inside a sandboxed `<iframe>` in the player's Shadow DOM. For most use cases you don't need direct access — the JavaScript API and events above are sufficient. But if you're building an editor, recorder, or custom timeline on top of the player, you'll need to inspect the composition's DOM or read its `__player` / `__timelines` runtime objects. The `iframeElement` getter exposes the inner iframe for these consumers:
 
 ```js
-const player = document.querySelector('hyperframes-player');
+const player = document.querySelector('frames-player');
 const iframe = player.iframeElement;
 
 // Reach into the composition's DOM
@@ -176,13 +176,13 @@ iframe.contentDocument.querySelectorAll('[data-composition-id]');
 iframe.contentWindow.__timelines;
 ```
 
-This is the canonical way to bridge the player into editor tools like [`@hyperframes/studio`](/packages/studio). The studio exports a `resolveIframe` helper that handles both direct iframe refs and web-component refs:
+This is the canonical way to bridge the player into editor tools like [`@frames/studio`](/packages/studio). The studio exports a `resolveIframe` helper that handles both direct iframe refs and web-component refs:
 
 ```ts
-import { useTimelinePlayer, resolveIframe } from '@hyperframes/studio';
+import { useTimelinePlayer, resolveIframe } from '@frames/studio';
 
 const { iframeRef } = useTimelinePlayer();
-const player = document.createElement('hyperframes-player');
+const player = document.createElement('frames-player');
 player.setAttribute('src', src);
 container.appendChild(player);
 
@@ -195,9 +195,9 @@ iframeRef.current = resolveIframe(player);
 If you prefer JSX over imperative element creation, attach a ref to the web component and resolve the iframe inside an effect:
 
 ```tsx
-import '@hyperframes/player';
-import type { HyperframesPlayer } from '@hyperframes/player';
-import { useTimelinePlayer, resolveIframe } from '@hyperframes/studio';
+import '@frames/player';
+import type { HyperframesPlayer } from '@frames/player';
+import { useTimelinePlayer, resolveIframe } from '@frames/studio';
 
 function StudioPreview({ src }: { src: string }) {
   const { iframeRef, onIframeLoad } = useTimelinePlayer();
@@ -208,7 +208,7 @@ function StudioPreview({ src }: { src: string }) {
   });
 
   return (
-    <hyperframes-player
+    <frames-player
       ref={playerRef}
       src={src}
       onLoad={onIframeLoad}
@@ -218,7 +218,7 @@ function StudioPreview({ src }: { src: string }) {
 ```
 
 <Warning>
-  **Common gotcha** — if you pass the `<hyperframes-player>` element itself (not `iframeElement`) into a hook or API that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Timeline seek, play, pause, and DOM inspection all silently no-op. **Always extract `iframeElement` first**, or use `resolveIframe` from `@hyperframes/studio` which handles both iframe and web-component hosts transparently.
+  **Common gotcha** — if you pass the `<frames-player>` element itself (not `iframeElement`) into a hook or API that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Timeline seek, play, pause, and DOM inspection all silently no-op. **Always extract `iframeElement` first**, or use `resolveIframe` from `@frames/studio` which handles both iframe and web-component hosts transparently.
 </Warning>
 
 ## Architecture
@@ -229,7 +229,7 @@ The player uses an iframe inside a Shadow DOM container. This provides:
 - **Security** — iframe sandbox restricts composition capabilities
 - **Scaling** — auto-scales the composition to fit the player's container via CSS transforms
 
-The player communicates with the composition via the HyperFrames runtime bridge protocol (`postMessage`). Existing compositions work without modification.
+The player communicates with the composition via the Frames runtime bridge protocol (`postMessage`). Existing compositions work without modification.
 
 ## Controls
 

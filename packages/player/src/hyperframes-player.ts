@@ -18,7 +18,7 @@ import { createShaderLoader } from "./shader-loader-element.js";
 import { ShaderLoaderState } from "./shader-loader-state.js";
 import { PLAYER_STYLES } from "./styles.js";
 import { type DirectTimelineAdapter } from "./timeline-adapters.js";
-import { runtimeProtocolMetadata } from "@hyperframes/core/runtime/protocol";
+import { runtimeProtocolMetadata } from "@frames/core/runtime/protocol";
 
 // Playback-rate bounds mirror the runtime clamp in
 // packages/core/src/runtime/init.ts (applyPlaybackRate) and media.ts so the
@@ -268,7 +268,7 @@ class HyperframesPlayer extends HTMLElement {
   /**
    * The inner `<iframe>` rendering the composition. Use this when integrating
    * with tools that need `contentWindow` — `.contentWindow` on the
-   * `<hyperframes-player>` element itself returns `null` (Shadow DOM).
+   * `<frames-player>` element itself returns `null` (Shadow DOM).
    */
   get iframeElement(): HTMLIFrameElement {
     return this.iframe;
@@ -455,7 +455,7 @@ class HyperframesPlayer extends HTMLElement {
   }
 
   private _isSlideshowPlayer(): boolean {
-    return this.closest("hyperframes-slideshow") !== null;
+    return this.closest("frames-slideshow") !== null;
   }
 
   /** Apply a change to the `muted` attribute: re-assert under an audio lock,
@@ -749,7 +749,7 @@ class HyperframesPlayer extends HTMLElement {
     // off-screen carousel card, would otherwise spam the console forever).
     if (!applied && this._ready && !this._rescaleWarned) {
       this._rescaleWarned = true;
-      console.warn("[hyperframes-player] rescale no-op after ready — zero-size player element", {
+      console.warn("[frames-player] rescale no-op after ready — zero-size player element", {
         src: this.getAttribute("src"),
         offsetWidth: this.offsetWidth,
         offsetHeight: this.offsetHeight,
@@ -822,8 +822,8 @@ class HyperframesPlayer extends HTMLElement {
   }
 }
 
-if (!customElements.get("hyperframes-player")) {
-  customElements.define("hyperframes-player", HyperframesPlayer);
+if (!customElements.get("frames-player")) {
+  customElements.define("frames-player", HyperframesPlayer);
 }
 
 export { HyperframesPlayer };

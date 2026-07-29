@@ -3,17 +3,17 @@
 ## Use the catalog command first
 
 ```bash
-npx hyperframes catalog
-npx hyperframes catalog --type block
-npx hyperframes catalog --type component
-npx hyperframes catalog --type block --tag social
-npx hyperframes catalog --json
-npx hyperframes catalog --human-friendly
+npx frames catalog
+npx frames catalog --type block
+npx frames catalog --type component
+npx frames catalog --type block --tag social
+npx frames catalog --json
+npx frames catalog --human-friendly
 ```
 
 - Default output is a readable table. It does not install anything.
 - `--type` accepts `block` or `component`; `--tag` may narrow either result.
-- `--json` is the deterministic agent and CI surface. Select a name, then run `npx hyperframes add <name>`.
+- `--json` is the deterministic agent and CI surface. Select a name, then run `npx frames add <name>`.
 - `--human-friendly` opens a picker and installs the selected item immediately.
 
 ## Read the registry manifest as a fallback
@@ -21,10 +21,10 @@ npx hyperframes catalog --human-friendly
 When the CLI is unavailable, the top-level `registry.json` lists all available items:
 
 ```bash
-curl -s https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/registry.json
+curl -s https://raw.githubusercontent.com/hanzoai/frames/main/registry/registry.json
 ```
 
-Each entry has `name` and `type` (`hyperframes:example`, `hyperframes:block`, or `hyperframes:component`).
+Each entry has `name` and `type` (`frames:example`, `frames:block`, or `frames:component`).
 
 ## Reading an item's manifest
 
@@ -41,7 +41,7 @@ Where `<type-dir>` is `examples`, `blocks`, or `components`.
 | Field                  | Type     | Required | Description                                    |
 | ---------------------- | -------- | -------- | ---------------------------------------------- |
 | `name`                 | string   | yes      | Kebab-case identifier                          |
-| `type`                 | string   | yes      | `hyperframes:block` or `hyperframes:component` |
+| `type`                 | string   | yes      | `frames:block` or `frames:component` |
 | `title`                | string   | yes      | Human-readable title                           |
 | `description`          | string   | yes      | One-line description                           |
 | `tags`                 | string[] | no       | Filter tags (e.g., `["data", "chart"]`)        |
@@ -54,7 +54,7 @@ Where `<type-dir>` is `examples`, `blocks`, or `components`.
 
 ### Blocks
 
-For an always-current list run `npx hyperframes catalog --type block`. The tables below group the 97 blocks by category. **Block name ≠ shader name**: shader-transition blocks (e.g. `domain-warp-dissolve`) wrap a HyperShader runtime whose internal name omits the `-dissolve`/`-warp` suffix — see the showcase HTML installed alongside the block for the canonical name.
+For an always-current list run `npx frames catalog --type block`. The tables below group the 97 blocks by category. **Block name ≠ shader name**: shader-transition blocks (e.g. `domain-warp-dissolve`) wrap a HyperShader runtime whose internal name omits the `-dissolve`/`-warp` suffix — see the showcase HTML installed alongside the block for the canonical name.
 
 #### Shader transitions (14)
 
@@ -99,7 +99,7 @@ Showcase compositions grouping multiple CSS / GSAP transition styles by family. 
 
 #### Liquid Glass (7)
 
-WebGPU + html-in-canvas frosted-glass surfaces. **Require Brave / Chrome canary** with WebGPU enabled — set `PRODUCER_HEADLESS_SHELL_PATH` to point at the browser; engine auto-passes `--enable-unsafe-webgpu`. See `/hyperframes-animation` → `adapters/typegpu.md`.
+WebGPU + html-in-canvas frosted-glass surfaces. **Require Brave / Chrome canary** with WebGPU enabled — set `PRODUCER_HEADLESS_SHELL_PATH` to point at the browser; engine auto-passes `--enable-unsafe-webgpu`. See `/frames-animation` → `adapters/typegpu.md`.
 
 | Name                          | Description                                                                             |
 | ----------------------------- | --------------------------------------------------------------------------------------- |
@@ -113,7 +113,7 @@ WebGPU + html-in-canvas frosted-glass surfaces. **Require Brave / Chrome canary*
 
 #### VFX (6)
 
-HTML-in-canvas + WebGL composition blocks. See `/hyperframes-animation` → `adapters/three.md` and `adapters/html-in-canvas-patterns.md` for the underlying APIs.
+HTML-in-canvas + WebGL composition blocks. See `/frames-animation` → `adapters/three.md` and `adapters/html-in-canvas-patterns.md` for the underlying APIs.
 
 | Name                    | Description                                                                                             |
 | ----------------------- | ------------------------------------------------------------------------------------------------------- |
@@ -198,7 +198,7 @@ A code/terminal window that **types a code or shell session per-character**. The
 
 #### Code Animations (9)
 
-The richer, motion-first counterpart to the static `code-snippet-*` window themes above: each is a self-contained 1920×1080 block (~5–8s) with a paused, deterministic GSAP timeline that _animates_ code — typing, diffing, morphing, spotlighting, or GPU hero reveals — rather than typing a fixed snippet inside editor/terminal chrome. **Reuse-first**: `npx hyperframes add <name>`, then customize the baked code/diff content in place; hand-author only when no block covers the motion you need.
+The richer, motion-first counterpart to the static `code-snippet-*` window themes above: each is a self-contained 1920×1080 block (~5–8s) with a paused, deterministic GSAP timeline that _animates_ code — typing, diffing, morphing, spotlighting, or GPU hero reveals — rather than typing a fixed snippet inside editor/terminal chrome. **Reuse-first**: `npx frames add <name>`, then customize the baked code/diff content in place; hand-author only when no block covers the motion you need.
 
 **DOM / text reveal (6):**
 

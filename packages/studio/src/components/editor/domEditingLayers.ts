@@ -3,7 +3,7 @@ import {
   resolveEditingAffordances,
   resolveEditingSections,
   type EditableElementFacts,
-} from "@hyperframes/core/editing";
+} from "@frames/core/editing";
 import { groupScopedLayerRoots, resolveGroupCapture } from "./domEditingGroups";
 import type {
   DomEditCapabilities,

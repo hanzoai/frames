@@ -15,8 +15,8 @@ import { existsSync, realpathSync, statSync, createReadStream } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { Readable } from "node:stream";
 import { join, extname, resolve, sep } from "node:path";
-import { injectScriptsAtHeadStart, injectScriptsIntoHtml } from "@hyperframes/core/compiler";
-import { fpsToNumber, type Fps } from "@hyperframes/core";
+import { injectScriptsAtHeadStart, injectScriptsIntoHtml } from "@frames/core/compiler";
+import { fpsToNumber, type Fps } from "@frames/core";
 import { getVerifiedHyperframeRuntimeSource } from "./hyperframeRuntimeLoader.js";
 import { getHfEarlyStub } from "../generated/hf-early-stub-inline.js";
 import { defaultLogger, type ProducerLogger } from "../logger.js";
@@ -128,7 +128,7 @@ export type RangeRequest =
  *   - `bytes=-SUFFIX`: last SUFFIX bytes.
  *
  * Multi-range requests (`bytes=0-99,200-299`) are treated as `absent`. The
- * caller serves the full body with 200. The hyperframes producer's use case
+ * caller serves the full body with 200. The frames producer's use case
  * (Chrome `<video>` seeks, range-aware media stack) only ever issues single
  * ranges, so we don't take on the multipart-byteranges complexity here.
  *
@@ -528,7 +528,7 @@ function buildRenderModeScript(fps: Fps | undefined): string {
  * Early stub: ensures `window.__hf` exists *before* any user `<script>` in
  * `<body>` executes, and batches GSAP timeline construction via
  * requestAnimationFrame to prevent the main-thread hang described in
- * https://github.com/heygen-com/hyperframes/issues/1231.
+ * https://github.com/hanzoai/frames/issues/1231.
  *
  * Source: packages/producer/stubs/hf-early-stub.ts
  * Generated: packages/producer/src/generated/hf-early-stub-inline.ts
@@ -541,14 +541,14 @@ const HF_EARLY_STUB = getHfEarlyStub();
  *
  * When the engine is launched with `enablePageSideCompositing: true`, the
  * orchestrator injects this stub into the very top of every served HTML
- * page. The flag is read by `@hyperframes/shader-transitions`' engine-mode
+ * page. The flag is read by `@frames/shader-transitions`' engine-mode
  * `init()` to switch from the default opacity-flip mode (which leaves
  * shader blending to the Node side via the hf#677 layered pipeline) to a
  * page-side WebGL compositor that runs the shader inside Chrome and
  * exposes a single opaque RGB frame for the engine to capture.
  *
  * Sentinel ONLY — no logic here. The compositor itself ships inside
- * `@hyperframes/shader-transitions` and is loaded by the composition's
+ * `@frames/shader-transitions` and is loaded by the composition's
  * regular script bundle.
  *
  * Default OFF: when the flag is not set, behavior is byte-identical to
@@ -565,7 +565,7 @@ export const HF_PAGE_SIDE_COMPOSITING_STUB = `(function() {
  *
  * This script *patches* the existing __hf object rather than replacing it, so
  * fields written during page-script execution (e.g. transitions metadata from
- * @hyperframes/shader-transitions) are preserved through to engine query time.
+ * @frames/shader-transitions) are preserved through to engine query time.
  */
 const HF_BRIDGE_SCRIPT = `(function() {
   var __realSetInterval =

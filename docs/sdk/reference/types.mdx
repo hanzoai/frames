@@ -1,9 +1,9 @@
 ---
 title: "Types"
-description: "All exported types from @hyperframes/sdk."
+description: "All exported types from @frames/sdk."
 ---
 
-This page documents every type exported from `@hyperframes/sdk`. Types are verified against `packages/sdk/src/types.ts` and the export barrel at `packages/sdk/src/index.ts`.
+This page documents every type exported from `@frames/sdk`. Types are verified against `packages/sdk/src/types.ts` and the export barrel at `packages/sdk/src/index.ts`.
 
 See also: [`Composition`](/sdk/reference/composition) for the main session interface, [`Edit Operations`](/sdk/reference/edit-operations) for the `EditOp` catalog.
 
@@ -15,20 +15,20 @@ See also: [`Composition`](/sdk/reference/composition) for the main session inter
 type HfId = string;
 ```
 
-A stable HyperFrames element identifier — the value of the `data-hf-id` attribute stamped on every editable element by `ensureHfIds`. Use `HfId` wherever you would write a raw `string` to signal that the value is an element id.
+A stable Frames element identifier — the value of the `data-hf-id` attribute stamped on every editable element by `ensureHfIds`. Use `HfId` wherever you would write a raw `string` to signal that the value is an element id.
 
 ---
 
-## HyperFramesElement
+## FramesElement
 
 Full DOM-level view of one editable element. Returned by `comp.getElements()` and `comp.getElement(id)`.
 
 ```typescript
-interface HyperFramesElement {
+interface FramesElement {
   readonly id: string;
   readonly scopedId: string;
   readonly tag: string;
-  readonly children: readonly HyperFramesElement[];
+  readonly children: readonly FramesElement[];
   readonly inlineStyles: Readonly<Record<string, string>>;
   readonly classNames: readonly string[];
   readonly attributes: Readonly<Record<string, string>>;
@@ -52,8 +52,8 @@ interface HyperFramesElement {
   Lowercase HTML tag name (`"div"`, `"img"`, `"p"`, …).
 </ResponseField>
 
-<ResponseField name="children" type="readonly HyperFramesElement[]">
-  Direct child elements. Build a flat list with `flatElements()` from `@hyperframes/sdk` utilities.
+<ResponseField name="children" type="readonly FramesElement[]">
+  Direct child elements. Build a flat list with `flatElements()` from `@frames/sdk` utilities.
 </ResponseField>
 
 <ResponseField name="inlineStyles" type="Readonly<Record<string, string>>">
@@ -93,10 +93,10 @@ interface HyperFramesElement {
 ## ElementSnapshot
 
 ```typescript
-type ElementSnapshot = HyperFramesElement;
+type ElementSnapshot = FramesElement;
 ```
 
-Type alias for `HyperFramesElement`. Used in return types of `getElements()` and `getElement()` to signal that the value is a read-only snapshot — it does not update after subsequent mutations.
+Type alias for `FramesElement`. Used in return types of `getElements()` and `getElement()` to signal that the value is a read-only snapshot — it does not update after subsequent mutations.
 
 ---
 
@@ -106,7 +106,7 @@ The SDK's in-memory document model. Returned by `buildDocument()`.
 
 ```typescript
 interface SdkDocument {
-  readonly roots: readonly HyperFramesElement[];
+  readonly roots: readonly FramesElement[];
   readonly gsapScript: string | null;
   readonly styles: string | null;
   readonly width: number | null;
@@ -116,7 +116,7 @@ interface SdkDocument {
 }
 ```
 
-<ResponseField name="roots" type="readonly HyperFramesElement[]">
+<ResponseField name="roots" type="readonly FramesElement[]">
   Top-level elements of the composition body. Walk the tree via `.children`.
 </ResponseField>
 
@@ -295,7 +295,7 @@ interface GsapTweenSpec {
 
 ## KeyframeSpec
 
-A single keyframe entry for `addWithKeyframes` and `replaceWithKeyframes`. This is a structural shape, not a runtime export — you pass plain objects of this form to those methods; it is **not** re-exported from the `@hyperframes/sdk` barrel, so there is nothing to import.
+A single keyframe entry for `addWithKeyframes` and `replaceWithKeyframes`. This is a structural shape, not a runtime export — you pass plain objects of this form to those methods; it is **not** re-exported from the `@frames/sdk` barrel, so there is nothing to import.
 
 ```typescript
 interface KeyframeSpec {
@@ -680,7 +680,7 @@ title.setTiming({ start: 0.5, duration: 3 });
 ## ORIGIN_APPLY_PATCHES / ORIGIN_LOCAL
 
 ```typescript
-const ORIGIN_APPLY_PATCHES = "@hyperframes/sdk:applyPatches";
+const ORIGIN_APPLY_PATCHES = "@frames/sdk:applyPatches";
 const ORIGIN_LOCAL = "local";
 ```
 

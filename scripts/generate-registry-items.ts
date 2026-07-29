@@ -24,11 +24,11 @@ import {
   type FileType,
   type RegistryItem,
   type RegistryManifest,
-} from "@hyperframes/core";
+} from "@frames/core";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
-const examplesDir = resolve(repoRoot, "registry", ITEM_TYPE_DIRS["hyperframes:example"]);
+const examplesDir = resolve(repoRoot, "registry", ITEM_TYPE_DIRS["frames:example"]);
 const registryManifestPath = resolve(repoRoot, "registry/registry.json");
 const legacyManifestPath = resolve(examplesDir, "templates.json");
 
@@ -97,8 +97,8 @@ function probeCanvas(exampleDir: string): CanvasMeta {
 }
 
 function fileTypeFor(path: string): FileType {
-  if (path.endsWith(".html")) return "hyperframes:composition";
-  return "hyperframes:asset";
+  if (path.endsWith(".html")) return "frames:composition";
+  return "frames:asset";
 }
 
 /** Walk the example dir and collect every tracked file (HTML + assets). */
@@ -131,9 +131,9 @@ function buildItem(entry: LegacyTemplateEntry): RegistryItem {
   const files = collectFiles(exampleDir);
 
   return {
-    $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+    $schema: "https://frames.hanzo.ai/schema/registry-item.json",
     name: entry.id,
-    type: "hyperframes:example",
+    type: "frames:example",
     title: entry.label,
     description: entry.hint,
     dimensions: { width: canvas.width, height: canvas.height },
@@ -143,7 +143,7 @@ function buildItem(entry: LegacyTemplateEntry): RegistryItem {
 }
 
 function writeItem(item: RegistryItem): void {
-  if (item.type !== "hyperframes:example") return;
+  if (item.type !== "frames:example") return;
   const out = join(examplesDir, item.name, "registry-item.json");
   writeFileSync(out, JSON.stringify(item, null, 2) + "\n", "utf-8");
   console.log(`wrote ${relative(repoRoot, out)}`);
@@ -151,9 +151,9 @@ function writeItem(item: RegistryItem): void {
 
 function writeRegistryManifest(items: RegistryItem[]): void {
   const manifest: RegistryManifest = {
-    $schema: "https://hyperframes.heygen.com/schema/registry.json",
-    name: "hyperframes",
-    homepage: "https://hyperframes.heygen.com",
+    $schema: "https://frames.hanzo.ai/schema/registry.json",
+    name: "frames",
+    homepage: "https://frames.hanzo.ai",
     items: items.map((item) => ({ name: item.name, type: item.type })),
   };
   writeFileSync(registryManifestPath, JSON.stringify(manifest, null, 2) + "\n", "utf-8");

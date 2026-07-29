@@ -253,7 +253,7 @@ export function scopeCssToComposition(
 export function wrapScopedCompositionScript(
   source: string,
   compositionId: string,
-  errorLabel = "[HyperFrames] composition script error:",
+  errorLabel = "[Frames] composition script error:",
   scopeSelectorOverride?: string,
   timelineCompositionId = compositionId,
   authoredRootId?: string | null,
@@ -455,16 +455,16 @@ export function wrapScopedCompositionScript(
     ? new Proxy(window, {
         get: function(target, prop, receiver) {
           if (prop === "__timelines") return __hfGetTimelineRegistry();
-          // Inside a sub-composition, __hyperframes is passed as a bare script
+          // Inside a sub-composition, __frames is passed as a bare script
           // param bound to the SCOPED variant (per-comp getVariables). But
-          // authors routinely write the documented window.__hyperframes.
+          // authors routinely write the documented window.__frames.
           // getVariables() form, which would otherwise fall through to the host
-          // page's base __hyperframes and return the WRONG (or empty) variables
+          // page's base __frames and return the WRONG (or empty) variables
           // for this instance. Route it to the scoped variant too so both
           // spellings resolve to this composition's own variables.
           // (__hfScopedHyperframes is a hoisted var assigned below, before any
           // sub-comp script -- the only code that reads this -- runs.)
-          if (prop === "__hyperframes") return __hfScopedHyperframes;
+          if (prop === "__frames") return __hfScopedHyperframes;
           return Reflect.get(target, prop, target);
         },
         set: function(target, prop, value, receiver) {
@@ -560,7 +560,7 @@ export function wrapScopedCompositionScript(
           return typeof value === "function" ? value.bind(target) : value;
         },
       });
-  var __hfBaseHyperframes = window.__hyperframes;
+  var __hfBaseHyperframes = window.__frames;
   var __hfScopedHyperframes = !__hfBaseHyperframes
     ? __hfBaseHyperframes
     : Object.assign({}, __hfBaseHyperframes, {
@@ -572,7 +572,7 @@ export function wrapScopedCompositionScript(
       });
   var __hfRun = function() {
     try {
-      (function(document, gsap, window, __hyperframes) {
+      (function(document, gsap, window, __frames) {
 ${source.replace(/<\/(script)/gi, "<\\/$1")}
       }).call(window, __hfScopedDocument, __hfScopedGsap, __hfScopedWindow, __hfScopedHyperframes);
     } catch (_err) {

@@ -1,25 +1,25 @@
 ---
 title: Claude Design
-description: "Create HyperFrames video drafts in Claude Design, then refine in any AI coding agent."
+description: "Create Frames video drafts in Claude Design, then refine in any AI coding agent."
 ---
 
-Claude Design produces a **valid first draft** of a HyperFrames video — brand identity, scene content, layout, animations, and transitions. You then download the ZIP and refine in any AI coding agent (Claude Code, Cursor, Codex, Windsurf, etc.) with linting and live preview.
+Claude Design produces a **valid first draft** of a Frames video — brand identity, scene content, layout, animations, and transitions. You then download the ZIP and refine in any AI coding agent (Claude Code, Cursor, Codex, Windsurf, etc.) with linting and live preview.
 
 <Note>
-  **Sending your design to HeyGen as a URL ("Send to HyperFrames"), rather than downloading a ZIP?** Use the [Send to HyperFrames guide](https://raw.githubusercontent.com/heygen-com/hyperframes/main/docs/guides/claude-design-send-to-hyperframes.md) instead. That flow has different authoring rules; this page covers the Download-ZIP flow.
+  **Sending your design to HeyGen as a URL ("Send to Frames"), rather than downloading a ZIP?** Use the [Send to Frames guide](https://raw.githubusercontent.com/hanzoai/frames/main/docs/guides/claude-design-send-to-frames.md) instead. That flow has different authoring rules; this page covers the Download-ZIP flow.
 </Note>
 
 ## Get started
 
 <Steps>
   <Step title="Download the instruction file">
-    Open [`claude-design-hyperframes.md`](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) on GitHub and click the download button (↓) to save it.
+    Open [`claude-design-frames.md`](https://github.com/hanzoai/frames/blob/main/docs/guides/claude-design-frames.md) on GitHub and click the download button (↓) to save it.
   </Step>
   <Step title="Open Claude Design">
     Start a new chat at [claude.ai/design](https://claude.ai/design).
   </Step>
   <Step title="Attach the file + describe your video">
-    Drag the `claude-design-hyperframes.md` file into the chat. Describe what you want — include screenshots, brand assets, or a palette if you have them.
+    Drag the `claude-design-frames.md` file into the chat. Describe what you want — include screenshots, brand assets, or a palette if you have them.
   </Step>
   <Step title="Download the ZIP">
     Claude Design produces `index.html`, `preview.html`, `README.md`, and `DESIGN.md`. Download the ZIP.
@@ -27,9 +27,9 @@ Claude Design produces a **valid first draft** of a HyperFrames video — brand 
   <Step title="Refine in any AI coding agent">
     Open the project in Claude Code, Cursor, Codex, or any agent with terminal access for animation polish, timing, and production QA.
     ```bash
-    npx skills add heygen-com/hyperframes   # install skills (one-time)
-    npx hyperframes lint                     # should pass with zero errors
-    npx hyperframes preview                  # open the studio
+    npx skills add hanzoai/frames   # install skills (one-time)
+    npx frames lint                     # should pass with zero errors
+    npx frames preview                  # open the studio
     ```
   </Step>
 </Steps>
@@ -42,9 +42,9 @@ Claude Design produces a **valid first draft** of a HyperFrames video — brand 
 
 | Surface                     | Recommended setup                                                                                                             |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| Claude Design               | Download [`claude-design-hyperframes.md`](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) from GitHub and attach to your chat |
-| Claude Code                 | `npx skills add heygen-com/hyperframes`, then use `/hyperframes`                                                              |
-| Cursor / Codex / Gemini CLI | `npx skills add heygen-com/hyperframes`                                                                                       |
+| Claude Design               | Download [`claude-design-frames.md`](https://github.com/hanzoai/frames/blob/main/docs/guides/claude-design-frames.md) from GitHub and attach to your chat |
+| Claude Code                 | `npx skills add hanzoai/frames`, then use `/frames`                                                              |
+| Cursor / Codex / Gemini CLI | `npx skills add hanzoai/frames`                                                                                       |
 
 ## How it works
 
@@ -55,7 +55,7 @@ The instruction file gives Claude Design **pre-valid HTML skeletons** — the st
 3. **Animations** — GSAP entrance tweens and mid-scene activity
 4. **Transitions** — hard cuts for most scenes, shader transitions at 2-3 key moments
 
-This template-first approach means the output passes `npx hyperframes lint` with zero errors on first download — your coding agent can start refining immediately without structural fixes.
+This template-first approach means the output passes `npx frames lint` with zero errors on first download — your coding agent can start refining immediately without structural fixes.
 
 ## Example prompts
 
@@ -117,8 +117,8 @@ The more specific your prompt, the better the output. Include palette, fonts, du
 
 ## Known limitations
 
-- **In-pane preview** — scrubbing is unreliable in Claude Design's iframe sandbox. Download and use `npx hyperframes preview` locally for reliable playback.
-- **No linting** — Claude Design can't run `npx hyperframes lint`. The template-first skeletons handle structural validity, but the self-review checklist is the only QA before download.
+- **In-pane preview** — scrubbing is unreliable in Claude Design's iframe sandbox. Download and use `npx frames preview` locally for reliable playback.
+- **No linting** — Claude Design can't run `npx frames lint`. The template-first skeletons handle structural validity, but the self-review checklist is the only QA before download.
 - **Shaders work at any aspect ratio** — vertical (1080x1920), landscape (1920x1080), and square (1080x1080) all supported.
 - **3 fetch limit** — Claude Design limits web fetches per turn. All critical rules are inlined; external references are for edge cases only.
 - **Seeking backwards** — scrubbing backwards in the in-pane preview can show blank frames. Forward seeking usually works.
@@ -128,9 +128,9 @@ The more specific your prompt, the better the output. Include palette, fonts, du
 Claude Design's output is a valid first draft. Open it in Claude Code, Cursor, Codex, or any AI coding agent with terminal access:
 
 ```bash
-npx skills add heygen-com/hyperframes   # one-time setup
-npx hyperframes lint                     # verify structure
-npx hyperframes preview                  # open the studio
+npx skills add hanzoai/frames   # one-time setup
+npx frames lint                     # verify structure
+npx frames preview                  # open the studio
 ```
 
 Then iterate:
@@ -144,9 +144,9 @@ Then iterate:
 
 <CardGroup cols={2}>
   <Card title="Prompt Guide" icon="message" href="/guides/prompting">
-    More prompt patterns for HyperFrames across Claude Code, Claude Design, and other agents.
+    More prompt patterns for Frames across Claude Code, Claude Design, and other agents.
   </Card>
-  <Card title="@hyperframes/player" icon="play" href="/packages/player">
+  <Card title="@frames/player" icon="play" href="/packages/player">
     Embed compositions with the official player component.
   </Card>
 </CardGroup>

@@ -23,7 +23,7 @@ export interface StudioHeaderProps {
 }
 
 function HyperframesLogo() {
-  // Full logo from logo-dark.svg (263×79): heygen label + gradient mark + hyperframes wordmark.
+  // Full logo from logo-dark.svg (263×79): heygen label + gradient mark + frames wordmark.
   // All fill="black" paths inverted to white for the dark header.
   const height = 28;
   const width = Math.round(height * (263 / 79));
@@ -94,7 +94,7 @@ function HyperframesLogo() {
         d="M256.97 25.9638L232.58 38.7638C229.28 40.4938 225.98 38.5338 226.75 35.3038L234.16 4.10376C234.93 0.873757 239.16 -1.08624 241.64 0.643757L259.95 13.4438C264.12 16.3538 262.52 23.0538 256.97 25.9638Z"
         fill="url(#hf-g1)"
       />
-      {/* hyperframes wordmark */}
+      {/* frames wordmark */}
       <path
         d="M0 71.9996V42.7256H7.7367V53.1806H17.9826V42.7256H25.7193V71.9996H17.9826V59.8718H7.7367V71.9996H0Z"
         fill="white"

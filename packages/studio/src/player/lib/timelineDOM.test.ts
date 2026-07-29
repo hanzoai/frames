@@ -54,7 +54,7 @@ describe("parseTimelineFromDOM — hfId from data-hf-id", () => {
         <canvas
           class="__hf_color_grading_canvas__"
           data-hf-color-grading-canvas="true"
-          data-hyperframes-ignore
+          data-frames-ignore
           data-start="0"
           data-duration="5"
         ></canvas>
@@ -262,7 +262,7 @@ describe("createImplicitTimelineLayersFromDOM — hfId from data-hf-id", () => {
         <canvas
           class="__hf_color_grading_canvas__"
           data-hf-color-grading-canvas="true"
-          data-hyperframes-ignore
+          data-frames-ignore
         ></canvas>
       </div>
     `);

@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/engine",
+  "name": "@frames/engine",
   "version": "0.7.81",
   "description": "Seekable web page to video rendering engine (Puppeteer + FFmpeg)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/engine"
   },
   "files": [
@@ -59,8 +59,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^2.0.5",
-    "@hyperframes/core": "workspace:^",
-    "@hyperframes/parsers": "workspace:^",
+    "@frames/core": "workspace:^",
+    "@frames/parsers": "workspace:^",
     "hono": "^4.6.0",
     "linkedom": "^0.18.12",
     "puppeteer": "^25.2.1",

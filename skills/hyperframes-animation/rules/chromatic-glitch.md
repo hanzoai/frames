@@ -32,7 +32,7 @@ The **slice form** swaps color copies for `SLICE_COUNT` full copies, each clippe
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <!-- Form A: RGB-split — ghosts behind, base on top. Copies metric-identical (one grid cell, same font stack); aria-hidden on every non-base copy. -->
 <div class="glitch-stack" id="glitch-stack">
   <span class="glitch-copy warm" aria-hidden="true">{glitchText}</span>

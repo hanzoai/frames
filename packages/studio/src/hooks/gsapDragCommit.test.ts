@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import { describe, expect, it, beforeEach } from "vitest";
-import type { GsapAnimation } from "@hyperframes/core/gsap-parser";
+import type { GsapAnimation } from "@frames/core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { commitGsapPositionFromDrag } from "./gsapDragPositionCommit";
 import {

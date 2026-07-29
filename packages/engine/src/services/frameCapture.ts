@@ -11,7 +11,7 @@
 import { type Browser, type Page, type Viewport, type ConsoleMessage } from "puppeteer-core";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
-import { quantizeTimeToFrame, fpsToNumber } from "@hyperframes/core";
+import { quantizeTimeToFrame, fpsToNumber } from "@frames/core";
 
 // ── Extracted modules ───────────────────────────────────────────────────────
 import {
@@ -452,7 +452,7 @@ export function sanitizeDiagnosticUrl(input: string): string {
   if (input.startsWith("blob:")) return "blob:<redacted>";
   if (input.startsWith("/")) {
     try {
-      const url = new URL(input, "http://hyperframes.local");
+      const url = new URL(input, "http://frames.local");
       return url.pathname;
     } catch {
       return input;
@@ -763,8 +763,8 @@ async function initDrawElementOrTransparentBackground(
       console.log(
         `[engine] fast capture: falling back to ${session.launchCaptureMode} capture — ` +
           "this Chrome build does not implement canvas.drawElementImage (Dev/Canary-only " +
-          "feature, ~151+); run `hyperframes browser ensure --force` to fetch a supported " +
-          "build, or set HYPERFRAMES_BROWSER_PATH to one.",
+          "feature, ~151+); run `frames browser ensure --force` to fetch a supported " +
+          "build, or set FRAMES_BROWSER_PATH to one.",
       );
       await routeToFallback();
       return;
@@ -1140,7 +1140,7 @@ async function constructCaptureSession(
   // wrappers around named functions. Empirically, this happens with:
   //   - tsx (its esbuild loader runs with keepNames=true), used by the
   //     producer's parity-harness, ad-hoc dev scripts, and the
-  //     `bun run --filter @hyperframes/engine test` Vitest path.
+  //     `bun run --filter @frames/engine test` Vitest path.
   //   - any tsup/esbuild build that explicitly enables keepNames.
   //
   // The HeyGen CLI (`packages/cli`) bundles this engine via tsup with
@@ -1301,9 +1301,9 @@ export function formatConsoleDiagnostic(
   const isFontLoadError = isFontResourceError(type, text, locationUrl);
   if (isFontLoadError) return { text: `[Browser] ${text}`, suppressHostLog: true };
 
-  if (text.startsWith("[hyperframes]")) {
+  if (text.startsWith("[frames]")) {
     return {
-      text: `[HyperFrames] ${text.slice("[hyperframes]".length).trim()}`,
+      text: `[Frames] ${text.slice("[frames]".length).trim()}`,
       suppressHostLog: false,
     };
   }
@@ -1355,7 +1355,7 @@ function buildZeroDurationDiagnostic(diag: {
 }): string {
   const hints: string[] = [];
   if (!diag.hasPlayer) {
-    hints.push("window.__player was never set — the HyperFrames runtime did not initialize.");
+    hints.push("window.__player was never set — the Frames runtime did not initialize.");
   }
   if (!diag.hasTimeline) {
     hints.push(
@@ -1885,7 +1885,7 @@ function recordScriptLoadFailure(session: CaptureSession, url: string): void {
 export async function initializeSession(session: CaptureSession): Promise<void> {
   const { page, serverUrl } = session;
 
-  // Forward browser console to host. HyperFrames runtime logs get a dedicated
+  // Forward browser console to host. Frames runtime logs get a dedicated
   // prefix so page-context observability is visible in producer stdout.
   page.on("console", (msg: ConsoleMessage) => {
     const type = msg.type();

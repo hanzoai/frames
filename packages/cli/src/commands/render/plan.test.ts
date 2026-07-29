@@ -74,17 +74,17 @@ describe("createRenderPlan", () => {
 
   it("resolves a relative frame-cache directory into the execution environment", () => {
     const plan = createRenderPlan({ dir: projectDir, "frames-cache-dir": "./frame-cache" });
-    expect(plan.environment.HYPERFRAMES_EXTRACT_CACHE_DIR).toBe(resolve("./frame-cache"));
+    expect(plan.environment.FRAMES_EXTRACT_CACHE_DIR).toBe(resolve("./frame-cache"));
   });
 
   it("preserves frame-cache disable aliases for engine normalization", () => {
     const plan = createRenderPlan({ dir: projectDir, "frames-cache-dir": "OFF" });
-    expect(plan.environment.HYPERFRAMES_EXTRACT_CACHE_DIR).toBe("OFF");
+    expect(plan.environment.FRAMES_EXTRACT_CACHE_DIR).toBe("OFF");
   });
 
-  it("attributes a flag-less render to the skill persisted in hyperframes.json", () => {
+  it("attributes a flag-less render to the skill persisted in frames.json", () => {
     writeFileSync(
-      join(projectDir, "hyperframes.json"),
+      join(projectDir, "frames.json"),
       JSON.stringify({ authoringSkill: "product-launch-video" }),
     );
     const plan = createRenderPlan({ dir: projectDir });
@@ -93,7 +93,7 @@ describe("createRenderPlan", () => {
 
   it("lets an explicit --skill flag override the persisted project owner", () => {
     writeFileSync(
-      join(projectDir, "hyperframes.json"),
+      join(projectDir, "frames.json"),
       JSON.stringify({ authoringSkill: "product-launch-video" }),
     );
     const plan = createRenderPlan({ dir: projectDir, skill: "motion-graphics" });

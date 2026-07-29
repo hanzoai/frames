@@ -21,7 +21,7 @@ import { resolveProxy, PROXY_PARAMS_VERSION } from "./proxyTranscoder.js";
  * fields are optional so any existing `StudioApiAdapter` value remains
  * structurally assignable without editing the shared interface:
  * `autoProxy` defaults to true (on) when omitted — a later unit wires the
- * CLI `--no-proxy` flag / `hyperframes.json` setting through it;
+ * CLI `--no-proxy` flag / `frames.json` setting through it;
  * `mediaCodecProbeCache` lets a host share one probe cache across
  * preview/play/static-server surfaces instead of each constructing its own.
  */

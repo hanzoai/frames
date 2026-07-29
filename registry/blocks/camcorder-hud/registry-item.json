@@ -1,7 +1,7 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "camcorder-hud",
-  "type": "hyperframes:block",
+  "type": "frames:block",
   "title": "Camcorder HUD",
   "description": "Responsive REC, battery, editable date placeholder, and timeline-driven counter overlay for creator-camera and camcorder treatments",
   "tags": [
@@ -22,11 +22,11 @@
     {
       "path": "camcorder-hud.html",
       "target": "compositions/camcorder-hud.html",
-      "type": "hyperframes:composition"
+      "type": "frames:composition"
     }
   ],
   "preview": {
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/camcorder-hud.png",
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/camcorder-hud.mp4"
+    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/camcorder-hud.png",
+    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/camcorder-hud.mp4"
   }
 }

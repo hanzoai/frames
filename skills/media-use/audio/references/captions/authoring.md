@@ -13,7 +13,7 @@ Analyze spoken content to determine caption style. If user specifies a style, us
 ]
 ```
 
-`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `hyperframes transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
+`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `frames transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
 
 ## Style Detection (When No Style Specified)
 
@@ -36,7 +36,7 @@ Scan for words deserving distinct treatment:
 - **Numbers/statistics** — bold weight, accent color
 - **Emotional keywords** — exaggerated animation (overshoot, bounce)
 - **Call-to-action** — highlight, underline, color pop
-- **Marker highlight** — for beyond-color emphasis (highlight sweep, circle, burst, scribble, sketchout), see `hyperframes-animation/rules/css-marker-patterns.md`.
+- **Marker highlight** — for beyond-color emphasis (highlight sweep, circle, burst, scribble, sketchout), see `frames-animation/rules/css-marker-patterns.md`.
 
 ## Script-to-Style Mapping
 
@@ -66,10 +66,10 @@ Break on sentence boundaries, 150ms+ pauses, or max word count.
 
 ## Text Overflow Prevention
 
-Use `window.__hyperframes.fitTextFontSize()`:
+Use `window.__frames.fitTextFontSize()`:
 
 ```js
-var result = window.__hyperframes.fitTextFontSize(group.text.toUpperCase(), {
+var result = window.__frames.fitTextFontSize(group.text.toUpperCase(), {
   fontFamily: "Outfit",
   fontWeight: 900,
   maxWidth: 1600,
@@ -113,11 +113,11 @@ tl.seek(0);
 
 ## Pre-Built Caption Components
 
-Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx hyperframes add <name>` and wire as a sub-composition via `data-composition-src` (see `hyperframes-registry`).
+Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx frames add <name>` and wire as a sub-composition via `data-composition-src` (see `frames-registry`).
 
 ```bash
-npx hyperframes catalog --tag caption-style   # list all caption components
-npx hyperframes add caption-highlight         # install a specific one
+npx frames catalog --tag caption-style   # list all caption components
+npx frames add caption-highlight         # install a specific one
 ```
 
 | Style                     | Component                    | Best for                     |
@@ -140,7 +140,7 @@ npx hyperframes add caption-highlight         # install a specific one
 
 Related: `caption-blend-difference` (tagged `text` / `blend-mode`, not `caption-style`, so it won't appear under the filter above) auto-inverts text against any background via `mix-blend-mode: difference` — useful when the background is busy or unpredictable.
 
-Browse all with previews: [hyperframes.heygen.com/catalog](https://hyperframes.heygen.com/catalog)
+Browse all with previews: [frames.hanzo.ai/catalog](https://frames.hanzo.ai/catalog)
 
 Caption components ship with transparent backgrounds — they're pure overlays. If the underlying video is bright or busy, add a contrast layer (e.g. a semi-transparent dark div) in the host composition beneath the caption sub-composition, not inside the component itself.
 
@@ -148,7 +148,7 @@ Caption components ship with transparent backgrounds — they're pure overlays. 
 
 - [`motion.md`](motion.md) — karaoke, marker effects, audio-reactive modulation, scatter exits.
 - [`transcript-handling.md`](transcript-handling.md) — input formats, quality checks, cleaning, external API fallback.
-- `hyperframes-animation/rules/css-marker-patterns.md` — marker highlighting (deterministic, fully seekable).
+- `frames-animation/rules/css-marker-patterns.md` — marker highlighting (deterministic, fully seekable).
 
 ## Constraints
 

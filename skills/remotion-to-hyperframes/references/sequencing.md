@@ -169,7 +169,7 @@ mainTl.add(spinTl, 3);
 This is fragile — Remotion's `<Loop>` resets internal state every iteration,
 which GSAP repeat does too, but if the looped child has its own animation,
 you need to be careful that GSAP's `repeatRefresh` is on or off as needed.
-The finite count is required because HyperFrames seeks a bounded composition frame-by-frame.
+The finite count is required because Frames seeks a bounded composition frame-by-frame.
 
 ## `<Freeze>`
 

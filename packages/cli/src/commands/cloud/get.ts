@@ -1,5 +1,5 @@
 /**
- * `hyperframes cloud get <render_id>` — fetch detail for a single render.
+ * `frames cloud get <render_id>` — fetch detail for a single render.
  *
  * Includes the signed `video_url` and `thumbnail_url` when status is
  * `completed`. The signed URLs are short-lived; don't paste them into

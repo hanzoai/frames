@@ -11,7 +11,7 @@ export interface ProjectWatcher {
 const WATCHER_EXCLUDED_DIRS = new Set([
   ".cache",
   ".git",
-  ".hyperframes",
+  ".frames",
   ".next",
   ".vite",
   "build",

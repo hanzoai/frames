@@ -1,12 +1,12 @@
 import { execFile } from "node:child_process";
-import { rewriteAssetPath } from "@hyperframes/parsers/asset-paths";
-import { findFfBinary } from "@hyperframes/parsers/ff-binaries";
+import { rewriteAssetPath } from "@frames/parsers/asset-paths";
+import { findFfBinary } from "@frames/parsers/ff-binaries";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   maskNonScannableRanges,
   resolveExistingLocalAsset,
-} from "@hyperframes/parsers/asset-resolution";
+} from "@frames/parsers/asset-resolution";
 import type { HyperframeLintFinding } from "./types.js";
 
 /** Structurally compatible with `project.ts`'s (unexported) `HtmlSource` —
@@ -149,8 +149,8 @@ export async function lintHevcPreviewCodec(
         "If playback still fails, verify ffmpeg/ffprobe are installed and auto-proxying is enabled.",
       fixHint:
         unique.length === 1
-          ? `If "${unique[0]}" fails to play in preview, run hyperframes doctor and confirm media.autoProxy is not false.`
-          : "If these files fail to play in preview, run hyperframes doctor and confirm media.autoProxy is not false.",
+          ? `If "${unique[0]}" fails to play in preview, run frames doctor and confirm media.autoProxy is not false.`
+          : "If these files fail to play in preview, run frames doctor and confirm media.autoProxy is not false.",
     },
   ];
 }

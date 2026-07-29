@@ -1,13 +1,13 @@
 ---
-name: hyperframes-creative
-description: Non-animation creative direction for HyperFrames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `hyperframes-animation`.
+name: frames-creative
+description: Non-animation creative direction for Frames videos. Use for design spec (frame.md / design.md) handling, palettes, typography, narration, beat planning, audio-reactive visuals, composition patterns, and brand / style decisions. For atomic motion patterns and scene blueprints, use `frames-animation`.
 ---
 
-# HyperFrames Creative
+# Frames Creative
 
-Brand, pacing, style, narration, and composition direction. Use after the technical contract from `hyperframes-core` is in place.
+Brand, pacing, style, narration, and composition direction. Use after the technical contract from `frames-core` is in place.
 
-For motion patterns, scene blueprints, transitions, and CSS marker effects, use `hyperframes-animation` — this skill is intentionally non-animation.
+For motion patterns, scene blueprints, transitions, and CSS marker effects, use `frames-animation` — this skill is intentionally non-animation.
 
 > **Read these two FIRST for any non-trivial composition — they override web instincts:**
 >
@@ -24,8 +24,8 @@ For motion patterns, scene blueprints, transitions, and CSS marker effects, use 
    - Named style or mood → `references/visual-styles.md`
    - Fast defaults → `references/house-style.md`
    - Interactive selection → `references/design-picker.md`
-3. For multi-scene work, plan beats and rhythm before writing HTML → `references/beat-direction.md`. For scene transitions, jump to `hyperframes-animation/transitions/`.
-4. For motion-heavy work, read `references/motion-principles.md` (high-level guardrails), then go to `hyperframes-animation` for atomic rules.
+3. For multi-scene work, plan beats and rhythm before writing HTML → `references/beat-direction.md`. For scene transitions, jump to `frames-animation/transitions/`.
+4. For motion-heavy work, read `references/motion-principles.md` (high-level guardrails), then go to `frames-animation` for atomic rules.
 
 ## Routing
 
@@ -53,19 +53,19 @@ For motion patterns, scene blueprints, transitions, and CSS marker effects, use 
 - `scripts/extract-audio-data.py` — pre-extract audio bands for audio-reactive compositions.
 - `scripts/package-loader.mjs` — support script for bundled creative tooling.
 
-`contrast-report.mjs` resolves helper packages from the current project first, then can bootstrap the bundled HyperFrames package version. Set `HYPERFRAMES_SKILL_PKG_VERSION=<version>` only when running the skill outside the bundled CLI/skill install and you need to pin that bootstrap version explicitly.
+`contrast-report.mjs` resolves helper packages from the current project first, then can bootstrap the bundled Frames package version. Set `FRAMES_SKILL_PKG_VERSION=<version>` only when running the skill outside the bundled CLI/skill install and you need to pin that bootstrap version explicitly.
 
 Run from the repo root with explicit paths, for example:
 
 ```bash
-python skills/hyperframes-creative/scripts/extract-audio-data.py <audio-file>
+python skills/frames-creative/scripts/extract-audio-data.py <audio-file>
 ```
 
-Animation analysis (`animation-map.mjs`) lives in `hyperframes-animation/scripts/`.
+Animation analysis (`animation-map.mjs`) lives in `frames-animation/scripts/`.
 
 ## Boundaries
 
-- Do not override `hyperframes-core` technical rules.
+- Do not override `frames-core` technical rules.
 - Do not require a design system for a minimal technical composition.
 - Do not add extra scenes, narration, music, captions, or transitions unless the request calls for them or you first propose the expansion.
 - Keep recipe references task-specific; do not read every reference for simple edits.

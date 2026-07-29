@@ -1,4 +1,4 @@
-# Remotion → HyperFrames API Map
+# Remotion → Frames API Map
 
 Authoritative translation table. Load this reference when starting a translation
 to know the high-level mapping; load the per-topic references for fragile
@@ -9,11 +9,11 @@ details (timing, transitions, etc.).
 - **`drop`** = remove from output entirely. The HF runtime handles it.
 - **`see references/X.md`** = the mapping is non-trivial; read the linked file.
 - **`refuse + interop`** = the skill bows out and recommends the runtime adapter
-  pattern from [PR #214](https://github.com/heygen-com/hyperframes/pull/214).
+  pattern from [PR #214](https://github.com/hanzoai/frames/pull/214).
 
 ## Composition root
 
-| Remotion                                             | HyperFrames                                                                                                          |
+| Remotion                                             | Frames                                                                                                          |
 | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `<Composition id durationInFrames fps width height>` | root `<div id="stage" data-composition-id data-start="0" data-duration="<dur/fps>" data-fps data-width data-height>` |
 | `defaultProps={...}`                                 | `data-*` attributes on `#stage` (one per scalar prop). Nested objects/arrays — see [parameters.md](parameters.md)    |
@@ -27,7 +27,7 @@ details (timing, transitions, etc.).
 
 See [sequencing.md](sequencing.md) for nesting and stagger details.
 
-| Remotion                                   | HyperFrames                                                                                               |
+| Remotion                                   | Frames                                                                                               |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
 | `<Sequence from={F} durationInFrames={D}>` | `<div data-start="<F/fps>" data-duration="<D/fps>" data-track-index="N">`                                 |
 | `<Series>` + `<Series.Sequence>`           | siblings with sequential `data-start` values                                                              |
@@ -38,7 +38,7 @@ See [sequencing.md](sequencing.md) for nesting and stagger details.
 
 See [timing.md](timing.md) — this is the highest-leverage section.
 
-| Remotion                                                   | HyperFrames                                                                                                        |
+| Remotion                                                   | Frames                                                                                                        |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `useCurrentFrame()`                                        | drop — HF seeks the timeline. The math derived from `frame` becomes an animatable property of a paused GSAP tween. |
 | `useVideoConfig()` for `fps` / `durationInFrames`          | drop — read from `data-fps` / `data-duration` on `#stage`                                                          |
@@ -53,7 +53,7 @@ See [timing.md](timing.md) — this is the highest-leverage section.
 
 See [media.md](media.md) for trim, volume ramps, and decoder notes.
 
-| Remotion                               | HyperFrames                                                                 |
+| Remotion                               | Frames                                                                 |
 | -------------------------------------- | --------------------------------------------------------------------------- |
 | `<Audio src volume>`                   | `<audio data-start data-duration data-track-index data-volume src>`         |
 | `<Audio playbackRate startFrom endAt>` | `data-playback-rate`, `data-trim-start`, `data-trim-end`                    |
@@ -68,10 +68,10 @@ See [media.md](media.md) for trim, volume ramps, and decoder notes.
 
 See [transitions.md](transitions.md).
 
-| Remotion                                                                       | HyperFrames                                                                                               |
+| Remotion                                                                       | Frames                                                                                               |
 | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
 | `<TransitionSeries>` + `<TransitionSeries.Transition presentation={fade()} />` | manual `gsap.to(scene, {opacity: 0/1, duration})` crossfade at the boundary                               |
-| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://hyperframes.heygen.com/catalog/blocks) package presets — pick the closest |
+| `slide()`, `wipe()`, `clockWipe()`, `fade()`                                   | HF [shader-transitions](https://frames.hanzo.ai/catalog/blocks) package presets — pick the closest |
 | `linearTiming({durationInFrames})`                                             | duration in seconds (`/fps`)                                                                              |
 | `springTiming({config})`                                                       | duration in seconds, ease `back.out` — see [timing.md](timing.md)                                         |
 
@@ -79,7 +79,7 @@ See [transitions.md](transitions.md).
 
 See [lottie.md](lottie.md).
 
-| Remotion                        | HyperFrames                                                                                                       |
+| Remotion                        | Frames                                                                                                       |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | `<Lottie animationData={data}>` | `<div id="lottie-N">` + `<script>const anim = lottie.loadAnimation({...}); window.__hfLottie.push(anim)</script>` |
 | `loop` / `playbackRate` props   | translate only after checking player seek behavior; HF adapter seeks absolute time via `goToAndStop`              |
@@ -89,7 +89,7 @@ See [lottie.md](lottie.md).
 
 See [fonts.md](fonts.md).
 
-| Remotion                                            | HyperFrames                                                                                 |
+| Remotion                                            | Frames                                                                                 |
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | `loadFont()` from `@remotion/google-fonts/<Family>` | `@font-face` rule referencing the Google Fonts CSS, OR `<link>` to Google Fonts in `<head>` |
 | Local font via `@font-face`                         | same — paste the rule into `<style>`                                                        |
@@ -99,7 +99,7 @@ See [fonts.md](fonts.md).
 
 See [parameters.md](parameters.md).
 
-| Remotion                      | HyperFrames                                                                                   |
+| Remotion                      | Frames                                                                                   |
 | ----------------------------- | --------------------------------------------------------------------------------------------- |
 | `z.object({foo: z.string()})` | `data-foo` on `#stage` (the schema is implicit in HTML structure)                             |
 | nested array prop (`stats[]`) | repeated HTML markup with per-instance `data-*` attrs                                         |
@@ -108,7 +108,7 @@ See [parameters.md](parameters.md).
 
 ## React patterns
 
-| Remotion                                           | HyperFrames                                                      |
+| Remotion                                           | Frames                                                      |
 | -------------------------------------------------- | ---------------------------------------------------------------- |
 | Custom React subcomponent (pure, prop-driven)      | inline as repeated HTML using the prop interface as the template |
 | `useState` driving animation                       | **refuse + interop**                                             |
@@ -126,7 +126,7 @@ orthogonal to the rendered composition itself. The skill emits these as
 **warnings** (not blockers) and drops them in step 3 (Generate) with a note
 in `TRANSLATION_NOTES.md`. HF is single-machine today; document the gap.
 
-| Remotion                   | HyperFrames                                            |
+| Remotion                   | Frames                                            |
 | -------------------------- | ------------------------------------------------------ |
 | `@remotion/lambda` import  | drop the import (warning `r2hf/lambda-import`)         |
 | `renderMediaOnLambda(...)` | drop the call; note in `TRANSLATION_NOTES.md`          |
@@ -135,7 +135,7 @@ in `TRANSLATION_NOTES.md`. HF is single-machine today; document the gap.
 ## When to bow out entirely
 
 If any blocker pattern is present, recommend the runtime interop pattern from
-[PR #214](https://github.com/heygen-com/hyperframes/pull/214) instead of
+[PR #214](https://github.com/hanzoai/frames/pull/214) instead of
 attempting translation. See [escape-hatch.md](escape-hatch.md).
 
 The blockers are documented in [`scripts/lint_source.py`](../scripts/lint_source.py)

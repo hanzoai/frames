@@ -1,6 +1,6 @@
 /**
- * Thin wrappers around the AWS SAM CLI used by `hyperframes lambda deploy`
- * and `hyperframes lambda destroy`.
+ * Thin wrappers around the AWS SAM CLI used by `frames lambda deploy`
+ * and `frames lambda destroy`.
  *
  * We shell out instead of programmatically driving the CloudFormation API
  * because:
@@ -63,7 +63,7 @@ export interface DeployOptions {
  * Resolve the SAM template path relative to `repoRoot`. We look for the
  * `examples/aws-lambda/template.yaml` first (development checkout) and
  * fall back to the installed-package layout when running from a globally
- * installed `hyperframes` CLI.
+ * installed `frames` CLI.
  */
 export function locateSamTemplate(repoRoot: string): string {
   const candidate = join(repoRoot, "examples", "aws-lambda", "template.yaml");

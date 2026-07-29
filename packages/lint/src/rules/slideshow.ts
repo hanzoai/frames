@@ -5,7 +5,7 @@ import {
   parseSlideshowManifest,
   resolveSlideshow,
   isSceneLikeCompositionId,
-} from "@hyperframes/parsers/slideshow";
+} from "@frames/parsers/slideshow";
 
 type Scene = { id: string; start: number; duration: number };
 
@@ -60,7 +60,7 @@ export const slideshowRules: LintRule<LintContext>[] = [
         severity: "error",
         message: `Slideshow island contains invalid JSON or structure: ${e instanceof Error ? e.message : String(e)}`,
         fixHint:
-          'Ensure the <script type="application/hyperframes-slideshow+json"> block contains valid JSON matching the SlideshowManifest schema.',
+          'Ensure the <script type="application/frames-slideshow+json"> block contains valid JSON matching the SlideshowManifest schema.',
       });
       return findings;
     }

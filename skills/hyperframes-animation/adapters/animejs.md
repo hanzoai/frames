@@ -1,11 +1,11 @@
 ---
-name: hyperframes-animejs
-description: Anime.js adapter patterns for HyperFrames. Use when writing Anime.js animations or timelines inside HyperFrames compositions, registering animations on window.__hfAnime, making Anime.js seek-driven and deterministic, or translating Anime.js examples into render-safe HyperFrames HTML.
+name: frames-animejs
+description: Anime.js adapter patterns for Frames. Use when writing Anime.js animations or timelines inside Frames compositions, registering animations on window.__hfAnime, making Anime.js seek-driven and deterministic, or translating Anime.js examples into render-safe Frames HTML.
 ---
 
-# Anime.js for HyperFrames
+# Anime.js for Frames
 
-HyperFrames can seek Anime.js instances through its `animejs` runtime adapter. The composition owns the animation objects; HyperFrames owns the clock.
+Frames can seek Anime.js instances through its `animejs` runtime adapter. The composition owns the animation objects; Frames owns the clock.
 
 ## Contract
 
@@ -15,7 +15,7 @@ HyperFrames can seek Anime.js instances through its `animejs` runtime adapter. T
 - Use finite durations and loop counts.
 - Avoid callbacks that mutate DOM based on wall-clock time, network state, or unseeded randomness.
 
-The adapter seeks every registered instance with `instance.seek(timeMs)`, where `timeMs` is HyperFrames time in milliseconds.
+The adapter seeks every registered instance with `instance.seek(timeMs)`, where `timeMs` is Frames time in milliseconds.
 
 ## Basic Pattern
 
@@ -90,7 +90,7 @@ If you use an ES module build, the adapter does not care how the instance was cr
 - Imported Anime.js examples that can be made seek-driven.
 - Multiple independent micro-animations pushed into the same registry.
 
-Use GSAP for complex scene sequencing unless the user specifically asks for Anime.js. GSAP is still the primary HyperFrames authoring path.
+Use GSAP for complex scene sequencing unless the user specifically asks for Anime.js. GSAP is still the primary Frames authoring path.
 
 ## Avoid
 
@@ -104,11 +104,11 @@ Use GSAP for complex scene sequencing unless the user specifically asks for Anim
 After editing a composition that uses Anime.js:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx frames lint
+npx frames check
 ```
 
 ## Credits And References
 
-- HyperFrames adapter source: `packages/core/src/runtime/adapters/animejs.ts`.
+- Frames adapter source: `packages/core/src/runtime/adapters/animejs.ts`.
 - Anime.js documentation for `autoplay`, `pause()`, and `seek()`: https://animejs.com/documentation/

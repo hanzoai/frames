@@ -5,7 +5,7 @@ import { createReadStream, existsSync, statSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { Readable } from "node:stream";
 import { fileURLToPath } from "node:url";
-import { getMimeType } from "@hyperframes/studio-server";
+import { getMimeType } from "@frames/studio-server";
 
 /**
  * `window.__HF_MEDIA_CODEC_MAP__` injection + proxy pre-warm for HTML served
@@ -14,7 +14,7 @@ import { getMimeType } from "@hyperframes/studio-server";
  * `packages/studio-server/src/helpers/mediaProxyPreview.ts` (also used by the
  * studio preview route) so injection behavior cannot drift between surfaces.
  */
-export { injectMediaCodecMapIntoHtml as injectMediaCodecMap } from "@hyperframes/studio-server/media-proxy-preview";
+export { injectMediaCodecMapIntoHtml as injectMediaCodecMap } from "@frames/studio-server/media-proxy-preview";
 
 /** Minimal surface of a listening server (satisfied by @hono/node-server's ServerType). */
 interface PortBindable {
@@ -46,9 +46,9 @@ export function resolveRuntimePath(): string | null {
 export function resolvePlayerPath(): string | null {
   const d = helperDir();
   const candidates = [
-    resolve(d, "..", "..", "..", "player", "dist", "hyperframes-player.global.js"),
-    resolve(d, "hyperframes-player.global.js"),
-    resolve(d, "..", "hyperframes-player.global.js"),
+    resolve(d, "..", "..", "..", "player", "dist", "frames-player.global.js"),
+    resolve(d, "frames-player.global.js"),
+    resolve(d, "..", "frames-player.global.js"),
   ];
   return candidates.find((p) => existsSync(p)) ?? null;
 }
@@ -56,9 +56,9 @@ export function resolvePlayerPath(): string | null {
 export function resolveSlideshowPath(): string | null {
   const d = helperDir();
   const candidates = [
-    resolve(d, "..", "..", "..", "player", "dist", "slideshow", "hyperframes-slideshow.global.js"),
-    resolve(d, "hyperframes-slideshow.global.js"),
-    resolve(d, "..", "hyperframes-slideshow.global.js"),
+    resolve(d, "..", "..", "..", "player", "dist", "slideshow", "frames-slideshow.global.js"),
+    resolve(d, "frames-slideshow.global.js"),
+    resolve(d, "..", "frames-slideshow.global.js"),
   ];
   return candidates.find((p) => existsSync(p)) ?? null;
 }

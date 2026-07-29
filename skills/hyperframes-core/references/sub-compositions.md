@@ -1,6 +1,6 @@
 # Sub-Compositions
 
-A sub-composition is a separate HTML file embedded in a host composition. HyperFrames loads it, seeks it independently, and composites the result into the host at `data-start`.
+A sub-composition is a separate HTML file embedded in a host composition. Frames loads it, seeks it independently, and composites the result into the host at `data-start`.
 
 ## Host Wiring
 
@@ -106,7 +106,7 @@ Static file checks cannot prove the **cross-file mount contract**. These failure
 </body>
 ```
 
-**Why this happens:** standard HTML conventions tell you to put `<style>` in `<head>`. In a standalone HTML file that's correct. In a HyperFrames sub-composition it is **not** — the runtime only clones `<template>` contents, so `<head><style>` is dropped on the floor.
+**Why this happens:** standard HTML conventions tell you to put `<style>` in `<head>`. In a standalone HTML file that's correct. In a Frames sub-composition it is **not** — the runtime only clones `<template>` contents, so `<head><style>` is dropped on the floor.
 
 **Symptom:** isolated checks pass and the render completes, but every text element appears as tiny unstyled default text in the top-left and SVGs expand to canvas size because no CSS reached the live DOM. The same trap applies to `<script>` blocks, `<link rel="stylesheet">`, and custom-element registrations: anything that must execute or apply in the render belongs inside `<template>`.
 
@@ -131,7 +131,7 @@ Static file checks cannot prove the **cross-file mount contract**. These failure
 <!-- timeline: window.__timelines["data-chart"] = tl; -->
 ```
 
-**Why this happens:** it feels natural to give the host slot a different name like `chart-mount` ("the mount point") vs `data-chart` ("the actual chart"). HyperFrames does not work that way — **the host's `data-composition-id` is the lookup key the framework uses to find the registered timeline**. Lint passes because each file's ids are individually valid; the cross-file mismatch only blows up at render.
+**Why this happens:** it feels natural to give the host slot a different name like `chart-mount` ("the mount point") vs `data-chart` ("the actual chart"). Frames does not work that way — **the host's `data-composition-id` is the lookup key the framework uses to find the registered timeline**. Lint passes because each file's ids are individually valid; the cross-file mismatch only blows up at render.
 
 **Symptom:** the render logs `Sub-composition timelines not registered after 45000ms: <host-id>` for every mismatched slot, waits 45s per scene, then captures static initial-state frames (so the video is full-length but no animation plays).
 
@@ -196,15 +196,15 @@ grep -n 'data-composition-id=' compositions/<scene>.html
 #        (e.g. `.frame { … }`); scoping drops it. Style the root via #root. See Pitfall 3.
 ```
 
-For the runtime end-to-end check (a fast `snapshot` pass + per-scene frame eyeball), see the **Visual smoke test** step in `hyperframes-cli`'s Minimum Completion Gate — that is the only gate that catches these three pitfalls.
+For the runtime end-to-end check (a fast `snapshot` pass + per-scene frame eyeball), see the **Visual smoke test** step in `frames-cli`'s Minimum Completion Gate — that is the only gate that catches these three pitfalls.
 
-## What HyperFrames Does With the Sub-Composition
+## What Frames Does With the Sub-Composition
 
 - Loads the file and registers its timeline under its internal `data-composition-id`.
 - Seeks the sub-composition's timeline independently from the host's playhead.
 - Plays the sub-composition's content from `data-start` of the host clip, for `data-duration` seconds.
 
-**Do not** manually `master.add(child)` a sub-composition timeline into the host timeline. HyperFrames already drives them independently — nesting them in GSAP causes double-seeks.
+**Do not** manually `master.add(child)` a sub-composition timeline into the host timeline. Frames already drives them independently — nesting them in GSAP causes double-seeks.
 
 ### The host clip's `data-duration` is the slot's visible window
 

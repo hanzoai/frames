@@ -1,6 +1,6 @@
 import { failCommand } from "../../utils/commandResult.js";
 /**
- * `hyperframes cloud render` — orchestrate a cloud-rendered HyperFrames
+ * `frames cloud render` — orchestrate a cloud-rendered Frames
  * composition end-to-end:
  *
  *   1. Resolve the project (or reuse a pre-uploaded `--asset-id` /
@@ -12,10 +12,10 @@ import { failCommand } from "../../utils/commandResult.js";
  *      to it, then `POST /v3/assets/{asset_id}/complete` finalizes.
  *      Cap: 200 MB. See `../../cloud/upload.ts` for the three-step
  *      contract. (The legacy `POST /v3/assets` proxy path was 32 MB.)
- *   4. Submit the render via `POST /v3/hyperframes/renders` with a
+ *   4. Submit the render via `POST /v3/frames/renders` with a
  *      `project: {type:"asset_id", asset_id}` shape.
  *   5. If `--no-wait`: print the `render_id` and exit immediately.
- *      Otherwise poll `GET /v3/hyperframes/renders/{id}` every
+ *      Otherwise poll `GET /v3/frames/renders/{id}` every
  *      `--poll-interval` (default 10s, max 60min). `--callback-url`
  *      can be combined with either mode: the webhook always fires when
  *      the server-side render terminates, independent of whether the
@@ -83,26 +83,26 @@ const LARGEST_FILE_COUNT = 10;
 const FORMAT_EXT: Record<string, string> = { mp4: ".mp4", webm: ".webm", mov: ".mov" };
 
 export const examples: Example[] = [
-  ["Render the current directory in the cloud", "hyperframes cloud render"],
-  ["Inspect archive size without uploading", "hyperframes cloud render --dry-run"],
+  ["Render the current directory in the cloud", "frames cloud render"],
+  ["Inspect archive size without uploading", "frames cloud render --dry-run"],
   [
     "Pick a specific composition + output path",
-    "hyperframes cloud render . --composition compositions/intro.html -o ./renders/intro.mp4",
+    "frames cloud render . --composition compositions/intro.html -o ./renders/intro.mp4",
   ],
-  ["Higher quality, 60fps", "hyperframes cloud render --quality high --fps 60"],
+  ["Higher quality, 60fps", "frames cloud render --quality high --fps 60"],
   [
     "Submit and exit; webhook fires when the render terminates",
-    "hyperframes cloud render --callback-url https://example.com/hook --no-wait",
+    "frames cloud render --callback-url https://example.com/hook --no-wait",
   ],
   [
     "Override variables (parametrized render)",
-    'hyperframes cloud render --variables \'{"title":"Q4 Recap","theme":"dark"}\'',
+    'frames cloud render --variables \'{"title":"Q4 Recap","theme":"dark"}\'',
   ],
-  ["Re-render an already-uploaded zip", "hyperframes cloud render --asset-id asst_abc123"],
+  ["Re-render an already-uploaded zip", "frames cloud render --asset-id asst_abc123"],
 ];
 
 export default defineCommand({
-  meta: { name: "render", description: "Render a HyperFrames composition in the cloud" },
+  meta: { name: "render", description: "Render a Frames composition in the cloud" },
   args: {
     dir: { type: "positional", required: false, description: "Project directory (default: .)" },
     fps: { type: "string", description: "Frames per second (1-240). Default: 30." },
@@ -294,7 +294,7 @@ export default defineCommand({
       } else {
         console.log("");
         console.log(`${c.success("✓")}  Submitted ${c.accent(renderId)}`);
-        console.log(c.dim(`   Poll with: hyperframes cloud get ${renderId}`));
+        console.log(c.dim(`   Poll with: frames cloud get ${renderId}`));
       }
       return;
     }
@@ -316,7 +316,7 @@ export default defineCommand({
     if (!detail.video_url) {
       errorBox(
         "Render completed but returned no video_url",
-        `render_id: ${renderId}. Try \`hyperframes cloud get ${renderId}\` to inspect raw fields.`,
+        `render_id: ${renderId}. Try \`frames cloud get ${renderId}\` to inspect raw fields.`,
       );
       failCommand();
     }
@@ -543,7 +543,7 @@ function resolveVariablesAndValidateIfLocal(
   // Only validate against the local composition when we actually have
   // a local project on disk. For --asset-id / --url paths the schema
   // lives on the server side, so we send the variables as-is and let
-  // the API surface any mismatch via `hyperframes_project_invalid`.
+  // the API surface any mismatch via `frames_project_invalid`.
   if (source.kind !== "dir") return variables;
   // `resolveProject` calls process.exit on a missing/invalid dir, so
   // there's no need to wrap this in try/catch — if it returns, the
@@ -599,7 +599,7 @@ function prepareLocalArchive(
     ).replaceAll("\\", "/");
     if (!fileMap.has(entryPath)) {
       throw new Error(
-        `Composition "${composition ?? "index.html"}" is excluded from the archive. Check .hyperframesignore.`,
+        `Composition "${composition ?? "index.html"}" is excluded from the archive. Check .framesignore.`,
       );
     }
     const archive = zipPublishFileMap(fileMap);
@@ -615,7 +615,7 @@ function prepareLocalArchive(
     return prepared;
   } catch (err) {
     const msg = normalizeErrorMessage(err);
-    errorBox("Zip failed", msg, "Check the project and .hyperframesignore for missing files.");
+    errorBox("Zip failed", msg, "Check the project and .framesignore for missing files.");
     failCommand();
   }
 }
@@ -625,7 +625,7 @@ function reportLargestFiles(prepared: PreparedLocalArchive): void {
   for (const file of prepared.largestFiles) {
     console.log(c.dim(`   ${formatBytes(file.size_bytes).padStart(9)}  ${file.path}`));
   }
-  console.log(c.dim("   Exclude verified-unneeded files with .hyperframesignore."));
+  console.log(c.dim("   Exclude verified-unneeded files with .framesignore."));
 }
 
 function reportDryRun(prepared: PreparedLocalArchive, asJson: boolean): void {
@@ -804,12 +804,12 @@ async function pollWithProgress(
       errorBox(
         "Poll timed out",
         err.message,
-        `The render may still complete. Resume with: hyperframes cloud get ${renderId}`,
+        `The render may still complete. Resume with: frames cloud get ${renderId}`,
       );
       failCommand();
     }
     return reportApiError("API error during poll", err, {
-      suggestion: `The render may still be running. Resume with: hyperframes cloud get ${renderId}`,
+      suggestion: `The render may still be running. Resume with: frames cloud get ${renderId}`,
     });
   } finally {
     if (!asJson && lastStatus && interactive) process.stdout.write("\n");
@@ -833,7 +833,7 @@ function handleFailedRender(detail: HyperframesRenderDetail, asJson: boolean): n
   errorBox(
     "Render failed",
     detail.failure_message ?? "(no failure_message returned)",
-    `Inspect: hyperframes cloud get ${detail.render_id}`,
+    `Inspect: frames cloud get ${detail.render_id}`,
   );
   failCommand();
 }
@@ -869,7 +869,7 @@ async function streamVideo(
     errorBox(
       "Download failed",
       message,
-      "The presigned URL is short-lived; re-fetch with `hyperframes cloud get`.",
+      "The presigned URL is short-lived; re-fetch with `frames cloud get`.",
     );
     failCommand();
   }

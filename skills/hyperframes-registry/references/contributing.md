@@ -12,8 +12,8 @@ Guide the user from idea to merged PR for a new registry block or component.
 
 Ask what they're building. The registry has two item types:
 
-- **Block** (`registry/blocks/`, type `hyperframes:block`) — a full standalone composition with fixed dimensions and duration. Caption styles, VFX effects, title cards, lower thirds.
-- **Component** (`registry/components/`, type `hyperframes:component`) — a reusable snippet with no fixed dimensions or duration. CSS effects, text treatments, overlays that adapt to any composition size.
+- **Block** (`registry/blocks/`, type `frames:block`) — a full standalone composition with fixed dimensions and duration. Caption styles, VFX effects, title cards, lower thirds.
+- **Component** (`registry/components/`, type `frames:component`) — a reusable snippet with no fixed dimensions or duration. CSS effects, text treatments, overlays that adapt to any composition size.
 
 Then ask:
 
@@ -63,7 +63,7 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 
 - Font: **96px minimum** for proportional fonts. **64-72px acceptable for monospace** (wider characters need less size).
 - Readability: `-webkit-text-stroke: 2-3px` OR multi-layer `text-shadow`
-- Overflow: call `window.__hyperframes.fitTextFontSize()` on every group
+- Overflow: call `window.__frames.fitTextFontSize()` on every group
 - Karaoke: highlight active word via `tl.to(wordEl, { color/scale }, WORDS[wi].start)`
 - Hard kill: `tl.set(groupEl, { opacity: 0, visibility: "hidden" }, g.end)` on EVERY group
 - **Never use `tl.from(el, { opacity: 0 })` at the same position as `tl.set(el, { opacity: 1 })`** — the from clobbers the set. Use `tl.to` instead.
@@ -97,21 +97,21 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 ### Step 4: Validate
 
 ```bash
-hyperframes lint                    # 0 errors required
-hyperframes check --no-contrast  # 0 console errors required
+frames lint                    # 0 errors required
+frames check --no-contrast  # 0 console errors required
 ```
 
 ### Step 5: Preview
 
 ```bash
 # Render preview video
-hyperframes render -o preview.mp4
+frames render -o preview.mp4
 
 # Snapshot for visual QA
-hyperframes snapshot --at "1.0,3.0,5.0,7.0"
+frames snapshot --at "1.0,3.0,5.0,7.0"
 
-# Publish to hyperframes.dev for review
-npx hyperframes publish
+# Publish to frames.hanzo.ai for review
+npx frames publish
 ```
 
 **Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
@@ -133,13 +133,13 @@ git checkout -b feat/registry-{name}
 npx oxfmt registry/{kind}/{name}/*.html
 
 # 3. Update registry/registry.json — add entry to the "items" array:
-#    { "name": "{name}", "type": "hyperframes:block" }  (or "hyperframes:component")
+#    { "name": "{name}", "type": "frames:block" }  (or "frames:component")
 
 # 4. Generate catalog docs page
 npx tsx scripts/generate-catalog-pages.ts
 
-# 5. Publish to hyperframes.dev so reviewers can preview
-npx hyperframes publish
+# 5. Publish to frames.hanzo.ai so reviewers can preview
+npx frames publish
 
 # 6. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
@@ -147,20 +147,20 @@ git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
 # 7. Commit
 git commit -m "feat(registry): add {name} — {one sentence}"
 
-# 8. Push and open PR with hyperframes.dev link
+# 8. Push and open PR with frames.hanzo.ai link
 git push origin feat/registry-{name}
-gh pr create --title "feat(registry): {name}" --body "preview: {hyperframes.dev-url}"
+gh pr create --title "feat(registry): {name}" --body "preview: {frames.hanzo.ai-url}"
 ```
 
 **If you don't have a GitHub account:** you need one to open a PR. Sign up at https://github.com/signup, then run `gh auth login`.
 
 ## Quality Gate
 
-- [ ] `hyperframes lint` → 0 errors
-- [ ] `hyperframes check` → 0 console errors
+- [ ] `frames lint` → 0 errors
+- [ ] `frames check` → 0 console errors
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx hyperframes publish` run (claim your project URL)
+- [ ] `npx frames publish` run (claim your project URL)
 - [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

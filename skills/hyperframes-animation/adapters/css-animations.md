@@ -1,11 +1,11 @@
 ---
-name: hyperframes-css-animations
-description: CSS animation adapter patterns for HyperFrames. Use when authoring CSS keyframes, animation-delay based timing, animation-fill-mode, animation-play-state, or CSS-only motion that HyperFrames must seek deterministically during preview and rendering.
+name: frames-css-animations
+description: CSS animation adapter patterns for Frames. Use when authoring CSS keyframes, animation-delay based timing, animation-fill-mode, animation-play-state, or CSS-only motion that Frames must seek deterministically during preview and rendering.
 ---
 
-# CSS Animations for HyperFrames
+# CSS Animations for Frames
 
-HyperFrames can seek CSS keyframe animations through its `css` runtime adapter. Use this for simple repeated motifs, background motion, shimmer, glow, masks, and non-sequenced decoration.
+Frames can seek CSS keyframe animations through its `css` runtime adapter. Use this for simple repeated motifs, background motion, shimmer, glow, masks, and non-sequenced decoration.
 
 For scene choreography, GSAP is usually clearer. CSS animations work best when the motion belongs to one element and has a fixed duration.
 
@@ -112,7 +112,7 @@ Use CSS custom properties to avoid duplicating keyframes:
 
 The render engine needs to know the composition's total length. GSAP timelines report this automatically; CSS-only compositions have no timeline object, so the runtime infers duration from the longest running animation's computed end time (`animation-delay` + `animation-duration` × finite `animation-iteration-count`, per element with `data-start` added as an offset). `data-duration` on the root element is optional whenever every CSS animation on the page is finite — you don't need to add it just because the composition is CSS-driven.
 
-`animation-iteration-count: infinite` (or any unresolved/unbounded animation) has no finite end time, so it cannot be auto-inferred. If the composition's only animation is infinite, you **must** add `data-duration="<seconds>"` to the root `[data-composition-id]` element with your intended total length — `npx hyperframes lint` errors on this case (`root_composition_missing_duration_source`) precisely because there is nothing for the runtime to infer.
+`animation-iteration-count: infinite` (or any unresolved/unbounded animation) has no finite end time, so it cannot be auto-inferred. If the composition's only animation is infinite, you **must** add `data-duration="<seconds>"` to the root `[data-composition-id]` element with your intended total length — `npx frames lint` errors on this case (`root_composition_missing_duration_source`) precisely because there is nothing for the runtime to infer.
 
 ```html
 <div
@@ -131,13 +131,13 @@ The render engine needs to know the composition's total length. GSAP timelines r
 After editing CSS animation compositions:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx frames lint
+npx frames check
 ```
 
 ## Credits And References
 
-- HyperFrames adapter source: `packages/core/src/runtime/adapters/css.ts`.
+- Frames adapter source: `packages/core/src/runtime/adapters/css.ts`.
 - Duration auto-inference: `packages/core/src/runtime/init.ts` (`resolveAdapterDurationFloorSeconds`), `getInferredDurationSeconds` in the adapter above.
 - MDN CSS animation documentation: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation
 - MDN `animation-fill-mode`: https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode

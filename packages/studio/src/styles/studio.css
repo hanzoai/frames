@@ -267,7 +267,7 @@ body {
 }
 
 /*
- * HyperFrames brand loader. Shared by preview overlays that need a calm,
+ * Frames brand loader. Shared by preview overlays that need a calm,
  * branded loading state instead of a generic spinner.
  */
 .hf-loader {

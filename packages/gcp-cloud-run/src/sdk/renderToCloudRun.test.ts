@@ -49,7 +49,7 @@ function opts(executions: ExecutionsClientLike) {
     bucketName: "b",
     projectId: "proj",
     location: "us-central1",
-    workflowId: "hyperframes-render",
+    workflowId: "frames-render",
     serviceUrl: "https://render-abc.run.app",
     renderId: "hf-render-fixed",
     executions,
@@ -62,7 +62,7 @@ describe("renderToCloudRun", () => {
     const handle = await renderToCloudRun(opts(fake));
     expect(handle.renderId).toBe("hf-render-fixed");
     expect(handle.executionName).toBe(
-      "projects/proj/locations/us-central1/workflows/hyperframes-render/executions/exec-123",
+      "projects/proj/locations/us-central1/workflows/frames-render/executions/exec-123",
     );
     expect(handle.outputGcsUri).toBe("gs://b/renders/hf-render-fixed/output.mp4");
     expect(handle.projectGcsUri).toBe("gs://b/sites/abc/project.tar.gz");
@@ -80,7 +80,7 @@ describe("renderToCloudRun", () => {
     expect(arg.Config.format).toBe("mp4");
     expect(arg.PlanProtocol).toBe("v1");
     expect(fake.lastParent).toBe(
-      "projects/proj/locations/us-central1/workflows/hyperframes-render",
+      "projects/proj/locations/us-central1/workflows/frames-render",
     );
   });
 

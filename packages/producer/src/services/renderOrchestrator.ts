@@ -51,7 +51,7 @@ import {
   type FpsInput,
   fpsToNumber,
   toFps,
-} from "@hyperframes/core";
+} from "@frames/core";
 import {
   type EngineConfig,
   resolveConfig,
@@ -88,7 +88,7 @@ import {
   getDrawElementVerificationDetails,
   augmentProtocolTimeoutError,
   augmentPageNavigationTimeoutError,
-} from "@hyperframes/engine";
+} from "@frames/engine";
 import { join, dirname, resolve } from "path";
 import { totalmem } from "node:os";
 import { randomUUID } from "crypto";
@@ -259,7 +259,7 @@ export interface RenderConfig {
    * Frame rate as an exact rational. Integer fps is `{ num: 30, den: 1 }`;
    * NTSC is `{ num: 30000, den: 1001 }`. This shape lets the orchestrator
    * pass the exact rational through to FFmpeg's `-r` / `-framerate` flags
-   * without a decimal round-trip — see `fpsToFfmpegArg` in @hyperframes/core.
+   * without a decimal round-trip — see `fpsToFfmpegArg` in @frames/core.
    *
    * Use `fpsToNumber(config.fps)` at any site that needs a `number` for
    * arithmetic (frame-index → time, telemetry, frame-interval ms). Decimal
@@ -382,7 +382,7 @@ export interface RenderPerfSummary {
    * htmlInCanvas / low-memory pins short-circuited sizing). `boundBy` names
    * the binding constraint; the heap fields are the advisory budget being
    * validated by fleet telemetry before enforcement — see
-   * `computeWorkerSizing` in @hyperframes/engine.
+   * `computeWorkerSizing` in @frames/engine.
    */
   workerSizing?: WorkerSizing;
   chunkedEncode: boolean;
@@ -1987,7 +1987,7 @@ async function executeRenderPipeline(input: {
     // shape (probe Chrome + a throwaway calibration Chrome + N capture
     // workers) thrashes — concurrent Chrome instances drive memory pressure
     // that slows every CDP call and spikes V8 GC, surfacing as the slow/stuck
-    // renders in heygen-com/hyperframes#1218 / #1219. Collapse to the cheapest
+    // renders in hanzoai/frames#1218 / #1219. Collapse to the cheapest
     // shape: skip auto-worker calibration (the gate below), pin to a single
     // worker (resolved below), and prefer screenshot capture over BeginFrame
     // (which avoids the BeginFrame protocol-timeout → relaunch churn on slow
@@ -3588,10 +3588,10 @@ async function executeRenderPipeline(input: {
     // Retry burn on a render that STILL failed — the actionable signal for tuning
     // MAX_TRANSIENT_CAPTURE_RETRIES (mirrors the success-path record above).
     recordTransientRetryObservability();
-    // Surface HyperFrames' PRODUCER_PUPPETEER_PROTOCOL_TIMEOUT_MS env +
+    // Surface Frames' PRODUCER_PUPPETEER_PROTOCOL_TIMEOUT_MS env +
     // --protocol-timeout CLI in Puppeteer CDP protocol-timeout errors. Puppeteer's
     // stock "Runtime.callFunctionOn timed out. Increase the 'protocolTimeout'
-    // setting" text doesn't name the HyperFrames knob and doesn't state the
+    // setting" text doesn't name the Frames knob and doesn't state the
     // effective timeout that was already applied (300000 ms base + auto-scaling
     // via `scaleProtocolTimeoutForComposition`). Field signal ts=1784047847
     // reporter gave up on HF and switched to FFmpeg because the error didn't
@@ -3599,14 +3599,14 @@ async function executeRenderPipeline(input: {
     // unchanged when the message doesn't match, so non-timeout failures (memory
     // exhaustion, other CDP errors) flow through with no change.
     const protocolTimeoutError = augmentProtocolTimeoutError(error, cfg.protocolTimeout);
-    // Surface HyperFrames' PRODUCER_PAGE_NAVIGATION_TIMEOUT_MS env +
-    // --browser-timeout CLI + HYPERFRAMES_BROWSER_PATH escape hatch in
+    // Surface Frames' PRODUCER_PAGE_NAVIGATION_TIMEOUT_MS env +
+    // --browser-timeout CLI + FRAMES_BROWSER_PATH escape hatch in
     // Puppeteer `page.goto` navigation-timeout errors. Puppeteer's stock
     // "Navigation timeout of 60000 ms exceeded" text names none of these
     // levers. Field signal ts=1784146416 (darwin/arm64, CLI 0.7.58): host
     // page.goto hit Navigation timeout twice on a CSS 3D + audio composition;
     // Docker rendered the same composition successfully. Mirrors #2443's
-    // HYPERFRAMES_BROWSER_PATH surfacing at the runtime-navigation layer
+    // FRAMES_BROWSER_PATH surfacing at the runtime-navigation layer
     // (vs download-time). `augmentPageNavigationTimeoutError` returns the
     // input unchanged when the message doesn't match the Nav-timeout regex,
     // so protocol-timeout / memory / other CDP errors flow through unchanged.

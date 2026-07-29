@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from "react";
-import type { BlockParam } from "@hyperframes/core/registry";
+import type { BlockParam } from "@frames/core/registry";
 
 interface BlockParamsPanelProps {
   blockName: string;

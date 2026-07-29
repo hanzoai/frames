@@ -24,8 +24,8 @@ import {
   decideMediaProxyEligibility,
   proxyVariantFor,
   scanProjectMediaCodecMap,
-} from "@hyperframes/studio-server/media-codec-map";
-import { resolveProxy } from "@hyperframes/studio-server/proxy-transcoder";
+} from "@frames/studio-server/media-codec-map";
+import { resolveProxy } from "@frames/studio-server/proxy-transcoder";
 import { rectToBbox } from "./checkTypes.js";
 import type {
   AnchoredLayoutIssue,
@@ -117,7 +117,7 @@ export async function preResolveHostileMediaProxies(
     codecMap = await scanProjectMediaCodecMap(projectDir, [{ html }]);
   } catch (err) {
     console.info(
-      `[hyperframes] media proxy pre-resolve: scan failed (${normalizeErrorMessage(err)})`,
+      `[frames] media proxy pre-resolve: scan failed (${normalizeErrorMessage(err)})`,
     );
     return;
   }
@@ -138,7 +138,7 @@ export async function preResolveHostileMediaProxies(
   );
   const failed = results.filter((result) => result.status === "rejected").length;
   console.info(
-    `[hyperframes] media proxy pre-resolve: ${results.length - failed}/${results.length} ready, ${failed} failed (${Date.now() - startedAt}ms)`,
+    `[frames] media proxy pre-resolve: ${results.length - failed}/${results.length} ready, ${failed} failed (${Date.now() - startedAt}ms)`,
   );
 }
 
@@ -181,7 +181,7 @@ export async function runBrowserCheck(
     // slot silently shortens the slot at render time — invisible to lint (no
     // intrinsic durations statically) and to the runtime listeners (nothing
     // errors). The session is already open, so this is one extra evaluate.
-    const { analyzeClipMediaFit } = await import("@hyperframes/engine");
+    const { analyzeClipMediaFit } = await import("@frames/engine");
     for (const entry of await auditClipDurations(page, analyzeClipMediaFit, options.timeout)) {
       drafts.push({ code: "clip_media_fit", severity: entry.level, message: entry.text, time: 0 });
     }
@@ -259,8 +259,8 @@ export async function captureFindingCrops(
 // shared "runtime_media_proxy_" prefix surfaces both codes; only those
 // runtime-emitted info lines should ever become findings here — an ordinary
 // `console.info` from a composition author's own script must not.
-const MEDIA_PROXY_MARKER_PREFIX = "[hyperframes] runtime_media_proxy_";
-const MEDIA_PROXY_UNAVAILABLE_MARKER = "[hyperframes] runtime_media_proxy_unavailable";
+const MEDIA_PROXY_MARKER_PREFIX = "[frames] runtime_media_proxy_";
+const MEDIA_PROXY_UNAVAILABLE_MARKER = "[frames] runtime_media_proxy_unavailable";
 
 function wireRuntimeListeners(page: Page, drafts: RuntimeDraft[], currentTime: () => number): void {
   page.on("console", (message) => {
@@ -462,7 +462,7 @@ async function collectLayout(
 ): Promise<AnchoredLayoutIssue[]> {
   const raw = await page.evaluate(
     (options: { time: number; tolerance: number; proseCoverageFloor?: number }) => {
-      const audit = Reflect.get(window, "__hyperframesLayoutAudit");
+      const audit = Reflect.get(window, "__framesLayoutAudit");
       if (typeof audit !== "function") return [];
       const result = Reflect.apply(audit, window, [options]);
       return Array.isArray(result) ? result : [];
@@ -481,7 +481,7 @@ async function collectLayout(
 async function collectOverlap(page: Page, time: number): Promise<AnchoredLayoutIssue[]> {
   const raw = await page.evaluate(
     (options: { time: number }) => {
-      const audit = Reflect.get(window, "__hyperframesOverlapAudit");
+      const audit = Reflect.get(window, "__framesOverlapAudit");
       if (typeof audit !== "function") return [];
       const result = Reflect.apply(audit, window, [options]);
       return Array.isArray(result) ? result : [];
@@ -493,14 +493,14 @@ async function collectOverlap(page: Page, time: number): Promise<AnchoredLayoutI
 
 async function collectLayoutGeometry(page: Page): Promise<string> {
   return page.evaluate(() => {
-    const geometry = Reflect.get(window, "__hyperframesLayoutGeometry");
+    const geometry = Reflect.get(window, "__framesLayoutGeometry");
     if (typeof geometry !== "function") return "";
     const result = Reflect.apply(geometry, window, []);
     return typeof result === "string" ? result : "";
   });
 }
 
-/** Invoke a `window.__hyperframes*` sampler injected by layout-audit.browser.js
+/** Invoke a `window.__frames*` sampler injected by layout-audit.browser.js
  * and return its array result (or [] when absent / non-array). Shared by the
  * per-frame sample collectors so the page.evaluate boilerplate lives once. */
 async function evaluateSampler(page: Page, globalName: string): Promise<unknown[]> {
@@ -513,7 +513,7 @@ async function evaluateSampler(page: Page, globalName: string): Promise<unknown[
 }
 
 async function collectRotationSample(page: Page, time: number): Promise<RotationSample[]> {
-  const raw = await evaluateSampler(page, "__hyperframesRotationSample");
+  const raw = await evaluateSampler(page, "__framesRotationSample");
   return raw.flatMap((value) => parseRotationSample(value, time));
 }
 
@@ -532,7 +532,7 @@ function parseRotationSample(value: unknown, time: number): RotationSample[] {
 }
 
 async function collectOffPivotRotationSample(page: Page, time: number): Promise<OffPivotFrame> {
-  const raw = await evaluateSampler(page, "__hyperframesOffPivotRotationSample");
+  const raw = await evaluateSampler(page, "__framesOffPivotRotationSample");
   return { time, samples: raw.flatMap(parseOffPivotRotationSample) };
 }
 
@@ -583,7 +583,7 @@ async function collectGeometryCandidates(
 ): Promise<CheckGeometryCandidate[]> {
   try {
     const raw = await page.evaluate((options: GeometryCandidateRequest) => {
-      const collect = Reflect.get(window, "__hyperframesGeometryCandidates");
+      const collect = Reflect.get(window, "__framesGeometryCandidates");
       if (typeof collect !== "function") return [];
       const result = Reflect.apply(collect, window, [options]);
       return Array.isArray(result) ? result : [];
@@ -620,7 +620,7 @@ async function collectMotionFrame(
 ): Promise<MotionFrame> {
   const raw = await page.evaluate(
     (options: { selectors: string[]; livenessScopes: string[] }) => {
-      const sample = Reflect.get(window, "__hyperframesMotionSample");
+      const sample = Reflect.get(window, "__framesMotionSample");
       if (typeof sample !== "function") return null;
       return Reflect.apply(sample, window, [options]);
     },
@@ -758,7 +758,7 @@ function contrastFailureAnnotations(
     }));
 }
 
-const ANNOTATION_OVERLAY_ID = "__hyperframesCheckAnnotations";
+const ANNOTATION_OVERLAY_ID = "__framesCheckAnnotations";
 
 /**
  * `check --snapshots`'s overview-frame annotation: every audit for this

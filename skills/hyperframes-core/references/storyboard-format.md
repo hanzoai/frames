@@ -2,7 +2,7 @@
 
 Defines the storyboard's **base data format** only: the `STORYBOARD.md` file shape and the `StoryboardManifest` it parses into. How a workflow _generates_ a storyboard lives in that workflow; the optional narration/TTS file (`SCRIPT.md`) is a separate concern owned by the TTS step, not here.
 
-A storyboard is the **plan layer** for a video — an ordered set of **frames** (key moments) in one markdown file. HyperFrames Studio renders it as a contact sheet (the Storyboard view, available by default in every Studio session). Parser: `@hyperframes/core/storyboard` → `StoryboardManifest`; read API: `GET /api/projects/<id>/storyboard`.
+A storyboard is the **plan layer** for a video — an ordered set of **frames** (key moments) in one markdown file. Frames Studio renders it as a contact sheet (the Storyboard view, available by default in every Studio session). Parser: `@frames/core/storyboard` → `StoryboardManifest`; read API: `GET /api/projects/<id>/storyboard`.
 
 ## Frontmatter (global direction)
 
@@ -59,7 +59,7 @@ The read API also adds `srcExists` per frame and attaches the optional `SCRIPT.m
 
 Optional, free-form, **not parsed into the manifest** — the locked-narration file that drives TTS. Its format is defined in `references/script-format.md`, and it is absent for videos with no narration/TTS. The per-frame `voiceover` above is the storyboard's own narration guide.
 
-## Frame comments — `.hyperframes/frame-comments.json`
+## Frame comments — `.frames/frame-comments.json`
 
 The storyboard review's **structured feedback channel** — the file Studio's per-frame comment boxes write on submit (chat feedback follows the same rule — `brief-contract.md` § 1, the comments channel). Like `SCRIPT.md`, it is a sibling of the storyboard, not parsed into the manifest.
 

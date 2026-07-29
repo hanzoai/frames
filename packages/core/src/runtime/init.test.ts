@@ -398,7 +398,7 @@ describe("initSandboxRuntimeModular", () => {
 
     expect(timeline.time()).toBeCloseTo(1 / 60, 6);
     expect(infoSpy).toHaveBeenCalledWith(
-      "[hyperframes] render runtime fps",
+      "[frames] render runtime fps",
       expect.objectContaining({
         canonicalFps: 60,
         source: "render-options",
@@ -432,7 +432,7 @@ describe("initSandboxRuntimeModular", () => {
     initSandboxRuntimeModular();
 
     expect(infoSpy).toHaveBeenCalledWith(
-      "[hyperframes] render runtime fps",
+      "[frames] render runtime fps",
       expect.objectContaining({
         canonicalFps: 60,
         source: "unknown",
@@ -817,7 +817,7 @@ describe("initSandboxRuntimeModular", () => {
 
     const warned = warnSpy.mock.calls.map((c) => String(c[0])).join("\n");
     expect(window.__player?.getDuration()).toBe(0);
-    expect(warned).toContain("[hyperframes]");
+    expect(warned).toContain("[frames]");
     expect(warned).toContain("Root timeline not bound");
     expect(warned).toContain("wrong-key-a");
     expect(warned).toContain("wrong-key-b");

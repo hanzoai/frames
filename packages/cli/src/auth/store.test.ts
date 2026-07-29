@@ -218,7 +218,7 @@ describe("auth/store", () => {
 
   it("preserves the heygen-cli `user` block when this CLI rewrites only the credential", async () => {
     // The exact cross-CLI data-loss scenario: heygen-cli wrote a `user`
-    // block; hyperframes-cli updates the api_key and must not drop it.
+    // block; frames-cli updates the api_key and must not drop it.
     await fs.writeFile(
       path,
       JSON.stringify({

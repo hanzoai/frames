@@ -9,10 +9,10 @@ import { c } from "../ui/colors.js";
 import { rewriteProjectPinnedScripts } from "../utils/projectPin.js";
 
 export const examples: Example[] = [
-  ["Check for updates interactively", "hyperframes upgrade"],
-  ["Check for updates without prompting", "hyperframes upgrade --check"],
-  ["Upgrade non-interactively", "hyperframes upgrade --yes"],
-  ["Bump a project's pinned CLI scripts", "hyperframes upgrade --project"],
+  ["Check for updates interactively", "frames upgrade"],
+  ["Check for updates without prompting", "frames upgrade --check"],
+  ["Upgrade non-interactively", "frames upgrade --yes"],
+  ["Bump a project's pinned CLI scripts", "frames upgrade --project"],
 ];
 import { VERSION } from "../version.js";
 import {
@@ -32,7 +32,7 @@ export default defineCommand({
     project: {
       type: "string",
       description:
-        "Bump this project's package.json hyperframes@<version> script pins to latest (default: current dir)",
+        "Bump this project's package.json frames@<version> script pins to latest (default: current dir)",
     },
   },
   // fallow-ignore-next-line complexity
@@ -59,7 +59,7 @@ export default defineCommand({
     }
 
     const autoYes = args.yes === true;
-    clack.intro(c.bold("hyperframes upgrade"));
+    clack.intro(c.bold("frames upgrade"));
 
     const s = clack.spinner();
     s.start("Checking for updates...");
@@ -120,7 +120,7 @@ function applyUpgrade(result: UpdateCheckResult, autoYes: boolean): void {
   const installer = detectInstaller();
   const invocation = installInvocation(installer.kind, result.latest);
   const displayCmd = installer.installCommand(result.latest);
-  const npxFallback = `npx hyperframes@${result.latest}`;
+  const npxFallback = `npx frames@${result.latest}`;
 
   // Undetectable / ephemeral (npx, bunx) / project-local / workspace: don't
   // guess a manager command; point at the universal npx fallback instead.
@@ -215,7 +215,7 @@ function printProjectPinResult(
     return;
   }
   if (!res.changed) {
-    console.log(`   ${c.success("◇")}  Project scripts already on hyperframes@${res.to}`);
+    console.log(`   ${c.success("◇")}  Project scripts already on frames@${res.to}`);
     return;
   }
   const verb = checkOnly ? "would bump" : "bumped";
@@ -223,7 +223,7 @@ function printProjectPinResult(
     `   ${c.success("◇")}  ${verb} project scripts ${res.from.join(", ")} → ${c.accent(res.to)}`,
   );
   if (checkOnly)
-    console.log(`   ${c.dim("Run `npx hyperframes@latest upgrade --project` to apply.")}`);
+    console.log(`   ${c.dim("Run `npx frames@latest upgrade --project` to apply.")}`);
 }
 
 export function runDetectedInstall(

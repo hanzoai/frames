@@ -114,7 +114,7 @@ export function buildRolePayload({ corePath, deltaPath, outDir }) {
 export function buildFramePackets({
   projectDir,
   storyboardPath = join(projectDir, "STORYBOARD.md"),
-  outDir = join(projectDir, ".hyperframes", "frame-packets"),
+  outDir = join(projectDir, ".frames", "frame-packets"),
   maxPacketBytes = 48_000,
   animationDir,
   corePath,
@@ -169,7 +169,7 @@ export function isMainModule(importMetaUrl) {
 export function runCli({ buildFramePackets: build, buildRolePayload: buildRole }) {
   const argv = process.argv.slice(2);
   const projectDir = resolve(flag(argv, "project", "."));
-  const outDir = resolve(flag(argv, "out-dir", join(projectDir, ".hyperframes", "frame-packets")));
+  const outDir = resolve(flag(argv, "out-dir", join(projectDir, ".frames", "frame-packets")));
   try {
     const packets = build({
       projectDir,

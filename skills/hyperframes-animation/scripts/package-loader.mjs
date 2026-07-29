@@ -4,7 +4,7 @@
 //   • install runs `npm install --ignore-scripts` — package lifecycle scripts
 //     never execute
 //   • `--no-save` into a throwaway tmp dir — the host project is left untouched
-//   • requires an interactive y/N (or an explicit $HYPERFRAMES_SKILL_BOOTSTRAP_DEPS=1)
+//   • requires an interactive y/N (or an explicit $FRAMES_SKILL_BOOTSTRAP_DEPS=1)
 //   • npm is spawned with an argv array (no shell) — never a built command string
 // The `installLine` strings below are DISPLAY ONLY (shown in the prompt / error
 // text); they are never handed to a shell or executed.
@@ -17,10 +17,10 @@ import { createInterface } from "node:readline/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const VERSION_OVERRIDE_ENV = "HYPERFRAMES_SKILL_PKG_VERSION";
-const BOOTSTRAP_ENV = "HYPERFRAMES_SKILL_DEPS_BOOTSTRAPPED";
-const BOOTSTRAP_CONFIRM_ENV = "HYPERFRAMES_SKILL_BOOTSTRAP_DEPS";
-const NODE_MODULES_ENV = "HYPERFRAMES_SKILL_NODE_MODULES";
+const VERSION_OVERRIDE_ENV = "FRAMES_SKILL_PKG_VERSION";
+const BOOTSTRAP_ENV = "FRAMES_SKILL_DEPS_BOOTSTRAPPED";
+const BOOTSTRAP_CONFIRM_ENV = "FRAMES_SKILL_BOOTSTRAP_DEPS";
+const NODE_MODULES_ENV = "FRAMES_SKILL_NODE_MODULES";
 
 export async function importPackagesOrBootstrap(packageNames, options = {}) {
   const entries = new Map();
@@ -57,7 +57,7 @@ export async function importPackagesOrBootstrap(packageNames, options = {}) {
 }
 
 export async function bundleCompositionForCapture(compiler, projectDir) {
-  const compiledDir = mkdtempSync(join(tmpdir(), "hyperframes-skill-bundle-"));
+  const compiledDir = mkdtempSync(join(tmpdir(), "frames-skill-bundle-"));
   try {
     const html = await compiler.bundleToSingleHtml(projectDir);
     writeFileSync(join(compiledDir, "index.html"), html);
@@ -76,7 +76,7 @@ export async function bundleCompositionForCapture(compiler, projectDir) {
 // ── Transient-init retry ─────────────────────────────────────────────────────
 // Frozen snapshot of the engine's TRANSIENT_BROWSER_ERROR_PATTERNS (see
 // packages/engine frameCapture.ts), used only when the imported
-// @hyperframes/producer predates the isTransientBrowserError re-export. The
+// @frames/producer predates the isTransientBrowserError re-export. The
 // last pattern is the load-bearing one for modular projects: sub-composition
 // timelines register asynchronously, so a first init attempt can time out as
 // "zero duration / Runtime ready: false" on a valid project.
@@ -98,13 +98,13 @@ const FALLBACK_TRANSIENT_PATTERNS = [
 /**
  * Create + initialize a capture session with the canonical transient-init
  * retry/cleanup the render pipeline uses (see probeStage in
- * @hyperframes/producer): on a transient failure, close the crashed session
+ * @frames/producer): on a transient failure, close the crashed session
  * and retry ONCE with a fresh browser. Without this, a standalone helper
  * false-fails valid modular projects whose sub-composition timelines land a
  * beat after the first readiness deadline ("zero duration" with
  * "Runtime ready: false").
  *
- * `producer` is the imported @hyperframes/producer namespace;
+ * `producer` is the imported @frames/producer namespace;
  * `createSession` is a factory returning a fresh (uninitialized) session.
  * Non-transient init failures (e.g. the "Runtime ready: true" zero-duration
  * fast-fail — a genuine authoring bug) still throw on the first attempt.
@@ -138,20 +138,20 @@ export async function initializeSessionWithRetry(producer, createSession, option
   }
 }
 
-export function hyperframesPackageSpec(packageName) {
+export function framesPackageSpec(packageName) {
   const override = process.env[VERSION_OVERRIDE_ENV]?.trim();
   if (override) return `${packageName}@${override}`;
 
   const version = readBundledHyperframesVersion();
   if (version) return `${packageName}@${version}`;
 
-  // Global skill installs have no hyperframes package.json
+  // Global skill installs have no frames package.json
   // in their ancestor chain, so the bundled version is unknowable. Fall back to
   // @latest instead of throwing: already-installed packages still import, and a
   // bootstrap install can still proceed (@latest satisfies the pinned-spec guard).
   process.stderr.write(
     [
-      `hyperframes: could not determine the bundled version for ${packageName}; using @latest.`,
+      `frames: could not determine the bundled version for ${packageName}; using @latest.`,
       `Set ${VERSION_OVERRIDE_ENV}=<version> to pin it.`,
       "",
     ].join("\n"),
@@ -170,7 +170,7 @@ function resolvePackageEntry(packageName) {
     seen.add(normalized);
 
     try {
-      return createRequire(join(normalized, "__hyperframes_skill_loader__.cjs")).resolve(
+      return createRequire(join(normalized, "__frames_skill_loader__.cjs")).resolve(
         packageName,
       );
     } catch {
@@ -208,7 +208,7 @@ function readBundledHyperframesVersion() {
 function readPackageVersion(packageJsonPath) {
   try {
     const manifest = JSON.parse(readFileSync(packageJsonPath, "utf8"));
-    if (manifest.name === "hyperframes" || manifest.name === "@hyperframes/cli") {
+    if (manifest.name === "frames" || manifest.name === "@frames/cli") {
       return typeof manifest.version === "string" ? manifest.version : null;
     }
   } catch {
@@ -313,7 +313,7 @@ async function confirmBootstrap(packageSpecs) {
   try {
     const answer = await rl.question(
       [
-        "HyperFrames helper package(s) are missing.",
+        "Frames helper package(s) are missing.",
         `Run a temporary install with lifecycle scripts disabled?`,
         `  ${installLine}`,
         "Proceed? [y/N] ",
@@ -340,7 +340,7 @@ function ancestors(start) {
 }
 
 function bootstrapWithNpmInstall(packageNames) {
-  const installRoot = mkdtempSync(join(tmpdir(), "hyperframes-skill-deps-"));
+  const installRoot = mkdtempSync(join(tmpdir(), "frames-skill-deps-"));
   const installResult = spawnSync(
     process.platform === "win32" ? "npm.cmd" : "npm",
     [

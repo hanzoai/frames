@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1920, height=1080" />
-    <title>Scene — HyperFrames Workflow Approve & Press</title>
+    <title>Scene — Frames Workflow Approve & Press</title>
 
     <!--
       Blueprint: workflow-approve-press
-      HyperFrames composition.tsx.
+      Frames composition.tsx.
       Same four-phase choreography, GSAP-driven, seek-safe.
 
       Audio (assumed accompanying narration):
@@ -381,7 +381,7 @@
       <!-- PHASE 1: Headline -->
       <div class="headline-wrap">
         <div class="headline">
-          HyperFrames builds
+          Frames builds
           <span class="accent">WITH</span>
           you
         </div>
@@ -393,13 +393,13 @@
           <!--
             Real asset path (replace for production).
             If missing, the CSS mockup below shows through the transparent
-            poster region. The video stays muted per HyperFrames rules.
+            poster region. The video stays muted per Frames rules.
           -->
           <!-- Decorative CSS-mockup of an editor — paused screenshot feel. -->
           <div class="demo-mockup">
             <div class="mockup-toolbar">
               <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-              <span class="title">HyperFrames — Project: Launch Promo</span>
+              <span class="title">Frames — Project: Launch Promo</span>
             </div>
             <div class="mockup-canvas">
               <div class="preview-box">Preview · 1920 × 1080</div>
@@ -515,7 +515,7 @@
       );
 
       // ── Phase 2: Center demo scales in ─────────────────────────────
-      // HyperFrames syncs the <video> element's currentTime to the seek
+      // Frames syncs the <video> element's currentTime to the seek
       // position automatically — no .play() call needed (and one here
       // would break deterministic rendering).
       tl.to(".demo-wrap", { scale: 1, opacity: 1, duration: 0.6, ease: "power3.out" }, VIDEO_START);

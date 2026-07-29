@@ -2,8 +2,8 @@ import type { Hono } from "hono";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
-import { injectScriptsIntoHtml, stripEmbeddedRuntimeScripts } from "@hyperframes/core/compiler";
-import { isWithinProjectRoot } from "@hyperframes/parsers/asset-resolution";
+import { injectScriptsIntoHtml, stripEmbeddedRuntimeScripts } from "@frames/core/compiler";
+import { isWithinProjectRoot } from "@frames/parsers/asset-resolution";
 import type { StudioApiAdapter } from "../types.js";
 import { resolveWithinProject } from "../helpers/safePath.js";
 import { getMimeType } from "../helpers/mime.js";
@@ -16,7 +16,7 @@ import {
   createStudioMotionRenderBodyScript,
   STUDIO_MOTION_PATH,
 } from "../helpers/studioMotionRenderScript.js";
-import { ensureHfIds } from "@hyperframes/parsers/hf-ids";
+import { ensureHfIds } from "@frames/parsers/hf-ids";
 import { persistHfIdsIfNeeded, stampFileHfIds } from "../helpers/hfIdPersist.js";
 import { isVariablesPayload, VARIABLES_PAYLOAD_ERROR } from "../helpers/variablesPayload.js";
 import {
@@ -40,7 +40,7 @@ import {
   type PreviewApiAdapter,
 } from "../helpers/mediaProxyPreview.js";
 
-const PROJECT_SIGNATURE_META = "hyperframes-project-signature";
+const PROJECT_SIGNATURE_META = "frames-project-signature";
 const GSAP_CDN_VERSION = "3.15.0";
 const GSAP_CDN_SCRIPT = `<script src="https://cdn.jsdelivr.net/npm/gsap@${GSAP_CDN_VERSION}/dist/gsap.min.js"></script>`;
 const GSAP_CUSTOM_EASE_CDN_SCRIPT = `<script src="https://cdn.jsdelivr.net/npm/gsap@${GSAP_CDN_VERSION}/dist/CustomEase.min.js"></script>`;
@@ -383,7 +383,7 @@ export function registerPreviewRoutes(api: Hono, adapter: PreviewApiAdapter): vo
       // Inject runtime if not already present (check URL pattern and bundler attribute)
       if (
         !bundled.includes("hyperframe.runtime") &&
-        !bundled.includes("hyperframes-preview-runtime")
+        !bundled.includes("frames-preview-runtime")
       ) {
         const runtimeTag = `<script src="${adapter.runtimeUrl}"></script>`;
         bundled = bundled.includes("</body>")

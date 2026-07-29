@@ -89,7 +89,7 @@ describe("cloud render --dry-run", () => {
             ...process.env,
             CI: "1",
             HEYGEN_API_URL: "http://127.0.0.1:1",
-            HYPERFRAMES_NO_UPDATE_CHECK: "1",
+            FRAMES_NO_UPDATE_CHECK: "1",
           },
         },
       );

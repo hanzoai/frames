@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { bundleToSingleHtml } from "@hyperframes/core/compiler";
+import { bundleToSingleHtml } from "@frames/core/compiler";
 import { parseHTML } from "linkedom";
 import { describe, expect, it } from "vitest";
 
@@ -16,7 +16,7 @@ function findMissingLocalScripts(itemDir: string, manifest: RegistryManifest): s
   const missing: string[] = [];
 
   for (const file of manifest.files) {
-    if (file.type !== "hyperframes:composition" || !file.path.endsWith(".html")) continue;
+    if (file.type !== "frames:composition" || !file.path.endsWith(".html")) continue;
 
     const html = readFileSync(join(itemDir, file.path), "utf8");
     const localScripts = [...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)]

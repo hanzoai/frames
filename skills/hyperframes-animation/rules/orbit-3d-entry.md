@@ -16,7 +16,7 @@ Per element, two phases: (1) a `back.out` flip from a hidden 3D orientation to f
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="orbit-stage">
   <div class="orbit-item" data-angle="0">{glyph1}</div>
   <div class="orbit-item" data-angle="60">{glyph2}</div>

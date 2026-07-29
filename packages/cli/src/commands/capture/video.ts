@@ -12,7 +12,7 @@ async function streamToFile(url: string, destPath: string): Promise<number> {
   // safeFetch re-validates redirect hops; bare redirect:"follow" leaks to private hosts.
   const r = await safeFetch(url, {
     signal: AbortSignal.timeout(120_000),
-    headers: { "User-Agent": "HyperFrames/1.0" },
+    headers: { "User-Agent": "Frames/1.0" },
   });
   if (!r) {
     throw new Error(
@@ -195,7 +195,7 @@ export async function runVideoMode(args: VideoModeArgs): Promise<void> {
   if (!existsSync(manifestPath)) {
     console.error(
       `${c.error("✗")} no video-manifest.json at ${directPath} or ${w2hPath}\n` +
-        `  Was this directory produced by \`hyperframes capture\`?`,
+        `  Was this directory produced by \`frames capture\`?`,
     );
     setCommandExitCode(1);
     return;

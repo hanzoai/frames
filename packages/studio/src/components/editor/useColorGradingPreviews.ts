@@ -7,7 +7,7 @@ import {
   type HfColorGradingActiveEffectKey,
   type HfColorGradingTarget,
   type NormalizedHfColorGrading,
-} from "@hyperframes/core/color-grading";
+} from "@frames/core/color-grading";
 
 export interface ColorGradingPresetPreviews {
   status: "idle" | "loading" | "ready" | "unavailable";

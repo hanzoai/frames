@@ -100,7 +100,7 @@ function discoverItems(kindFilter: ItemKind | null, nameFilter: string | null): 
       } else {
         const manifest = JSON.parse(readFileSync(manifestPath, "utf-8"));
         const compFile = manifest.files?.find(
-          (f: { type: string }) => f.type === "hyperframes:composition",
+          (f: { type: string }) => f.type === "frames:composition",
         );
         entryFile = compFile?.path ?? `${e.name}.html`;
       }
@@ -131,7 +131,7 @@ async function prepareProjectDir(item: CatalogItem): Promise<string> {
   mkdirSync(tmpDir, { recursive: true });
   cpSync(item.sourceDir, tmpDir, { recursive: true });
 
-  // The HyperFrames producer navigates to index.html at the project root.
+  // The Frames producer navigates to index.html at the project root.
   // Blocks and component demos are standalone HTML files, not index.html.
   // If the entry file is a standalone HTML (has its own timeline registration),
   // just rename it to index.html. Otherwise create a wrapper.

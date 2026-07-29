@@ -38,7 +38,7 @@ describe("font rules", () => {
 
     it("does not flag installed registry blocks that bundle Google Fonts", async () => {
       const html =
-        `<!-- hyperframes-registry-item: my-block -->\n` +
+        `<!-- frames-registry-item: my-block -->\n` +
         `<div data-composition-id="test" data-width="1920" data-height="1080">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter">
       </div>`;
@@ -333,7 +333,7 @@ describe("font rules", () => {
 
     it("does not flag installed registry blocks that declare fonts via Google Fonts", async () => {
       const html =
-        `<!-- hyperframes-registry-item: my-block -->\n` +
+        `<!-- frames-registry-item: my-block -->\n` +
         `<div data-composition-id="test" data-width="1920" data-height="1080">
         <style>body { font-family: 'Poppins', sans-serif; }</style>
       </div>`;

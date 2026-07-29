@@ -1,5 +1,5 @@
 import { normalizeErrorMessage } from "../../utils/errorMessage.js";
-import { CaptureFailure, classifyCaptureFailure } from "@hyperframes/engine";
+import { CaptureFailure, classifyCaptureFailure } from "@frames/engine";
 
 export class CaptureStageError extends CaptureFailure {
   readonly browserConsole: string[];

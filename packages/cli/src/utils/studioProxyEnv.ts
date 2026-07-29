@@ -4,6 +4,6 @@ export function studioProxyEnv(
 ): NodeJS.ProcessEnv {
   return {
     ...baseEnv,
-    HYPERFRAMES_AUTO_PROXY: autoProxy ? "true" : "false",
+    FRAMES_AUTO_PROXY: autoProxy ? "true" : "false",
   };
 }

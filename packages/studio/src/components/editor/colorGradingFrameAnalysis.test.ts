@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   normalizeHfColorGrading,
   type HfColorGradingSecondary,
-} from "@hyperframes/core/color-grading";
+} from "@frames/core/color-grading";
 import {
   analyzeColorGradingFrame,
   buildColorGradingSecondaryMatte,

@@ -106,17 +106,17 @@ These rules are non-negotiable for any adapter. They are the foundation of Hyper
 
 First-party runtime adapters:
 
-All runtime adapters live in the `/hyperframes-animation` skill — invoke it for the runtime-specific seek API as well as motion rules, scene blueprints, and transitions.
+All runtime adapters live in the `/frames-animation` skill — invoke it for the runtime-specific seek API as well as motion rules, scene blueprints, and transitions.
 
 | Runtime | Seek Method | Skill |
 |---------|-------------|-------|
-| [GSAP](/guides/gsap-animation) | `timeline.totalTime(timeSeconds)` or `timeline.seek(timeSeconds)` | `/hyperframes-animation` |
-| Anime.js | `instance.seek(timeMs)` for animations registered on `window.__hfAnime` | `/hyperframes-animation` |
-| CSS keyframes | Browser `Animation.currentTime`, with paused negative-delay fallback | `/hyperframes-animation` |
-| Lottie / dotLottie | `goToAndStop(timeMs, false)`, raw-frame setters, or player seek APIs | `/hyperframes-animation` |
-| Three.js / WebGL | `hf-seek` events plus `window.__hfThreeTime` for deterministic scene rendering | `/hyperframes-animation` |
-| Web Animations API | `document.getAnimations()` and `animation.currentTime` | `/hyperframes-animation` |
-| TypeGPU / WebGPU | GPU compute shaders with deterministic seek via `hf-seek` events | `/hyperframes-animation` |
+| [GSAP](/guides/gsap-animation) | `timeline.totalTime(timeSeconds)` or `timeline.seek(timeSeconds)` | `/frames-animation` |
+| Anime.js | `instance.seek(timeMs)` for animations registered on `window.__hfAnime` | `/frames-animation` |
+| CSS keyframes | Browser `Animation.currentTime`, with paused negative-delay fallback | `/frames-animation` |
+| Lottie / dotLottie | `goToAndStop(timeMs, false)`, raw-frame setters, or player seek APIs | `/frames-animation` |
+| Three.js / WebGL | `hf-seek` events plus `window.__hfThreeTime` for deterministic scene rendering | `/frames-animation` |
+| Web Animations API | `document.getAnimations()` and `animation.currentTime` | `/frames-animation` |
+| TypeGPU / WebGPU | GPU compute shaders with deterministic seek via `hf-seek` events | `/frames-animation` |
 
 Community adapters are welcome -- if it can seek by frame, it belongs in Hyperframes.
 
@@ -139,7 +139,7 @@ Every adapter should pass these minimum tests:
   <Card title="GSAP Animation" icon="wand-magic-sparkles" href="/guides/gsap-animation">
     See the first-party GSAP adapter in action
   </Card>
-  <Card title="@hyperframes/engine" icon="gear" href="/packages/engine">
+  <Card title="@frames/engine" icon="gear" href="/packages/engine">
     The capture engine that drives adapters during rendering
   </Card>
   <Card title="Contributing" icon="code-branch" href="/contributing">

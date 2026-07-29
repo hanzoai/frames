@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadHyperframeRuntimeSource } from "@hyperframes/core";
+import { loadHyperframeRuntimeSource } from "@frames/core";
 import { loadRuntimeSource } from "./runtimeSource.js";
 import { createStudioServer, type StudioServer } from "./studioServer.js";
 
@@ -28,10 +28,10 @@ describe("createStudioServer autoProxy plumbing", () => {
     for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true });
   });
 
-  it("hyperframes.json media.autoProxy=false flows through to the adapter", () => {
+  it("frames.json media.autoProxy=false flows through to the adapter", () => {
     const projectDir = tmpProject();
     writeFileSync(
-      join(projectDir, "hyperframes.json"),
+      join(projectDir, "frames.json"),
       JSON.stringify({ media: { autoProxy: false } }),
     );
 
@@ -48,7 +48,7 @@ describe("createStudioServer autoProxy plumbing", () => {
   it("an explicit option (the preview command's resolved --proxy flag) wins over config", () => {
     const projectDir = tmpProject();
     writeFileSync(
-      join(projectDir, "hyperframes.json"),
+      join(projectDir, "frames.json"),
       JSON.stringify({ media: { autoProxy: false } }),
     );
 

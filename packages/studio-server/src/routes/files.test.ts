@@ -24,7 +24,7 @@ const recastImportGate = vi.hoisted<{
   onEnter: (() => void) | null;
 }>(() => ({ wait: null, onEnter: null }));
 
-vi.mock("@hyperframes/parsers/gsap-parser-recast", async (importOriginal) => {
+vi.mock("@frames/parsers/gsap-parser-recast", async (importOriginal) => {
   recastImportGate.onEnter?.();
   if (recastImportGate.wait) await recastImportGate.wait;
   return importOriginal();
@@ -194,8 +194,8 @@ describe("registerFileRoutes", () => {
   });
 
   it("returns a clean 400 for an invalid GSAP writer flag", async () => {
-    const previous = process.env.HYPERFRAMES_GSAP_WRITER;
-    process.env.HYPERFRAMES_GSAP_WRITER = "true";
+    const previous = process.env.FRAMES_GSAP_WRITER;
+    process.env.FRAMES_GSAP_WRITER = "true";
     try {
       const projectDir = createProjectDir();
       writeFileSync(
@@ -218,8 +218,8 @@ describe("registerFileRoutes", () => {
       expect(response.status).toBe(400);
       expect(payload.error).toContain("expected recast or acorn");
     } finally {
-      if (previous === undefined) delete process.env.HYPERFRAMES_GSAP_WRITER;
-      else process.env.HYPERFRAMES_GSAP_WRITER = previous;
+      if (previous === undefined) delete process.env.FRAMES_GSAP_WRITER;
+      else process.env.FRAMES_GSAP_WRITER = previous;
     }
   });
 
@@ -371,7 +371,7 @@ describe("registerFileRoutes", () => {
       version: payload.version,
       writeToken: "studio-write-1",
     });
-    expect(payload.backupPath).toMatch(/^\.hyperframes\/backup\//);
+    expect(payload.backupPath).toMatch(/^\.frames\/backup\//);
     expect(readFileSync(join(projectDir, payload.backupPath!), "utf-8")).toBe("before");
     expect(readFileSync(join(projectDir, "index.html"), "utf-8")).toBe("after");
   });
@@ -388,7 +388,7 @@ describe("registerFileRoutes", () => {
     const payload = (await response.json()) as { backupPath?: string };
 
     expect(response.status).toBe(200);
-    expect(payload.backupPath).toMatch(/^\.hyperframes\/backup\//);
+    expect(payload.backupPath).toMatch(/^\.frames\/backup\//);
     expect(readFileSync(join(projectDir, payload.backupPath!), "utf-8")).toBe("before delete");
   });
 
@@ -418,7 +418,7 @@ describe("registerFileRoutes", () => {
 
     expect(payload.changed).toBe(true);
     expect(payload.path).toBe("index.html");
-    expect(payload.backupPath).toMatch(/^\.hyperframes\/backup\//);
+    expect(payload.backupPath).toMatch(/^\.frames\/backup\//);
     expect(readFileSync(join(projectDir, payload.backupPath!), "utf-8")).toBe(
       '<div id="title">Before</div>',
     );
@@ -458,7 +458,7 @@ describe("registerFileRoutes", () => {
     expect(payload.content).toContain('id="back" style="z-index: 2"');
     expect(payload.content).toContain('id="front" style="z-index: 1"');
     expect(readFileSync(join(projectDir, payload.backupPath!), "utf-8")).toBe(original);
-    expect(readdirSync(join(projectDir, ".hyperframes", "backup"))).toHaveLength(1);
+    expect(readdirSync(join(projectDir, ".frames", "backup"))).toHaveLength(1);
   });
 
   it("returns changed false without writing for a no-op element patch batch", async () => {
@@ -486,7 +486,7 @@ describe("registerFileRoutes", () => {
     expect(payload.matched).toEqual([true]);
     expect(payload.content).toBe(original);
     expect(payload.backupPath).toBeUndefined();
-    expect(existsSync(join(projectDir, ".hyperframes", "backup"))).toBe(false);
+    expect(existsSync(join(projectDir, ".frames", "backup"))).toBe(false);
   });
 
   it("refuses the whole element batch when any target is unmatched", async () => {
@@ -516,7 +516,7 @@ describe("registerFileRoutes", () => {
     expect(payload).toMatchObject({ changed: false, matched: [true, false], content: original });
     expect(payload.backupPath).toBeUndefined();
     expect(readFileSync(join(projectDir, "index.html"), "utf-8")).toBe(original);
-    expect(existsSync(join(projectDir, ".hyperframes", "backup"))).toBe(false);
+    expect(existsSync(join(projectDir, ".frames", "backup"))).toBe(false);
   });
 
   it("refuses every file when one batch contains an unmatched target", async () => {
@@ -581,7 +581,7 @@ describe("registerFileRoutes", () => {
     });
     expect(readFileSync(join(projectDir, "index.html"), "utf-8")).toBe(indexOriginal);
     expect(readFileSync(join(projectDir, "scene.html"), "utf-8")).toBe(sceneOriginal);
-    expect(existsSync(join(projectDir, ".hyperframes", "backup"))).toBe(false);
+    expect(existsSync(join(projectDir, ".frames", "backup"))).toBe(false);
   });
 
   it("restores earlier files when a later atomic batch write fails", () => {
@@ -654,7 +654,7 @@ describe("registerFileRoutes", () => {
     expect(payload.error).toContain("unsafe values");
     expect(payload.fields).toContain("body.target.selectorIndex");
     expect(readFileSync(join(projectDir, "index.html"), "utf-8")).toBe(original);
-    expect(existsSync(join(projectDir, ".hyperframes", "backup"))).toBe(false);
+    expect(existsSync(join(projectDir, ".frames", "backup"))).toBe(false);
   });
 
   it("returns the new strong version after a split-element mutation", async () => {
@@ -893,7 +893,7 @@ describe("registerFileRoutes", () => {
   // A composition with a fromTo tween — used by the fromProperties mutation tests.
   const FROMTO_COMP = `<!DOCTYPE html><html><body data-duration="3">
 <div id="box" data-start="0" data-duration="3" style="opacity:0"></div>
-<script data-hyperframes-gsap>
+<script data-frames-gsap>
 const tl = gsap.timeline();
 tl.fromTo("#box", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1.5, ease: "power2.out" }, 0);
 </script>
@@ -1082,7 +1082,7 @@ tl.fromTo("#box", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 1.5, eas
 
   it("re-syncs position holds when a batch mixes hold-sync and ordinary mutations", async () => {
     const projectDir = createProjectDir();
-    const html = `<!DOCTYPE html><html><body><div id="box"></div><script data-hyperframes-gsap>
+    const html = `<!DOCTYPE html><html><body><div id="box"></div><script data-frames-gsap>
 const tl = gsap.timeline({ paused: true });
 </script></body></html>`;
     writeHtml(projectDir, "hold.html", html);
@@ -1194,7 +1194,7 @@ const tl = gsap.timeline({ paused: true });
 
   it("consolidate-position-writes leaves exactly one position write per selector", async () => {
     const projectDir = createProjectDir();
-    const CORRUPTED = `<!DOCTYPE html><html><body><script data-hyperframes-gsap>
+    const CORRUPTED = `<!DOCTYPE html><html><body><script data-frames-gsap>
 const tl = gsap.timeline({ paused: true });
 tl.to("#box", { duration: 0, x: -766, y: 314, immediateRender: true }, 1.333);
 gsap.set("#box", { x: -520, y: 170 });
@@ -1455,7 +1455,7 @@ gsap.set("#box", { rotation: 45 });
 
   it("update-from-property returns 400 for a non-fromTo animation", async () => {
     const projectDir = createProjectDir();
-    const TO_COMP = `<!DOCTYPE html><html><body><script data-hyperframes-gsap>
+    const TO_COMP = `<!DOCTYPE html><html><body><script data-frames-gsap>
 const tl = gsap.timeline();
 tl.to("#box", { opacity: 1, duration: 1 }, 0);
 </script></body></html>`;
@@ -1545,7 +1545,7 @@ tl.to("#box", { opacity: 1, duration: 1 }, 0);
   // Object-form keyframes — exercises the move-keyframe (retime) route.
   const KEYFRAME_COMP = `<!DOCTYPE html><html><body data-duration="3">
 <div id="box" data-start="0" data-duration="3"></div>
-<script data-hyperframes-gsap>
+<script data-frames-gsap>
 const tl = gsap.timeline();
 tl.to("#box", { keyframes: { "0%": { x: 0 }, "50%": { x: 100, opacity: 0.5, ease: "power2.in" }, "100%": { x: 200 } }, duration: 1.5 }, 0);
 </script>
@@ -1697,7 +1697,7 @@ tl.to("#box", { keyframes: { "0%": { x: 0 }, "50%": { x: 100, opacity: 0.5, ease
 
   it("remove-from-property returns 400 for a non-fromTo animation", async () => {
     const projectDir = createProjectDir();
-    const TO_COMP = `<!DOCTYPE html><html><body><script data-hyperframes-gsap>
+    const TO_COMP = `<!DOCTYPE html><html><body><script data-frames-gsap>
 const tl = gsap.timeline();
 tl.to("#box", { opacity: 1, duration: 1 }, 0);
 </script></body></html>`;
@@ -1722,7 +1722,7 @@ tl.to("#box", { opacity: 1, duration: 1 }, 0);
 
   it("add mutation with fromTo method creates a fromTo tween with fromProperties", async () => {
     const projectDir = createProjectDir();
-    const EMPTY_COMP = `<!DOCTYPE html><html><body><div id="el"></div><script data-hyperframes-gsap>
+    const EMPTY_COMP = `<!DOCTYPE html><html><body><div id="el"></div><script data-frames-gsap>
 const tl = gsap.timeline();
 </script></body></html>`;
     writeHtml(projectDir, "empty.html", EMPTY_COMP);
@@ -1764,7 +1764,7 @@ const tl = gsap.timeline();
 
   it("add mutation returns 400 when fromProperties provided for non-fromTo method", async () => {
     const projectDir = createProjectDir();
-    const EMPTY_COMP = `<!DOCTYPE html><html><body><div id="el"></div><script data-hyperframes-gsap>
+    const EMPTY_COMP = `<!DOCTYPE html><html><body><div id="el"></div><script data-frames-gsap>
 const tl = gsap.timeline();
 </script></body></html>`;
     writeHtml(projectDir, "empty.html", EMPTY_COMP);
@@ -1797,7 +1797,7 @@ const tl = gsap.timeline();
     const projectDir = createProjectDir();
     const ROT_COMP = `<!DOCTYPE html><html><body data-duration="3">
 <div id="box" data-start="0" data-duration="3" data-hf-studio-rotation="30" style="--hf-studio-rotation:30deg;rotate:30deg"></div>
-<script data-hyperframes-gsap>
+<script data-frames-gsap>
 const tl = gsap.timeline();
 tl.to("#box", { opacity: 1, duration: 1 }, 0);
 </script>
@@ -1834,7 +1834,7 @@ tl.to("#box", { opacity: 1, duration: 1 }, 0);
     const projectDir = createProjectDir();
     const PATH_COMP = `<!DOCTYPE html><html><body data-duration="32">
 <div id="box"></div>
-<script data-hyperframes-gsap>
+<script data-frames-gsap>
 const tl = gsap.timeline();
 tl.to("#box", { motionPath: { path: [{ x: 0, y: 0 }, { x: 100, y: 100 }] }, duration: 16.055, ease: "power1.inOut" }, 12.17);
 </script>
@@ -1912,7 +1912,7 @@ tl.to("#box", { motionPath: { path: [{ x: 0, y: 0 }, { x: 100, y: 100 }] }, dura
   });
 
   it("shift-positions-batch equals sequential single shifts (atomic multi-clip)", async () => {
-    const TWO_TWEENS = `<!DOCTYPE html><html><body><script data-hyperframes-gsap>
+    const TWO_TWEENS = `<!DOCTYPE html><html><body><script data-frames-gsap>
 const tl = gsap.timeline({ paused: true });
 tl.to("#a", { duration: 1, x: 100 }, 1);
 tl.to("#b", { duration: 1, x: 200 }, 2);
@@ -1989,7 +1989,7 @@ tl.to("#b", { duration: 1, x: 200 }, 2);
     writeHtml(
       projectDir,
       "comp.html",
-      `<!DOCTYPE html><html><body><script data-hyperframes-gsap>
+      `<!DOCTYPE html><html><body><script data-frames-gsap>
 const tl = gsap.timeline({ paused: true });
 tl.to("#a", { duration: 1, x: 100 }, 1);
 </script></body></html>`,

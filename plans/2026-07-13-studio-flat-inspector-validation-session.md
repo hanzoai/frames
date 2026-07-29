@@ -1,12 +1,12 @@
 # Studio Flat Inspector — Session Log 2026-07-13
 
-Worktree: `~/src/wt/hyperframes/de-split`. Continuation of the flat-inspector redesign stack (PRs #2120–#2190, plans in this directory dated 07-08/07-09).
+Worktree: `~/src/wt/frames/de-split`. Continuation of the flat-inspector redesign stack (PRs #2120–#2190, plans in this directory dated 07-08/07-09).
 
 ## 1. Slider live-update bug (PR #2190) — investigated, held back
 
 - User reported: dragging a slider (Layer blur on image/video clip) shows a wrong live value; correct value appears only after deselect. Reliable on their machine; **never reproduced** via scripted `agent-browser` testing (trusted CDP mouse events, sub-40ms synthetic drags, every cadence tried).
 - Shipped defensively on PR #2190 branch: draft-state + **debounce** (commit `76bfce25f`), then discovered the debounce itself killed real-time preview during continuous drags (timer resets every pointermove) and replaced with a **throttle** — leading-edge commit + 40ms trailing flush (`0e39019f4`).
-- Side-by-side comparison against the **published studio** (npm `hyperframes` 0.7.46, legacy `SliderControl` native range input) showed the same symptom class exists there too → **NOT a regression from the flat-inspector work; pre-existing**. User said stop; throttle commit stayed local, later pushed as part of the stack update.
+- Side-by-side comparison against the **published studio** (npm `frames` 0.7.46, legacy `SliderControl` native range input) showed the same symptom class exists there too → **NOT a regression from the flat-inspector work; pre-existing**. User said stop; throttle commit stayed local, later pushed as part of the stack update.
 - Memory saved: `project_flatslider_debounce_not_root_cause.md`. If this bug resurfaces, start fresh — suspect the live-preview GSAP patch path (`gsapLivePreview.ts` / `useGsapScriptCommits`), not `FlatSlider`.
 - Key testing gotchas confirmed this session: synthetic `dispatchEvent` pointer events **cannot acquire pointer capture** in real Chromium (happy-dom allows it, browsers don't); `agent-browser mouse` per-call latency can't reach sub-40ms cadence, so throttle timing is only provable in unit tests.
 
@@ -48,15 +48,15 @@ Per user: headers vs open-section body need slightly different colors; body ligh
 
 ## 5. Dev-loop mechanics (how to run all this)
 
-- Flat inspector is OFF by default — baked in at Vite build time. A plain `hyperframes preview` shows the LEGACY panel (this bit us once).
+- Flat inspector is OFF by default — baked in at Vite build time. A plain `frames preview` shows the LEGACY panel (this bit us once).
   ```bash
-  cd ~/src/wt/hyperframes/de-split/packages/studio && VITE_STUDIO_ENABLE_FLAT_INSPECTOR=true bunx vite build
+  cd ~/src/wt/frames/de-split/packages/studio && VITE_STUDIO_ENABLE_FLAT_INSPECTOR=true bunx vite build
   cd ../cli && node scripts/build-copy.mjs        # copies studio dist into cli dist (don't run parallel with tsup)
-  cd <project-dir> && node ~/src/wt/hyperframes/de-split/packages/cli/dist/cli.js preview --force-new
+  cd <project-dir> && node ~/src/wt/frames/de-split/packages/cli/dist/cli.js preview --force-new
   ```
-- Test project: `/private/tmp/claude-501/-Users-vanceingalls-src-hyperframes/c653a869-1f02-4525-b928-1a8a37b4cdaa/scratchpad/flat-inspector-demo` (has Title Text / Image Clip / Video Clip + color-grading wrappers; known benign `gsap_from_opacity_noop` lint warning). Server was last on `localhost:3004`.
+- Test project: `/private/tmp/claude-501/-Users-vanceingalls-src-frames/c653a869-1f02-4525-b928-1a8a37b4cdaa/scratchpad/flat-inspector-demo` (has Title Text / Image Clip / Video Clip + color-grading wrappers; known benign `gsap_from_opacity_noop` lint warning). Server was last on `localhost:3004`.
 - Stale localStorage once made the timeline render empty ("Drop media here", 0:00 duration) while the iframe was actually fine — `localStorage.clear(); sessionStorage.clear()` + reload fixed it. Check before debugging "composition won't load".
-- Published-studio comparison: plain `hyperframes preview` (global npm 0.7.46) on the same project, lands on the next free port.
+- Published-studio comparison: plain `frames preview` (global npm 0.7.46) on the same project, lands on the next free port.
 
 ## 6. Open items
 

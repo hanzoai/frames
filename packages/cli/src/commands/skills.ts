@@ -9,7 +9,7 @@ import { withMeta } from "../utils/updateCheck.js";
 import {
   checkSkills,
   FALLBACK_CORE_SKILLS,
-  hyperframesSkillNames,
+  framesSkillNames,
   isCoreSkill,
   presentSkills,
   pruneOrphanedLockEntries,
@@ -23,11 +23,11 @@ import { trackSkillsInstallSkipped } from "../telemetry/events.js";
 import type { Example } from "./_examples.js";
 
 export const examples: Example[] = [
-  ["Install all HyperFrames skills", "hyperframes skills"],
-  ["Check whether installed skills are up to date", "hyperframes skills check"],
-  ["Check, machine-readable (for agents / CI)", "hyperframes skills check --json"],
-  ["Update the core set + everything already installed", "hyperframes skills update"],
-  ["Also install one workflow (on-demand install)", "hyperframes skills update pr-to-video"],
+  ["Install all Frames skills", "frames skills"],
+  ["Check whether installed skills are up to date", "frames skills check"],
+  ["Check, machine-readable (for agents / CI)", "frames skills check --json"],
+  ["Update the core set + everything already installed", "frames skills update"],
+  ["Also install one workflow (on-demand install)", "frames skills update pr-to-video"],
 ];
 
 function hasNpx(): boolean {
@@ -164,9 +164,9 @@ function runSkillsRemove(names: string[], opts: { global: boolean }): Promise<vo
 // freshness comes from --full-depth (see GLOBAL_INSTALL_ARGS_TAIL), which clones the
 // repo at latest `main`; the URL just names what to clone. Our freshness check
 // resolves "latest" straight from GitHub too, so install and check agree.
-const SOURCES = [{ name: "HyperFrames", url: "https://github.com/heygen-com/hyperframes" }];
+const SOURCES = [{ name: "Frames", url: "https://github.com/hanzoai/frames" }];
 
-// Fan HyperFrames' own skills out to every other installed agent. Scope by the
+// Fan Frames' own skills out to every other installed agent. Scope by the
 // lock's source attribution (the same definition prune uses) — NOT by listing
 // ~/.claude/skills, which is shared with the user's other Claude skills (gstack,
 // personal, company). No-op when nothing is attributed or the global store is
@@ -174,7 +174,7 @@ const SOURCES = [{ name: "HyperFrames", url: "https://github.com/heygen-com/hype
 // mirror failure must not fail the install.
 function mirrorToInstalledAgents(): void {
   try {
-    const names = hyperframesSkillNames({ scope: "global" });
+    const names = framesSkillNames({ scope: "global" });
     if (names.length === 0) return;
     const { mirrored } = mirrorGlobalSkills({ skills: names });
     const n = mirrored.length;
@@ -325,7 +325,7 @@ export async function updateSkills(
     // `canonical: true` — target selection must match what `skills add`
     // actually installs from (the canonical published repo), never a local
     // checkout's `skills-manifest.json`. Without this, running from inside a
-    // stale hyperframes checkout could resolve "latest" from that stale local
+    // stale frames checkout could resolve "latest" from that stale local
     // file, which may still list a skill that's since been retired/renamed
     // upstream. `isCoreSkill` would then force it into `targets`/`toInstall`,
     // `skills add` would correctly (and silently) decline to install a skill
@@ -489,12 +489,12 @@ function printSkillSection(
 function renderCheck(result: SkillsCheckResult): void {
   const { summary } = result;
   console.log();
-  console.log(c.bold("hyperframes skills"));
+  console.log(c.bold("frames skills"));
   console.log();
 
   if (!result.location) {
-    console.log(`  ${c.dim("No HyperFrames skills found in the usual locations.")}`);
-    console.log(`  ${c.accent("Install: npx hyperframes skills")}`);
+    console.log(`  ${c.dim("No Frames skills found in the usual locations.")}`);
+    console.log(`  ${c.accent("Install: npx frames skills")}`);
     console.log();
     return;
   }
@@ -550,7 +550,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   console.log();
   if (result.updateAvailable) {
-    console.log(`  ${c.accent("Update: npx hyperframes skills update")}`);
+    console.log(`  ${c.accent("Update: npx frames skills update")}`);
   } else {
     console.log(`  ${c.success("◇")}  ${c.success("Installed skills are up to date")}`);
   }
@@ -582,7 +582,7 @@ const checkCommand = defineCommand({
     invalidateSkillsCache();
 
     // Exit non-zero when installed skills are stale, so agents and CI can gate:
-    //   hyperframes skills check || npx hyperframes skills update
+    //   frames skills check || npx frames skills update
     if (result.updateAvailable) setCommandExitCode(1);
   },
 });
@@ -650,7 +650,7 @@ const updateCommand = defineCommand({
   meta: {
     name: "update",
     description:
-      "Update the core set plus every installed HyperFrames skill to the latest, and remove any no longer published. Pass skill names to also install those (how workflow skills install on demand) — without names it never expands a partial install",
+      "Update the core set plus every installed Frames skill to the latest, and remove any no longer published. Pass skill names to also install those (how workflow skills install on demand) — without names it never expands a partial install",
   },
   // Mirror `check`'s flags: the prune step runs the same removed-detection, so it
   // must respect the same overrides. Without these, `update`'s internal
@@ -673,10 +673,10 @@ const updateCommand = defineCommand({
     const dir = args.dir;
     const source = args.source;
 
-    // Positional skill names (e.g. `hyperframes skills update pr-to-video`) are
+    // Positional skill names (e.g. `frames skills update pr-to-video`) are
     // the ONLY way update expands an install: each named skill is guaranteed
     // present and current. This is the router's trigger-time step — the
-    // /hyperframes router runs it after picking a workflow, before reading the
+    // /frames router runs it after picking a workflow, before reading the
     // workflow's skill.
     const { requested, rejected } = requestedNamesFrom(args._ ?? []);
     if (rejected.length) {
@@ -692,17 +692,17 @@ const updateCommand = defineCommand({
     // on demand, when their workflow is
     // triggered. This is where `init` and the stale-skills nudge both lead;
     // pulling the complete skill set here is exactly what users complained
-    // about. Explicit full set: `hyperframes skills` or `npx skills add
-    // heygen-com/hyperframes --all`.
+    // about. Explicit full set: `frames skills` or `npx skills add
+    // hanzoai/frames --all`.
     //
     // Note: the upstream `skills add` CLI has no `--dir` flag (it installs into
     // the resolved agent dirs), so `--dir` here scopes only the *prune* detection
     // below, not the install. `--source` likewise drives where the prune's
     // "latest" manifest comes from; the install always targets the canonical
-    // HyperFrames repo so `update` reliably refreshes the published skills.
+    // Frames repo so `update` reliably refreshes the published skills.
     //
     // strict: this is the documented recovery path for the agent/CI contract
-    // `hyperframes skills check || hyperframes skills update`, and the router's
+    // `frames skills check || frames skills update`, and the router's
     // trigger-time guarantee. If the install fails (no npx, `skills add` exits
     // non-zero, a named skill still absent afterwards) it must exit non-zero
     // too — otherwise the `||` chain passes while nothing actually changed.
@@ -763,7 +763,7 @@ const updateCommand = defineCommand({
 export default defineCommand({
   meta: {
     name: "skills",
-    description: "Install, check, and update HyperFrames skills for AI coding tools",
+    description: "Install, check, and update Frames skills for AI coding tools",
   },
   subCommands: {
     check: checkCommand,
@@ -772,8 +772,8 @@ export default defineCommand({
   args: {},
   async run({ args }) {
     // citty runs this parent handler even when a subcommand matches; guard on
-    // the positional so bare `hyperframes skills` installs, while
-    // `hyperframes skills check|update` does not also re-install.
+    // the positional so bare `frames skills` installs, while
+    // `frames skills check|update` does not also re-install.
     if (!args._?.[0]) {
       await installSkills("*");
       // Same as updateSkills: a full install supersedes the background

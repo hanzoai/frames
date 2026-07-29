@@ -6,12 +6,12 @@ import { formatFfmpegError } from "./runFfmpeg.js";
 
 describe("formatFfmpegError", () => {
   const originalPlatform = process.platform;
-  const originalFfmpegPath = process.env.HYPERFRAMES_FFMPEG_PATH;
+  const originalFfmpegPath = process.env.FRAMES_FFMPEG_PATH;
 
   afterEach(() => {
     Object.defineProperty(process, "platform", { value: originalPlatform, configurable: true });
-    if (originalFfmpegPath === undefined) delete process.env.HYPERFRAMES_FFMPEG_PATH;
-    else process.env.HYPERFRAMES_FFMPEG_PATH = originalFfmpegPath;
+    if (originalFfmpegPath === undefined) delete process.env.FRAMES_FFMPEG_PATH;
+    else process.env.FRAMES_FFMPEG_PATH = originalFfmpegPath;
   });
 
   it("reports exit code alone when stderr is empty", () => {
@@ -65,7 +65,7 @@ describe("formatFfmpegError", () => {
     "maps Windows DLL-not-found exit code %s to selected-path guidance",
     (exitCode) => {
       Object.defineProperty(process, "platform", { value: "win32", configurable: true });
-      process.env.HYPERFRAMES_FFMPEG_PATH = "/tools/ffmpeg.exe";
+      process.env.FRAMES_FFMPEG_PATH = "/tools/ffmpeg.exe";
 
       const message = formatFfmpegError(exitCode, "");
 
@@ -95,17 +95,17 @@ function createSpawnSpy() {
 }
 
 describe("runFfmpeg binary resolution", () => {
-  const originalFfmpegPath = process.env.HYPERFRAMES_FFMPEG_PATH;
+  const originalFfmpegPath = process.env.FRAMES_FFMPEG_PATH;
 
   afterEach(() => {
     vi.resetModules();
     vi.doUnmock("child_process");
-    if (originalFfmpegPath === undefined) delete process.env.HYPERFRAMES_FFMPEG_PATH;
-    else process.env.HYPERFRAMES_FFMPEG_PATH = originalFfmpegPath;
+    if (originalFfmpegPath === undefined) delete process.env.FRAMES_FFMPEG_PATH;
+    else process.env.FRAMES_FFMPEG_PATH = originalFfmpegPath;
   });
 
-  it("spawns the configured absolute FFmpeg path when HYPERFRAMES_FFMPEG_PATH is set", async () => {
-    process.env.HYPERFRAMES_FFMPEG_PATH = "/tools/ffmpeg.exe";
+  it("spawns the configured absolute FFmpeg path when FRAMES_FFMPEG_PATH is set", async () => {
+    process.env.FRAMES_FFMPEG_PATH = "/tools/ffmpeg.exe";
     const { spawn, calls } = createSpawnSpy();
     vi.resetModules();
     vi.doMock("child_process", () => ({ spawn }));

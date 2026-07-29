@@ -6,7 +6,7 @@ const { muxVideoWithAudioMock, padOrTrimAudioMock } = vi.hoisted(() => ({
   padOrTrimAudioMock: vi.fn(),
 }));
 
-vi.mock("@hyperframes/engine", () => ({
+vi.mock("@frames/engine", () => ({
   applyFaststart: vi.fn(),
   muxVideoWithAudio: muxVideoWithAudioMock,
 }));

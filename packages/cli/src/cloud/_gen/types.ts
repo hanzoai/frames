@@ -1,13 +1,13 @@
 /**
  * AUTO-GENERATED from experiment-framework/openapi/external-api.json.
  * DO NOT EDIT MANUALLY. Re-run
- * `python scripts/generate_hyperframes_cli_client.py` in
+ * `python scripts/generate_frames_cli_client.py` in
  * experiment-framework to regenerate.
  */
 
 // Component schemas reachable from the cloud-render endpoint set.
 // Add a new path/method to TARGET_ENDPOINTS in
-// scripts/generate_hyperframes_cli_client.py to extend this list.
+// scripts/generate_frames_cli_client.py to extend this list.
 
 /**
  * Asset input via base64-encoded content.
@@ -150,11 +150,11 @@ export interface CreateAssetUploadResponse {
 }
 
 /**
- * Request body for POST /v3/hyperframes/renders.
+ * Request body for POST /v3/frames/renders.
  */
 export interface CreateHyperframesRenderRequest {
   /**
-   * HyperFrames composition .zip — provide as {type: 'url', url: '...'}, {type:
+   * Frames composition .zip — provide as {type: 'url', url: '...'}, {type:
    * 'asset_id', asset_id: '...'} (pre-uploaded via POST /v3/assets), or {type:
    * 'base64', media_type: 'application/zip', data: '...'}. Zip must contain
    * index.html at the root (or the path you set in `composition`).
@@ -207,18 +207,18 @@ export interface CreateHyperframesRenderRequest {
 }
 
 /**
- * Response for POST /v3/hyperframes/renders.
+ * Response for POST /v3/frames/renders.
  */
 export interface CreateHyperframesRenderResponse {
   /**
-   * HyperFrames render identifier — poll GET /v3/hyperframes/renders/{render_id}
+   * Frames render identifier — poll GET /v3/frames/renders/{render_id}
    * for status.
    */
   render_id: string;
 }
 
 /**
- * Response for DELETE /v3/hyperframes/renders/{render_id}.
+ * Response for DELETE /v3/frames/renders/{render_id}.
  */
 export interface DeleteHyperframesRenderResponse {
   /**
@@ -237,7 +237,7 @@ export interface DeleteHyperframesRenderResponse {
 export type HyperframesAspectRatio = "16:9" | "9:16" | "1:1";
 
 /**
- * Detailed HyperFrames render resource.
+ * Detailed Frames render resource.
  */
 export interface HyperframesRenderDetail {
   /**
@@ -309,7 +309,7 @@ export interface HyperframesRenderDetail {
 }
 
 /**
- * Lifecycle status of a HyperFrames render.
+ * Lifecycle status of a Frames render.
  */
 export type HyperframesRenderStatus = "queued" | "rendering" | "completed" | "failed";
 

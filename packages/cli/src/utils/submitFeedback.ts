@@ -21,7 +21,7 @@ export async function submitFeedback(input: {
 }): Promise<void> {
   try {
     const apiBaseUrl = getPublishApiBaseUrl();
-    await fetch(`${apiBaseUrl}/v1/hyperframes/feedback`, {
+    await fetch(`${apiBaseUrl}/v1/frames/feedback`, {
       method: "POST",
       body: JSON.stringify({
         rating: input.rating,

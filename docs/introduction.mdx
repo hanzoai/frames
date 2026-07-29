@@ -27,11 +27,11 @@ Here is a video defined entirely as HTML:
 </div>
 ```
 
-Run `npx hyperframes render --output demo.mp4` and this produces an MP4 with deterministic, frame-by-frame capture. Same input, identical output, every time. No timeline editor. No proprietary format. Just HTML.
+Run `npx frames render --output demo.mp4` and this produces an MP4 with deterministic, frame-by-frame capture. Same input, identical output, every time. No timeline editor. No proprietary format. Just HTML.
 
 <CardGroup cols={2}>
   <Card title="Watch the Showcase" icon="play" href="/showcase">
-    Finished HyperFrames videos you can watch, read, run, and remix — product launches, website-to-video demos, UI reveals, and VFX experiments.
+    Finished Frames videos you can watch, read, run, and remix — product launches, website-to-video demos, UI reveals, and VFX experiments.
   </Card>
   <Card title="Browse the Catalog" icon="grid-2" href="/catalog/blocks/data-chart">
     50+ ready-to-use blocks and components — social overlays, shader transitions, data visualizations, and cinematic effects. Install any of them with one command.
@@ -40,7 +40,7 @@ Run `npx hyperframes render --output demo.mp4` and this produces an MP4 with det
     Go from zero to rendered video in under 5 minutes.
   </Card>
   <Card title="Skills catalog" icon="sparkles" href="/guides/skills">
-    Every HyperFrames AI agent skill — router, creation workflows, and domain skills. Install with `npx skills add heygen-com/hyperframes`.
+    Every Frames AI agent skill — router, creation workflows, and domain skills. Install with `npx skills add hanzoai/frames`.
   </Card>
 </CardGroup>
 
@@ -69,44 +69,44 @@ Run `npx hyperframes render --output demo.mp4` and this produces an MP4 with det
     Define your video as an HTML document. Each element gets data attributes for timing (`data-start`, `data-duration`) and layout (`data-track-index`). Add animations with GSAP, Lottie, CSS transitions, or any seekable runtime via the Frame Adapter pattern.
   </Step>
   <Step title="Preview in the browser">
-    Run `npx hyperframes preview` to open a live preview in your browser. Edit your HTML and see changes instantly — no build step, no compilation.
+    Run `npx frames preview` to open a live preview in your browser. Edit your HTML and see changes instantly — no build step, no compilation.
   </Step>
   <Step title="Render to MP4">
-    Run `npx hyperframes render --output output.mp4` to produce a final video. The engine seeks each frame in headless Chrome, captures it with `beginFrame`, and pipes the result through FFmpeg. Run locally or in Docker for fully reproducible output.
+    Run `npx frames render --output output.mp4` to produce a final video. The engine seeks each frame in headless Chrome, captures it with `beginFrame`, and pipes the result through FFmpeg. Run locally or in Docker for fully reproducible output.
   </Step>
 </Steps>
 
 ## Packages
 
 <CardGroup cols={2}>
-  <Card title="@hyperframes/core" icon="cube" href="/packages/core">
+  <Card title="@frames/core" icon="cube" href="/packages/core">
     Types, HTML parsing, runtime, and composition linter — the foundation everything else builds on.
   </Card>
-  <Card title="@hyperframes/sdk" icon="code" href="/packages/sdk">
+  <Card title="@frames/sdk" icon="code" href="/packages/sdk">
     Headless composition editing engine for agents, custom editors, patch events, and persistence.
   </Card>
-  <Card title="@hyperframes/engine" icon="gear" href="/packages/engine">
+  <Card title="@frames/engine" icon="gear" href="/packages/engine">
     Seekable page-to-video capture engine. Loads HTML in headless Chrome and captures frame-by-frame.
   </Card>
-  <Card title="@hyperframes/player" icon="play" href="/packages/player">
-    Embeddable web component for playing HyperFrames compositions in any web page.
+  <Card title="@frames/player" icon="play" href="/packages/player">
+    Embeddable web component for playing Frames compositions in any web page.
   </Card>
-  <Card title="@hyperframes/producer" icon="video" href="/packages/producer">
+  <Card title="@frames/producer" icon="video" href="/packages/producer">
     Full rendering pipeline combining capture and FFmpeg encoding into a single API call.
   </Card>
-  <Card title="@hyperframes/shader-transitions" icon="sparkles" href="/packages/shader-transitions">
+  <Card title="@frames/shader-transitions" icon="sparkles" href="/packages/shader-transitions">
     WebGL shader transitions for scene-to-scene motion and render-time compositing.
   </Card>
-  <Card title="@hyperframes/aws-lambda" icon="cloud" href="/packages/aws-lambda">
+  <Card title="@frames/aws-lambda" icon="cloud" href="/packages/aws-lambda">
     AWS Lambda and Step Functions adapter for distributed rendering.
   </Card>
-  <Card title="@hyperframes/gcp-cloud-run" icon="cloud" href="/packages/gcp-cloud-run">
+  <Card title="@frames/gcp-cloud-run" icon="cloud" href="/packages/gcp-cloud-run">
     Google Cloud Run and Workflows adapter for distributed rendering.
   </Card>
-  <Card title="@hyperframes/studio" icon="palette" href="/packages/studio">
+  <Card title="@frames/studio" icon="palette" href="/packages/studio">
     Visual composition editor UI for building and previewing timelines interactively.
   </Card>
-  <Card title="hyperframes (CLI)" icon="terminal" href="/packages/cli">
+  <Card title="frames (CLI)" icon="terminal" href="/packages/cli">
     Command-line tool for creating, previewing, and rendering compositions.
   </Card>
 </CardGroup>
@@ -121,7 +121,7 @@ Run `npx hyperframes render --output demo.mp4` and this produces an MP4 with det
     Build and render your first video in 60 seconds
   </Card>
   <Card title="Skills catalog" icon="sparkles" href="/guides/skills">
-    Every HyperFrames AI agent skill — router, creation workflows, and domain skills
+    Every Frames AI agent skill — router, creation workflows, and domain skills
   </Card>
   <Card title="Compositions" icon="layer-group" href="/concepts/compositions">
     Understand the HTML-based data model behind every video

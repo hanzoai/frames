@@ -14,7 +14,7 @@ export interface RenderJob {
   durationMs?: number;
 }
 
-// Mirrors `CanvasResolution` from @hyperframes/core. Kept local because
+// Mirrors `CanvasResolution` from @frames/core. Kept local because
 // studio's tsconfig doesn't include node types, and the core barrel
 // transitively pulls in modules with `node:fs` imports. Drift risk is
 // low (6 string literals kept in sync manually with CANVAS_DIMENSIONS).
@@ -37,7 +37,7 @@ export interface StartRenderOptions {
   /**
    * Composition-variable overrides ({variableId: value}), forwarded to the
    * render route and injected as window.__hfVariables — the same channel
-   * `hyperframes render --variables` uses.
+   * `frames render --variables` uses.
    */
   variables?: Record<string, unknown>;
 }
@@ -190,7 +190,7 @@ export function useRenderQueue(projectId: string | null) {
           id: generateId(),
           status: "failed",
           progress: 0,
-          error: "Could not reach render server. Use `hyperframes render` from the CLI instead.",
+          error: "Could not reach render server. Use `frames render` from the CLI instead.",
           filename: "Export failed",
           createdAt: startTime,
         };

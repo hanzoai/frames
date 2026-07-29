@@ -4,11 +4,11 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { defaultLogger } from "../logger.js";
 
-import { FONT_ALIAS_MAP } from "@hyperframes/core/fonts/aliases";
+import { FONT_ALIAS_MAP } from "@frames/core/fonts/aliases";
 import {
   locateSystemFontVariants,
   SYSTEM_FONT_SIZE_LIMIT,
-} from "@hyperframes/core/fonts/system-locator";
+} from "@frames/core/fonts/system-locator";
 import { parseHTML } from "linkedom";
 import postcss, { type AtRule, type Declaration, type Rule } from "postcss";
 import { EMBEDDED_FONT_DATA } from "./fontData.generated.js";
@@ -373,11 +373,11 @@ const CANONICAL_FONTS: Record<string, CanonicalFontSpec> = {
   },
 };
 
-// FONT_ALIASES derives from the shared alias map in @hyperframes/core.
+// FONT_ALIASES derives from the shared alias map in @frames/core.
 // The cast is safe: every value in FONT_ALIAS_MAP is a valid CANONICAL_FONTS key.
 export const FONT_ALIASES = FONT_ALIAS_MAP as Record<string, keyof typeof CANONICAL_FONTS>;
 
-export { FONT_ALIAS_KEYS } from "@hyperframes/core/fonts/aliases";
+export { FONT_ALIAS_KEYS } from "@frames/core/fonts/aliases";
 
 function normalizeFamilyName(family: string): string {
   return family
@@ -573,7 +573,7 @@ function warnUnresolvedFonts(unresolved: string[]): void {
       `    2. Add a @font-face block in your HTML with a local or hosted font file\n` +
       `    3. Install the font locally on the render machine (Docker: add to Dockerfile)\n` +
       `    4. Add an alias to FONT_ALIAS_MAP in packages/core/src/fonts/aliases.ts (for contributors)\n` +
-      `  Docs: https://hyperframes.heygen.com/docs/fonts`,
+      `  Docs: https://frames.hanzo.ai/docs/fonts`,
   );
 }
 
@@ -585,17 +585,17 @@ let lambdaFontCacheRoot: string | undefined;
 
 // On AWS Lambda `$HOME` resolves to a `/home/sbx_*` tree that's read-only;
 // only `/tmp` is writable. Create one private, unguessable cache directory per
-// warm process and reuse it across invocations. Honor HYPERFRAMES_FONT_CACHE_DIR
+// warm process and reuse it across invocations. Honor FRAMES_FONT_CACHE_DIR
 // as an explicit override for any environment.
 function resolveFontCacheRoot(): string {
-  if (process.env.HYPERFRAMES_FONT_CACHE_DIR) {
-    return process.env.HYPERFRAMES_FONT_CACHE_DIR;
+  if (process.env.FRAMES_FONT_CACHE_DIR) {
+    return process.env.FRAMES_FONT_CACHE_DIR;
   }
   if (process.env.AWS_LAMBDA_FUNCTION_NAME) {
-    lambdaFontCacheRoot ??= mkdtempSync(join(tmpdir(), "hyperframes-fonts-"));
+    lambdaFontCacheRoot ??= mkdtempSync(join(tmpdir(), "frames-fonts-"));
     return lambdaFontCacheRoot;
   }
-  return join(homedir(), ".cache", "hyperframes", "fonts");
+  return join(homedir(), ".cache", "frames", "fonts");
 }
 
 // Chrome UA triggers woff2 responses from Google Fonts CSS API
@@ -1152,7 +1152,7 @@ export async function injectDeterministicFontFaces(
   }
 
   const styleEl = document.createElement("style");
-  styleEl.setAttribute("data-hyperframes-deterministic-fonts", "true");
+  styleEl.setAttribute("data-frames-deterministic-fonts", "true");
   styleEl.textContent = css;
   head.insertBefore(styleEl, head.firstChild);
 

@@ -140,7 +140,7 @@ Rules below came out of two independent website capture builds (2026-04-20) wher
   tl.to(".aura", { scale: 1.08, yoyo: true, repeat: 5, duration: 1.2 }, 0);
   ```
 
-- **Hard-kill exiting inner elements at a scene boundary, not the `.clip` itself.** A non-clip element or wrapper whose visibility changes at a beat boundary may need a deterministic zero-duration `tl.set()` kill after its fade, because a later tween or sibling `immediateRender` can resurrect it. This is the explicit-boundary exception to the ban on raw `visibility` tweens. HyperFrames alone controls `.clip` lifecycle; never apply this pattern to the clip container.
+- **Hard-kill exiting inner elements at a scene boundary, not the `.clip` itself.** A non-clip element or wrapper whose visibility changes at a beat boundary may need a deterministic zero-duration `tl.set()` kill after its fade, because a later tween or sibling `immediateRender` can resurrect it. This is the explicit-boundary exception to the ban on raw `visibility` tweens. Frames alone controls `.clip` lifecycle; never apply this pattern to the clip container.
 
   ```js
   tl.to(innerEl, { opacity: 0, duration: 0.3 }, beatEnd);

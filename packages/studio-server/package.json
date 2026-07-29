@@ -1,9 +1,9 @@
 {
-  "name": "@hyperframes/studio-server",
+  "name": "@frames/studio-server",
   "version": "0.7.81",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/studio-server"
   },
   "files": [
@@ -134,8 +134,8 @@
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
-    "@hyperframes/core": "workspace:*",
-    "@hyperframes/parsers": "workspace:*",
+    "@frames/core": "workspace:*",
+    "@frames/parsers": "workspace:*",
     "hono": "^4.0.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8",

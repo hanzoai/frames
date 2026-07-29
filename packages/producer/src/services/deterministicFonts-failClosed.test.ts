@@ -95,7 +95,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: false (default)"
     });
     // No @font-face was injected because the fetch failed — but the call
     // resolves successfully with the original HTML.
-    expect(result.includes("data-hyperframes-deterministic-fonts")).toBe(false);
+    expect(result.includes("data-frames-deterministic-fonts")).toBe(false);
   });
 
   it("swallows a 404 response and returns the original HTML (no throw)", async () => {
@@ -104,7 +104,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: false (default)"
       allowSystemFontCapture: false,
       fetchImpl: makeHttp404Fetch(),
     });
-    expect(result.includes("data-hyperframes-deterministic-fonts")).toBe(false);
+    expect(result.includes("data-frames-deterministic-fonts")).toBe(false);
   });
 
   it("swallows a 5xx response and returns the original HTML (no throw)", async () => {
@@ -113,7 +113,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: false (default)"
       allowSystemFontCapture: false,
       fetchImpl: makeHttp503Fetch(),
     });
-    expect(result.includes("data-hyperframes-deterministic-fonts")).toBe(false);
+    expect(result.includes("data-frames-deterministic-fonts")).toBe(false);
   });
 
   it("preserves legacy behavior when no options object is supplied at all", async () => {
@@ -148,7 +148,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: true", () => {
       expect(familyParam?.startsWith(`${googleFamily}:`)).toBe(true);
       expect(familyParam?.startsWith(`${authoredFamily}:`)).toBe(false);
       expect(result).toContain(`font-family: "${authoredFamily}"`);
-      expect(result).toContain("data-hyperframes-deterministic-fonts");
+      expect(result).toContain("data-frames-deterministic-fonts");
     });
   }
 
@@ -239,7 +239,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: true", () => {
       failClosedFontFetch: true,
       fetchImpl,
     });
-    expect(result).toContain("data-hyperframes-deterministic-fonts");
+    expect(result).toContain("data-frames-deterministic-fonts");
   });
 
   it("does NOT throw when font-family uses unresolved CSS var() references", async () => {
@@ -265,7 +265,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: true", () => {
       failClosedFontFetch: true,
       fetchImpl,
     });
-    expect(result).toContain("data-hyperframes-deterministic-fonts");
+    expect(result).toContain("data-frames-deterministic-fonts");
   });
 
   it("still resolves concrete fonts alongside var() in mixed declarations", async () => {
@@ -278,7 +278,7 @@ describe("injectDeterministicFontFaces — failClosedFontFetch: true", () => {
       failClosedFontFetch: true,
       fetchImpl,
     });
-    expect(result).toContain("data-hyperframes-deterministic-fonts");
+    expect(result).toContain("data-frames-deterministic-fonts");
   });
 
   it("does NOT throw when the HTML requests no fonts at all", async () => {

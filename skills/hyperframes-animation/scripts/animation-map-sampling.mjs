@@ -1,6 +1,6 @@
 /**
  * Seek and measure every sample for one tween inside a single browser
- * evaluation. GSAP/HyperFrames seeks update DOM state synchronously, so a
+ * evaluation. GSAP/Frames seeks update DOM state synchronously, so a
  * separate CDP round trip and wall-clock sleep per sample only adds latency.
  */
 export async function sampleTweenBboxes(page, selector, times) {

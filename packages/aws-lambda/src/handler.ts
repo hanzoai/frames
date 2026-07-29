@@ -1,10 +1,10 @@
 /**
- * AWS Lambda handler for HyperFrames distributed rendering.
+ * AWS Lambda handler for Frames distributed rendering.
  *
  * One Lambda function, three roles. Step Functions dispatches by setting
  * `event.Action`; the handler unwraps Map-state envelopes, primes the
  * Lambda environment (Chrome path, ffmpeg path, tmpdir), and forwards to
- * the matching OSS primitive from `@hyperframes/producer/distributed`.
+ * the matching OSS primitive from `@frames/producer/distributed`.
  *
  * Everything heavy — capture, encode, audio mix — happens inside the OSS
  * primitives. The handler is thin glue: parse event → S3 download → call
@@ -31,7 +31,7 @@ import {
   type PlanV2MaterializationTarget,
   readPlanV2Manifest,
   renderChunk,
-} from "@hyperframes/producer/distributed";
+} from "@frames/producer/distributed";
 import { resolveChromeExecutablePath } from "./chromium.js";
 import { type DistributedFormat, formatExtension } from "./formatExtension.js";
 import type {
@@ -790,11 +790,11 @@ function getEventS3Uris(event: PlanEvent | RenderChunkEvent | AssembleEvent): st
  * Throws `S3_URI_NOT_ALLOWED` (non-retryable) when a URI targets a different
  * bucket, preventing event injection from reading or writing arbitrary S3 data.
  *
- * Skipped when `HYPERFRAMES_RENDER_BUCKET` is unset so existing deployments
+ * Skipped when `FRAMES_RENDER_BUCKET` is unset so existing deployments
  * without the env var continue to work.
  */
 function validateEventS3Uris(event: PlanEvent | RenderChunkEvent | AssembleEvent): void {
-  const allowedBucket = process.env.HYPERFRAMES_RENDER_BUCKET?.trim();
+  const allowedBucket = process.env.FRAMES_RENDER_BUCKET?.trim();
   if (!allowedBucket) return;
 
   for (const uri of getEventS3Uris(event)) {

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// contrast-report.mjs — HyperFrames contrast audit
+// contrast-report.mjs — Frames contrast audit
 //
 // Reads a composition, seeks to N sample timestamps, walks the DOM for text
 // elements, measures the WCAG 2.1 contrast ratio between each element's
@@ -9,11 +9,11 @@
 //   - contrast-overlay.png  (sprite grid; magenta=fail AA, yellow=pass AA only, green=AAA)
 //
 // Usage:
-//   node skills/hyperframes-creative/scripts/contrast-report.mjs <composition-dir> \
+//   node skills/frames-creative/scripts/contrast-report.mjs <composition-dir> \
 //     [--samples N] [--out <dir>] [--width W] [--height H] [--fps N]
 //
 // Env:
-//   HYPERFRAMES_SKILL_PKG_VERSION — pin the @hyperframes/producer version used
+//   FRAMES_SKILL_PKG_VERSION — pin the @frames/producer version used
 //     when bootstrapping (global skill installs cannot infer it; falls back to
 //     @latest with a warning otherwise).
 //
@@ -47,32 +47,32 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import {
   bundleCompositionForCapture,
-  hyperframesPackageSpec,
+  framesPackageSpec,
   importPackagesOrBootstrap,
   initializeSessionWithRetry,
 } from "./package-loader.mjs";
 
 // Bundle first so mounted sub-compositions are inlined before the producer's
-// file server injects the HyperFrames runtime and render-seek bridge.
+// file server injects the Frames runtime and render-seek bridge.
 const packages = await importPackagesOrBootstrap(
-  ["@hyperframes/producer", "@hyperframes/core", "@hyperframes/core/compiler", "sharp"],
+  ["@frames/producer", "@frames/core", "@frames/core/compiler", "sharp"],
   {
     npmPackages: [
-      hyperframesPackageSpec("@hyperframes/producer"),
-      hyperframesPackageSpec("@hyperframes/core"),
+      framesPackageSpec("@frames/producer"),
+      framesPackageSpec("@frames/core"),
       "sharp@0.34.5",
     ],
   },
 );
 const sharp = packages.sharp.default;
-const { parseFps } = packages["@hyperframes/core"];
+const { parseFps } = packages["@frames/core"];
 const {
   createFileServer,
   createCaptureSession,
   closeCaptureSession,
   captureFrameToBuffer,
   getCompositionDuration,
-} = packages["@hyperframes/producer"];
+} = packages["@frames/producer"];
 
 // ─── CLI ─────────────────────────────────────────────────────────────────────
 
@@ -80,7 +80,7 @@ const args = parseArgs(process.argv.slice(2));
 if (!args.composition) die("missing <composition-dir>");
 
 const SAMPLES = Number(args.samples ?? 10);
-const OUT_DIR = resolve(args.out ?? ".hyperframes/contrast");
+const OUT_DIR = resolve(args.out ?? ".frames/contrast");
 const WIDTH = Number(args.width ?? 1920);
 const HEIGHT = Number(args.height ?? 1080);
 const parsedFps = parseFps(args.fps ?? 30);
@@ -92,7 +92,7 @@ const COMP_DIR = resolve(args.composition);
 
 await mkdir(OUT_DIR, { recursive: true });
 
-const bundle = await bundleCompositionForCapture(packages["@hyperframes/core/compiler"], COMP_DIR);
+const bundle = await bundleCompositionForCapture(packages["@frames/core/compiler"], COMP_DIR);
 let server;
 let session;
 try {
@@ -105,7 +105,7 @@ try {
   // probeStage) — same reasoning as animation-map.mjs: don't false-fail a
   // valid modular project whose sub-composition timelines land a beat late.
   session = await initializeSessionWithRetry(
-    packages["@hyperframes/producer"],
+    packages["@frames/producer"],
     () =>
       createCaptureSession(
         server.url,

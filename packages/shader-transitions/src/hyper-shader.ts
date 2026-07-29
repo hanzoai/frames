@@ -260,7 +260,7 @@ function isGsapAnimationOnlyScript(text: string): boolean {
 
 function getDocumentScriptSignature(doc: Document): string {
   const projectSignature = Array.from(
-    doc.querySelectorAll<HTMLMetaElement>('meta[name="hyperframes-project-signature"]'),
+    doc.querySelectorAll<HTMLMetaElement>('meta[name="frames-project-signature"]'),
   )
     .map((meta) => meta.getAttribute("content") || "")
     .join("\n");
@@ -277,7 +277,7 @@ function getDocumentScriptSignature(doc: Document): string {
         script.src,
         script.getAttribute("integrity") || "",
         script.getAttribute("crossorigin") || "",
-        script.getAttribute("data-hyperframes-runtime") || "",
+        script.getAttribute("data-frames-runtime") || "",
       ].join(":");
       return `${attrs}\n${script.src ? "" : script.textContent || ""}`;
     })
@@ -544,8 +544,8 @@ function createSnapshotLoadingOverlay(
 
   const overlay = doc.createElement("div");
   overlay.setAttribute("data-hyper-shader-loading", "");
-  overlay.setAttribute("data-hyperframes-ignore", "");
-  overlay.setAttribute("data-hyperframes-picker-block", "");
+  overlay.setAttribute("data-frames-ignore", "");
+  overlay.setAttribute("data-frames-picker-block", "");
   overlay.setAttribute("data-hf-ignore", "");
   overlay.setAttribute("data-no-capture", "");
   overlay.setAttribute("data-no-inspect", "");
@@ -839,8 +839,8 @@ export function init(config: HyperShaderConfig): GsapTimeline {
     }
   }
 
-  // Locally redeclared (not imported) because @hyperframes/shader-transitions
-  // ships as a standalone CDN bundle and must not depend on @hyperframes/engine.
+  // Locally redeclared (not imported) because @frames/shader-transitions
+  // ships as a standalone CDN bundle and must not depend on @frames/engine.
   // Keep this in sync with HfTransitionMeta in packages/engine/src/types.ts.
   interface HfTransitionMeta {
     time: number;

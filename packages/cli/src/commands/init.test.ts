@@ -25,7 +25,7 @@ function runInit(args: string[]): { status: number; stdout: string; stderr: stri
     timeout: 30_000,
     // The `--skip-skills` flag is neutered (see init.ts); the GitHub skills check
     // is opted out only via this env var, so tests stay offline and fast.
-    env: { ...process.env, HYPERFRAMES_SKIP_SKILLS: "1" },
+    env: { ...process.env, FRAMES_SKIP_SKILLS: "1" },
   });
   return {
     status: res.status ?? -1,
@@ -39,15 +39,15 @@ function expectScaffoldedScripts(target: string): void {
     scripts?: Record<string, string>;
   };
   expect(pkg.scripts).toMatchObject({
-    dev: "npx --yes hyperframes preview",
-    check: "npx --yes hyperframes check",
-    render: "npx --yes hyperframes render",
-    publish: "npx --yes hyperframes publish",
+    dev: "npx --yes frames preview",
+    check: "npx --yes frames check",
+    render: "npx --yes frames render",
+    publish: "npx --yes frames publish",
   });
   expect(Object.keys(pkg.scripts ?? {}).sort()).toEqual(["check", "dev", "publish", "render"]);
 }
 
-describe("hyperframes init flag rename", () => {
+describe("frames init flag rename", () => {
   it("selects the language-compatible model before both eager init downloads", () => {
     expect(initSource).toMatch(
       /const initialTranscriptionModel = initialModelForLanguage\(\s*modelFlag \?\? DEFAULT_MODEL,\s*languageFlag,?\s*\);/,

@@ -1,4 +1,4 @@
-import type { RegistryItem } from "@hyperframes/core/registry";
+import type { RegistryItem } from "@frames/core/registry";
 import type { TimelineElement } from "../player";
 import {
   insertTimelineAssetIntoSource,
@@ -92,7 +92,7 @@ async function makeComponentBackgroundTransparent(
   readProjectFile: AddBlockOptions["readProjectFile"],
   writeProjectFile: AddBlockOptions["writeProjectFile"],
 ): Promise<void> {
-  if (block.type !== "hyperframes:component") return;
+  if (block.type !== "frames:component") return;
   const content = await readProjectFile(compositionFile);
   const transparentContent = content.replace(
     /background:\s*(?:#(?:0a0a0a|000000|000|0a0805)|rgba?\([^)]*\))\s*;/g,
@@ -112,7 +112,7 @@ function resolveBlockPlacement({
   timelineElements: TimelineElement[];
   currentTime: number;
 }) {
-  const isBlock = block.type === "hyperframes:block";
+  const isBlock = block.type === "frames:block";
   const {
     start: placementStart = currentTime,
     duration: placementDuration,

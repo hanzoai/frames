@@ -16,7 +16,7 @@ Each character gets its own per-char tween from `rotateX: 90deg` (hidden, hinged
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="hacker-text-wrap" id="hacker-text" data-target="{phrase}">
   <!-- ghost row + per-char spans injected by the setup script -->
 </div>

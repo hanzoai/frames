@@ -23,7 +23,7 @@ import { createRequire } from "node:module";
 import { readFileSync } from "node:fs";
 import { resolve as resolvePath, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildHyperframesRuntimeScript } from "../../core/src/inline-scripts/hyperframesRuntime.engine";
+import { buildHyperframesRuntimeScript } from "../../core/src/inline-scripts/framesRuntime.engine";
 
 const thisDir = dirname(fileURLToPath(import.meta.url));
 

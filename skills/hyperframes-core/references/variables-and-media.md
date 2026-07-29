@@ -36,7 +36,7 @@ Declare variables on the `<html>` element with `data-composition-variables`. Eac
 For logic beyond direct substitution (loops, conditionals, derived values), read values once during initialization:
 
 ```js
-const { title, accent } = window.__hyperframes.getVariables();
+const { title, accent } = window.__frames.getVariables();
 document.getElementById("title").textContent = title;
 ```
 
@@ -50,7 +50,7 @@ document.getElementById("title").textContent = title;
   - `enum` — **required** `options: [{ "value": "...", "label": "..." }, ...]`
 - Always provide useful `default` values so preview works without CLI overrides.
 - Use `data-variable-values='{"title":"Pro"}'` on sub-composition hosts for per-instance overrides.
-- Use `npx hyperframes render --variables '{"title":"Q4 Report"}'` or `--variables-file` for render-time overrides.
+- Use `npx frames render --variables '{"title":"Q4 Report"}'` or `--variables-file` for render-time overrides.
 - Add `--strict-variables` in CI: turns undeclared keys, type mismatches, and enum values not in `options` into errors instead of warnings.
 - Read values once during init, not on every animation tick — variables don't change mid-render.
 - Media color grading can use exact variable references inside `data-color-grading` JSON. Use `$gradingPreset` or `${gradingIntensity}` as the whole field value; the runtime resolves it from the current composition's variables before applying shader adjustments, finishing details, blur/pixelate effects, and custom LUTs.
@@ -92,7 +92,7 @@ Video elements must be muted and inline. Audio must be a separate `<audio>` elem
 
 ### Media Rules
 
-- **Do not** call `video.play()`, `audio.play()`, pause, or seek in composition code. HyperFrames owns playback.
+- **Do not** call `video.play()`, `audio.play()`, pause, or seek in composition code. Frames owns playback.
 - **Do not** drive host-root media from a sub-comp timeline: a sub-comp timeline cannot reach elements outside its subtree, so it has no effect. Drive host-root media from the main timeline at global time (or keep the media inside the sub-comp whose timeline animates it).
 - **Do not** animate timed media element dimensions; animate a non-timed wrapper instead.
 - **Do not** nest video inside a timed wrapper. Put timing on the media element or keep the wrapper untimed.

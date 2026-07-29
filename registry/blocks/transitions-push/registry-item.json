@@ -1,7 +1,7 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "transitions-push",
-  "type": "hyperframes:block",
+  "type": "frames:block",
   "title": "Push Transitions",
   "description": "Showcase of push and slide transitions",
   "tags": ["transition", "showcase"],
@@ -14,11 +14,11 @@
     {
       "path": "transitions-push.html",
       "target": "compositions/transitions-push.html",
-      "type": "hyperframes:composition"
+      "type": "frames:composition"
     }
   ],
   "preview": {
-    "video": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-push.mp4",
-    "poster": "https://static.heygen.ai/hyperframes-oss/docs/images/catalog/blocks/transitions-push.png"
+    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-push.mp4",
+    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-push.png"
   }
 }

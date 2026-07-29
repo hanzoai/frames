@@ -1,5 +1,5 @@
 /**
- * `hyperframes auth` — credential management for HeyGen.
+ * `frames auth` — credential management for HeyGen.
  *
  * Subverbs:
  *   - `login`   sign in via API key (OAuth coming next)
@@ -16,16 +16,16 @@ import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
 
 export const examples: Example[] = [
-  ["Sign in via browser (OAuth)", "hyperframes auth login"],
-  ["Save an API key (interactive)", "hyperframes auth login --api-key"],
-  ["Save an API key from stdin", "echo $HEYGEN_API_KEY | hyperframes auth login --api-key"],
-  ["Check who you're signed in as", "hyperframes auth status"],
-  ["Force-refresh the OAuth access token", "hyperframes auth refresh"],
-  ["Sign out", "hyperframes auth logout"],
+  ["Sign in via browser (OAuth)", "frames auth login"],
+  ["Save an API key (interactive)", "frames auth login --api-key"],
+  ["Save an API key from stdin", "echo $HEYGEN_API_KEY | frames auth login --api-key"],
+  ["Check who you're signed in as", "frames auth status"],
+  ["Force-refresh the OAuth access token", "frames auth refresh"],
+  ["Sign out", "frames auth logout"],
 ];
 
 const HELP = `
-${c.bold("hyperframes auth")} ${c.dim("<subcommand> [args]")}
+${c.bold("frames auth")} ${c.dim("<subcommand> [args]")}
 
 Manage HeyGen credentials. Credentials live in
 ${c.accent("~/.heygen/credentials")} and are shared with heygen-cli.
@@ -38,10 +38,10 @@ ${c.bold("SUBCOMMANDS:")}
 
 ${c.bold("ENV VARS:")}
   ${c.accent("HEYGEN_API_KEY")}              Override the stored credential.
-  ${c.accent("HYPERFRAMES_API_KEY")}         Alias for HEYGEN_API_KEY.
+  ${c.accent("FRAMES_API_KEY")}         Alias for HEYGEN_API_KEY.
   ${c.accent("HEYGEN_API_URL")}              Override the API base URL (default https://api.heygen.com).
   ${c.accent("HEYGEN_CONFIG_DIR")}           Override the credentials directory (default ~/.heygen).
-  ${c.accent("HYPERFRAMES_OAUTH_CLIENT_ID")} Override the OAuth client_id (for dev/test).
+  ${c.accent("FRAMES_OAUTH_CLIENT_ID")} Override the OAuth client_id (for dev/test).
 `;
 
 export default defineCommand({

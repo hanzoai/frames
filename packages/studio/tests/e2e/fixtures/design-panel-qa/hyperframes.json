@@ -1,6 +1,6 @@
 {
-  "$schema": "https://hyperframes.heygen.com/schema/hyperframes.json",
-  "registry": "https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry",
+  "$schema": "https://frames.hanzo.ai/schema/frames.json",
+  "registry": "https://raw.githubusercontent.com/hanzoai/frames/main/registry",
   "paths": {
     "blocks": "compositions",
     "components": "compositions/components",

@@ -19,7 +19,7 @@ afterEach(() => {
   vi.restoreAllMocks();
   document.body.innerHTML = "";
   Reflect.deleteProperty(document, "elementFromPoint");
-  Reflect.deleteProperty(window, "__hyperframesLayoutAudit");
+  Reflect.deleteProperty(window, "__framesLayoutAudit");
   clearGeometryCollector();
 });
 
@@ -27,7 +27,7 @@ describe("layout-audit.browser", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     document.body.innerHTML = "";
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __framesLayoutAudit?: unknown }).__framesLayoutAudit;
     clearGeometryCollector();
   });
 
@@ -54,8 +54,8 @@ describe("layout-audit.browser", () => {
     } as unknown as CanvasRenderingContext2D);
 
     installAuditScript();
-    const collect = (window as unknown as { __hyperframesLayoutGeometry: () => string })
-      .__hyperframesLayoutGeometry;
+    const collect = (window as unknown as { __framesLayoutGeometry: () => string })
+      .__framesLayoutGeometry;
     const before = collect();
     pixelValue = 220;
     const after = collect();
@@ -93,8 +93,8 @@ describe("layout-audit.browser", () => {
     );
 
     installAuditScript();
-    const collect = (window as unknown as { __hyperframesLayoutGeometry: () => string })
-      .__hyperframesLayoutGeometry;
+    const collect = (window as unknown as { __framesLayoutGeometry: () => string })
+      .__framesLayoutGeometry;
 
     const hidden = collect(); // below the 0.2 visibility floor — not in the signature
     charOpacity = "0.5";
@@ -514,7 +514,7 @@ describe("layout-audit.browser invisible text", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     document.body.innerHTML = "";
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __framesLayoutAudit?: unknown }).__framesLayoutAudit;
     clearGeometryCollector();
   });
 
@@ -622,7 +622,7 @@ describe("layout-audit.browser coordinate-frame findings", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     document.body.innerHTML = "";
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __framesLayoutAudit?: unknown }).__framesLayoutAudit;
     clearGeometryCollector();
   });
 
@@ -1153,7 +1153,7 @@ describe("layout-audit.browser content overlap", () => {
     vi.restoreAllMocks();
     document.body.innerHTML = "";
     delete (document as unknown as { elementFromPoint?: unknown }).elementFromPoint;
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __framesLayoutAudit?: unknown }).__framesLayoutAudit;
     clearGeometryCollector();
   });
 
@@ -1702,7 +1702,7 @@ describe("layout-audit.browser occlusion", () => {
     document.body.innerHTML = "";
     delete (document as unknown as { elementFromPoint?: unknown }).elementFromPoint;
     delete (document as unknown as { elementsFromPoint?: unknown }).elementsFromPoint;
-    delete (window as unknown as { __hyperframesLayoutAudit?: unknown }).__hyperframesLayoutAudit;
+    delete (window as unknown as { __framesLayoutAudit?: unknown }).__framesLayoutAudit;
     clearGeometryCollector();
   });
 
@@ -2367,13 +2367,13 @@ interface AuditIssue {
 function runAudit(options?: { proseCoverageFloor?: number }): AuditIssue[] {
   const audit = (
     window as unknown as {
-      __hyperframesLayoutAudit: (options: {
+      __framesLayoutAudit: (options: {
         time: number;
         tolerance: number;
         proseCoverageFloor?: number;
       }) => AuditIssue[];
     }
-  ).__hyperframesLayoutAudit;
+  ).__framesLayoutAudit;
   return audit({ time: 1, tolerance: 2, ...options });
 }
 
@@ -2466,7 +2466,7 @@ interface GeometryCandidateResult {
 
 declare global {
   interface Window {
-    __hyperframesGeometryCandidates?: (options: {
+    __framesGeometryCandidates?: (options: {
       text: boolean;
       media: boolean;
       tolerance: number;
@@ -2479,13 +2479,13 @@ function runGeometryCandidates(options: {
   media: boolean;
   tolerance: number;
 }): GeometryCandidateResult[] {
-  const collector = window.__hyperframesGeometryCandidates;
+  const collector = window.__framesGeometryCandidates;
   if (!collector) throw new Error("Geometry collector was not installed");
   return collector(options);
 }
 
 function clearGeometryCollector(): void {
-  delete window.__hyperframesGeometryCandidates;
+  delete window.__framesGeometryCandidates;
 }
 
 function rect({ left, top, width, height }: RectInput): DOMRect {

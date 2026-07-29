@@ -7,35 +7,35 @@ Go from zero to a rendered MP4 — either by prompting your AI agent or by start
 
 ## Option 1: With an AI coding agent (recommended)
 
-Install the HyperFrames skills, then describe the video you want:
+Install the Frames skills, then describe the video you want:
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add hanzoai/frames
 ```
 
 The installer shows a picker. Select the **core set** every project needs — these register as slash commands in Claude Code (Cursor, Gemini CLI, Codex, [Google Antigravity](/guides/antigravity), and [GitHub Copilot CLI](/guides/copilot-cli) load them too):
 
 | Core skill (install all) | What it does |
 |--------------------------|--------------|
-| `/hyperframes` | **The entry skill — read it first.** Orients you to the whole surface and routes "make me a video" to the right workflow |
-| `/hyperframes-core` | Composition contract — HTML structure, `data-*` attributes, clips, tracks |
-| `/hyperframes-animation` | All animation + the GSAP / Lottie / Three.js / Anime.js / CSS / WAAPI / TypeGPU runtime adapters |
-| `/hyperframes-creative` | Design direction — palettes, typography, narration, beat planning |
-| `/hyperframes-cli` | Dev-loop CLI — init, lint, preview, render, doctor |
+| `/frames` | **The entry skill — read it first.** Orients you to the whole surface and routes "make me a video" to the right workflow |
+| `/frames-core` | Composition contract — HTML structure, `data-*` attributes, clips, tracks |
+| `/frames-animation` | All animation + the GSAP / Lottie / Three.js / Anime.js / CSS / WAAPI / TypeGPU runtime adapters |
+| `/frames-creative` | Design direction — palettes, typography, narration, beat planning |
+| `/frames-cli` | Dev-loop CLI — init, lint, preview, render, doctor |
 | `/media-use` | Asset preprocessing — TTS, transcription, background removal |
-| `/hyperframes-registry` | Install catalog blocks and components |
+| `/frames-registry` | Install catalog blocks and components |
 | `/general-video` | The general authoring workflow — the fallback for any video that doesn't match a specific workflow |
 
-The **workflow skills** are optional — add the ones that match your inputs, and `/hyperframes` routes to whichever you've installed: `/product-launch-video`, `/faceless-explainer`, `/pr-to-video`, `/embedded-captions`, `/talking-head-recut`, `/motion-graphics`, `/music-to-video`, `/slideshow`, `/general-video`, `/remotion-to-hyperframes`. See the [skills catalog](/guides/skills) for the full list with one-line "use when" descriptions.
+The **workflow skills** are optional — add the ones that match your inputs, and `/frames` routes to whichever you've installed: `/product-launch-video`, `/faceless-explainer`, `/pr-to-video`, `/embedded-captions`, `/talking-head-recut`, `/motion-graphics`, `/music-to-video`, `/slideshow`, `/general-video`, `/remotion-to-frames`. See the [skills catalog](/guides/skills) for the full list with one-line "use when" descriptions.
 
 <Tip>
-  To skip the picker and install everything (core + every workflow) in one shot, run `npx skills add heygen-com/hyperframes --all`.
+  To skip the picker and install everything (core + every workflow) in one shot, run `npx skills add hanzoai/frames --all`.
 </Tip>
 
-These skills teach your agent how to write correct compositions, GSAP and runtime-adapter animations, Tailwind v4 browser-runtime styles, captions, and voiceovers. Invoking a slash command loads its context explicitly, which produces correct output the first time — and **starting at `/hyperframes` lets it route your request to the right workflow.**
+These skills teach your agent how to write correct compositions, GSAP and runtime-adapter animations, Tailwind v4 browser-runtime styles, captions, and voiceovers. Invoking a slash command loads its context explicitly, which produces correct output the first time — and **starting at `/frames` lets it route your request to the right workflow.**
 
 <Note>
-  Claude Design uses a different entry path. Open [`docs/guides/claude-design-hyperframes.md`](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/claude-design-hyperframes.md) on GitHub, click the download button (↓) to save it, then attach to your Claude Design chat. It produces a valid first draft you can refine in any AI coding agent. See the [Claude Design guide](/guides/claude-design).
+  Claude Design uses a different entry path. Open [`docs/guides/claude-design-frames.md`](https://github.com/hanzoai/frames/blob/main/docs/guides/claude-design-frames.md) on GitHub, click the download button (↓) to save it, then attach to your Claude Design chat. It produces a valid first draft you can refine in any AI coding agent. See the [Claude Design guide](/guides/claude-design).
 </Note>
 
 ### Try it: example prompts
@@ -44,17 +44,17 @@ Copy any of these into your agent to get started.
 
 <CardGroup cols={1}>
   <Card title="Cold start — describe what you want">
-    > Using `/hyperframes`, create a 10-second product intro with a fade-in title over a dark background and subtle background music.
+    > Using `/frames`, create a 10-second product intro with a fade-in title over a dark background and subtle background music.
   </Card>
   <Card title="Warm start — turn existing context into a video">
-    > Take a look at this GitHub repo https://github.com/heygen-com/hyperframes and explain its uses and architecture to me using `/hyperframes`.
+    > Take a look at this GitHub repo https://github.com/hanzoai/frames and explain its uses and architecture to me using `/frames`.
 
-    > Summarize the attached PDF into a 45-second pitch video using `/hyperframes`.
+    > Summarize the attached PDF into a 45-second pitch video using `/frames`.
 
-    > Turn this CSV into an animated bar chart race using `/hyperframes`.
+    > Turn this CSV into an animated bar chart race using `/frames`.
   </Card>
   <Card title="Format-specific">
-    > Make a 9:16 TikTok-style hook video about [topic] using `/hyperframes`, with bouncy captions synced to a TTS narration.
+    > Make a 9:16 TikTok-style hook video about [topic] using `/frames`, with bouncy captions synced to a TTS narration.
   </Card>
   <Card title="Iterate — talk to the agent like a video editor">
     > Make the title 2x bigger, swap to dark mode, and add a fade-out at the end.
@@ -66,7 +66,7 @@ Copy any of these into your agent to get started.
 The agent handles scaffolding, animation, and rendering. See the [prompting guide](/guides/prompting) for more patterns, or the [pipeline guide](/guides/pipeline) for the 7-step structure (DESIGN, SCRIPT, STORYBOARD, …) that AI agents follow for multi-beat videos.
 
 <Tip>
-  Skills encode HyperFrames-specific patterns — like required `class="clip"` on timed elements, GSAP timeline registration, adapter registries such as `window.__hfLottie`, and `data-*` attribute semantics — that are not in generic web docs. Using skills produces correct compositions from the start.
+  Skills encode Frames-specific patterns — like required `class="clip"` on timed elements, GSAP timeline registration, adapter registries such as `window.__hfLottie`, and `data-*` attribute semantics — that are not in generic web docs. Using skills produces correct compositions from the start.
 </Tip>
 
 ## Option 2: Start a project manually
@@ -125,14 +125,14 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
 <Steps>
   <Step title="Scaffold the project">
     ```bash
-    npx hyperframes init my-video
+    npx frames init my-video
     cd my-video
     ```
 
     This starts an interactive wizard that walks you through example selection and media import. To skip prompts (e.g. in CI or from an agent), use `--non-interactive`:
 
     ```bash
-    npx hyperframes init my-video --non-interactive --example blank
+    npx frames init my-video --non-interactive --example blank
     ```
 
     See [Examples](/examples) for all available examples.
@@ -163,15 +163,15 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
     If you have a source video, pass it with `--video` for automatic transcription and captions:
 
     ```bash
-    npx hyperframes init my-video --example warm-grain --video ./intro.mp4
+    npx frames init my-video --example warm-grain --video ./intro.mp4
     ```
 
-    `hyperframes init` installs AI agent skills automatically, so you can hand off to your AI agent at any point.
+    `frames init` installs AI agent skills automatically, so you can hand off to your AI agent at any point.
   </Step>
 
   <Step title="Preview in the browser">
     ```bash
-    npx hyperframes preview
+    npx frames preview
     ```
 
     This starts the Hyperframes Studio and opens your composition in the browser. Edits to `index.html` reload automatically.
@@ -221,7 +221,7 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
 
   <Step title="Render to MP4">
     ```bash
-    npx hyperframes render --output output.mp4
+    npx frames render --output output.mp4
     ```
 
     ```bash Expected output

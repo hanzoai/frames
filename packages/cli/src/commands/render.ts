@@ -10,42 +10,42 @@ import { executeRenderPlan, renderLintContinuationHint } from "./render/execute.
 export { resolveBrowserGpuForCli, renderLintContinuationHint };
 
 export const examples: Example[] = [
-  ["Render to MP4", "hyperframes render --output output.mp4"],
-  ["Render a specific composition", "hyperframes render -c compositions/intro.html -o intro.mp4"],
+  ["Render to MP4", "frames render --output output.mp4"],
+  ["Render a specific composition", "frames render -c compositions/intro.html -o intro.mp4"],
   [
     "Upsample any composition to 4K (supersamples via Chrome DPR)",
-    "hyperframes render --resolution 4k --output 4k.mp4",
+    "frames render --resolution 4k --output 4k.mp4",
   ],
-  ["Render transparent overlay (ProRes)", "hyperframes render --format mov --output overlay.mov"],
-  ["Render transparent WebM overlay", "hyperframes render --format webm --output overlay.webm"],
+  ["Render transparent overlay (ProRes)", "frames render --format mov --output overlay.mov"],
+  ["Render transparent WebM overlay", "frames render --format webm --output overlay.webm"],
   [
     "Render animated GIF for PRs/docs",
-    "hyperframes render --format gif --fps 15 --gif-loop 0 --output demo.gif",
+    "frames render --format gif --fps 15 --gif-loop 0 --output demo.gif",
   ],
   [
     "Render PNG sequence (RGBA frames for AE/Nuke/Fusion)",
-    "hyperframes render --format png-sequence --output frames/",
+    "frames render --format png-sequence --output frames/",
   ],
-  ["High quality at 60fps", "hyperframes render --fps 60 --quality high --output hd.mp4"],
-  ["Deterministic render via Docker", "hyperframes render --docker --output deterministic.mp4"],
-  ["Parallel rendering with 6 workers", "hyperframes render --workers 6 --output fast.mp4"],
-  ["Opt out of browser GPU render", "hyperframes render --no-browser-gpu --output cpu.mp4"],
+  ["High quality at 60fps", "frames render --fps 60 --quality high --output hd.mp4"],
+  ["Deterministic render via Docker", "frames render --docker --output deterministic.mp4"],
+  ["Parallel rendering with 6 workers", "frames render --workers 6 --output fast.mp4"],
+  ["Opt out of browser GPU render", "frames render --no-browser-gpu --output cpu.mp4"],
   [
     "Relocate frame cache off C: (Windows) or another small partition",
-    "hyperframes render --frames-cache-dir D:/hf-cache --output out.mp4",
+    "frames render --frames-cache-dir D:/hf-cache --output out.mp4",
   ],
-  ["HDR output (auto-detected)", "hyperframes render --output hdr-output.mp4"],
+  ["HDR output (auto-detected)", "frames render --output hdr-output.mp4"],
   [
     "Override composition variables (parametrized render)",
-    'hyperframes render --variables \'{"title":"Q4 Report","theme":"dark"}\' --output q4.mp4',
+    'frames render --variables \'{"title":"Q4 Report","theme":"dark"}\' --output q4.mp4',
   ],
   [
     "Variables from a JSON file",
-    "hyperframes render --variables-file ./vars.json --output out.mp4",
+    "frames render --variables-file ./vars.json --output out.mp4",
   ],
   [
     "Batch render one output per variables row",
-    'hyperframes render --batch rows.json --output "renders/{name}.mp4"',
+    'frames render --batch rows.json --output "renders/{name}.mp4"',
   ],
 ];
 import { freemem, tmpdir } from "node:os";
@@ -85,8 +85,8 @@ import {
   runPostRenderStep,
   runPostRenderStepAsync,
 } from "../utils/render-success-state.js";
-import type { ProducerLogger, RenderJob } from "@hyperframes/producer";
-import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@hyperframes/engine";
+import type { ProducerLogger, RenderJob } from "@frames/producer";
+import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@frames/engine";
 import {
   checkOutputResolutionCompatibility,
   suggestMatchingPreset,
@@ -94,7 +94,7 @@ import {
   type CanvasResolution,
   type OutputResolutionIssueKind,
   type Fps,
-} from "@hyperframes/core";
+} from "@frames/core";
 
 export default defineCommand({
   meta: {
@@ -240,7 +240,7 @@ export default defineCommand({
     variables: {
       type: "string",
       description:
-        'JSON object of variable values, merged over the composition\'s data-composition-variables defaults. Example: --variables \'{"title":"Hello"}\'. Read inside the composition via window.__hyperframes.getVariables().',
+        'JSON object of variable values, merged over the composition\'s data-composition-variables defaults. Example: --variables \'{"title":"Hello"}\'. Read inside the composition via window.__frames.getVariables().',
     },
     "variables-file": {
       type: "string",
@@ -345,8 +345,8 @@ export default defineCommand({
         `during long renders). Pass ${EXTRACT_CACHE_DIR_DISABLED_ALIASES.map((a) => `"${a}"`).join(" / ")} to ` +
         "disable caching entirely (frames extract into the render's workDir " +
         "and are cleaned up when the render ends). Default: " +
-        "<tmpdir>/hyperframes-extract-cache-<uid>. " +
-        "Env: HYPERFRAMES_EXTRACT_CACHE_DIR.",
+        "<tmpdir>/frames-extract-cache-<uid>. " +
+        "Env: FRAMES_EXTRACT_CACHE_DIR.",
     },
   },
   // Keep the transport adapter thin: each phase has one ownership boundary.
@@ -511,7 +511,7 @@ export async function checkRenderResolutionPreflight(
   return { message: compat.message, kind: compat.kind };
 }
 
-const DOCKER_IMAGE_PREFIX = "hyperframes-renderer";
+const DOCKER_IMAGE_PREFIX = "frames-renderer";
 
 function dockerImageTag(version: string): string {
   return `${DOCKER_IMAGE_PREFIX}:${version}`;
@@ -544,7 +544,7 @@ function dockerImageExists(tag: string): boolean {
 
 function dockerImageTagForPlatform(version: string, platform: string): string {
   // Suffix the tag with the arch so amd64 and arm64 images of the same
-  // hyperframes version coexist in the local cache (a developer who flips
+  // frames version coexist in the local cache (a developer who flips
   // between hosts shouldn't have to rebuild).
   const archSuffix = platform === "linux/arm64" ? "-arm64" : "";
   return `${dockerImageTag(version)}${archSuffix}`;
@@ -567,7 +567,7 @@ function ensureDockerImage(version: string, platform: string, quiet: boolean): s
   // and created 0o700 by the kernel — a guessable temp dir in a world-writable
   // tmpdir is pre-creatable by another local user, who could then swap in their
   // own Dockerfile or symlink the path (CodeQL js/insecure-temporary-file).
-  const tmpDir = mkdtempSync(join(tmpdir(), "hyperframes-docker-"));
+  const tmpDir = mkdtempSync(join(tmpdir(), "frames-docker-"));
   writeFileSync(join(tmpDir, "Dockerfile"), readFileSync(dockerfilePath));
 
   // Platform is now derived from the host arch (see resolveDockerPlatform).
@@ -588,7 +588,7 @@ function ensureDockerImage(version: string, platform: string, quiet: boolean): s
         "--platform",
         platform,
         "--build-arg",
-        `HYPERFRAMES_VERSION=${version}`,
+        `FRAMES_VERSION=${version}`,
         "--build-arg",
         `TARGETARCH=${targetArch}`,
         "-t",
@@ -625,7 +625,7 @@ function resolveDockerHostPlatform(options: RenderOptions): string {
     errorBox(
       "--gpu is not supported with --docker on arm64 hosts",
       "Docker Desktop/colima on Apple Silicon doesn't expose --gpus host passthrough to linux/arm64 containers.",
-      "Drop --gpu, or run a native (non-Docker) render on this host, or set HYPERFRAMES_DOCKER_PLATFORM=linux/amd64 if you need GPU encoding (slow under qemu but works).",
+      "Drop --gpu, or run a native (non-Docker) render on this host, or set FRAMES_DOCKER_PLATFORM=linux/amd64 if you need GPU encoding (slow under qemu but works).",
     );
     failCommand();
   }
@@ -635,13 +635,13 @@ function resolveDockerHostPlatform(options: RenderOptions): string {
     // (chrome-for-testing has no arm64 build). It's a different Chromium build
     // than amd64's chrome-for-testing binary, so output isn't byte-identical to
     // an amd64 golden baseline — fine for end-user output. Set
-    // HYPERFRAMES_DOCKER_PLATFORM=linux/amd64 to force parity (qemu-emulated,
+    // FRAMES_DOCKER_PLATFORM=linux/amd64 to force parity (qemu-emulated,
     // slower).
     console.log(
       c.dim(
         "  Host is arm64 — using linux/arm64 image with Playwright's " +
           "chrome-headless-shell (output won't be byte-identical to amd64 " +
-          "renders; set HYPERFRAMES_DOCKER_PLATFORM=linux/amd64 to force parity).",
+          "renders; set FRAMES_DOCKER_PLATFORM=linux/amd64 to force parity).",
       ),
     );
   }
@@ -662,7 +662,7 @@ async function renderDocker(
   // Dev mode (tsx/ts-node) uses "latest" since the local version isn't on npm
   const dockerVersion = isDevMode() ? "latest" : VERSION;
   if (!options.quiet && isDevMode()) {
-    console.log(c.dim("  Dev mode: using hyperframes@latest in Docker image"));
+    console.log(c.dim("  Dev mode: using frames@latest in Docker image"));
   }
 
   const platform = resolveDockerHostPlatform(options);
@@ -813,8 +813,8 @@ export async function renderLocal(
     }
   }
 
-  if (preflight.ffmpegPath) process.env.HYPERFRAMES_FFMPEG_PATH = preflight.ffmpegPath;
-  if (preflight.ffprobePath) process.env.HYPERFRAMES_FFPROBE_PATH = preflight.ffprobePath;
+  if (preflight.ffmpegPath) process.env.FRAMES_FFMPEG_PATH = preflight.ffmpegPath;
+  if (preflight.ffprobePath) process.env.FRAMES_FFPROBE_PATH = preflight.ffprobePath;
   if (preflight.browser?.executablePath && !process.env.PRODUCER_HEADLESS_SHELL_PATH) {
     process.env.PRODUCER_HEADLESS_SHELL_PATH = preflight.browser.executablePath;
   }
@@ -1092,7 +1092,7 @@ let deParallelRouterTrialManagedByUs = false;
 /**
  * In-process latch mirroring `deParallelRouterTrialFired`: set the moment we
  * DECIDE the trial is over, independent of whether persisting that decision
- * to `~/.hyperframes/config.json` succeeds. `writeConfig` swallows all fs
+ * to `~/.frames/config.json` succeeds. `writeConfig` swallows all fs
  * errors (by design — telemetry must never break the CLI), so on an
  * unwritable config (root-owned file, disk full) the fired flag can never
  * stick on disk; without this latch the trial would silently re-arm and
@@ -1123,7 +1123,7 @@ export function __resetDeParallelRouterTrialStateForTests(): void {
  * Checks BOTH `shouldTrack()` and `config.telemetryEnabled` directly, not
  * `shouldTrack()` alone: `shouldTrack()` (`../telemetry/client.js`) memoizes
  * its verdict once per process and never invalidates, so during a long
- * `--batch` run (all rows share one process) a `hyperframes telemetry off`
+ * `--batch` run (all rows share one process) a `frames telemetry off`
  * issued from another terminal mid-batch would never be observed. The
  * caller must pass a `readConfigFresh()` snapshot for the same reason —
  * `readConfig()` serves a process-lifetime cache that is exactly as stale
@@ -1198,7 +1198,7 @@ function maybeEnableDeParallelRouterTrial(quiet: boolean, enabled: boolean): boo
 
   // readConfigFresh, NOT readConfig: the cached read is exactly as stale as
   // the shouldTrack() memoization the blocked-check exists to bypass — a
-  // mid-batch `hyperframes telemetry off` (or another process persisting
+  // mid-batch `frames telemetry off` (or another process persisting
   // fired=true) would never be observed through the cache (review finding).
   if (isDeParallelRouterTrialBlocked(readConfigFresh())) {
     stopManagingDeParallelRouterTrial();
@@ -1247,7 +1247,7 @@ function resolveDeParallelRouterOutcome(job: RenderJob): string | undefined {
  * unlike the render counter (a re-applied increment double-counts the
  * render when our write landed but a later concurrent write raced our
  * verify read — review finding). Returns false as soon as `writeConfig`
- * reports an fs failure (unwritable `~/.hyperframes` — retrying a failed
+ * reports an fs failure (unwritable `~/.frames` — retrying a failed
  * write is pointless, so the retries are reserved for genuine concurrent
  * clobbers, where the write landed but a racing writer's stale snapshot
  * overwrote it — review finding).
@@ -1321,7 +1321,7 @@ function maybeConsumeDeParallelRouterTrial(
     console.warn(
       c.warn(
         "  Could not persist the parallel drawElement trial's off-switch to " +
-          "~/.hyperframes/config.json (unwritable?). The experiment stays off for this " +
+          "~/.frames/config.json (unwritable?). The experiment stays off for this " +
           "process; future runs may retry it. Set HF_DE_PARALLEL_ROUTER=false to opt out.",
       ),
     );
@@ -1352,7 +1352,7 @@ function handleRenderError(
     ...getMemorySnapshot(),
   });
   // Failed renders join the recent-renders ring too — a bug report filed via
-  // `hyperframes feedback` is MOST likely to be about a failed render.
+  // `frames feedback` is MOST likely to be about a failed render.
   if (job?.id) recordRecentRender(job.id, false);
   if (options.throwOnError) {
     throw new Error(message);
@@ -1391,7 +1391,7 @@ function trackRenderMetrics(
   options: RenderOptions,
   docker: boolean,
 ): void {
-  // Successful render → recent-renders ring, so a later `hyperframes
+  // Successful render → recent-renders ring, so a later `frames
   // feedback` can attach this render's telemetry id to the report.
   recordRecentRender(job.id, true);
   const perf = job.perfSummary;

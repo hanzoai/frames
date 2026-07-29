@@ -1,9 +1,9 @@
 ---
 name: talking-head-recut
-description: Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on "graphic overlays", "on-screen graphics", "package / dress up my video". Not plain subtitles (/embedded-captions). Unclear → /hyperframes.
+description: Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on "graphic overlays", "on-screen graphics", "package / dress up my video". Not plain subtitles (/embedded-captions). Unclear → /frames.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx hyperframes skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx frames skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Talking Head Recut
 
@@ -12,17 +12,17 @@ timed, designed **graphic cards** onto it — titles, lower-thirds, data callout
 quotes, side panels, picture-in-picture — synced to what's being said. The agent
 designs the cards (timing + content) and **writes each card's HTML directly in the
 conversation**, then assembles a single composition HTML and renders it to MP4 via
-`hyperframes`. There is no fixed archetype list and no prescribed card structure —
+`frames`. There is no fixed archetype list and no prescribed card structure —
 the overlays emerge from what the transcript actually says.
 
-> **The front door is `/hyperframes`.** This skill packages an **existing talking-head clip** with **designed graphic cards** (titles, lower-thirds, data callouts, quotes, side panels, PiP) — not plain captions (the spoken words as text). **The clip plays untouched.** Any other intent — plain subtitles, a standalone graphic, a from-scratch video — or any uncertainty → read `/hyperframes` first: the intent layer owns every route decision.
+> **The front door is `/frames`.** This skill packages an **existing talking-head clip** with **designed graphic cards** (titles, lower-thirds, data callouts, quotes, side panels, PiP) — not plain captions (the spoken words as text). **The clip plays untouched.** Any other intent — plain subtitles, a standalone graphic, a from-scratch video — or any uncertainty → read `/frames` first: the intent layer owns every route decision.
 
 > **Graphic-packaging sibling of `embedded-captions`.** Captions add the _spoken words_
 > as a readable subtitle; this adds _designed graphics_ on top of the playing video.
 > Plain subtitles → `embedded-captions`. Build a video from scratch → the creation
 > workflows (`product-launch-video` / `faceless-explainer` / …).
 
-Routed through `/hyperframes`, the intent layer confirms only the input (which clip) and **announces** the render-strategy questions as deferred asks — aspect, layout, style group, and card count stay at Step 7, where the probed footage and transcript ground the recommendations; the layer's run-shape questions don't apply. A `BRIEF.md`, when present, carries the confirmed input and any user notes — read it first.
+Routed through `/frames`, the intent layer confirms only the input (which clip) and **announces** the render-strategy questions as deferred asks — aspect, layout, style group, and card count stay at Step 7, where the probed footage and transcript ground the recommendations; the layer's run-shape questions don't apply. A `BRIEF.md`, when present, carries the confirmed input and any user notes — read it first.
 
 Inspectable intermediate files in the work directory:
 
@@ -37,12 +37,12 @@ Inspectable intermediate files in the work directory:
 ## CLI Resolution
 
 ```bash
-# hyperframes — transcription (local Whisper) + rendering the assembled HTML to MP4
-npx hyperframes --help
+# frames — transcription (local Whisper) + rendering the assembled HTML to MP4
+npx frames --help
 ```
 
-This skill runs entirely on the **hyperframes** CLI plus system `ffmpeg` / `ffprobe`.
-Transcription is local **Whisper** via `hyperframes transcribe` — no third-party
+This skill runs entirely on the **frames** CLI plus system `ffmpeg` / `ffprobe`.
+Transcription is local **Whisper** via `frames transcribe` — no third-party
 service, API key, or rate-limited proxy.
 
 ## Workflow
@@ -50,7 +50,7 @@ service, API key, or rate-limited proxy.
 ### 1. Check Environment
 
 ```bash
-npx hyperframes doctor          # ffmpeg, headless browser, render deps
+npx frames doctor          # ffmpeg, headless browser, render deps
 # confirm bundled assets:
 ls "<SKILL_DIR>/assets/fonts" "<SKILL_DIR>/assets/vendor/gsap.min.js"
 ```
@@ -60,9 +60,9 @@ Required:
 - `ffmpeg` / `ffprobe` (system)
 - `<SKILL_DIR>/assets/fonts/*.woff2`, `<SKILL_DIR>/assets/vendor/gsap.min.js` (bundled inside this skill, staged to work dir in Step 9)
 
-Transcription needs no key — `hyperframes transcribe` runs Whisper locally (Step 4).
+Transcription needs no key — `frames transcribe` runs Whisper locally (Step 4).
 
-Strongly recommended on macOS for `hyperframes render`:
+Strongly recommended on macOS for `frames render`:
 
 ```bash
 export PRODUCER_BROWSER_GPU_MODE=hardware
@@ -97,7 +97,7 @@ fraction evaluated, e.g. `30000/1001 → 29.97`) + `audio.mp3`.
 ### 4. Transcribe
 
 ```bash
-npx hyperframes transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
+npx frames transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
 ```
 
 Local **Whisper** — no API key, no proxy, no rate limit. Writes a word-level
@@ -244,7 +244,7 @@ animations) — a static one-liner gets boring past 8s. For long pieces
 where many cards exceed 30s, consider **chunking the timeline into
 sub-compositions** (one .html per chapter, mounted with
 `data-composition-src`) so the GSAP timeline per file stays manageable
-— see the `timeline_track_too_dense` HyperFrames lint warning.
+— see the `timeline_track_too_dense` Frames lint warning.
 
 `content` can be a plain string ("Title: annualized 5.69%\nNotes: ...") or any JSON
 shape that captures the data. The agent decides the shape per card.
@@ -298,7 +298,7 @@ Rules that apply to every channel:
 - If the user has already pre-approved defaults ("just use defaults",
   "no need to ask", "auto-pick everything"), asked you not to ask, or the
   run carries an ongoing autonomous signal ("surprise me" / "decide for me" —
-  `../hyperframes-core/references/brief-contract.md` § 1) — **skip
+  `../frames-core/references/brief-contract.md` § 1) — **skip
   the question entirely** and use: `recommendedRatio`, `layout="stack"`
   (safest cross-ratio default), `style` chosen from transcript tone in
   the most neutral group (editorial/data), `autoCount`. Tell the user
@@ -696,7 +696,7 @@ contains a single rooted HTML fragment that follows this contract:
 </div>
 ```
 
-**Hard rules** (`hyperframes` lint will reject violations):
+**Hard rules** (`frames` lint will reject violations):
 
 - Single root `<div class="card" data-card-id="{cardId}">`
 - Inline `<style>` rules MUST be prefixed with the scope selector above
@@ -853,7 +853,7 @@ ffmpeg -y -i "$VIDEO_PATH" -c:v libx264 -crf 18 -g 30 -keyint_min 30 \
         box-sizing: border-box;
       }
       /* Body font-family MUST list concrete font names (not just var(--font-family)) —
-   the HyperFrames renderer's static analyzer doesn't expand CSS variables when
+   the Frames renderer's static analyzer doesn't expand CSS variables when
    resolving fonts, so a var-only chain triggers `font_family_without_font_face`
    lint and falls back to a generic. Use the concrete chain here; cards that
    want the theme font can still reference var(--font-family) internally. */
@@ -950,7 +950,7 @@ ffmpeg -y -i "$VIDEO_PATH" -c:v libx264 -crf 18 -g 30 -keyint_min 30 \
       <!-- Layer 2: each card-host sits at the bounds dictated by its layout. -->
       <!-- IMPORTANT: every card-host MUST carry BOTH "card-host" and "clip" classes. -->
       <!--   - "card-host"  → our positioning + pointer-events styles                 -->
-      <!--   - "clip"       → HyperFrames runtime uses this to enforce visibility     -->
+      <!--   - "clip"       → Frames runtime uses this to enforce visibility     -->
       <!--                    only during data-start … data-start+data-duration.      -->
       <!--                    Without "clip" the host stays visible the whole video   -->
       <!--                    (lint: timed_element_missing_clip_class).               -->
@@ -1145,7 +1145,7 @@ height:Hpx;..."`. For `video-overlay` zone (overlay recipe), the
 card-host fills the full canvas — your CSS inside `.card .root`
 decides where the actual visible card sits.
 
-#### HyperFrames Layout / Animation QA Rules
+#### Frames Layout / Animation QA Rules
 
 - Build each card's static hero frame first: the moment where the card is fully visible and readable.
 - Confirm video, cards, subtitles/captions, and diagrams do not unintentionally overlap.
@@ -1158,20 +1158,20 @@ decides where the actual visible card sits.
 - Animate wrappers such as `#video-wrap`, not the video element dimensions directly.
 - Avoid animating the same property on the same element from multiple timelines at the same time.
 - Use `data-track-index`, not `data-layer`; use `data-duration`, not `data-end`.
-- Every timed element (`card-host`, sub-composition, etc.) MUST include `class="clip"` alongside its own classes — e.g. `class="card-host clip"`. The HyperFrames runtime uses `.clip` to gate visibility to the `data-start … data-start+data-duration` window. Without it the element is visible for the whole video (lint: `timed_element_missing_clip_class`).
-- For body / global `font-family`, list **concrete font names** (`'Inter', 'Caveat', …`) — not a CSS variable like `var(--font-family)`. The HyperFrames font resolver doesn't expand CSS vars during static analysis (lint: `font_family_without_font_face`). Cards may still use `var(--font-family)` internally since their `@font-face` declarations are loaded.
+- Every timed element (`card-host`, sub-composition, etc.) MUST include `class="clip"` alongside its own classes — e.g. `class="card-host clip"`. The Frames runtime uses `.clip` to gate visibility to the `data-start … data-start+data-duration` window. Without it the element is visible for the whole video (lint: `timed_element_missing_clip_class`).
+- For body / global `font-family`, list **concrete font names** (`'Inter', 'Caveat', …`) — not a CSS variable like `var(--font-family)`. The Frames font resolver doesn't expand CSS vars during static analysis (lint: `font_family_without_font_face`). Cards may still use `var(--font-family)` internally since their `@font-face` declarations are loaded.
 
 ### 10. Render to MP4
 
 ```bash
 cd "$WORK_DIR"
-PRODUCER_BROWSER_GPU_MODE=hardware npx hyperframes render public \
+PRODUCER_BROWSER_GPU_MODE=hardware npx frames render public \
   --skill=talking-head-recut \
   -o output.mp4 \
   --fps 30
 ```
 
-`hyperframes render <dir>` reads `<dir>/index.html` and produces the MP4.
+`frames render <dir>` reads `<dir>/index.html` and produces the MP4.
 The canonical composition keeps the visual `<video>` muted and mounts the same
 source as the root `#source-audio` track, so the rendered MP4 preserves the
 talking-head audio without a manual remux. This uses a separate audio track
@@ -1185,7 +1185,7 @@ For a sanity check before the full render, capture a single frame at a
 specific timestamp:
 
 ```bash
-npx hyperframes snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
+npx frames snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
 ```
 
 ### 11. Report Results
@@ -1204,7 +1204,7 @@ Tell the user:
 **Optional live preview (on request only).** The clip plays unchanged inside `public/index.html` with the overlays on top, so it previews faithfully. **Don't open it during the run.** When the user asks, start a long-lived server **after** render and report the URL:
 
 ```bash
-(cd "$WORK_DIR/public" && npx hyperframes preview)   # or `npx hyperframes play` for a shareable link
+(cd "$WORK_DIR/public" && npx frames preview)   # or `npx frames play` for a shareable link
 ```
 
 Do not delete the work directory unless the user asks.

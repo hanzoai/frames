@@ -1,5 +1,5 @@
 {
-  "package": "@hyperframes/lint",
+  "package": "@frames/lint",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {

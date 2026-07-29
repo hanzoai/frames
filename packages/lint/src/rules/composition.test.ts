@@ -143,7 +143,7 @@ describe("composition rules", () => {
 
     it("does not warn for large registry-installed block composition files", async () => {
       const html =
-        "<!-- hyperframes-registry-item: data-chart -->\n" +
+        "<!-- frames-registry-item: data-chart -->\n" +
         Array.from({ length: 300 }, (_, i) =>
           i === 0 ? "<html><body>" : `<!-- filler ${i} -->`,
         ).join("\n");
@@ -753,7 +753,7 @@ describe("composition rules", () => {
 
     it("does not flag installed registry blocks that use rAF (e.g. particle effects)", async () => {
       const html =
-        `<!-- hyperframes-registry-item: particles -->\n` +
+        `<!-- frames-registry-item: particles -->\n` +
         `<html><body>
   <div data-composition-id="c1" data-width="1920" data-height="1080"></div>
   <script>
@@ -1246,7 +1246,7 @@ describe("composition rules", () => {
     });
 
     it("does not flag installed registry blocks", async () => {
-      const html = `<!-- hyperframes-registry-item: data-chart -->\n<html><body>
+      const html = `<!-- frames-registry-item: data-chart -->\n<html><body>
         <div data-composition-id="x">
           <img src="../assets/should-be-ignored.png">
         </div>
@@ -1877,10 +1877,10 @@ describe("composition rules", () => {
       expect(finding).toBeUndefined();
     });
 
-    it("does not warn on registry-installed block files (`hyperframes-registry-item` marker)", async () => {
+    it("does not warn on registry-installed block files (`frames-registry-item` marker)", async () => {
       const overlays = repeat(40, (i) => `<div id="ov-${i}" style="filter: blur(6px)"></div>`);
       const html =
-        "<!-- hyperframes-registry-item: blur-hero -->\n" +
+        "<!-- frames-registry-item: blur-hero -->\n" +
         `<!DOCTYPE html><html><body>
           <div data-composition-id="main" data-start="0" data-width="1920" data-height="1080">
             ${overlays}

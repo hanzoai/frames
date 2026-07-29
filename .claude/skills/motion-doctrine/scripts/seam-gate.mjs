@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// seam-gate.mjs — numeric Seam Gate verifier for HyperFrames films (motion-doctrine).
+// seam-gate.mjs — numeric Seam Gate verifier for Frames films (motion-doctrine).
 // Zero npm dependencies: drives chrome-headless-shell over raw CDP (node >= 22).
 //
 //   verify  node seam-gate.mjs verify --ledger ledger.json --project <dir> [--json]
@@ -71,7 +71,7 @@ async function ensureServer() {
     const port = 5380 + Math.floor(Math.random() * 20);
     const env = { ...process.env };
     delete env.HYPERFRAME_RUNTIME_URL; // wrong value fails silently as 200 HTML
-    const cmd = flag("server-cmd", `npx --yes hyperframes preview --no-open --port ${port}`);
+    const cmd = flag("server-cmd", `npx --yes frames preview --no-open --port ${port}`);
     const child = spawn("sh", ["-c", cmd.replace(/\{port\}/g, String(port))], {
       cwd: project,
       env,

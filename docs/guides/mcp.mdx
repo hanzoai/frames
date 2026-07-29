@@ -1,12 +1,12 @@
 ---
-title: HyperFrames MCP
-description: "Author, preview, and render HyperFrames videos directly inside Claude.ai, ChatGPT, and Grok — no local install required."
+title: Frames MCP
+description: "Author, preview, and render Frames videos directly inside Claude.ai, ChatGPT, and Grok — no local install required."
 ---
 
-The HyperFrames MCP is a hosted [Model Context Protocol](https://modelcontextprotocol.io) server that lets you create, edit, preview, and render HyperFrames video compositions from inside Claude.ai, ChatGPT, or Grok.
+The Frames MCP is a hosted [Model Context Protocol](https://modelcontextprotocol.io) server that lets you create, edit, preview, and render Frames video compositions from inside Claude.ai, ChatGPT, or Grok.
 
 <Note>
-  **In beta.** Features and pricing may change. Found a bug or have feedback? [File an issue on GitHub](https://github.com/heygen-com/hyperframes/issues).
+  **In beta.** Features and pricing may change. Found a bug or have feedback? [File an issue on GitHub](https://github.com/hanzoai/frames/issues).
 </Note>
 
 ## What you can do
@@ -18,7 +18,7 @@ The HyperFrames MCP is a hosted [Model Context Protocol](https://modelcontextpro
 - Revisit compositions you've created previously
 - Check your render credits
 
-The agent behind `compose` has 25+ HyperFrames-specific skills baked in — typography, color palettes, motion principles, GSAP effects, audio-reactive animation, and captions. You don't have to specify any of this directly; describe the video you want and the agent picks the right tools.
+The agent behind `compose` has 25+ Frames-specific skills baked in — typography, color palettes, motion principles, GSAP effects, audio-reactive animation, and captions. You don't have to specify any of this directly; describe the video you want and the agent picks the right tools.
 
 <Note>
   Looking for the open-source CLI? See the [Quickstart](/quickstart). The MCP is a hosted product for zero-install authoring inside an LLM chat. The CLI gives you full control of rendering and runtime; the MCP gives you instant authoring with cloud rendering.
@@ -38,16 +38,16 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
       <Step title="Open Settings → Connectors">
         In Claude.ai web or desktop: **Settings → Connectors**.
       </Step>
-      <Step title="Find HyperFrames">
-        Search the connector catalog for **HyperFrames** and click **Connect**.
+      <Step title="Find Frames">
+        Search the connector catalog for **Frames** and click **Connect**.
 
         Don't see it in the catalog? Add it manually: **Add custom connector**, then paste:
         ```
-        https://mcp.heygen.com/mcp/hyperframes
+        https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
       <Step title="Sign in to HeyGen">
-        OAuth opens in a new window. Authorize the HyperFrames connector to access your HeyGen account.
+        OAuth opens in a new window. Authorize the Frames connector to access your HeyGen account.
       </Step>
       <Step title="Start a new chat">
         Open a new Claude.ai chat. Try:
@@ -64,7 +64,7 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
       <Step title="Enter the URL">
         Paste:
         ```
-        https://mcp.heygen.com/mcp/hyperframes
+        https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
       <Step title="Sign in to HeyGen">
@@ -80,12 +80,12 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
       <Step title="Open Settings → Connectors">
         In Grok: **Settings → Connectors**.
       </Step>
-      <Step title="Find HyperFrames">
-        Search the connector catalog for **HyperFrames** and click **Connect**.
+      <Step title="Find Frames">
+        Search the connector catalog for **Frames** and click **Connect**.
 
         Don't see it in the catalog? Add it manually: **Add custom connector**, then paste:
         ```
-        https://mcp.heygen.com/mcp/hyperframes
+        https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
       <Step title="Sign in to HeyGen">
@@ -113,7 +113,7 @@ The MCP exposes six tools to the LLM. You don't call them directly — the model
 
 ### compose
 
-Authors a new composition or applies an edit to an existing one. The HyperFrames agent handles captions, blocks, layout, transitions, color, and timing internally based on your natural-language prompt.
+Authors a new composition or applies an edit to an existing one. The Frames agent handles captions, blocks, layout, transitions, color, and timing internally based on your natural-language prompt.
 
 **Triggered by prompts like:**
 
@@ -210,7 +210,7 @@ Mention the output format if you have a specific use case:
 For developers building integrations or debugging tool responses, the MCP Inspector lets you see exactly what tools are exposed and what they return:
 
 ```bash
-npx @modelcontextprotocol/inspector npx -y mcp-remote https://mcp.heygen.com/mcp/hyperframes
+npx @modelcontextprotocol/inspector npx -y mcp-remote https://mcp.hanzo.ai/mcp/frames
 ```
 
 Complete the OAuth flow in the inspector's browser tab. Once authenticated, you can call each tool with custom parameters and see raw responses, including `tool_data` and `widget_data`.
@@ -236,7 +236,7 @@ If progress stops mid-flow, the run failed. The agent's next message should expl
 
 <AccordionGroup>
   <Accordion title="OAuth keeps failing or loops">
-    Verify you're using the production URL: `https://mcp.heygen.com/mcp/hyperframes`. The dev URL (`mcp.dev.heygen.com`) only accepts dev accounts.
+    Verify you're using the production URL: `https://mcp.hanzo.ai/mcp/frames`. The dev URL (`mcp.dev.heygen.com`) only accepts dev accounts.
 
     If OAuth completes but you see "not authorized" errors, your HeyGen account may not have access to the MCP — contact support or check your tier.
   </Accordion>
@@ -248,7 +248,7 @@ If progress stops mid-flow, the run failed. The agent's next message should expl
 
     1. Start a new chat thread
     2. Run `compose("regenerate this composition")` — the underlying composition may reference an asset that's failing to load
-    3. If the issue persists, file an issue at [github.com/heygen-com/hyperframes/issues](https://github.com/heygen-com/hyperframes/issues) including the `job_id` from `render_video`
+    3. If the issue persists, file an issue at [github.com/hanzoai/frames/issues](https://github.com/hanzoai/frames/issues) including the `job_id` from `render_video`
   </Accordion>
 
   <Accordion title='"Composition not found" error'>
@@ -281,7 +281,7 @@ If progress stops mid-flow, the run failed. The agent's next message should expl
 
 ### Reporting issues
 
-For bugs or feature requests, file an issue at [github.com/heygen-com/hyperframes/issues](https://github.com/heygen-com/hyperframes/issues). Include:
+For bugs or feature requests, file an issue at [github.com/hanzoai/frames/issues](https://github.com/hanzoai/frames/issues). Include:
 
 - The prompt you used
 - The `composition_id` and `job_id` (if applicable) — these are visible in the tool response details
@@ -299,11 +299,11 @@ For bugs or feature requests, file an issue at [github.com/heygen-com/hyperframe
 
 ## How this relates to the open-source framework
 
-[HyperFrames itself is open source](https://github.com/heygen-com/hyperframes) — the HTML composition format, CLI, renderer, and player. You can use HyperFrames locally without the MCP.
+[Frames itself is open source](https://github.com/hanzoai/frames) — the HTML composition format, CLI, renderer, and player. You can use Frames locally without the MCP.
 
 The MCP is a HeyGen-hosted product that wraps:
 
-- The HyperFrames composition agent (the LLM that authors compositions)
+- The Frames composition agent (the LLM that authors compositions)
 - HeyGen's cloud rendering pipeline
 - HeyGen's asset libraries
 - OAuth, credits, and tier management
@@ -318,7 +318,7 @@ The MCP is a HeyGen-hosted product that wraps:
 
 <CardGroup cols={2}>
   <Card title="Quickstart" href="/quickstart">
-    Try HyperFrames locally with the open-source CLI.
+    Try Frames locally with the open-source CLI.
   </Card>
   <Card title="Prompting guide" href="/guides/prompting">
     Tips for getting the best results when working with AI agents.

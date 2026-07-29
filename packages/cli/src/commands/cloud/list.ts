@@ -1,6 +1,6 @@
 import { failCommand } from "../../utils/commandResult.js";
 /**
- * `hyperframes cloud list` — page through GET /v3/hyperframes/renders.
+ * `frames cloud list` — page through GET /v3/frames/renders.
  *
  * Cursor pagination: `--limit` caps a single page (max 100 per the
  * spec), `--all` walks `next_token` until exhausted. Default page size

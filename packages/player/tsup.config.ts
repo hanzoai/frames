@@ -5,17 +5,17 @@ const packageVersion = JSON.parse(readFileSync(new URL("./package.json", import.
   .version as string;
 
 export default defineConfig({
-  entry: ["src/hyperframes-player.ts", "src/slideshow/hyperframes-slideshow.ts"],
+  entry: ["src/frames-player.ts", "src/slideshow/frames-slideshow.ts"],
   format: ["esm", "cjs", "iife"],
   globalName: "HyperframesPlayer",
-  noExternal: ["@hyperframes/core"],
+  noExternal: ["@frames/core"],
   dts: true,
   clean: true,
   minify: true,
   sourcemap: true,
   define: {
-    __HYPERFRAMES_RUNTIME_CDN_URL__: JSON.stringify(
-      `https://cdn.jsdelivr.net/npm/@hyperframes/core@${packageVersion}/dist/hyperframe.runtime.iife.js`,
+    __FRAMES_RUNTIME_CDN_URL__: JSON.stringify(
+      `https://cdn.jsdelivr.net/npm/@frames/core@${packageVersion}/dist/hyperframe.runtime.iife.js`,
     ),
   },
 });

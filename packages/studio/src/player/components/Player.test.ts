@@ -10,7 +10,7 @@ import {
   shouldShowCompositionLoadingOverlay,
 } from "./Player";
 
-vi.mock("@hyperframes/player", () => ({}));
+vi.mock("@frames/player", () => ({}));
 
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 
@@ -43,8 +43,8 @@ class TestHyperframesPlayer extends HTMLElement {
   }
 }
 
-if (!customElements.get("hyperframes-player")) {
-  customElements.define("hyperframes-player", TestHyperframesPlayer);
+if (!customElements.get("frames-player")) {
+  customElements.define("frames-player", TestHyperframesPlayer);
 }
 
 afterEach(() => {
@@ -69,7 +69,7 @@ async function mountPlayer() {
     await Promise.resolve();
   });
 
-  const player = host.querySelector<TestHyperframesPlayer>("hyperframes-player");
+  const player = host.querySelector<TestHyperframesPlayer>("frames-player");
   if (!player) throw new Error("player did not mount");
   return { host, player };
 }

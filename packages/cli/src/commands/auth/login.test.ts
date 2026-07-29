@@ -186,7 +186,7 @@ describe("auth login --api-key rollback", () => {
 
   it("preserves an unknown/foreign top-level key across a successful re-login", async () => {
     // Cross-CLI invariant end-to-end: a key heygen-cli (or a future
-    // version) wrote must survive a hyperframes-cli login round-trip.
+    // version) wrote must survive a frames-cli login round-trip.
     await fs.writeFile(join(dir, "credentials"), JSON.stringify({ future_field: { x: 1 } }), {
       mode: 0o600,
     });

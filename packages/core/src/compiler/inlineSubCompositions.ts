@@ -19,7 +19,7 @@ import {
   wrapInlineScriptWithErrorBoundary,
   wrapScopedCompositionScript,
 } from "./compositionScoping";
-import { checkSubCompositionUsability } from "@hyperframes/parsers/sub-composition-validity";
+import { checkSubCompositionUsability } from "@frames/parsers/sub-composition-validity";
 
 // ---------------------------------------------------------------------------
 // Public interface
@@ -97,7 +97,7 @@ export interface InlineSubCompositionsOptions {
 
   /**
    * Error label prefix used in wrapped composition scripts.
-   * Defaults to `"[HyperFrames] composition script error:"`.
+   * Defaults to `"[Frames] composition script error:"`.
    */
   scriptErrorLabel?: string;
 
@@ -167,7 +167,7 @@ export function inlineSubCompositions(
     readVariableDefaults,
     parseHostVariables,
     buildScopeSelector = defaultBuildScopeSelector,
-    scriptErrorLabel = "[HyperFrames] composition script error:",
+    scriptErrorLabel = "[Frames] composition script error:",
     onMissingComposition,
   } = options;
 
@@ -186,7 +186,7 @@ export function inlineSubCompositions(
     if (!src) continue;
 
     const compHtml = resolveHtml(src);
-    // Shared with lint + render pre-flight (@hyperframes/parsers'
+    // Shared with lint + render pre-flight (@frames/parsers'
     // subCompositionValidity.ts) so all three callers agree on what counts
     // as a usable sub-composition file. This path stays intentionally
     // tolerant (skip, don't throw) — preview and studio must keep bundling

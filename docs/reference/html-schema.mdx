@@ -63,7 +63,7 @@ Common sizes:
 | `data-variable-values` | div | No | JSON object of values passed to a nested composition. Read via `getVariables()` in scripts, or consumed automatically by declarative bindings. |
 | `data-var-src` | img, video, audio | No | Binds the element's `src` to a declared variable id — the runtime substitutes the value (URL string or image `{url}`); the authored `src` is the fallback. |
 | `data-var-text` | any | No | Binds the element's own text to a scalar variable id. Element children are preserved. |
-| `data-color-grading` | img, video | No | Validated JSON payload for media-level correction, grading, LUT, finishing, and shader effects. Prefer Studio or `hyperframes media-treatment` to author it. |
+| `data-color-grading` | img, video | No | Validated JSON payload for media-level correction, grading, LUT, finishing, and shader effects. Prefer Studio or `frames media-treatment` to author it. |
 | `data-width` | div | On compositions | Composition width in pixels. |
 | `data-height` | div | On compositions | Composition height in pixels. |
 
@@ -266,5 +266,5 @@ For caption compositions, add these attributes to the root node so the framework
   - Timed visible elements (images, divs) have `class="clip"`
   - Video elements do **not** have `class="clip"` (framework manages them directly)
   - All `data-start` references point to existing clip IDs
-  - Run `npx hyperframes lint` to catch structural issues automatically
+  - Run `npx frames lint` to catch structural issues automatically
 </Check>

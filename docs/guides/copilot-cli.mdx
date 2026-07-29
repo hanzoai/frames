@@ -1,22 +1,22 @@
 ---
 title: GitHub Copilot CLI
-description: "Set up HyperFrames with GitHub Copilot CLI — install skills, invoke them with slash commands, and render video from the terminal."
+description: "Set up Frames with GitHub Copilot CLI — install skills, invoke them with slash commands, and render video from the terminal."
 ---
 
-GitHub Copilot CLI brings AI-powered coding assistance to your terminal. HyperFrames skills teach it how to write correct compositions, GSAP timelines, and framework-specific patterns — so you get valid video HTML without reading the docs yourself.
+GitHub Copilot CLI brings AI-powered coding assistance to your terminal. Frames skills teach it how to write correct compositions, GSAP timelines, and framework-specific patterns — so you get valid video HTML without reading the docs yourself.
 
 ## Prerequisites
 
 - **GitHub Copilot subscription** — Free, Pro, Pro+, Business, or Enterprise all include CLI access
 - **Copilot CLI installed** — `npm install -g @github/copilot` (or via the [install script](https://github.com/github/copilot-cli))
-- **Node.js 22+** and **FFmpeg** for the HyperFrames CLI
+- **Node.js 22+** and **FFmpeg** for the Frames CLI
 
 ## Install skills
 
-Install the HyperFrames skill package into your project:
+Install the Frames skill package into your project:
 
 ```bash
-npx skills add heygen-com/hyperframes
+npx skills add hanzoai/frames
 ```
 
 This writes skill directories to `.agents/skills/` in your project — the path Copilot CLI scans automatically for workspace-scoped skills.
@@ -25,7 +25,7 @@ This writes skill directories to `.agents/skills/` in your project — the path 
   To make skills available across all your projects, install them globally:
 
   ```bash
-  npx skills add heygen-com/hyperframes --agent github-copilot --global
+  npx skills add hanzoai/frames --agent github-copilot --global
   ```
 
   Global skills live in `~/.copilot/skills/` and load in every Copilot CLI session.
@@ -42,15 +42,15 @@ Copilot CLI supports both **explicit invocation** via slash commands and **autom
 Prefix a skill name with `/` to load it explicitly:
 
 ```
-/hyperframes Create a 10-second product intro with a fade-in title and dark background.
+/frames Create a 10-second product intro with a fade-in title and dark background.
 ```
 
 ```
-/hyperframes-animation Add a scale-pop animation to the title element.
+/frames-animation Add a scale-pop animation to the title element.
 ```
 
 ```
-/hyperframes-cli How do I render at 60fps with Docker?
+/frames-cli How do I render at 60fps with Docker?
 ```
 
 ### Auto-detection
@@ -75,7 +75,7 @@ Explicit invocation is more reliable when you have many skills installed — wit
 <Steps>
   <Step title="Scaffold a project">
     ```bash
-    npx hyperframes init my-video
+    npx frames init my-video
     cd my-video
     ```
 
@@ -84,10 +84,10 @@ Explicit invocation is more reliable when you have many skills installed — wit
 
   <Step title="Start the preview server">
     ```bash
-    npx hyperframes preview
+    npx frames preview
     ```
 
-    Opens the HyperFrames Studio in your browser. Edits reload automatically.
+    Opens the Frames Studio in your browser. Edits reload automatically.
   </Step>
 
   <Step title="Start Copilot CLI in the project directory">
@@ -100,11 +100,11 @@ Explicit invocation is more reliable when you have many skills installed — wit
 
   <Step title="Prompt with the skill">
     ```
-    /hyperframes Create a 15-second dark-themed product intro with hype-style
+    /frames Create a 15-second dark-themed product intro with hype-style
     captions and a flash transition to the CTA.
     ```
 
-    The agent writes valid HyperFrames HTML — `data-*` attributes, `class="clip"` on timed elements, paused GSAP timelines registered on `window.__timelines`. The preview updates as files are saved.
+    The agent writes valid Frames HTML — `data-*` attributes, `class="clip"` on timed elements, paused GSAP timelines registered on `window.__timelines`. The preview updates as files are saved.
   </Step>
 
   <Step title="Iterate">
@@ -121,13 +121,13 @@ Explicit invocation is more reliable when you have many skills installed — wit
 
   <Step title="Render">
     ```bash
-    npx hyperframes render --output output.mp4
+    npx frames render --output output.mp4
     ```
 
     Or ask the agent:
 
     ```
-    /hyperframes-cli Render this composition to output.mp4 at high quality.
+    /frames-cli Render this composition to output.mp4 at high quality.
     ```
   </Step>
 </Steps>
@@ -137,23 +137,23 @@ Explicit invocation is more reliable when you have many skills installed — wit
 Copilot CLI's agent mode can handle multi-step tasks autonomously — scaffolding a project, writing the composition, installing registry blocks, and rendering in sequence:
 
 ```
-/hyperframes Scaffold a new project called "launch-video", create a 30-second
+/frames Scaffold a new project called "launch-video", create a 30-second
 product launch video with 5 scenes, install the flash-through-white transition
 block, and render to mp4.
 ```
 
-In agent mode, Copilot runs terminal commands (like `npx hyperframes init` and `npx hyperframes render`) on your behalf. Review the commands before approving them — especially if the skill pre-approves `shell` in its `allowed-tools`.
+In agent mode, Copilot runs terminal commands (like `npx frames init` and `npx frames render`) on your behalf. Review the commands before approving them — especially if the skill pre-approves `shell` in its `allowed-tools`.
 
 <Warning>
-  Only pre-approve `shell` or `bash` in skill `allowed-tools` for skills you trust. The HyperFrames skills do not pre-approve shell access — the agent will ask for confirmation before running terminal commands.
+  Only pre-approve `shell` or `bash` in skill `allowed-tools` for skills you trust. The Frames skills do not pre-approve shell access — the agent will ask for confirmation before running terminal commands.
 </Warning>
 
 ## MCP alternative
 
-Copilot CLI also supports MCP servers for cloud-based authoring without the local CLI. Use the `--additional-mcp-config` flag to add the HyperFrames MCP server to your session:
+Copilot CLI also supports MCP servers for cloud-based authoring without the local CLI. Use the `--additional-mcp-config` flag to add the Frames MCP server to your session:
 
 ```bash
-copilot --additional-mcp-config '{"mcpServers":{"hyperframes":{"url":"https://mcp.heygen.com/mcp/hyperframes"}}}'
+copilot --additional-mcp-config '{"mcpServers":{"frames":{"url":"https://mcp.hanzo.ai/mcp/frames"}}}'
 ```
 
 Or save the config to a file and reference it:
@@ -166,11 +166,11 @@ Authorize via OAuth when prompted. See the [MCP guide](/guides/mcp) for full det
 
 ## Tips
 
-- **Always start with `/hyperframes`.** It's the entry skill — it orients you to the whole surface and routes your request to the right workflow, pulling in the domain skills (`/hyperframes-core` for composition rules and data attributes, `/hyperframes-animation` for GSAP and other runtime patterns) that generic web knowledge doesn't cover.
-- **Use `/skills` to check skill status.** If output looks wrong, open the skills picker to verify the HyperFrames skills are enabled.
-- **Run `npx hyperframes lint` before rendering.** The linter catches structural issues the agent might miss on complex multi-scene edits.
+- **Always start with `/frames`.** It's the entry skill — it orients you to the whole surface and routes your request to the right workflow, pulling in the domain skills (`/frames-core` for composition rules and data attributes, `/frames-animation` for GSAP and other runtime patterns) that generic web knowledge doesn't cover.
+- **Use `/skills` to check skill status.** If output looks wrong, open the skills picker to verify the Frames skills are enabled.
+- **Run `npx frames lint` before rendering.** The linter catches structural issues the agent might miss on complex multi-scene edits.
 - **Keep the preview server running in a separate terminal.** You see every edit reflected in real time while prompting in Copilot CLI.
-- **Install registry blocks for transitions and effects.** `npx hyperframes add shimmer-sweep` installs pre-built blocks, then prompt the agent to wire them in.
+- **Install registry blocks for transitions and effects.** `npx frames add shimmer-sweep` installs pre-built blocks, then prompt the agent to wire them in.
 
 ## Next steps
 

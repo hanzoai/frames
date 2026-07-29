@@ -8,7 +8,7 @@
  *
  *   1. `chrome-headless-shell` is installed in the puppeteer cache (the
  *      directory the engine itself reads), but the CLI used to only scan its
- *      own `~/.cache/hyperframes/chrome` cache — leaving the engine without a
+ *      own `~/.cache/frames/chrome` cache — leaving the engine without a
  *      headless-shell binary and silently disabling the BeginFrame capture
  *      path.
  *   2. The CLI falls back to system Chrome (`/usr/bin/google-chrome`) on
@@ -31,8 +31,8 @@ import { CHROME_VERSION } from "./manager.js";
 // `/fake/home/...` literals would fail on Windows because the set lookup
 // would never match the `\\`-joined real paths.
 const FAKE_HOME = join("/", "fake", "home");
-const CACHE_ROOT = join(FAKE_HOME, ".cache", "hyperframes");
-const HF_CACHE = join(FAKE_HOME, ".cache", "hyperframes", "chrome");
+const CACHE_ROOT = join(FAKE_HOME, ".cache", "frames");
+const HF_CACHE = join(FAKE_HOME, ".cache", "frames", "chrome");
 const HF_LOCK = join(CACHE_ROOT, ".chrome.install.lock");
 const HF_RECLAIM_LOCK = join(CACHE_ROOT, ".chrome.install.reclaim.lock");
 const PUPPETEER_CACHE = join(FAKE_HOME, ".cache", "puppeteer", "chrome-headless-shell");
@@ -170,7 +170,7 @@ describe("findBrowser — cache resolution", () => {
     // getter on Node — direct assignment is silently a no-op.
     Object.defineProperty(process, "platform", { value: "linux", configurable: true });
     Object.defineProperty(process, "arch", { value: "x64", configurable: true });
-    delete process.env["HYPERFRAMES_BROWSER_PATH"];
+    delete process.env["FRAMES_BROWSER_PATH"];
     delete process.env["PRODUCER_HEADLESS_SHELL_PATH"];
     installChildProcessMocks();
   });
@@ -186,7 +186,7 @@ describe("findBrowser — cache resolution", () => {
     vi.doUnmock("@puppeteer/browsers");
   });
 
-  it("resolves to the hyperframes-managed cache when puppeteer cache is empty", async () => {
+  it("resolves to the frames-managed cache when puppeteer cache is empty", async () => {
     // Only HF cache populated. Puppeteer cache is the higher-priority path
     // (see "prefers puppeteer cache" test below), so this exercises the
     // last-resort fallback.
@@ -203,8 +203,8 @@ describe("findBrowser — cache resolution", () => {
     expect(result).toEqual({ executablePath: HF_BINARY, source: "cache" });
   });
 
-  it("does not resolve to a hyperframes-cache build from an older CHROME_VERSION pin", async () => {
-    // A build downloaded by a prior hyperframes version (this pin has moved
+  it("does not resolve to a frames-cache build from an older CHROME_VERSION pin", async () => {
+    // A build downloaded by a prior frames version (this pin has moved
     // 131 -> 151 -> 152 across releases) must not satisfy resolution, or an
     // upgrade silently keeps running a stale build forever instead of ever
     // fetching the version the new release actually needs (HF#2060 review).
@@ -222,7 +222,7 @@ describe("findBrowser — cache resolution", () => {
     expect(result).toEqual({ executablePath: SYSTEM_CHROME, source: "system" });
   });
 
-  it("re-downloads when the hyperframes cache manifest points at a missing binary", async () => {
+  it("re-downloads when the frames cache manifest points at a missing binary", async () => {
     const redownloadedBinary = join(
       HF_CACHE,
       "chrome-headless-shell",
@@ -319,7 +319,7 @@ describe("findBrowser — cache resolution", () => {
   it("ensureBrowser does not leak the install lock directory after a successful download", async () => {
     // Regression: @puppeteer/browsers' install() has no concurrency guard —
     // two CLI invocations that both miss the cache AND system Chrome (the
-    // reported scenario: two `hyperframes browser ensure` runs racing) hit
+    // reported scenario: two `frames browser ensure` runs racing) hit
     // ensureBrowser's final download-of-last-resort at once, racing on the
     // same extract target. mkdirSync as an atomic mutex closes that race;
     // this asserts the lock is actually released afterward (a leaked lock
@@ -439,7 +439,7 @@ describe("findBrowser — cache resolution", () => {
     expect(paths.has(HF_LOCK)).toBe(false);
     expect(
       warnSpy.mock.calls.some(([msg]) =>
-        String(msg).includes("Waiting for another hyperframes process"),
+        String(msg).includes("Waiting for another frames process"),
       ),
     ).toBe(true);
   });
@@ -459,7 +459,7 @@ describe("findBrowser — cache resolution", () => {
     ).resolves.toBe("done");
   });
 
-  it("warns and falls through when the hyperframes cache cannot be read", async () => {
+  it("warns and falls through when the frames cache cannot be read", async () => {
     installFsMocks({ existing: new Set([HF_CACHE, SYSTEM_CHROME]) });
     installPuppeteerBrowsersMock({
       installedInHfCacheError: Object.assign(new Error("ENOTDIR: not a directory"), {
@@ -477,8 +477,8 @@ describe("findBrowser — cache resolution", () => {
     expect(warnSpy.mock.calls[0]?.[0]).toContain("Falling back to system Chrome");
   });
 
-  it("falls back to the puppeteer-managed cache when hyperframes cache is empty", async () => {
-    // Empty hyperframes cache, populated puppeteer cache — the regression
+  it("falls back to the puppeteer-managed cache when frames cache is empty", async () => {
+    // Empty frames cache, populated puppeteer cache — the regression
     // scenario from the hf#677 spike.
     installFsMocks({
       existing: new Set([PUPPETEER_CACHE, PUPPETEER_BINARY]),
@@ -492,7 +492,7 @@ describe("findBrowser — cache resolution", () => {
     expect(result).toEqual({ executablePath: PUPPETEER_BINARY, source: "cache" });
   });
 
-  it("prefers the puppeteer cache over the hyperframes cache when BOTH are populated", async () => {
+  it("prefers the puppeteer cache over the frames cache when BOTH are populated", async () => {
     // The HF cache is pinned to `CHROME_VERSION` (131-era) which lags upstream
     // by many releases. The engine's `resolveHeadlessShellPath` scans the
     // puppeteer cache and selects newest-version-first; if the CLI handed
@@ -577,13 +577,13 @@ describe("findBrowser — cache resolution", () => {
   });
 
   it("does NOT warn when the system path happens to be chrome-headless-shell", async () => {
-    // HYPERFRAMES_BROWSER_PATH-style override pointing directly at a
+    // FRAMES_BROWSER_PATH-style override pointing directly at a
     // headless-shell binary should NOT trigger the system-Chrome warning. The
     // warning is gated on the binary name, not the path source.
     const directShell = "/opt/chrome-headless-shell/chrome-headless-shell";
     installFsMocks({ existing: new Set([directShell]) });
     installPuppeteerBrowsersMock();
-    process.env["HYPERFRAMES_BROWSER_PATH"] = directShell;
+    process.env["FRAMES_BROWSER_PATH"] = directShell;
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     const { findBrowser, _resetSystemFallbackWarnForTests } = await import("./manager.js");
@@ -597,17 +597,17 @@ describe("findBrowser — cache resolution", () => {
   // Sibling env-var alias for the CLI resolver. The engine layer already
   // honors `PRODUCER_HEADLESS_SHELL_PATH` (see
   // `packages/engine/src/services/browserManager.ts`), and docs
-  // (skills/hyperframes-animation/adapters/typegpu.md,
+  // (skills/frames-animation/adapters/typegpu.md,
   // packages/gcp-cloud-run/Dockerfile, examples/k8s-jobs/Dockerfile.example)
-  // all instruct users to set that name. Before this alias, `hyperframes
+  // all instruct users to set that name. Before this alias, `frames
   // check`/`snapshot`/`compare` — which all route through `openSettledCompositionPage`
   // → `ensureBrowser` → `findFromEnv` — silently ignored a documented escape
   // hatch that `render` had honored, so a user with a broken pinned build
-  // (win32/x64 STATUS_STACK_BUFFER_OVERRUN 3221225595, #hyperframes-cli-feedback
+  // (win32/x64 STATUS_STACK_BUFFER_OVERRUN 3221225595, #frames-cli-feedback
   // ts=1784095034) could render successfully but check would still crash on
   // the cached headless-shell. The alias closes that direction of the
   // symmetry (the engine side is being closed by #2459).
-  it("resolves via PRODUCER_HEADLESS_SHELL_PATH when HYPERFRAMES_BROWSER_PATH is unset", async () => {
+  it("resolves via PRODUCER_HEADLESS_SHELL_PATH when FRAMES_BROWSER_PATH is unset", async () => {
     const directShell = "/opt/chrome-headless-shell/chrome-headless-shell";
     installFsMocks({ existing: new Set([directShell]) });
     installPuppeteerBrowsersMock();
@@ -623,7 +623,7 @@ describe("findBrowser — cache resolution", () => {
     expect(warnSpy).not.toHaveBeenCalled();
   });
 
-  it("prefers HYPERFRAMES_BROWSER_PATH over PRODUCER_HEADLESS_SHELL_PATH when both are set", async () => {
+  it("prefers FRAMES_BROWSER_PATH over PRODUCER_HEADLESS_SHELL_PATH when both are set", async () => {
     // Tiebreak matches `render.ts` — the CLI-native name canonicalizes; the
     // engine name is a compatibility alias. If both are set the caller almost
     // certainly meant the CLI-native one.
@@ -631,7 +631,7 @@ describe("findBrowser — cache resolution", () => {
     const producerPath = "/opt/producer/chrome-headless-shell";
     installFsMocks({ existing: new Set([hfPath, producerPath]) });
     installPuppeteerBrowsersMock();
-    process.env["HYPERFRAMES_BROWSER_PATH"] = hfPath;
+    process.env["FRAMES_BROWSER_PATH"] = hfPath;
     process.env["PRODUCER_HEADLESS_SHELL_PATH"] = producerPath;
 
     const { findBrowser, _resetSystemFallbackWarnForTests } = await import("./manager.js");
@@ -747,9 +747,9 @@ describe("installWithCorruptArchiveRecovery", () => {
 });
 
 // Sibling failure mode to #2078 (SIGTRAP at launch): the field feedback in
-// #hyperframes-cli-feedback ts 1784055194.202169 (darwin/arm64, HF CLI 0.7.57)
+// #frames-cli-feedback ts 1784055194.202169 (darwin/arm64, HF CLI 0.7.57)
 // hit `All providers failed for chrome-headless-shell 152.0.7928.2` at download
-// time and had to discover `HYPERFRAMES_BROWSER_PATH` on their own. The raw
+// time and had to discover `FRAMES_BROWSER_PATH` on their own. The raw
 // error propagated straight through `downloadBrowser` without naming the
 // escape hatch. This guards the rewrap so the next reporter sees the hint.
 //
@@ -758,13 +758,13 @@ describe("installWithCorruptArchiveRecovery", () => {
 // the field reporter was macOS but the same rewrap is what a Windows or Linux
 // (non-ARM) user would see next time providers fail, and each branch names a
 // different Chrome install path that has to be spelled correctly.
-describe("downloadBrowser — install failure surfaces HYPERFRAMES_BROWSER_PATH hint", () => {
+describe("downloadBrowser — install failure surfaces FRAMES_BROWSER_PATH hint", () => {
   const origPlatform = process.platform;
   const origArch = process.arch;
 
   beforeEach(() => {
     vi.resetModules();
-    delete process.env["HYPERFRAMES_BROWSER_PATH"];
+    delete process.env["FRAMES_BROWSER_PATH"];
     delete process.env["PRODUCER_HEADLESS_SHELL_PATH"];
     installChildProcessMocks();
   });
@@ -804,7 +804,7 @@ describe("downloadBrowser — install failure surfaces HYPERFRAMES_BROWSER_PATH 
       expectedPathHint: "/usr/bin/google-chrome",
     },
   ])(
-    "rethrows a non-corrupt install failure with an HYPERFRAMES_BROWSER_PATH hint and preserves the original via cause ($label)",
+    "rethrows a non-corrupt install failure with an FRAMES_BROWSER_PATH hint and preserves the original via cause ($label)",
     async ({ platform, arch, expectedPathHint }) => {
       Object.defineProperty(process, "platform", { value: platform, configurable: true });
       Object.defineProperty(process, "arch", { value: arch, configurable: true });
@@ -833,7 +833,7 @@ describe("downloadBrowser — install failure surfaces HYPERFRAMES_BROWSER_PATH 
       expect(caught).toBeInstanceOf(Error);
       const msg = (caught as Error).message;
       // Names the escape-hatch env var by name (that's the entire point).
-      expect(msg).toContain("HYPERFRAMES_BROWSER_PATH");
+      expect(msg).toContain("FRAMES_BROWSER_PATH");
       // Includes the platform-specific example path from
       // `browserPathHintForPlatform`.
       expect(msg).toContain(expectedPathHint);
@@ -846,7 +846,7 @@ describe("downloadBrowser — install failure surfaces HYPERFRAMES_BROWSER_PATH 
   );
 });
 
-// Regression guard for HF#2103: `hyperframes render` hung forever on macOS
+// Regression guard for HF#2103: `frames render` hung forever on macOS
 // (Apple Silicon) under Node >= 24.16. Root cause was NOT in this file — it was
 // the extractor `@puppeteer/browsers` <3.0.2 shells out to. That chain
 // (`@puppeteer/browsers` -> `extract-zip@2.0.1` -> `yauzl@2.10.0`) hits a

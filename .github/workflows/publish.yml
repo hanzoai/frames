@@ -124,37 +124,37 @@ jobs:
             fi
           }
 
-          publish_pkg "@hyperframes/parsers" "@hyperframes/parsers"
-          publish_pkg "@hyperframes/lint" "@hyperframes/lint"
-          publish_pkg "@hyperframes/studio-server" "@hyperframes/studio-server"
-          publish_pkg "@hyperframes/core" "@hyperframes/core"
-          publish_pkg "@hyperframes/sdk" "@hyperframes/sdk"
-          publish_pkg "@hyperframes/engine" "@hyperframes/engine"
-          publish_pkg "@hyperframes/player" "@hyperframes/player"
-          publish_pkg "@hyperframes/producer" "@hyperframes/producer"
-          publish_pkg "@hyperframes/shader-transitions" "@hyperframes/shader-transitions"
-          publish_pkg "@hyperframes/studio" "@hyperframes/studio"
-          publish_pkg "@hyperframes/aws-lambda" "@hyperframes/aws-lambda"
-          publish_pkg "@hyperframes/gcp-cloud-run" "@hyperframes/gcp-cloud-run"
+          publish_pkg "@frames/parsers" "@frames/parsers"
+          publish_pkg "@frames/lint" "@frames/lint"
+          publish_pkg "@frames/studio-server" "@frames/studio-server"
+          publish_pkg "@frames/core" "@frames/core"
+          publish_pkg "@frames/sdk" "@frames/sdk"
+          publish_pkg "@frames/engine" "@frames/engine"
+          publish_pkg "@frames/player" "@frames/player"
+          publish_pkg "@frames/producer" "@frames/producer"
+          publish_pkg "@frames/shader-transitions" "@frames/shader-transitions"
+          publish_pkg "@frames/studio" "@frames/studio"
+          publish_pkg "@frames/aws-lambda" "@frames/aws-lambda"
+          publish_pkg "@frames/gcp-cloud-run" "@frames/gcp-cloud-run"
 
-          # CLI is @hyperframes/cli in the monorepo but published as unscoped "hyperframes" on npm.
+          # CLI is @frames/cli in the monorepo but published as unscoped "frames" on npm.
           # Rewrite the name in package.json before publishing, then use npm publish directly
           # since pnpm --filter won't match the rewritten name.
-          if npm view "hyperframes@${VERSION}" version >/dev/null 2>&1; then
-            echo "⏭️  hyperframes@${VERSION} already published — skipping"
+          if npm view "frames@${VERSION}" version >/dev/null 2>&1; then
+            echo "⏭️  frames@${VERSION} already published — skipping"
           else
             node -e "
               const fs = require('fs');
               const p = 'packages/cli/package.json';
               const pkg = JSON.parse(fs.readFileSync(p, 'utf8'));
-              pkg.name = 'hyperframes';
+              pkg.name = 'frames';
               fs.writeFileSync(p, JSON.stringify(pkg, null, 2) + '\n');
             "
-            echo "📦 Publishing hyperframes@${VERSION}..."
+            echo "📦 Publishing frames@${VERSION}..."
             if (cd packages/cli && npm publish --access public --tag "$DIST_TAG"); then
-              echo "✅ hyperframes@${VERSION} published"
+              echo "✅ frames@${VERSION} published"
             else
-              echo "❌ hyperframes@${VERSION} failed to publish"
+              echo "❌ frames@${VERSION} failed to publish"
               FAILED=1
             fi
           fi

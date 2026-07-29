@@ -176,7 +176,7 @@ test("missing bundled SFX install returns a typed recovery command", () => {
       env: {
         HOME: tmp,
         PATH: tmp,
-        HYPERFRAMES_MEDIA_USE_SFX_DIR: missingLibrary,
+        FRAMES_MEDIA_USE_SFX_DIR: missingLibrary,
       },
     },
   );
@@ -184,7 +184,7 @@ test("missing bundled SFX install returns a typed recovery command", () => {
   const parsed = JSON.parse(result.stdout);
   assert.equal(parsed.ok, false);
   assert.equal(parsed.code, "bundled_sfx_assets_missing");
-  assert.equal(parsed.fix, "npx hyperframes skills update media-use");
+  assert.equal(parsed.fix, "npx frames skills update media-use");
   assert.match(parsed.error, /bundled SFX assets are missing or incomplete/);
   assert.match(parsed.error, /manifest not found/);
   cleanup();
@@ -1003,7 +1003,7 @@ test("track() posts to MEDIA_USE_TELEMETRY_HOST when set, proving real intercept
     runResolve(["--type", "bgm", "--intent", "telemetry seam test", "--project", tmp, "--json"], {
       env: {
         DO_NOT_TRACK: "0",
-        HYPERFRAMES_NO_TELEMETRY: "0",
+        FRAMES_NO_TELEMETRY: "0",
         CI: "",
         NODE_ENV: "test",
         HOME: sandboxHome,

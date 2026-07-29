@@ -19,7 +19,7 @@ import { type HdrTransfer, getHdrEncoderColorParams } from "../utils/hdr.js";
 import { withEvenDimensionPad } from "../utils/evenDimensions.js";
 import { formatFfmpegError, runFfmpeg } from "../utils/runFfmpeg.js";
 import { extractAudioMetadata } from "../utils/ffprobe.js";
-import { type Fps, fpsToFfmpegArg } from "@hyperframes/core";
+import { type Fps, fpsToFfmpegArg } from "@frames/core";
 import type { EncoderOptions, EncodeResult, MuxResult } from "./chunkEncoder.types.js";
 import { appendVp9CpuUsedArg } from "./vp9Options.js";
 
@@ -72,7 +72,7 @@ export interface MuxVideoWithAudioOptions extends Partial<
   Pick<EngineConfig, "ffmpegProcessTimeout">
 > {
   /**
-   * Codec of the sidecar audio when the caller already knows it. HyperFrames
+   * Codec of the sidecar audio when the caller already knows it. Frames
    * render paths pass the mixed AAC sidecar by contract, so muxing should not
    * depend on the file extension alone.
    */

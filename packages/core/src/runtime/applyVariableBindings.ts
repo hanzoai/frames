@@ -28,7 +28,7 @@
  */
 
 import { readVariablesForElement } from "./variableScope";
-import { isScalarVariableValue as isScalar } from "@hyperframes/parsers/composition";
+import { isScalarVariableValue as isScalar } from "@frames/parsers/composition";
 
 // data-var-src only rebinds media `src` on media elements. A user-controlled
 // variable value assigned to a src is an XSS surface on tags whose src executes
@@ -175,14 +175,14 @@ export function applyVariableBindings(doc: Document): void {
     // src on <iframe>/<script>/<embed> is a code-execution sink, not a media ref.
     if (!VAR_SRC_TAGS.has(el.tagName.toLowerCase())) {
       console.warn(
-        `[hyperframes] Ignoring data-var-src on <${el.tagName.toLowerCase()}>: variable-bound src is only allowed on ${Array.from(VAR_SRC_TAGS).join("/")}.`,
+        `[frames] Ignoring data-var-src on <${el.tagName.toLowerCase()}>: variable-bound src is only allowed on ${Array.from(VAR_SRC_TAGS).join("/")}.`,
       );
       continue;
     }
     const url = resolveUrl(valuesForElement(el, cache)[id]);
     if (url === null) continue;
     if (!isSafeMediaUrl(url)) {
-      console.warn(`[hyperframes] Ignoring data-var-src="${id}": unsafe URL protocol.`);
+      console.warn(`[frames] Ignoring data-var-src="${id}": unsafe URL protocol.`);
       continue;
     }
     el.setAttribute("src", url);

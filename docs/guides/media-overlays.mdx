@@ -21,7 +21,7 @@ previews only; the installed result is editable composition source.
 
 Unlike [Color Grading](/guides/color-grading) and
 [Media Effects](/guides/media-effects), overlays are real HTML, CSS, and paused
-GSAP timelines installed from the HyperFrames Registry. Their final paint order
+GSAP timelines installed from the Frames Registry. Their final paint order
 follows authored track placement and CSS `z-index`.
 
 ## Quick Start
@@ -47,8 +47,8 @@ follows authored track placement and CSS `z-index`.
     the intended beat:
 
     ```bash Terminal
-    npx hyperframes media-treatment --capabilities --json
-    npx hyperframes add camcorder-hud --no-clipboard
+    npx frames media-treatment --capabilities --json
+    npx frames add camcorder-hud --no-clipboard
     ```
 
     The command installs editable composition source under the project. Embed
@@ -109,8 +109,8 @@ flash dressing; it does not perform background removal itself.
 For a transparent subject:
 
 ```bash Terminal
-npx hyperframes remove-background subject.mp4 -o subject.webm
-npx hyperframes add freeze-frame-dressing --no-clipboard
+npx frames remove-background subject.mp4 -o subject.webm
+npx frames add freeze-frame-dressing --no-clipboard
 ```
 
 See [Remove Background](/guides/remove-background) for cutout and background

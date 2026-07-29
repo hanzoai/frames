@@ -19,8 +19,8 @@ import {
   type BackgroundRemovalRender,
   createBackgroundRemovalJob,
   createProjectSignature,
-} from "@hyperframes/studio-server";
-import type { RegistryItem } from "@hyperframes/core/registry";
+} from "@frames/studio-server";
+import type { RegistryItem } from "@frames/core/registry";
 import { createRetryingModuleLoader, ensureProducerDist } from "./vite.producer";
 import { createStudioDevRenderBodyScripts } from "./vite.studioMotion";
 import { generateThumbnail, findSystemChrome } from "./vite.browser";
@@ -73,7 +73,7 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
   const getBundler = async () => {
     if (!_bundler) {
       try {
-        const mod = await server.ssrLoadModule("@hyperframes/core/compiler");
+        const mod = await server.ssrLoadModule("@frames/core/compiler");
         _bundler = (dir, options) => mod.bundleToSingleHtml(dir, options);
       } catch (err) {
         console.warn("[Studio] Failed to load compiler, previews will use raw HTML:", err);
@@ -92,10 +92,10 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
         });
         if (built) {
           console.warn(
-            "[Studio] @hyperframes/producer dist missing; building producer package for local renders...",
+            "[Studio] @frames/producer dist missing; building producer package for local renders...",
           );
         }
-        const producerPkg = "@hyperframes/producer";
+        const producerPkg = "@frames/producer";
         return await import(/* @vite-ignore */ producerPkg);
       });
     }
@@ -103,10 +103,10 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
   };
 
   return {
-    // The CLI resolves --proxy/--no-proxy against hyperframes.json before it
+    // The CLI resolves --proxy/--no-proxy against frames.json before it
     // launches Vite. Direct `bun run dev` keeps the historical default-on
     // behavior when the child environment is absent.
-    autoProxy: resolveViteAutoProxy(process.env.HYPERFRAMES_AUTO_PROXY),
+    autoProxy: resolveViteAutoProxy(process.env.FRAMES_AUTO_PROXY),
 
     // fallow-ignore-next-line complexity
     listProjects() {
@@ -180,8 +180,8 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
       if (!bundler) return null;
       let html = await bundler(dir, { runtime: "placeholder", inlineColorGradingLuts: false });
       html = html.replace(
-        'data-hyperframes-preview-runtime="1" src=""',
-        `data-hyperframes-preview-runtime="1" src="${this.runtimeUrl}"`,
+        'data-frames-preview-runtime="1" src=""',
+        `data-frames-preview-runtime="1" src="${this.runtimeUrl}"`,
       );
       return html;
     },
@@ -206,7 +206,7 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const mod = await server.ssrLoadModule("@hyperframes/core/lint");
+      const mod = await server.ssrLoadModule("@frames/core/lint");
       return await mod.lintHyperframeHtml(html, opts);
     },
 
@@ -341,7 +341,7 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
           if (!existsSync(manifestPath)) continue;
           try {
             const manifest = JSON.parse(readFileSync(manifestPath, "utf-8")) as RegistryItem;
-            if (manifest.type === "hyperframes:block" || manifest.type === "hyperframes:component")
+            if (manifest.type === "frames:block" || manifest.type === "frames:component")
               items.push(manifest);
           } catch {
             /* skip malformed manifests */
@@ -380,9 +380,9 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
 
         mkdirSync(dirname(targetPath), { recursive: true });
 
-        if (file.type === "hyperframes:composition") {
+        if (file.type === "frames:composition") {
           let content = readFileSync(sourcePath, "utf-8");
-          content = `<!-- hyperframes-registry-item: ${block.name} -->\n${content}`;
+          content = `<!-- frames-registry-item: ${block.name} -->\n${content}`;
           writeFileSync(targetPath, content, "utf-8");
         } else {
           copyFileSync(sourcePath, targetPath);

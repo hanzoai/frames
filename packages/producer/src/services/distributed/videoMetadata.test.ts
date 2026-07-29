@@ -3,7 +3,7 @@ import {
   createFrameLookupTable,
   type ExtractedFrames,
   type VideoElement,
-} from "@hyperframes/engine";
+} from "@frames/engine";
 import {
   buildPlanVideosJson,
   parsePlanVideosJson,

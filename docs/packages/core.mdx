@@ -1,21 +1,21 @@
 ---
-title: "@hyperframes/core"
+title: "@frames/core"
 description: "Types, HTML generation, runtime, and linter — the foundation every other package depends on."
 ---
 
 The core package provides the foundational types, HTML parsing/generation, runtime, and composition linter that all other Hyperframes packages build on. If you are building tooling, writing a custom integration, or extending Hyperframes itself, this is the package you need.
 
 ```bash
-npm install @hyperframes/core
+npm install @frames/core
 ```
 
 ## When to Use
 
 <Tip>
-  **Most users do not need to install `@hyperframes/core` directly.** The [CLI](/packages/cli), [producer](/packages/producer), and [studio](/packages/studio) packages all depend on core internally. You only need it if you are doing one of the things listed below.
+  **Most users do not need to install `@frames/core` directly.** The [CLI](/packages/cli), [producer](/packages/producer), and [studio](/packages/studio) packages all depend on core internally. You only need it if you are doing one of the things listed below.
 </Tip>
 
-**Use `@hyperframes/core` when you need to:**
+**Use `@frames/core` when you need to:**
 - Lint compositions programmatically (CI pipelines, editor plugins)
 - Parse HTML compositions into structured TypeScript objects
 - Generate composition HTML from data (e.g., from an API or AI agent)
@@ -23,8 +23,8 @@ npm install @hyperframes/core
 - Embed the Hyperframes runtime in a custom player
 
 **Use a different package if you want to:**
-- Preview compositions in the browser — use the [CLI](/packages/cli) (`npx hyperframes preview`) or [studio](/packages/studio)
-- Render compositions to MP4 — use the [CLI](/packages/cli) (`npx hyperframes render`) or [producer](/packages/producer)
+- Preview compositions in the browser — use the [CLI](/packages/cli) (`npx frames preview`) or [studio](/packages/studio)
+- Render compositions to MP4 — use the [CLI](/packages/cli) (`npx frames render`) or [producer](/packages/producer)
 - Capture frames from a headless browser — use the [engine](/packages/engine)
 
 ## Package Exports
@@ -33,10 +33,10 @@ The core package has four entry points:
 
 | Import | Description |
 |--------|-------------|
-| `@hyperframes/core` | Types, parsers, generators, adapters, runtime utilities |
-| `@hyperframes/core/lint` | Composition linter |
-| `@hyperframes/core/compiler` | Timing compiler, HTML compiler, bundler, static guard |
-| `@hyperframes/core/runtime` | Pre-built IIFE runtime for browser injection |
+| `@frames/core` | Types, parsers, generators, adapters, runtime utilities |
+| `@frames/core/lint` | Composition linter |
+| `@frames/core/compiler` | Timing compiler, HTML compiler, bundler, static guard |
+| `@frames/core/runtime` | Pre-built IIFE runtime for browser injection |
 
 ## Types
 
@@ -55,21 +55,21 @@ import type {
   Orientation,               // "16:9" | "9:16"
   FrameAdapter,
   FrameAdapterContext,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Type guards
 import {
   isTextElement,
   isMediaElement,
   isCompositionElement,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Constants
 import {
   CANVAS_DIMENSIONS,        // { landscape: { width, height }, portrait: { width, height } }
   TIMELINE_COLORS,
   DEFAULT_DURATIONS,
-} from '@hyperframes/core';
+} from '@frames/core';
 ```
 
 ### Variable Types
@@ -84,7 +84,7 @@ import type {
   ColorVariable,
   BooleanVariable,
   EnumVariable,
-} from '@hyperframes/core';
+} from '@frames/core';
 ```
 
 ### Keyframe Types
@@ -96,9 +96,9 @@ import type {
   ElementKeyframes,
   StageZoom,
   StageZoomKeyframe,
-} from '@hyperframes/core';
+} from '@frames/core';
 
-import { getDefaultStageZoom } from '@hyperframes/core';
+import { getDefaultStageZoom } from '@frames/core';
 ```
 
 ## Parsing and Generating HTML
@@ -106,15 +106,15 @@ import { getDefaultStageZoom } from '@hyperframes/core';
 Round-trip between HTML and structured data:
 
 ```typescript
-import { parseHtml, generateHyperframesHtml } from '@hyperframes/core';
-import type { ParsedHtml, CompositionMetadata } from '@hyperframes/core';
+import { parseHtml, generateHyperframesHtml } from '@frames/core';
+import type { ParsedHtml, CompositionMetadata } from '@frames/core';
 
 // Parse HTML into structured data
 const parsed: ParsedHtml = parseHtml(htmlString);
 // parsed.elements, parsed.gsapScript, parsed.styles, parsed.resolution, parsed.keyframes
 
 // Extract composition metadata
-import { extractCompositionMetadata } from '@hyperframes/core';
+import { extractCompositionMetadata } from '@frames/core';
 const meta: CompositionMetadata = extractCompositionMetadata(htmlString);
 // meta.id, meta.duration, meta.width, meta.height, meta.variables
 //
@@ -127,11 +127,11 @@ const meta: CompositionMetadata = extractCompositionMetadata(htmlString);
 
 // Read resolved variables inside a composition (declared defaults +
 // CLI overrides + per-instance host data-variable-values):
-import { getVariables } from '@hyperframes/core';
+import { getVariables } from '@frames/core';
 const { title } = getVariables<{ title: string }>();
 
 // Validate CLI / host overrides against the declared schema:
-import { validateVariables, formatVariableValidationIssue } from '@hyperframes/core';
+import { validateVariables, formatVariableValidationIssue } from '@frames/core';
 const issues = validateVariables({ title: 'Hello', count: 'three' }, meta.variables);
 for (const issue of issues) {
   console.warn(formatVariableValidationIssue(issue));
@@ -154,7 +154,7 @@ import {
   addElementToHtml,
   removeElementFromHtml,
   validateCompositionHtml,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Update an element's properties
 const updatedHtml = updateElementInHtml(html, 'el-1', { start: 5 });
@@ -173,7 +173,7 @@ const result = validateCompositionHtml(html);
 ### GSAP Script Parsing
 
 <Info>
-  The GSAP + HTML parsing layer now lives in its own standalone package, [`@hyperframes/parsers`](/packages/parsers). Core re-exports the API below for back-compat; import from `@hyperframes/parsers` directly in new code.
+  The GSAP + HTML parsing layer now lives in its own standalone package, [`@frames/parsers`](/packages/parsers). Core re-exports the API below for back-compat; import from `@frames/parsers` directly in new code.
 </Info>
 
 ```typescript
@@ -183,12 +183,12 @@ import {
   validateCompositionGsap,
   keyframesToGsapAnimations,
   gsapAnimationsToKeyframes,
-} from '@hyperframes/core';
+} from '@frames/core';
 
-// GSAP parsing, mutation, and constants live in @hyperframes/parsers:
-import { parseGsapScript, SUPPORTED_PROPS, SUPPORTED_EASES } from '@hyperframes/parsers/gsap-parser';
-import { updateAnimationInScript, addAnimationToScript, removeAnimationFromScript } from '@hyperframes/parsers/gsap-writer-acorn';
-import type { GsapAnimation, GsapMethod, ParsedGsap } from '@hyperframes/core';
+// GSAP parsing, mutation, and constants live in @frames/parsers:
+import { parseGsapScript, SUPPORTED_PROPS, SUPPORTED_EASES } from '@frames/parsers/gsap-parser';
+import { updateAnimationInScript, addAnimationToScript, removeAnimationFromScript } from '@frames/parsers/gsap-writer-acorn';
+import type { GsapAnimation, GsapMethod, ParsedGsap } from '@frames/core';
 
 // Parse GSAP script into structured animations
 const parsed: ParsedGsap = parseGsapScript(scriptContent);
@@ -205,7 +205,7 @@ import {
   generateHyperframesHtml,
   generateGsapTimelineScript,
   generateHyperframesStyles,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Generate a complete HTML composition
 const html = generateHyperframesHtml(elements, options);
@@ -231,7 +231,7 @@ import {
   MEDIA_STYLES,
   TEXT_STYLES,
   ZOOM_CONTAINER_STYLES,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Generate base HTML structure for a resolution
 const baseHtml = generateBaseHtml('landscape');
@@ -241,19 +241,19 @@ const styles = getStageStyles('portrait');
 ## Linter
 
 <Info>
-  The composition linter now lives in its own package, [`@hyperframes/lint`](/packages/lint) — install it directly to lint a project or HTML string from Node without the CLI. `@hyperframes/core/lint` remains a back-compat re-export.
+  The composition linter now lives in its own package, [`@frames/lint`](/packages/lint) — install it directly to lint a project or HTML string from Node without the CLI. `@frames/core/lint` remains a back-compat re-export.
 </Info>
 
-The composition linter checks for structural issues that would cause rendering failures or unexpected behavior. You can run it from the CLI with `npx hyperframes lint`, or call it programmatically:
+The composition linter checks for structural issues that would cause rendering failures or unexpected behavior. You can run it from the CLI with `npx frames lint`, or call it programmatically:
 
 ```typescript
-import { lintHyperframeHtml, lintMediaUrls } from '@hyperframes/core/lint';
+import { lintHyperframeHtml, lintMediaUrls } from '@frames/core/lint';
 import type {
   HyperframeLintResult,
   HyperframeLintFinding,
   HyperframeLintSeverity,     // "error" | "warning" | "info"
   HyperframeLinterOptions,
-} from '@hyperframes/core/lint';
+} from '@frames/core/lint';
 
 const result: HyperframeLintResult = lintHyperframeHtml(html, { filePath: 'index.html' });
 // result.ok, result.errorCount, result.warningCount, result.findings
@@ -291,13 +291,13 @@ import {
   injectDurations,
   extractResolvedMedia,
   clampDurations,
-} from '@hyperframes/core/compiler';
+} from '@frames/core/compiler';
 import type {
   UnresolvedElement,
   ResolvedDuration,
   ResolvedMediaElement,
   CompilationResult,
-} from '@hyperframes/core/compiler';
+} from '@frames/core/compiler';
 
 // Compile timing attributes from HTML
 const compiled: CompilationResult = compileTimingAttrs(html);
@@ -311,8 +311,8 @@ const media: ResolvedMediaElement[] = extractResolvedMedia(html);
 
 ```typescript
 // HTML compiler (Node.js — requires media probing)
-import { compileHtml } from '@hyperframes/core/compiler';
-import type { MediaDurationProber } from '@hyperframes/core/compiler';
+import { compileHtml } from '@frames/core/compiler';
+import type { MediaDurationProber } from '@frames/core/compiler';
 
 const prober: MediaDurationProber = async (src) => getDuration(src);
 const compiledHtml = await compileHtml(html, prober);
@@ -320,19 +320,19 @@ const compiledHtml = await compileHtml(html, prober);
 
 ```typescript
 // HTML bundler (Node.js — bundles to single file)
-import { bundleToSingleHtml } from '@hyperframes/core/compiler';
-import type { BundleOptions } from '@hyperframes/core/compiler';
+import { bundleToSingleHtml } from '@frames/core/compiler';
+import type { BundleOptions } from '@frames/core/compiler';
 
 const bundled = await bundleToSingleHtml({ entryPath: './index.html', inline: true });
 ```
 
 ```typescript
 // Static guard — validate HTML contract
-import { validateHyperframeHtmlContract } from '@hyperframes/core/compiler';
+import { validateHyperframeHtmlContract } from '@frames/core/compiler';
 import type {
   HyperframeStaticGuardResult,
   HyperframeStaticFailureReason,
-} from '@hyperframes/core/compiler';
+} from '@frames/core/compiler';
 
 const guard: HyperframeStaticGuardResult = validateHyperframeHtmlContract(html);
 // guard.ok, guard.failures[]
@@ -354,11 +354,11 @@ import {
   HYPERFRAME_RUNTIME_GLOBALS,
   HYPERFRAME_BRIDGE_SOURCES,
   HYPERFRAME_CONTROL_ACTIONS,
-} from '@hyperframes/core';
+} from '@frames/core';
 import type {
   HyperframeControlAction,
   HyperframesRuntimeBuildOptions,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Load the pre-built runtime IIFE
 const runtimeSource = loadHyperframeRuntimeSource();
@@ -370,7 +370,7 @@ const script = buildHyperframesRuntimeScript(options);
 The pre-built runtime IIFE is available as a direct import:
 
 ```typescript
-import runtime from '@hyperframes/core/runtime';
+import runtime from '@frames/core/runtime';
 ```
 
 ## Frame Adapters
@@ -378,13 +378,13 @@ import runtime from '@hyperframes/core/runtime';
 The core package defines the [Frame Adapter](/concepts/frame-adapters) interface and provides the built-in GSAP adapter:
 
 ```typescript
-import { createGSAPFrameAdapter } from '@hyperframes/core';
+import { createGSAPFrameAdapter } from '@frames/core';
 import type {
   FrameAdapter,
   FrameAdapterContext,
   GSAPTimelineLike,
   CreateGSAPFrameAdapterOptions,
-} from '@hyperframes/core';
+} from '@frames/core';
 
 // Create a GSAP frame adapter
 const adapter: FrameAdapter = createGSAPFrameAdapter({
@@ -407,8 +407,8 @@ import {
   MEDIA_VISUAL_STYLE_PROPERTIES,
   copyMediaVisualStyles,
   quantizeTimeToFrame,
-} from '@hyperframes/core';
-import type { MediaVisualStyleProperty } from '@hyperframes/core';
+} from '@frames/core';
+import type { MediaVisualStyleProperty } from '@frames/core';
 
 // Quantize a time value to the nearest frame boundary
 const frameTime = quantizeTimeToFrame(5.033, 30); // → 5.033... snapped to frame
@@ -426,19 +426,19 @@ import type {
   HyperframePickerApi,
   HyperframePickerBoundingBox,
   HyperframePickerElementInfo,
-} from '@hyperframes/core';
+} from '@frames/core';
 ```
 
 ## Related Packages
 
 <CardGroup cols={2}>
-  <Card title="@hyperframes/parsers" icon="code" href="/packages/parsers">
+  <Card title="@frames/parsers" icon="code" href="/packages/parsers">
     The standalone GSAP + HTML parsing layer extracted from core.
   </Card>
-  <Card title="@hyperframes/lint" icon="circle-check" href="/packages/lint">
+  <Card title="@frames/lint" icon="circle-check" href="/packages/lint">
     The composition linter as a standalone library.
   </Card>
-  <Card title="@hyperframes/studio-server" icon="server" href="/packages/studio-server">
+  <Card title="@frames/studio-server" icon="server" href="/packages/studio-server">
     The mountable studio preview/editor backend.
   </Card>
   <Card title="CLI" icon="terminal" href="/packages/cli">

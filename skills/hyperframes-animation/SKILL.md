@@ -1,13 +1,13 @@
 ---
-name: hyperframes-animation
-description: "All animation knowledge for HyperFrames — atomic motion rules, multi-phase scene blueprints, scene transitions, broader motion-design techniques, AND the seven runtime adapters (GSAP default, plus Lottie, Three.js, Anime.js, CSS keyframes, Web Animations API, TypeGPU). Use for any motion or animation task: pick 2-4 rules and compose, or load a blueprint, or look up runtime-specific API (e.g. GSAP eases / Lottie player / Three.js mixer). Also covers auditing an existing composition's choreography (animation map) and 24 named text-animation effects. HyperFrames-native: single paused timeline, seek-safe, deterministic."
+name: frames-animation
+description: "All animation knowledge for Frames — atomic motion rules, multi-phase scene blueprints, scene transitions, broader motion-design techniques, AND the seven runtime adapters (GSAP default, plus Lottie, Three.js, Anime.js, CSS keyframes, Web Animations API, TypeGPU). Use for any motion or animation task: pick 2-4 rules and compose, or load a blueprint, or look up runtime-specific API (e.g. GSAP eases / Lottie player / Three.js mixer). Also covers auditing an existing composition's choreography (animation map) and 24 named text-animation effects. Frames-native: single paused timeline, seek-safe, deterministic."
 ---
 
-# HyperFrames Animation
+# Frames Animation
 
 All motion knowledge in one skill: **rules** (atomic recipes), **blueprints** (multi-phase scene templates), **transitions** (scene-to-scene), **techniques** (broader motion-design patterns), and **adapters** (per-runtime APIs).
 
-For the composition contract (data attributes, sub-compositions, determinism) see `hyperframes-core`.
+For the composition contract (data attributes, sub-compositions, determinism) see `frames-core`.
 
 ## Default: compose atomic rules
 
@@ -55,11 +55,11 @@ Blueprints live in `blueprints-index.md`. Each entry points to `blueprints/<id>.
 - **WAAPI** for native browser keyframes without a GSAP dependency.
 - **TypeGPU / WebGPU** for GPU-rendered canvases (particles, liquid glass, custom shaders).
 
-Multiple runtimes can coexist in one composition. Each registers its instances on the runtime-specific global so HyperFrames can seek all of them in one pass.
+Multiple runtimes can coexist in one composition. Each registers its instances on the runtime-specific global so Frames can seek all of them in one pass.
 
 ## Critical Constraints
 
-**Prerequisite: `hyperframes-core` → Non-Negotiable Rules** (single paused timeline, `data-duration` governs length, no `Math.random` / `Date.now` / `performance.now`, no `repeat: -1`, no page-load `gsap.set` on later-scene clips, no `display` or raw `visibility` tweens, and no timeline construction inside `async` / `setTimeout` / `Promise`). GSAP `autoAlpha` and zero-duration visibility sets at explicit timeline boundaries remain allowed by core. Use those exceptions only on non-clip elements or wrappers inside a clip; the framework owns `.clip` lifecycle. Don't restate the full contract here.
+**Prerequisite: `frames-core` → Non-Negotiable Rules** (single paused timeline, `data-duration` governs length, no `Math.random` / `Date.now` / `performance.now`, no `repeat: -1`, no page-load `gsap.set` on later-scene clips, no `display` or raw `visibility` tweens, and no timeline construction inside `async` / `setTimeout` / `Promise`). GSAP `autoAlpha` and zero-duration visibility sets at explicit timeline boundaries remain allowed by core. Use those exceptions only on non-clip elements or wrappers inside a clip; the framework owns `.clip` lifecycle. Don't restate the full contract here.
 
 Animation-craft additions on top of core's contract:
 
@@ -69,16 +69,16 @@ Animation-craft additions on top of core's contract:
 ## Scripts
 
 ```bash
-node skills/hyperframes-animation/scripts/animation-map.mjs <composition-dir> \
-  --out <composition-dir>/.hyperframes/anim-map
+node skills/frames-animation/scripts/animation-map.mjs <composition-dir> \
+  --out <composition-dir>/.frames/anim-map
 ```
 
 Reads every GSAP timeline registered on `window.__timelines`, enumerates tweens, samples bboxes, computes flags, outputs `animation-map.json`. Use it to audit choreography (dead zones, stagger consistency, lifecycle warnings) after authoring.
 
-`animation-map.mjs` resolves helper packages from the current project first, then can bootstrap the bundled HyperFrames package version. Set `HYPERFRAMES_SKILL_PKG_VERSION=<version>` only when running the skill outside the bundled CLI/skill install and you need to pin that bootstrap version explicitly.
+`animation-map.mjs` resolves helper packages from the current project first, then can bootstrap the bundled Frames package version. Set `FRAMES_SKILL_PKG_VERSION=<version>` only when running the skill outside the bundled CLI/skill install and you need to pin that bootstrap version explicitly.
 
 ## See Also
 
-- `hyperframes-core` — composition structure, data attributes, sub-compositions, deterministic render contract
-- `hyperframes-creative` — palettes, typography, narration, beat planning (non-animation creative direction)
-- `hyperframes-cli` — `npx hyperframes lint / check / snapshot / preview / render`
+- `frames-core` — composition structure, data attributes, sub-compositions, deterministic render contract
+- `frames-creative` — palettes, typography, narration, beat planning (non-animation creative direction)
+- `frames-cli` — `npx frames lint / check / snapshot / preview / render`

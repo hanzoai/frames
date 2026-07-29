@@ -16,7 +16,7 @@ Two synchronized tweens at the SAME timeline position with the SAME ease: (1) a 
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="counter-wrap">
   <span class="counter" id="counter">0</span><span class="counter-suffix">{suffix}</span>
 </div>

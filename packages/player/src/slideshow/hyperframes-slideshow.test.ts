@@ -1,17 +1,17 @@
 // fallow-ignore-file code-duplication
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { handleRuntimeMessage } from "../runtime-message-handler.js";
-import { dropInvalidSlides } from "./hyperframes-slideshow.js";
+import { dropInvalidSlides } from "./frames-slideshow.js";
 import { slideshowChannelName } from "./slideshowPresenter.js";
 
 // Dynamic import defers custom-element registration until happy-dom is active.
 // (Static top-level imports execute before the test environment is set up, which
 // means HTMLElement is undefined.  This is the same pattern used by
-// packages/player/src/hyperframes-player.test.ts.)
+// packages/player/src/frames-player.test.ts.)
 
-describe("<hyperframes-slideshow>", () => {
+describe("<frames-slideshow>", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   function makeEl(opts: {
@@ -21,7 +21,7 @@ describe("<hyperframes-slideshow>", () => {
     total?: number;
     sound?: boolean;
   }) {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     if (opts.sound) el.setAttribute("sound", "");
     document.body.appendChild(el);
     el.__setControllerForTest({
@@ -40,7 +40,7 @@ describe("<hyperframes-slideshow>", () => {
   }
 
   it("is registered as a custom element", () => {
-    expect(customElements.get("hyperframes-slideshow")).toBeDefined();
+    expect(customElements.get("frames-slideshow")).toBeDefined();
   });
 
   it("advances on ArrowRight key dispatched on window (regression: element need not be focused)", () => {
@@ -144,7 +144,7 @@ describe("<hyperframes-slideshow>", () => {
   });
 
   it("does not render the present button in audience mode", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     el.setAttribute("mode", "audience");
     document.body.appendChild(el);
     el.__setControllerForTest({
@@ -196,7 +196,7 @@ describe("<hyperframes-slideshow>", () => {
   });
 
   it("handles postMessage next", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let nextCalled = false;
     el.__setControllerForTest({
@@ -217,7 +217,7 @@ describe("<hyperframes-slideshow>", () => {
   });
 
   it("hotspot buttons do not accumulate on repeated renders", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let onChangeCb: (() => void) | null = null;
     el.__setControllerForTest({
@@ -247,7 +247,7 @@ describe("<hyperframes-slideshow>", () => {
   });
 
   it("swipe with dominant vertical delta does NOT navigate; horizontal delta DOES", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let nextCalled = 0;
     el.__setControllerForTest({
@@ -291,7 +291,7 @@ describe("<hyperframes-slideshow>", () => {
   });
 
   it("renders a hotspot overlay and enters the branch on click", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let entered = "";
     el.__setControllerForTest({
@@ -407,7 +407,7 @@ describe("<hyperframes-slideshow>", () => {
       });
     };
     const attachPlayerMedia = (slideshow: HTMLElement, id: string) => {
-      const player = document.createElement("hyperframes-player") as any;
+      const player = document.createElement("frames-player") as any;
       player.id = id;
       player.muted = false;
       const frame = document.createElement("iframe");
@@ -422,8 +422,8 @@ describe("<hyperframes-slideshow>", () => {
       return { player, frame, video };
     };
 
-    const slideshowA = document.createElement("hyperframes-slideshow") as any;
-    const slideshowB = document.createElement("hyperframes-slideshow") as any;
+    const slideshowA = document.createElement("frames-slideshow") as any;
+    const slideshowB = document.createElement("frames-slideshow") as any;
     slideshowA.setAttribute("sound", "");
     slideshowB.setAttribute("sound", "");
     const ownedA = attachPlayerMedia(slideshowA, "a");
@@ -589,10 +589,10 @@ describe("handleRuntimeMessage scenes seam", () => {
 // ---------------------------------------------------------------------------
 // Presenter-mode / BroadcastChannel tests
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> presenter mode", () => {
+describe("<frames-slideshow> presenter mode", () => {
   beforeEach(async () => {
     localStorage.clear();
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   afterEach(() => {
@@ -609,7 +609,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
    * caller must call el.remove().
    */
   function makeAudienceEl() {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     el.setAttribute("mode", "audience");
     document.body.appendChild(el);
     let lastSync: { sequenceId: string; slideIndex: number; fragmentIndex: number } | null = null;
@@ -634,7 +634,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
    * last onChange callback. Appends to body; caller must call el.remove().
    */
   function makePresenterEl() {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let onChangeCb: (() => void) | null = null;
     el.__setControllerForTest({
@@ -657,10 +657,10 @@ describe("<hyperframes-slideshow> presenter mode", () => {
   }
 
   function makeMediaSyncedEl(mode: "presenter" | "audience", opts: { playRejects?: boolean } = {}) {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     if (mode === "audience") el.setAttribute("mode", "audience");
 
-    const player = document.createElement("hyperframes-player");
+    const player = document.createElement("frames-player");
     const iframe = document.createElement("iframe");
     Object.defineProperty(player, "iframeElement", {
       configurable: true,
@@ -1079,7 +1079,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
   it("arrow keydown inside the composition iframe still drives the deck", () => {
     // Interactive decks move focus into the player iframe on click; keydowns
     // there never reach the top window's listener. The component forwards them.
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     const iframe = document.createElement("iframe");
     el.appendChild(iframe);
@@ -1119,7 +1119,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
 
   it("warns once when iframe key forwarding is unavailable", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     const iframe = document.createElement("iframe");
     Object.defineProperty(iframe, "contentWindow", {
@@ -1176,7 +1176,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
     index?: number;
     total?: number;
   }) {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -1314,7 +1314,7 @@ describe("<hyperframes-slideshow> presenter mode", () => {
  */
 describe("waitForScenes seam — async scene polling", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("resolves immediately when scenes are already populated", async () => {
@@ -1464,9 +1464,9 @@ describe("waitForScenes seam — async scene polling", () => {
   });
 });
 
-describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
+describe("<frames-slideshow> deferred init (Bug 1)", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("connectedCallback defers init to a macrotask so parser-appended children are found", async () => {
@@ -1477,7 +1477,7 @@ describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
     // before that task and would observe an empty subtree; a macrotask yields to
     // the parser first. (Proven against real headless Chrome in
     // scripts/slideshow-e2e-verify.mjs — see task-13-report.md.)
-    const el = document.createElement("hyperframes-slideshow") as HTMLElement & {
+    const el = document.createElement("frames-slideshow") as HTMLElement & {
       __setControllerForTest: (c: unknown) => void;
     };
     const fakePlayer = document.createElement("div");
@@ -1498,7 +1498,7 @@ describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
     // If the element is removed before the macrotask runs, init should be skipped
     // (the timer is cleared in disconnectedCallback and the isConnected guard
     // would also bail).
-    const el = document.createElement("hyperframes-slideshow") as HTMLElement & {
+    const el = document.createElement("frames-slideshow") as HTMLElement & {
       __setControllerForTest: (c: unknown) => void;
     };
     document.body.appendChild(el);
@@ -1515,9 +1515,9 @@ describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
   it("renders initial nav chrome from the manifest before scene metadata arrives", async () => {
     vi.useFakeTimers();
 
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     el.innerHTML = `
-      <script type="application/hyperframes-slideshow+json">
+      <script type="application/frames-slideshow+json">
         {
           "slides": [
             { "sceneId": "intro", "startTime": 0, "endTime": 1 },
@@ -1527,7 +1527,7 @@ describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
       </script>
     `;
 
-    const fakePlayer = document.createElement("hyperframes-player");
+    const fakePlayer = document.createElement("frames-player");
     Object.defineProperty(fakePlayer, "ready", { get: () => true });
     Object.defineProperty(fakePlayer, "seek", { value: () => {} });
     Object.defineProperty(fakePlayer, "play", { value: () => {} });
@@ -1566,13 +1566,13 @@ describe("<hyperframes-slideshow> deferred init (Bug 1)", () => {
 // ---------------------------------------------------------------------------
 // Fix 1: XSS — hotspot attribute escaping (breadcrumb removed from chrome)
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 1 — hotspot id/label XSS escape", () => {
+describe("<frames-slideshow> Fix 1 — hotspot id/label XSS escape", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("hotspot id containing double-quote does not break out of the attribute", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -1600,13 +1600,13 @@ describe("<hyperframes-slideshow> Fix 1 — hotspot id/label XSS escape", () => 
 // ---------------------------------------------------------------------------
 // Fix 2: XSS — presenter slide text escaping
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 2 — presenter text XSS escape", () => {
+describe("<frames-slideshow> Fix 2 — presenter text XSS escape", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("a slide note containing HTML renders as inert text (no element node created)", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -1658,13 +1658,13 @@ describe("<hyperframes-slideshow> Fix 2 — presenter text XSS escape", () => {
 // ---------------------------------------------------------------------------
 // Fix 3: Controller lifecycle — dispose() called on disconnect and rebind
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 3 — controller dispose on lifecycle", () => {
+describe("<frames-slideshow> Fix 3 — controller dispose on lifecycle", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("disconnectedCallback disposes the controller", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let disposed = false;
     el.__setControllerForTest({
@@ -1684,7 +1684,7 @@ describe("<hyperframes-slideshow> Fix 3 — controller dispose on lifecycle", ()
   });
 
   it("binding a second controller disposes the first", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let firstDisposed = false;
     el.__setControllerForTest({
@@ -1717,9 +1717,9 @@ describe("<hyperframes-slideshow> Fix 3 — controller dispose on lifecycle", ()
 // ---------------------------------------------------------------------------
 // Fix 5: waitForReady timeout — resolves within timeout if ready never fires
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 5 — waitForReady timeout", () => {
+describe("<frames-slideshow> Fix 5 — waitForReady timeout", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("waitForReady resolves within timeout when ready never fires", async () => {
@@ -1761,13 +1761,13 @@ describe("<hyperframes-slideshow> Fix 5 — waitForReady timeout", () => {
 // ---------------------------------------------------------------------------
 // Fix 6: keydown — does not navigate from form controls
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 6 — keydown form-control guard", () => {
+describe("<frames-slideshow> Fix 6 — keydown form-control guard", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("ArrowRight keydown from an input does NOT call controller.next", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let nextCalled = false;
     el.__setControllerForTest({
@@ -1794,13 +1794,13 @@ describe("<hyperframes-slideshow> Fix 6 — keydown form-control guard", () => {
 // ---------------------------------------------------------------------------
 // Fix 7: window.postMessage nav — audience mode is ignored
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 7 — audience mode ignores window postMessage nav", () => {
+describe("<frames-slideshow> Fix 7 — audience mode ignores window postMessage nav", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("audience-mode element ignores window.postMessage {type:'next'}", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     el.setAttribute("mode", "audience");
     document.body.appendChild(el);
     let nextCalled = false;
@@ -1822,7 +1822,7 @@ describe("<hyperframes-slideshow> Fix 7 — audience mode ignores window postMes
   });
 
   it("default-mode element honors window.postMessage {type:'next'}", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     // no mode attribute = default mode
     document.body.appendChild(el);
     let nextCalled = false;
@@ -1847,13 +1847,13 @@ describe("<hyperframes-slideshow> Fix 7 — audience mode ignores window postMes
 // ---------------------------------------------------------------------------
 // Bug fix tests: #1 — chrome nulled on disconnect so reconnect re-appends it
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix #1 — chrome re-appended on reconnect", () => {
+describe("<frames-slideshow> Fix #1 — chrome re-appended on reconnect", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("after disconnect+reconnect chrome is re-appended (not left detached)", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
 
     // Inject a controller so chrome is created and appended
@@ -1901,13 +1901,13 @@ describe("<hyperframes-slideshow> Fix #1 — chrome re-appended on reconnect", (
 // ---------------------------------------------------------------------------
 // Bug fix tests: #14 — controller/offChange nulled on disconnect
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix #14 — controller and offChange nulled on disconnect", () => {
+describe("<frames-slideshow> Fix #14 — controller and offChange nulled on disconnect", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("disconnectedCallback nulls controller and offChange so no double-dispose on reconnect", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     let disposeCount = 0;
     let offChangeCalled = 0;
@@ -1960,15 +1960,15 @@ describe("<hyperframes-slideshow> Fix #14 — controller and offChange nulled on
 // ---------------------------------------------------------------------------
 // Bug fix tests: #2 — malformed island does not leave initInFlight stuck
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix #2 — malformed island try/finally", () => {
+describe("<frames-slideshow> Fix #2 — malformed island try/finally", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("malformed parseSlideshowManifest does not leave initInFlight stuck (second init can run)", async () => {
     vi.useFakeTimers();
 
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
 
     // Build a minimal fake player that is "ready" so we pass the ready guard
     const fakePlayer = document.createElement("div");
@@ -2014,16 +2014,16 @@ describe("<hyperframes-slideshow> Fix #2 — malformed island try/finally", () =
 // ---------------------------------------------------------------------------
 // Bug fix tests: #4/#6/#9 — epoch counter cancels stale init
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix #4/#6/#9 — epoch counter cancels stale init", () => {
+describe("<frames-slideshow> Fix #4/#6/#9 — epoch counter cancels stale init", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   it("disconnect during waitForScenes cancels the old init; reconnect can bind a fresh controller", async () => {
     vi.useFakeTimers();
     let bindCount = 0;
 
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
 
     // Fake player: ready immediately, scenes never arrive (so waitForScenes polls)
     const fakePlayer = document.createElement("div");
@@ -2084,7 +2084,7 @@ describe("dropInvalidSlides — phantom slide filtering", () => {
     sceneId: string,
     start: number,
     end: number,
-  ): import("@hyperframes/core/slideshow").ResolvedSlide {
+  ): import("@frames/core/slideshow").ResolvedSlide {
     return { sceneId, start, end, fragments: [], hotspots: [] };
   }
 
@@ -2150,9 +2150,9 @@ describe("dropInvalidSlides — phantom slide filtering", () => {
 // ---------------------------------------------------------------------------
 // Conditional prev/next buttons (Fix 1 — nav button visibility)
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> conditional prev/next buttons", () => {
+describe("<frames-slideshow> conditional prev/next buttons", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   function makeElWithNav(opts: {
@@ -2161,7 +2161,7 @@ describe("<hyperframes-slideshow> conditional prev/next buttons", () => {
     index?: number;
     total?: number;
   }) {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -2201,7 +2201,7 @@ describe("<hyperframes-slideshow> conditional prev/next buttons", () => {
   });
 
   it("inside branch (both canPrev=true, canNext=true): both buttons present", () => {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -2224,7 +2224,7 @@ describe("<hyperframes-slideshow> conditional prev/next buttons", () => {
 
   it("when canPrev/canNext are undefined (legacy stub), both buttons are shown (default-safe)", () => {
     // Stubs without canPrev/canNext should render both buttons (undefined !== false)
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     el.__setControllerForTest({
       next: () => {},
@@ -2247,9 +2247,9 @@ describe("<hyperframes-slideshow> conditional prev/next buttons", () => {
 // Navigation is forward/back only — no breadcrumb or back button in chrome.
 // The controller's back()/backToMain() are retained for internal use by prev().
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> Fix 4 — back affordance (postMessage only; chrome breadcrumb/back removed)", () => {
+describe("<frames-slideshow> Fix 4 — back affordance (postMessage only; chrome breadcrumb/back removed)", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   function makeElWithBreadcrumb(opts: {
@@ -2257,7 +2257,7 @@ describe("<hyperframes-slideshow> Fix 4 — back affordance (postMessage only; c
     onBack?: () => void;
     onBackToMain?: () => void;
   }) {
-    const el = document.createElement("hyperframes-slideshow") as any;
+    const el = document.createElement("frames-slideshow") as any;
     document.body.appendChild(el);
     const breadcrumb =
       opts.breadcrumbLength === 1
@@ -2330,25 +2330,25 @@ describe("<hyperframes-slideshow> Fix 4 — back affordance (postMessage only; c
 });
 
 // ---------------------------------------------------------------------------
-// Mechanical `interactive` attribute on inner <hyperframes-player>
+// Mechanical `interactive` attribute on inner <frames-player>
 // ---------------------------------------------------------------------------
 // The slideshow auto-applies the `interactive` attribute to every inner
-// <hyperframes-player>, so clickable controls, links, native media controls,
+// <frames-player>, so clickable controls, links, native media controls,
 // and custom players inside the composition iframe receive pointer events
 // without the author having to remember the attribute. The player's default
 // is `pointer-events: none` on the iframe; `interactive` flips it to `auto`
 // via the `:host([interactive])` rule in player styles.
 // ---------------------------------------------------------------------------
-describe("<hyperframes-slideshow> auto-sets `interactive` on inner <hyperframes-player>", () => {
+describe("<frames-slideshow> auto-sets `interactive` on inner <frames-player>", () => {
   beforeEach(async () => {
-    await import("./hyperframes-slideshow.js");
+    await import("./frames-slideshow.js");
   });
 
   const tick = () => new Promise<void>((r) => setTimeout(r, 0));
 
-  it("inner <hyperframes-player> gets `interactive` attribute after mount", async () => {
-    const el = document.createElement("hyperframes-slideshow");
-    const player = document.createElement("hyperframes-player");
+  it("inner <frames-player> gets `interactive` attribute after mount", async () => {
+    const el = document.createElement("frames-slideshow");
+    const player = document.createElement("frames-player");
     el.appendChild(player);
     document.body.appendChild(el);
 
@@ -2362,8 +2362,8 @@ describe("<hyperframes-slideshow> auto-sets `interactive` on inner <hyperframes-
   });
 
   it("preserves any author-supplied `interactive` attribute value verbatim", async () => {
-    const el = document.createElement("hyperframes-slideshow");
-    const player = document.createElement("hyperframes-player");
+    const el = document.createElement("frames-slideshow");
+    const player = document.createElement("frames-player");
     // Preserve any author-supplied `interactive` value verbatim. Note: the
     // CSS rule `:host([interactive])` is presence-based per HTML
     // boolean-attribute convention, so the runtime behavior is identical
@@ -2382,14 +2382,14 @@ describe("<hyperframes-slideshow> auto-sets `interactive` on inner <hyperframes-
     el.remove();
   });
 
-  it("dynamically-inserted <hyperframes-player> children also get `interactive`", async () => {
-    const el = document.createElement("hyperframes-slideshow");
+  it("dynamically-inserted <frames-player> children also get `interactive`", async () => {
+    const el = document.createElement("frames-slideshow");
     document.body.appendChild(el);
 
     await tick();
 
     // Late insertion — picked up by the MutationObserver.
-    const player = document.createElement("hyperframes-player");
+    const player = document.createElement("frames-player");
     el.appendChild(player);
 
     // MutationObserver callbacks deliver on a microtask; flush twice to be safe.

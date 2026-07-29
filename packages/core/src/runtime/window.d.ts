@@ -158,9 +158,9 @@ declare global {
     __hfD3?: unknown[];
     /**
      * Render-time variable overrides injected by the engine when the user
-     * passes `hyperframes render --variables '<json>'`. Read indirectly via
-     * `window.__hyperframes.getVariables()` (or the named `getVariables`
-     * export from `@hyperframes/core`), which merges these over the
+     * passes `frames render --variables '<json>'`. Read indirectly via
+     * `window.__frames.getVariables()` (or the named `getVariables`
+     * export from `@frames/core`), which merges these over the
      * declared defaults from `<html data-composition-variables="...">`.
      */
     __hfVariables?: Record<string, unknown>;

@@ -10,7 +10,7 @@ import { isSafeVersion } from "./safeVersion.js";
 
 export { isSafeVersion } from "./safeVersion.js";
 
-const NPM_REGISTRY_URL = "https://registry.npmjs.org/hyperframes/latest";
+const NPM_REGISTRY_URL = "https://registry.npmjs.org/frames/latest";
 const CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const FETCH_TIMEOUT_MS = 3000;
 
@@ -152,26 +152,26 @@ export function withMeta<T extends object>(
  */
 export function printDeprecationNotice(command: string): void {
   process.stderr.write(
-    `'hyperframes ${command}' is deprecated and will be removed in a future release. Use 'hyperframes check' instead.\n`,
+    `'frames ${command}' is deprecated and will be removed in a future release. Use 'frames check' instead.\n`,
   );
 }
 
 /**
  * True when update / freshness notices should stay silent — CI, non-TTY, dev
- * mode, or the HYPERFRAMES_NO_UPDATE_CHECK opt-out. Shared with the skills
+ * mode, or the FRAMES_NO_UPDATE_CHECK opt-out. Shared with the skills
  * freshness notice so both honour the same gating.
  */
 export function updateNoticesSuppressed(): boolean {
   if (isDevMode()) return true;
   if (process.env["CI"] === "true" || process.env["CI"] === "1") return true;
   if (!process.stderr.isTTY) return true;
-  if (process.env["HYPERFRAMES_NO_UPDATE_CHECK"] === "1") return true;
+  if (process.env["FRAMES_NO_UPDATE_CHECK"] === "1") return true;
   return false;
 }
 
 /**
  * Print update notice to stderr if a newer version is available.
- * Skipped in CI, non-TTY, dev mode, or when HYPERFRAMES_NO_UPDATE_CHECK is set.
+ * Skipped in CI, non-TTY, dev mode, or when FRAMES_NO_UPDATE_CHECK is set.
  */
 export function printUpdateNotice(): void {
   if (updateNoticesSuppressed()) return;
@@ -181,12 +181,12 @@ export function printUpdateNotice(): void {
 
   // Show the command that updates *this* install: the detected package
   // manager's upgrade for owned global installs (npm/bun/pnpm/brew), and the
-  // universal `npx hyperframes@latest` for ephemeral/unknown installs (where a
+  // universal `npx frames@latest` for ephemeral/unknown installs (where a
   // manager command wouldn't apply). detectInstaller() only runs here, after
   // the suppression + update-available gates, so it adds no cost to normal runs.
   const safeLatest = isSafeVersion(meta.latestVersion);
   const managerCommand = safeLatest ? detectInstaller().installCommand(meta.latestVersion) : null;
-  const command = managerCommand ?? "npx hyperframes@latest";
+  const command = managerCommand ?? "npx frames@latest";
 
   process.stderr.write(
     `\n  Update available: ${meta.version} \u2192 ${meta.latestVersion}\n` +
@@ -198,7 +198,7 @@ const STALE_PIN_THROTTLE_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Actionable, throttled notice for a project whose package.json still pins an
- * OLD hyperframes version. Unlike printUpdateNotice this DOES fire on non-TTY
+ * OLD frames version. Unlike printUpdateNotice this DOES fire on non-TTY
  * (agents render with piped stderr) \u2014 but only when there's a concrete stale
  * pin to act on, at most once/24h per install, and never under --json/CI/dev/
  * opt-out. The whole cli.ts update block is already skipped for --json, so a
@@ -207,7 +207,7 @@ const STALE_PIN_THROTTLE_MS = 24 * 60 * 60 * 1000;
 export function printStalePinNotice(cwd: string = process.cwd()): void {
   if (isDevMode()) return;
   if (process.env["CI"] === "true" || process.env["CI"] === "1") return;
-  if (process.env["HYPERFRAMES_NO_UPDATE_CHECK"] === "1") return;
+  if (process.env["FRAMES_NO_UPDATE_CHECK"] === "1") return;
 
   const latest = getUpdateMeta().latestVersion;
   if (!latest || !isSafeVersion(latest)) return;
@@ -236,7 +236,7 @@ export function printStalePinNotice(cwd: string = process.cwd()): void {
   writeConfig(config);
 
   process.stderr.write(
-    `\n  This project pins hyperframes@${stale.join(", ")} (latest ${latest}).\n` +
-      `  Bump it: npx hyperframes@latest upgrade --project\n\n`,
+    `\n  This project pins frames@${stale.join(", ")} (latest ${latest}).\n` +
+      `  Bump it: npx frames@latest upgrade --project\n\n`,
   );
 }

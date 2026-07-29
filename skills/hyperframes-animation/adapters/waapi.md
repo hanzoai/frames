@@ -1,11 +1,11 @@
 ---
-name: hyperframes-waapi
-description: Web Animations API adapter patterns for HyperFrames. Use when authoring element.animate() motion, Animation currentTime seeking, document.getAnimations(), KeyframeEffect timing, fill modes, or native browser animations that must render deterministically in HyperFrames.
+name: frames-waapi
+description: Web Animations API adapter patterns for Frames. Use when authoring element.animate() motion, Animation currentTime seeking, document.getAnimations(), KeyframeEffect timing, fill modes, or native browser animations that must render deterministically in Frames.
 ---
 
-# Web Animations API for HyperFrames
+# Web Animations API for Frames
 
-HyperFrames can seek Web Animations API animations through its `waapi` runtime adapter. WAAPI is useful when you want native browser keyframes with JavaScript-created timing and no GSAP dependency.
+Frames can seek Web Animations API animations through its `waapi` runtime adapter. WAAPI is useful when you want native browser keyframes with JavaScript-created timing and no GSAP dependency.
 
 ## Contract
 
@@ -15,7 +15,7 @@ HyperFrames can seek Web Animations API animations through its `waapi` runtime a
 - Pause animations after creation or let the adapter pause them on first seek.
 - Avoid callbacks and promises for render-critical state.
 
-The adapter calls `document.getAnimations()`, sets each animation's `currentTime` to HyperFrames time in milliseconds, then pauses it.
+The adapter calls `document.getAnimations()`, sets each animation's `currentTime` to Frames time in milliseconds, then pauses it.
 
 ## Basic Pattern
 
@@ -74,7 +74,7 @@ document.querySelectorAll(".token").forEach((token, index) => {
 
 The render engine needs the composition's total length to know how many frames to capture. GSAP timelines report duration automatically; a WAAPI-only composition has no timeline object, so the runtime infers duration from every animation's `effect.getComputedTiming().endTime` (offset by when the animation was created relative to composition start). `data-duration` on the root element is optional as long as every `element.animate()` call uses finite `duration` and `iterations` — which the contract above already requires.
 
-Infinite `iterations` has no finite `endTime`, so it can't be auto-inferred — that's one more reason to avoid it (see Avoid below). If you must use it, add `data-duration="<seconds>"` to the root `[data-composition-id]` element or `npx hyperframes lint` will error (`root_composition_missing_duration_source`).
+Infinite `iterations` has no finite `endTime`, so it can't be auto-inferred — that's one more reason to avoid it (see Avoid below). If you must use it, add `data-duration="<seconds>"` to the root `[data-composition-id]` element or `npx frames lint` will error (`root_composition_missing_duration_source`).
 
 ## Avoid
 
@@ -82,20 +82,20 @@ Infinite `iterations` has no finite `endTime`, so it can't be auto-inferred — 
 - Depending on `animation.finished` to mutate render-critical DOM.
 - Running separate clocks with `requestAnimationFrame`, timers, or `performance.now()`.
 - Animating layout properties when transforms and opacity can express the motion.
-- Assuming clip-local start time is automatic. WAAPI adapter seeks document-level animation time; model clip offsets with `delay` or create the animation on an element whose visibility is controlled by HyperFrames timing.
+- Assuming clip-local start time is automatic. WAAPI adapter seeks document-level animation time; model clip offsets with `delay` or create the animation on an element whose visibility is controlled by Frames timing.
 
 ## Validation
 
 After editing a WAAPI composition:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx frames lint
+npx frames check
 ```
 
 ## Credits And References
 
-- HyperFrames adapter source: `packages/core/src/runtime/adapters/waapi.ts`.
+- Frames adapter source: `packages/core/src/runtime/adapters/waapi.ts`.
 - Duration auto-inference: `packages/core/src/runtime/init.ts` (`resolveAdapterDurationFloorSeconds`), `getInferredDurationSeconds` in the adapter above.
 - MDN Web Animations API guide: https://developer.mozilla.org/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API
 - MDN `Animation.currentTime`: https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime

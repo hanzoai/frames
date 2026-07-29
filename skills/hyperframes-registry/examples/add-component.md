@@ -9,7 +9,7 @@ User wants to add a shimmer light sweep effect to their title text.
 ### 1. Install the component
 
 ```bash
-hyperframes add shimmer-sweep
+frames add shimmer-sweep
 ```
 
 ### 2. Read the snippet
@@ -61,8 +61,8 @@ tl.fromTo(
 ### 4. Lint and preview
 
 ```bash
-hyperframes lint
-hyperframes preview
+frames lint
+frames preview
 ```
 
 ### 5. Customize

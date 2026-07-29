@@ -1,6 +1,6 @@
-# GSAP Effects for HyperFrames
+# GSAP Effects for Frames
 
-Drop-in animation patterns. Snippets show mechanism only, inside a standard scene clip (hyperframes-core); assume `tl` exists.
+Drop-in animation patterns. Snippets show mechanism only, inside a standard scene clip (frames-core); assume `tl` exists.
 
 - [Typewriter](#typewriter) — character-by-character reveal with optional cursor / backspace / word rotation
 - [Audio Visualizer](#audio-visualizer) — pre-extract audio data, drive Canvas/DOM rendering from the timeline
@@ -129,8 +129,8 @@ Pre-extract audio data, drive Canvas / DOM rendering from the timeline. **Do not
 Bundled extractor (requires `ffmpeg` + Python `numpy`):
 
 ```bash
-python skills/hyperframes-creative/scripts/extract-audio-data.py audio.mp3 -o audio-data.json
-python skills/hyperframes-creative/scripts/extract-audio-data.py video.mp4 --fps 30 --bands 16 -o audio-data.json
+python skills/frames-creative/scripts/extract-audio-data.py audio.mp3 -o audio-data.json
+python skills/frames-creative/scripts/extract-audio-data.py video.mp4 --fps 30 --bands 16 -o audio-data.json
 ```
 
 Output: `{ "fps": 30, "totalFrames": 5415, "frames": [{ "time": 0.0, "rms": 0.42, "bands": [0.8, 0.6, 0.3] }] }` — `rms` (0-1) is overall loudness; `bands[]` (0-1) are frequency magnitudes, index 0 = bass, each band normalized independently.
@@ -146,7 +146,7 @@ xhr.send();
 const AUDIO_DATA = JSON.parse(xhr.responseText);
 ```
 
-**Do NOT use async `fetch()`** — HyperFrames reads `window.__timelines` synchronously after page load; building the timeline inside `.then()` means it isn't ready when capture starts.
+**Do NOT use async `fetch()`** — Frames reads `window.__timelines` synchronously after page load; building the timeline inside `.then()` means it isn't ready when capture starts.
 
 ### Driving the Timeline
 
@@ -167,7 +167,7 @@ for (let f = 0; f < AUDIO_DATA.totalFrames; f++) {
 }
 ```
 
-WebGL / Three.js: HyperFrames patches `THREE.Clock` for deterministic time — update uniforms from audio data each frame. DOM elements: fine under ~20 elements, slower than Canvas beyond that.
+WebGL / Three.js: Frames patches `THREE.Clock` for deterministic time — update uniforms from audio data each frame. DOM elements: fine under ~20 elements, slower than Canvas beyond that.
 
 ### Smoothing
 

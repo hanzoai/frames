@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { evaluateSpringEase, parseSpringBounce } from "@hyperframes/core/spring-ease";
+import { evaluateSpringEase, parseSpringBounce } from "@frames/core/spring-ease";
 import {
   evaluateWiggleEase,
   parseWiggleEase,
   type WiggleEaseConfig,
-} from "@hyperframes/core/wiggle-ease";
+} from "@frames/core/wiggle-ease";
 import { EASE_PRESETS, easePresetLabel } from "./easePresetLibrary";
 import { holdCurvePath, MiniCurveSvg, sampledPath } from "./easeCurveSvg";
 import { EaseBezierField, SpringBounceField, WiggleField } from "./EaseParamFields";

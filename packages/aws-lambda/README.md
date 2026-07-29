@@ -1,6 +1,6 @@
-# @hyperframes/aws-lambda
+# @frames/aws-lambda
 
-AWS Lambda adapter for HyperFrames distributed rendering. Ships three
+AWS Lambda adapter for Frames distributed rendering. Ships three
 things together:
 
 1. The **Lambda handler** that wraps the OSS `plan` / `renderChunk` /
@@ -28,9 +28,9 @@ smoke flow; the SDK + CDK are the supported public surface for adopters.
 ┌──────────────────────────────────────────────────────────────────┐
 │ One Lambda function (this package's `dist/handler.zip`)          │
 │   handler.mjs                                                    │
-│     ├─ Action="plan"        → @hyperframes/producer/distributed  │
-│     ├─ Action="renderChunk" → @hyperframes/producer/distributed  │
-│     └─ Action="assemble"    → @hyperframes/producer/distributed  │
+│     ├─ Action="plan"        → @frames/producer/distributed  │
+│     ├─ Action="renderChunk" → @frames/producer/distributed  │
+│     └─ Action="assemble"    → @frames/producer/distributed  │
 │   bin/ffmpeg                — ffmpeg-static                      │
 │   node_modules/@sparticuz/chromium/ — Lambda-optimised Chromium  │
 └──────────────────────────────────────────────────────────────────┘
@@ -81,13 +81,13 @@ bun run --cwd packages/aws-lambda build:zip
 bun run --cwd packages/aws-lambda build:zip -- --source=chrome-headless-shell
 ```
 
-The handler reads `HYPERFRAMES_LAMBDA_CHROME_SOURCE` at boot. The build
+The handler reads `FRAMES_LAMBDA_CHROME_SOURCE` at boot. The build
 script sets that env var via Lambda function configuration in
 `examples/aws-lambda/template.yaml`.
 
 ## BeginFrame regression guard
 
-HyperFrames' renderer drives Chrome via the CDP
+Frames' renderer drives Chrome via the CDP
 `HeadlessExperimental.beginFrame` command — same path the K8s deploy uses.
 The Lambda adapter assumes that `@sparticuz/chromium`'s
 chrome-headless-shell build honours BeginFrame. To prove it (and re-prove
@@ -136,19 +136,19 @@ After deploying the stack (via the SAM template, CDK construct below, or
 your own CFN of choice), drive renders from Node:
 
 ```ts
-import { deploySite, getRenderProgress, renderToLambda } from "@hyperframes/aws-lambda";
+import { deploySite, getRenderProgress, renderToLambda } from "@frames/aws-lambda";
 
 // One-time upload per project version.
 const site = await deploySite({
   projectDir: "./my-composition",
-  bucketName: "hyperframes-render-bucket",
+  bucketName: "frames-render-bucket",
 });
 
 // Start a render. Returns immediately — does NOT poll.
 const handle = await renderToLambda({
   siteHandle: site,
   bucketName: site.bucketName,
-  stateMachineArn: "arn:aws:states:us-east-1:123:stateMachine:hyperframes-render",
+  stateMachineArn: "arn:aws:states:us-east-1:123:stateMachine:frames-render",
   config: {
     fps: 30,
     width: 1920,
@@ -184,7 +184,7 @@ transfer.
 
 ```ts
 import { App, Stack } from "aws-cdk-lib";
-import { HyperframesRenderStack } from "@hyperframes/aws-lambda/cdk";
+import { HyperframesRenderStack } from "@frames/aws-lambda/cdk";
 
 const app = new App();
 const stack = new Stack(app, "MyApp");
@@ -201,11 +201,11 @@ new CfnOutput(stack, "StateMachineArn", { value: render.stateMachine.stateMachin
 
 `aws-cdk-lib` and `constructs` are **optional peer dependencies**: SDK-only
 consumers don't pull them at runtime. The construct itself imports from
-`@hyperframes/aws-lambda/cdk`.
+`@frames/aws-lambda/cdk`.
 
 ## What's still ahead
 
-- `hyperframes lambda` CLI (deploy / sites create / render / progress / destroy) — PR 6.5.
+- `frames lambda` CLI (deploy / sites create / render / progress / destroy) — PR 6.5.
 - IAM bootstrap subcommand (`policies role | user | validate`) — PR 6.9.
 - Lambda-local regression harness (`--mode=lambda-local`) — PR 6.6.
 - Adopter-facing migration guide — PR 6.8.

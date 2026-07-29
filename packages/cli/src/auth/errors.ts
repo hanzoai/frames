@@ -27,21 +27,21 @@ export const ErrNotConfigured = () =>
   new AuthError(
     "NOT_CONFIGURED",
     "No HeyGen credentials found",
-    "Run `hyperframes auth login` to sign in.",
+    "Run `frames auth login` to sign in.",
   );
 
 export const ErrInvalidStore = (detail: string) =>
   new AuthError(
     "INVALID_STORE",
     `Credential file is unreadable: ${detail}`,
-    "Delete ~/.heygen/credentials and run `hyperframes auth login` to re-create it.",
+    "Delete ~/.heygen/credentials and run `frames auth login` to re-create it.",
   );
 
 export const ErrUnauthenticated = (detail?: string) =>
   new AuthError(
     "UNAUTHENTICATED",
     detail ? `HeyGen rejected the credential: ${detail}` : "HeyGen rejected the credential",
-    "Run `hyperframes auth login` to re-authenticate.",
+    "Run `frames auth login` to re-authenticate.",
   );
 
 export const ErrApi = (status: number, detail: string) =>
@@ -51,14 +51,14 @@ export const ErrOAuthNotConfigured = () =>
   new AuthError(
     "OAUTH_NOT_CONFIGURED",
     "OAuth client is not configured",
-    "Set HYPERFRAMES_OAUTH_CLIENT_ID, or run `hyperframes auth login --api-key`.",
+    "Set FRAMES_OAUTH_CLIENT_ID, or run `frames auth login --api-key`.",
   );
 
 export const ErrRefreshFailed = (detail?: string) =>
   new AuthError(
     "REFRESH_FAILED",
     detail ? `Failed to refresh OAuth tokens: ${detail}` : "Failed to refresh OAuth tokens",
-    "Run `hyperframes auth login` to re-authenticate.",
+    "Run `frames auth login` to re-authenticate.",
   );
 
 export function isAuthError(err: unknown): err is AuthError {

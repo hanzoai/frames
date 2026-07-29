@@ -4,7 +4,7 @@ Blocks are standalone compositions with their own `data-composition-id`, dimensi
 
 ## Basic wiring
 
-After `hyperframes add data-chart`, wire it into your `index.html`:
+After `frames add data-chart`, wire it into your `index.html`:
 
 ```html
 <div id="stage" data-composition-id="main" data-width="1920" data-height="1080" data-duration="20">
@@ -37,7 +37,7 @@ After `hyperframes add data-chart`, wire it into your `index.html`:
 
 ## Timeline coordination
 
-The block's internal GSAP timeline runs independently from the host timeline. The HyperFrames runtime loads the sub-composition, finds its `window.__timelines` registration, and seeks the block in sync with the host, offset by `data-start`. You do NOT need to reference the block's timeline in your host's GSAP code.
+The block's internal GSAP timeline runs independently from the host timeline. The Frames runtime loads the sub-composition, finds its `window.__timelines` registration, and seeks the block in sync with the host, offset by `data-start`. You do NOT need to reference the block's timeline in your host's GSAP code.
 
 ## Positioning blocks
 

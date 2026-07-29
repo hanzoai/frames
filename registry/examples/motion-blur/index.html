@@ -440,7 +440,7 @@
               };
             });
 
-            // tl.eventCallback("onUpdate") is not available in the HyperFrames renderer —
+            // tl.eventCallback("onUpdate") is not available in the Frames renderer —
             // the runtime proxies the timeline. Tween onUpdate fires on every seek instead.
             var _proxy = { t: 0 };
             tl.to(

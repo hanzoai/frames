@@ -56,7 +56,7 @@ The same composition can render different images, video clips, or audio tracks j
         const {
           productImage = "https://cdn.example.com/products/default.png",
           productName = "Untitled",
-        } = __hyperframes.getVariables();
+        } = __frames.getVariables();
         const root = document.querySelector('[data-composition-id="product-card"]');
         root.querySelector(".product-img").src = productImage;
         root.querySelector(".product-name").textContent = productName;
@@ -127,7 +127,7 @@ A common follow-up: if a variable swaps a `<video>` to a different clip, does `d
 ```html compositions/hero.html
 <video id="hero" data-start="0" data-track-index="0"></video>
 <script>
-  document.getElementById("hero").src = __hyperframes.getVariables().heroVideo;
+  document.getElementById("hero").src = __frames.getVariables().heroVideo;
 </script>
 ```
 
@@ -136,7 +136,7 @@ If you need to clamp or pin the clip to a specific length per render — for exa
 ```html compositions/hero.html
 <video id="hero" data-start="0" data-track-index="0"></video>
 <script>
-  const { heroVideo, heroDuration } = __hyperframes.getVariables();
+  const { heroVideo, heroDuration } = __frames.getVariables();
   const el = document.getElementById("hero");
   el.src = heroVideo;
   if (heroDuration !== undefined) {
@@ -159,7 +159,7 @@ A small set of inputs are read once from the source HTML or from the CLI / SDK, 
 |------|----------------------------|
 | Composition dimensions | `data-width` / `data-height` on the composition element, parsed from the source HTML at compile time, not from the live DOM |
 | Root composition total duration | `data-duration` on the **root** composition element (the total render length / frame count), parsed from the source HTML at compile time. A static root `data-duration` is locked before scripts run, so neither a script nor a variable can change the render length. (A clip's own `data-duration` is different: it is re-read from the live DOM, as shown above.) |
-| Frame rate | `--fps` flag on `hyperframes render`, or `config.fps` in the SDK |
+| Frame rate | `--fps` flag on `frames render`, or `config.fps` in the SDK |
 | Output format / codec / quality | `--format` / `--codec` / `--quality` flags, or the SDK equivalents |
 | A sibling or parent composition's variables | Variables are per-composition; use [`data-variable-values`](#per-instance-overrides-sub-compositions) on each sub-comp host element to pass overrides |
 
@@ -167,7 +167,7 @@ The deeper rule: variables are runtime values your script applies to the DOM. Th
 
 ## Reading Variables at Runtime
 
-Inside any composition script, call `window.__hyperframes.getVariables()` to get the resolved variable values. The return type is `Partial<Record<string, unknown>>` — use destructuring with defaults matching the declared `default` values:
+Inside any composition script, call `window.__frames.getVariables()` to get the resolved variable values. The return type is `Partial<Record<string, unknown>>` — use destructuring with defaults matching the declared `default` values:
 
 ```html compositions/card.html
 <html data-composition-variables='[
@@ -184,7 +184,7 @@ Inside any composition script, call `window.__hyperframes.getVariables()` to get
       </style>
 
       <script>
-        const { title = "Untitled", color = "#111827" } = __hyperframes.getVariables();
+        const { title = "Untitled", color = "#111827" } = __frames.getVariables();
         const root = document.querySelector('[data-composition-id="card"]');
         root.querySelector(".card-title").textContent = title;
         root.style.setProperty("--card-color", color);
@@ -194,7 +194,7 @@ Inside any composition script, call `window.__hyperframes.getVariables()` to get
 </html>
 ```
 
-`__hyperframes.getVariables()` is a shorthand for `window.__hyperframes.getVariables()` and works in both top-level and sub-composition scripts. The runtime automatically scopes sub-compositions so each instance sees its own resolved values.
+`__frames.getVariables()` is a shorthand for `window.__frames.getVariables()` and works in both top-level and sub-composition scripts. The runtime automatically scopes sub-compositions so each instance sees its own resolved values.
 
 ## Declarative Bindings (No Script Required)
 
@@ -270,13 +270,13 @@ Pass variable values at render time with `--variables` or `--variables-file`. Th
 
 ```bash Terminal
 # Inline JSON
-npx hyperframes render --variables '{"title":"Q4 Report","color":"#1d4ed8"}' --output q4.mp4
+npx frames render --variables '{"title":"Q4 Report","color":"#1d4ed8"}' --output q4.mp4
 
 # JSON file
-npx hyperframes render --variables-file ./vars.json --output out.mp4
+npx frames render --variables-file ./vars.json --output out.mp4
 
 # Fail on undeclared or mistyped variables
-npx hyperframes render --variables '{"title":"Q4 Report"}' --strict-variables --output out.mp4
+npx frames render --variables '{"title":"Q4 Report"}' --strict-variables --output out.mp4
 ```
 
 `--strict-variables` turns variable warnings into errors. Any variable in `--variables` that is not declared in `data-composition-variables`, or whose value does not match the declared type, causes the render to exit non-zero. Useful in CI pipelines where an undeclared variable key likely indicates a typo or a schema mismatch.
@@ -297,7 +297,7 @@ Use `--batch` when the same composition should render once per data row:
 ```
 
 ```bash Terminal
-npx hyperframes render --batch rows.json --output "renders/{name}.mp4" --strict-variables
+npx frames render --batch rows.json --output "renders/{name}.mp4" --strict-variables
 ```
 
 Each row is treated like a `--variables` object and merged over the composition defaults. Output paths support `{key}` placeholders from the row plus `{index}`. Hyperframes validates missing placeholders, output collisions, and `--strict-variables` issues before the first row starts rendering, then writes `manifest.json` next to the outputs with one status row per render.
@@ -312,7 +312,7 @@ Variable values are resolved by merging three sources, lowest to highest precede
 |--------|-----------|---------------|
 | Declared defaults | Lowest | `data-composition-variables` on the declaration root (`<html>`, or the composition root div for template/fragment comps) |
 | Per-instance host overrides | Middle | `data-variable-values` on the sub-comp host element |
-| CLI `--variables` flag | Highest | `hyperframes render --variables '{...}'` |
+| CLI `--variables` flag | Highest | `frames render --variables '{...}'` |
 
 A missing key at any layer falls through to the next lower layer. If no layer provides a value, the declared `default` is used.
 
@@ -321,7 +321,7 @@ A missing key at any layer falls through to the next lower layer. If no layer pr
 The linter checks variable declarations statically:
 
 ```bash Terminal
-npx hyperframes lint
+npx frames lint
 ```
 
 It catches malformed JSON, missing required fields (`id`, `type`, `label`, `default`), and type mismatches between `type` and the `default` value. Fix lint errors before rendering — they indicate the runtime will be unable to resolve variables correctly.
@@ -334,10 +334,10 @@ At render time, the CLI validates `--variables` against the schema and reports i
 
 ## Inspecting Variables Programmatically
 
-If you are building tooling on top of `@hyperframes/core`, the variable declarations are readable without rendering:
+If you are building tooling on top of `@frames/core`, the variable declarations are readable without rendering:
 
 ```typescript
-import { extractCompositionMetadata } from "@hyperframes/core";
+import { extractCompositionMetadata } from "@frames/core";
 import { readFileSync } from "node:fs";
 
 const html = readFileSync("compositions/card.html", "utf8");
@@ -361,7 +361,7 @@ system:
 - **Render with values** — renders started from the Renders tab carry the active
   preview overrides.
 - **Handoff** — copy the effective values as JSON or as a ready-to-run
-  `hyperframes render --variables` command.
+  `frames render --variables` command.
 - **Usage** — declarations no script reads are badged `unused`; ids read by scripts
   but missing from the schema get a one-click Declare action.
 

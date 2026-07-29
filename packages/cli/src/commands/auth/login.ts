@@ -1,6 +1,6 @@
 import { failCommand } from "../../utils/commandResult.js";
 /**
- * `hyperframes auth login` — sign in to HeyGen.
+ * `frames auth login` — sign in to HeyGen.
  *
  * Default: OAuth 2.0 + PKCE via a loopback callback. The CLI opens
  * the user's browser, captures the authorization code on an
@@ -298,7 +298,7 @@ async function verifyAndReport(key: string): Promise<UserInfo | null> {
       console.error(
         `${c.warn("HeyGen rejected the API key.")}\n` +
           `  ${c.dim(err.message)}\n` +
-          `Run ${c.accent("hyperframes auth login --api-key")} again with a valid key.`,
+          `Run ${c.accent("frames auth login --api-key")} again with a valid key.`,
       );
       return null;
     }

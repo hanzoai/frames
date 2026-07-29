@@ -157,7 +157,7 @@ function findCachedHeadlessShell(baseDir: string): string | undefined {
 /**
  * Resolve chrome-headless-shell binary for deterministic BeginFrame rendering.
  * Checks config.chromePath, then PRODUCER_HEADLESS_SHELL_PATH env var,
- * then the CLI browser override, HyperFrames' managed cache, and Puppeteer's cache.
+ * then the CLI browser override, Frames' managed cache, and Puppeteer's cache.
  */
 export function resolveHeadlessShellPath(
   config?: Partial<Pick<EngineConfig, "chromePath">>,
@@ -170,17 +170,17 @@ export function resolveHeadlessShellPath(
     if (!existsSync(envPath)) {
       throw new Error(
         `[BrowserManager] Chrome binary not found at PRODUCER_HEADLESS_SHELL_PATH="${envPath}". ` +
-          "Run `hyperframes browser ensure` to re-download.",
+          "Run `frames browser ensure` to re-download.",
       );
     }
     return envPath;
   }
-  if (process.env.HYPERFRAMES_BROWSER_PATH) {
-    const envPath = process.env.HYPERFRAMES_BROWSER_PATH;
+  if (process.env.FRAMES_BROWSER_PATH) {
+    const envPath = process.env.FRAMES_BROWSER_PATH;
     if (!existsSync(envPath)) {
       throw new Error(
-        `[BrowserManager] Chrome binary not found at HYPERFRAMES_BROWSER_PATH="${envPath}". ` +
-          "Run `hyperframes browser ensure` to re-download.",
+        `[BrowserManager] Chrome binary not found at FRAMES_BROWSER_PATH="${envPath}". ` +
+          "Run `frames browser ensure` to re-download.",
       );
     }
     return envPath;
@@ -188,7 +188,7 @@ export function resolveHeadlessShellPath(
   const home = homedir();
   return (
     findCachedHeadlessShell(
-      join(home, ".cache", "hyperframes", "chrome", "chrome-headless-shell"),
+      join(home, ".cache", "frames", "chrome", "chrome-headless-shell"),
     ) ?? findCachedHeadlessShell(join(home, ".cache", "puppeteer", "chrome-headless-shell"))
   );
 }
@@ -523,7 +523,7 @@ export function resolveBrowserGpuMode(
  * production. Goes to stderr to stay out of stdout pipelines.
  */
 function logResolvedBrowserGpuMode(resolved: "hardware" | "software", reason: string): void {
-  console.error(`[hyperframes] browserGpuMode auto → ${resolved} (${reason})`);
+  console.error(`[frames] browserGpuMode auto → ${resolved} (${reason})`);
 }
 
 function createBrowserLaunchFingerprint(

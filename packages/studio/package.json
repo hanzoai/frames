@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/studio",
+  "name": "@frames/studio",
   "version": "0.7.81",
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/studio"
   },
   "files": [
@@ -64,11 +64,11 @@
     "@codemirror/state": "^6.6.0",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "6.40.0",
-    "@hyperframes/core": "workspace:*",
-    "@hyperframes/parsers": "workspace:*",
-    "@hyperframes/player": "workspace:*",
-    "@hyperframes/sdk": "workspace:*",
-    "@hyperframes/studio-server": "workspace:*",
+    "@frames/core": "workspace:*",
+    "@frames/parsers": "workspace:*",
+    "@frames/player": "workspace:*",
+    "@frames/sdk": "workspace:*",
+    "@frames/studio-server": "workspace:*",
     "@phosphor-icons/react": "^2.1.10",
     "bpm-detective": "^2.0.5",
     "dompurify": "^3.2.4",
@@ -77,7 +77,7 @@
     "mediabunny": "^1.45.3"
   },
   "devDependencies": {
-    "@hyperframes/producer": "workspace:*",
+    "@frames/producer": "workspace:*",
     "@types/react": "19",
     "@types/react-dom": "19",
     "@vitejs/plugin-react": "^4.0.0",

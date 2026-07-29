@@ -56,9 +56,9 @@ function orbitStageSource(): string {
 }
 
 /** Maximum time a single-frame FFmpeg extract is allowed to run. Mirrors the
- * default applied by `@hyperframes/engine`'s `runFfmpeg` so a pathological
+ * default applied by `@frames/engine`'s `runFfmpeg` so a pathological
  * clip (corrupt media, stalled network mount, codec edge case) cannot wedge
- * `hyperframes snapshot` indefinitely. */
+ * `frames snapshot` indefinitely. */
 const FFMPEG_EXTRACT_TIMEOUT_MS = 30_000;
 
 /** Keep millisecond-level snapshot timing proof without leaking floating-point noise. */
@@ -366,7 +366,7 @@ async function captureSnapshots(
       let syncVideoFrameVisibility: SyncVisibilityFn | null = null;
       let extractMediaMetadata: ExtractMediaMetadataFn | null = null;
       try {
-        const engine = (await import("@hyperframes/engine")) as {
+        const engine = (await import("@frames/engine")) as {
           injectVideoFramesBatch: InjectFn;
           syncVideoFrameVisibility: SyncVisibilityFn;
           extractMediaMetadata: ExtractMediaMetadataFn;
@@ -380,7 +380,7 @@ async function captureSnapshots(
         // programmatic currentTime writes). Say so instead of silently
         // shipping black frames (two wild Windows reports).
         console.warn(
-          `   ${c.warn("⚠")} @hyperframes/engine unavailable — <video> elements will appear black in snapshots. Verify media via a draft render's extracted frames instead.`,
+          `   ${c.warn("⚠")} @frames/engine unavailable — <video> elements will appear black in snapshots. Verify media via a draft render's extracted frames instead.`,
         );
       }
       const alphaDecoderCache = new Map<string, Promise<boolean>>();
@@ -635,7 +635,7 @@ export default defineCommand({
     proxy: {
       type: "boolean",
       description:
-        "Auto-transcode browser-hostile video codecs for snapshots (default: on; overrides hyperframes.json media.autoProxy)",
+        "Auto-transcode browser-hostile video codecs for snapshots (default: on; overrides frames.json media.autoProxy)",
       default: undefined,
     },
   },
@@ -731,7 +731,7 @@ export default defineCommand({
             console.log(`   ${c.dim("Describing frames with Gemini vision...")}`);
             const { GoogleGenAI } = await import("@google/genai");
             const ai = new GoogleGenAI({ apiKey: geminiKey });
-            const model = process.env.HYPERFRAMES_GEMINI_MODEL || "gemini-3.1-flash-lite-preview";
+            const model = process.env.FRAMES_GEMINI_MODEL || "gemini-3.1-flash-lite-preview";
             const customQuestion =
               describeArg === "true"
                 ? "Describe this video composition frame in 1-2 sentences. Be specific and factual: what elements are visible, what text appears, is the frame blank/black/loading, what is the composition. Flag any obvious problems."

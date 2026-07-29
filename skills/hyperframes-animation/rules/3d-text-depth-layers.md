@@ -16,7 +16,7 @@ A build script appends `LAYER_COUNT` copies back-to-front; each back layer sits 
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="depth-stack">
   <!-- layers injected by script — LAYER_COUNT copies of {label} -->
 </div>

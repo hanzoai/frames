@@ -49,13 +49,13 @@ function pipInstall(deps) {
 }
 
 // ── retrieval (HeyGen music library) ──────────────────────────────────────────
-export async function retrieveBgm({ query, headers, hyperframesDir, hasVoice }) {
+export async function retrieveBgm({ query, headers, framesDir, hasVoice }) {
   const q = query || "calm cinematic underscore";
   const results = await searchSounds(q, "music", headers, { limit: 5 });
   if (!results.length) return null;
   const top = results[0];
   const rel = "assets/bgm/track.mp3";
-  await downloadTo(top.audio_url, join(hyperframesDir, rel));
+  await downloadTo(top.audio_url, join(framesDir, rel));
   return {
     path: rel,
     volume: bgmDefaultVolume(hasVoice),
@@ -113,15 +113,15 @@ export function inferBgmPrompt({ blob = "", archetype = "", arc = "", userPrompt
 export function generateBgmDetached({
   prompt,
   durationS,
-  hyperframesDir,
+  framesDir,
   lyriaRecipe,
   seedSeconds = 28,
   hasVoice,
 }) {
   const rel = "assets/bgm/track.wav";
-  const abs = join(hyperframesDir, rel);
-  mkdirSync(join(hyperframesDir, "assets", "bgm"), { recursive: true });
-  const log = join(hyperframesDir, "assets", "bgm", `bgm-${Date.now()}.log`);
+  const abs = join(framesDir, rel);
+  mkdirSync(join(framesDir, "assets", "bgm"), { recursive: true });
+  const log = join(framesDir, "assets", "bgm", `bgm-${Date.now()}.log`);
   const targetS = Math.max(1, durationS);
   const baseMeta = { path: rel, mode: null, volume: bgmDefaultVolume(hasVoice), pending: true };
 

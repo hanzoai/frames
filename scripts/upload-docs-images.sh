@@ -2,7 +2,7 @@
 #
 # Upload docs/images/ to the HeyGen public CDN.
 #
-# Docs previews (mp4/png/gif) are served from https://static.heygen.ai/hyperframes-oss/docs/images/
+# Docs previews (mp4/png/gif) are served from https://static.heygen.ai/frames-oss/docs/images/
 # rather than committed to the repo. After regenerating previews with
 # `scripts/generate-catalog-previews.ts` or `scripts/generate-template-previews.ts`,
 # run this script to publish the new files.
@@ -15,7 +15,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$REPO_ROOT/docs/images/"
-DEST="s3://heygen-public/hyperframes-oss/docs/images/"
+DEST="s3://heygen-public/frames-oss/docs/images/"
 PROFILE="${AWS_PROFILE:-engineering-767398024897}"
 
 if [ ! -d "$SRC" ]; then
@@ -28,4 +28,4 @@ aws --profile "$PROFILE" s3 sync "$SRC" "$DEST" \
   --cache-control "public, max-age=31536000, immutable" \
   --metadata-directive REPLACE
 
-echo "Done. Files are live at https://static.heygen.ai/hyperframes-oss/docs/images/"
+echo "Done. Files are live at https://static.heygen.ai/frames-oss/docs/images/"

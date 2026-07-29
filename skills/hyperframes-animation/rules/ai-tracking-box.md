@@ -16,7 +16,7 @@ ONE `ease: "none"` driver tween advances a phase `p`; its `onUpdate` computes th
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="bg-mascot" id="mascot">{targetGlyph}</div>
 <div class="track-box" id="track-box">
   <div class="corner tl"></div>

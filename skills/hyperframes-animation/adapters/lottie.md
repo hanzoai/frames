@@ -1,11 +1,11 @@
 ---
-name: hyperframes-lottie
-description: Lottie and dotLottie adapter patterns for HyperFrames. Use when embedding lottie-web JSON animations, .lottie files, @lottiefiles/dotlottie-web players, registering instances on window.__hfLottie, or making After Effects exports deterministic in HyperFrames.
+name: frames-lottie
+description: Lottie and dotLottie adapter patterns for Frames. Use when embedding lottie-web JSON animations, .lottie files, @lottiefiles/dotlottie-web players, registering instances on window.__hfLottie, or making After Effects exports deterministic in Frames.
 ---
 
-# Lottie for HyperFrames
+# Lottie for Frames
 
-HyperFrames can seek both `lottie-web` and dotLottie players through its `lottie` runtime adapter. Lottie is a strong fit because the animation timeline is already encoded in the asset; HyperFrames only needs a player object it can seek.
+Frames can seek both `lottie-web` and dotLottie players through its `lottie` runtime adapter. Lottie is a strong fit because the animation timeline is already encoded in the asset; Frames only needs a player object it can seek.
 
 ## Contract
 
@@ -80,7 +80,7 @@ window.__hfLottie.push(iconAnim);
 window.__hfLottie.push(confettiAnim);
 ```
 
-HyperFrames seeks them all to the same composition time.
+Frames seeks them all to the same composition time.
 
 ## Composition Duration
 
@@ -90,27 +90,27 @@ The render engine needs the composition's total length. GSAP timelines report du
 
 - After Effects exports that are already known to render correctly in lottie-web.
 - Logo reveals, icon loops, decorative accents, and product UI motion.
-- Translating Remotion Lottie usage into plain HyperFrames HTML.
+- Translating Remotion Lottie usage into plain Frames HTML.
 
 ## Avoid
 
 - Relying on remote `path` URLs at render time.
 - Starting playback with `play()`.
 - Assuming unsupported After Effects effects will survive export. Test the JSON or `.lottie` file in a browser first.
-- Loading a player asynchronously and registering it after HyperFrames validation has already inspected the page.
+- Loading a player asynchronously and registering it after Frames validation has already inspected the page.
 
 ## Validation
 
 After editing a Lottie composition:
 
 ```bash
-npx hyperframes lint
-npx hyperframes check
+npx frames lint
+npx frames check
 ```
 
 ## Credits And References
 
-- HyperFrames adapter source: `packages/core/src/runtime/adapters/lottie.ts`.
+- Frames adapter source: `packages/core/src/runtime/adapters/lottie.ts`.
 - Duration auto-inference: `packages/core/src/runtime/init.ts` (`resolveAdapterDurationFloorSeconds`), `getInferredDurationSeconds` in the adapter above.
 - lottie-web by Airbnb: https://github.com/airbnb/lottie-web
 - lottie-web `loadAnimation` options: https://github.com/airbnb/lottie-web/wiki/loadAnimation-options

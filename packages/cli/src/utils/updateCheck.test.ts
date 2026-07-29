@@ -84,34 +84,34 @@ describe("printUpdateNotice — install-method-aware command", () => {
   });
 
   it("shows the detected manager's command for an owned global install", async () => {
-    const out = await noticeWith({ installerCommand: "brew upgrade hyperframes" });
+    const out = await noticeWith({ installerCommand: "brew upgrade frames" });
     expect(out).toContain("Update available");
-    expect(out).toContain("brew upgrade hyperframes");
-    expect(out).not.toContain("npx hyperframes@latest");
+    expect(out).toContain("brew upgrade frames");
+    expect(out).not.toContain("npx frames@latest");
   });
 
-  it("falls back to npx hyperframes@latest when the install method is skip/unknown", async () => {
+  it("falls back to npx frames@latest when the install method is skip/unknown", async () => {
     const out = await noticeWith({ installerCommand: null });
-    expect(out).toContain("npx hyperframes@latest");
+    expect(out).toContain("npx frames@latest");
   });
 
   it("is suppressed on a non-TTY stderr", async () => {
-    const out = await noticeWith({ installerCommand: "brew upgrade hyperframes", isTTY: false });
+    const out = await noticeWith({ installerCommand: "brew upgrade frames", isTTY: false });
     expect(out).toBe("");
   });
 
   it("is suppressed in CI", async () => {
     const out = await noticeWith({
-      installerCommand: "brew upgrade hyperframes",
+      installerCommand: "brew upgrade frames",
       env: { CI: "true" },
     });
     expect(out).toBe("");
   });
 
-  it("is suppressed by the HYPERFRAMES_NO_UPDATE_CHECK opt-out", async () => {
+  it("is suppressed by the FRAMES_NO_UPDATE_CHECK opt-out", async () => {
     const out = await noticeWith({
-      installerCommand: "brew upgrade hyperframes",
-      env: { HYPERFRAMES_NO_UPDATE_CHECK: "1" },
+      installerCommand: "brew upgrade frames",
+      env: { FRAMES_NO_UPDATE_CHECK: "1" },
     });
     expect(out).toBe("");
   });
@@ -251,8 +251,8 @@ describe("printDeprecationNotice", () => {
 
     expect(stdoutWrites).toEqual([]);
     expect(stderrWrites).toHaveLength(1);
-    expect(stderrWrites[0]).toContain("hyperframes validate");
-    expect(stderrWrites[0]).toContain("hyperframes check");
+    expect(stderrWrites[0]).toContain("frames validate");
+    expect(stderrWrites[0]).toContain("frames check");
   });
 });
 

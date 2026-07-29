@@ -5,7 +5,7 @@ import { getVariables } from "./getVariables";
 
 type HyperframeWindow = Window & {
   __hyperframeRuntimeBootstrapped?: boolean;
-  __hyperframes?: {
+  __frames?: {
     fitTextFontSize: typeof fitTextFontSize;
     getVariables: typeof getVariables;
   };
@@ -23,7 +23,7 @@ installAuthoredOpacityCapture();
 // Expose runtime helpers immediately so composition scripts can use them
 // before DOMContentLoaded (font sizing runs during script evaluation, and
 // getVariables is read by composition setup before the timeline is built).
-(window as HyperframeWindow).__hyperframes = {
+(window as HyperframeWindow).__frames = {
   fitTextFontSize,
   getVariables,
 };

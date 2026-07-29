@@ -2,30 +2,30 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { RegistryItem, RegistryManifest } from "@hyperframes/core";
+import type { RegistryItem, RegistryManifest } from "@frames/core";
 import { AddError, buildSnippet, remapTarget, runAdd } from "./add.js";
 
 // ── Fixtures ────────────────────────────────────────────────────────────────
 
 const MANIFEST: RegistryManifest = {
-  $schema: "https://hyperframes.heygen.com/schema/registry.json",
+  $schema: "https://frames.hanzo.ai/schema/registry.json",
   name: "test",
   homepage: "https://example.com",
   items: [
-    { name: "my-block", type: "hyperframes:block" },
-    { name: "deprecated-block", type: "hyperframes:block" },
-    { name: "future-block", type: "hyperframes:block" },
-    { name: "dep-block", type: "hyperframes:block" },
-    { name: "base-component", type: "hyperframes:component" },
-    { name: "my-component", type: "hyperframes:component" },
-    { name: "my-example", type: "hyperframes:example" },
+    { name: "my-block", type: "frames:block" },
+    { name: "deprecated-block", type: "frames:block" },
+    { name: "future-block", type: "frames:block" },
+    { name: "dep-block", type: "frames:block" },
+    { name: "base-component", type: "frames:component" },
+    { name: "my-component", type: "frames:component" },
+    { name: "my-example", type: "frames:example" },
   ],
 };
 
 const BLOCK_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://frames.hanzo.ai/schema/registry-item.json",
   name: "my-block",
-  type: "hyperframes:block",
+  type: "frames:block",
   title: "My Block",
   description: "Block for tests",
   dimensions: { width: 1080, height: 1350 },
@@ -34,32 +34,32 @@ const BLOCK_ITEM: RegistryItem = {
     {
       path: "my-block.html",
       target: "compositions/my-block.html",
-      type: "hyperframes:composition",
+      type: "frames:composition",
     },
   ],
 };
 
 const COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://frames.hanzo.ai/schema/registry-item.json",
   name: "my-component",
-  type: "hyperframes:component",
+  type: "frames:component",
   title: "My Component",
   description: "Component for tests",
   files: [
     {
       path: "my-component.html",
       target: "compositions/components/my-component/my-component.html",
-      type: "hyperframes:snippet",
+      type: "frames:snippet",
     },
     {
       path: "my-component.css",
       target: "compositions/components/my-component/my-component.css",
-      type: "hyperframes:style",
+      type: "frames:style",
     },
     {
       path: "assets/mask.png",
       target: "assets/my-component/mask.png",
-      type: "hyperframes:asset",
+      type: "frames:asset",
     },
   ],
 };
@@ -73,7 +73,7 @@ const DEPRECATED_BLOCK_ITEM: RegistryItem = {
     {
       path: "deprecated-block.html",
       target: "compositions/deprecated-block.html",
-      type: "hyperframes:composition",
+      type: "frames:composition",
     },
   ],
 };
@@ -87,22 +87,22 @@ const FUTURE_BLOCK_ITEM: RegistryItem = {
     {
       path: "future-block.html",
       target: "compositions/future-block.html",
-      type: "hyperframes:composition",
+      type: "frames:composition",
     },
   ],
 };
 
 const BASE_COMPONENT_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://frames.hanzo.ai/schema/registry-item.json",
   name: "base-component",
-  type: "hyperframes:component",
+  type: "frames:component",
   title: "Base Component",
   description: "Base component dependency for tests",
   files: [
     {
       path: "base-component.css",
       target: "compositions/components/base-component/base-component.css",
-      type: "hyperframes:style",
+      type: "frames:style",
     },
   ],
 };
@@ -117,20 +117,20 @@ const DEP_BLOCK_ITEM: RegistryItem = {
     {
       path: "dep-block.html",
       target: "compositions/dep-block.html",
-      type: "hyperframes:composition",
+      type: "frames:composition",
     },
   ],
 };
 
 const EXAMPLE_ITEM: RegistryItem = {
-  $schema: "https://hyperframes.heygen.com/schema/registry-item.json",
+  $schema: "https://frames.hanzo.ai/schema/registry-item.json",
   name: "my-example",
-  type: "hyperframes:example",
+  type: "frames:example",
   title: "My Example",
   description: "Example for tests",
   dimensions: { width: 1920, height: 1080 },
   duration: 10,
-  files: [{ path: "index.html", target: "index.html", type: "hyperframes:composition" }],
+  files: [{ path: "index.html", target: "index.html", type: "frames:composition" }],
 };
 
 const ITEM_BY_NAME: Record<string, RegistryItem> = {
@@ -185,9 +185,9 @@ function writeRegistryConfig(
   paths: typeof DEFAULT_TEST_PATHS = DEFAULT_TEST_PATHS,
 ): void {
   writeFileSync(
-    join(dir, "hyperframes.json"),
+    join(dir, "frames.json"),
     JSON.stringify({
-      $schema: "https://hyperframes.heygen.com/schema/hyperframes.json",
+      $schema: "https://frames.hanzo.ai/schema/frames.json",
       registry: uniqueBase(),
       paths,
     }),
@@ -258,19 +258,19 @@ describe("runAdd (integration, mocked registry)", () => {
   it("installs a block into the default compositions/ path and returns the snippet", async () => {
     const dir = tmp();
     try {
-      // Write hyperframes.json so runAdd uses our unique baseUrl.
+      // Write frames.json so runAdd uses our unique baseUrl.
       writeRegistryConfig(dir);
 
       const result = await runAdd({ name: "my-block", projectDir: dir, skipClipboard: true });
       expect(result.ok).toBe(true);
       expect(result.name).toBe("my-block");
-      expect(result.type).toBe("hyperframes:block");
+      expect(result.type).toBe("frames:block");
       expect(result.written).toHaveLength(1);
       expect(result.installed).toEqual(["my-block"]);
       expect(result.warnings).toEqual([]);
       expect(existsSync(join(dir, "compositions/my-block.html"))).toBe(true);
       const installed = readFileSync(join(dir, "compositions/my-block.html"), "utf-8");
-      expect(installed).toContain("<!-- hyperframes-registry-item: my-block -->");
+      expect(installed).toContain("<!-- frames-registry-item: my-block -->");
       expect(installed).toContain("my-block.html");
       expect(result.snippet).toContain("compositions/my-block.html");
     } finally {

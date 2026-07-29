@@ -2,7 +2,7 @@ import {
   inspectRuntimeProtocol,
   runtimeProtocolMetadata,
   type RuntimeProtocolInspection,
-} from "@hyperframes/core/runtime/protocol";
+} from "@frames/core/runtime/protocol";
 
 export type RuntimeControlMessage = {
   source: "hf-parent";

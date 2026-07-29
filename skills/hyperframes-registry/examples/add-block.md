@@ -2,14 +2,14 @@
 
 ## Scenario
 
-User has an existing HyperFrames project and wants to add an animated chart alongside their video content.
+User has an existing Frames project and wants to add an animated chart alongside their video content.
 
 ## Steps
 
 ### 1. Install the block
 
 ```bash
-hyperframes add data-chart
+frames add data-chart
 ```
 
 ### 2. Wire into index.html
@@ -42,8 +42,8 @@ hyperframes add data-chart
 ### 3. Lint and preview
 
 ```bash
-hyperframes lint
-hyperframes preview
+frames lint
+frames preview
 ```
 
 ### 4. Customize (optional)

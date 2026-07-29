@@ -2,7 +2,7 @@ import {
   parseSlideshowManifest,
   resolveSlideshow,
   type ResolvedSlideshow,
-} from "@hyperframes/core/slideshow";
+} from "@frames/core/slideshow";
 import { SlideshowController, type PlayerPort } from "./SlideshowController";
 import {
   SlideshowChannel,
@@ -260,10 +260,10 @@ export class HyperframesSlideshow extends HTMLElement {
     this.initChannel();
     this.observeInteractivePlayers();
     // Defer player-dependent init to a macrotask so that child elements are
-    // parsed before we query for <hyperframes-player>. This matters when the
+    // parsed before we query for <frames-player>. This matters when the
     // bundle is loaded synchronously (e.g. <script src> in <head>), where
     // connectedCallback fires while the parser is still inside the
-    // <hyperframes-slideshow> open tag — before its children exist. A microtask
+    // <frames-slideshow> open tag — before its children exist. A microtask
     // is NOT sufficient: during streamed parsing the children are appended in a
     // later task, so a queued microtask still observes an empty subtree. A
     // setTimeout(0) macrotask yields to the parser so the children land first.
@@ -340,7 +340,7 @@ export class HyperframesSlideshow extends HTMLElement {
     // non-empty features string tends to create a popup WINDOW, which freezes
     // when fully covered during screen share.
     if (!this.openAudienceTab(url.href)) {
-      console.warn("[hyperframes-slideshow] present(): browser blocked the audience tab");
+      console.warn("[frames-slideshow] present(): browser blocked the audience tab");
       return;
     }
     this.setAttribute("data-hf-presenting", "true");
@@ -410,7 +410,7 @@ export class HyperframesSlideshow extends HTMLElement {
     const gen = this.initGeneration;
 
     try {
-      const playerEl = this.querySelector("hyperframes-player");
+      const playerEl = this.querySelector("frames-player");
       if (!playerEl || !(playerEl instanceof HTMLElement)) return;
 
       const html = this.innerHTML;
@@ -444,12 +444,12 @@ export class HyperframesSlideshow extends HTMLElement {
 
       const { resolved, errors } = resolveSlideshow(manifest, scenes);
       if (errors.length > 0) {
-        console.warn("[hyperframes-slideshow] manifest errors:", errors);
+        console.warn("[frames-slideshow] manifest errors:", errors);
       }
       const cleaned = dropInvalidSlides(resolved);
       if (cleaned.slides.length === 0 && manifest.slides.length > 0) {
         console.error(
-          "[hyperframes-slideshow] no main-line slides resolved — the scene timeline may not have loaded in time, or sceneIds/timing are invalid:",
+          "[frames-slideshow] no main-line slides resolved — the scene timeline may not have loaded in time, or sceneIds/timing are invalid:",
           errors,
         );
       }
@@ -567,13 +567,13 @@ export class HyperframesSlideshow extends HTMLElement {
   }
 
   private mediaPlayerElements(): (Partial<PlayerElement> & HTMLElement)[] {
-    return Array.from(this.querySelectorAll("hyperframes-player")).filter(
+    return Array.from(this.querySelectorAll("frames-player")).filter(
       (player): player is Partial<PlayerElement> & HTMLElement => player instanceof HTMLElement,
     );
   }
 
   /**
-   * Inner `<hyperframes-player>` instances inside a slideshow need the
+   * Inner `<frames-player>` instances inside a slideshow need the
    * `interactive` attribute so clickable controls, links, native media
    * controls, and custom players inside the composition iframe receive
    * pointer events (the player's default is `pointer-events: none`).
@@ -583,7 +583,7 @@ export class HyperframesSlideshow extends HTMLElement {
    * including `interactive="false"`), it is preserved.
    */
   private ensureInteractivePlayers(): void {
-    for (const player of this.querySelectorAll("hyperframes-player")) {
+    for (const player of this.querySelectorAll("frames-player")) {
       if (!player.hasAttribute("interactive")) {
         player.setAttribute("interactive", "");
       }
@@ -591,7 +591,7 @@ export class HyperframesSlideshow extends HTMLElement {
   }
 
   /**
-   * Watch for `<hyperframes-player>` children added after the initial mount
+   * Watch for `<frames-player>` children added after the initial mount
    * (dynamic templating, hydration, drag-drop authoring) and apply the
    * `interactive` attribute to those too.
    */
@@ -643,7 +643,7 @@ export class HyperframesSlideshow extends HTMLElement {
     if (this.warnedIframeKeyForwardingUnavailable) return;
     this.warnedIframeKeyForwardingUnavailable = true;
     console.warn(
-      "[hyperframes-slideshow] iframe keyboard forwarding is unavailable for this composition, likely because the player iframe is cross-origin. Arrow shortcuts work when focus is outside the iframe.",
+      "[frames-slideshow] iframe keyboard forwarding is unavailable for this composition, likely because the player iframe is cross-origin. Arrow shortcuts work when focus is outside the iframe.",
     );
   }
 
@@ -833,7 +833,7 @@ export class HyperframesSlideshow extends HTMLElement {
     // defaults (scroll / history) so they only act when the deck actually has focus.
     // When several decks share a page, drop the unfocused-convenience so a key
     // doesn't drive every instance at once — only the focused deck responds.
-    const multiInstance = document.querySelectorAll("hyperframes-slideshow").length > 1;
+    const multiInstance = document.querySelectorAll("frames-slideshow").length > 1;
     const ambient = focused || (!multiInstance && (active === document.body || active === null));
     // P is handled BEFORE the controller guard: present() doesn't need the
     // controller, and on a slow-loading deck the advertised shortcut must work
@@ -1151,7 +1151,7 @@ export class HyperframesSlideshow extends HTMLElement {
   }
 
   private applyGlobalMute(muted: boolean): void {
-    for (const player of this.querySelectorAll("hyperframes-player")) {
+    for (const player of this.querySelectorAll("frames-player")) {
       if (!(player instanceof HTMLElement)) continue;
       const playerEl = player as Partial<PlayerElement> & HTMLElement;
       if ("muted" in playerEl) {
@@ -1247,7 +1247,7 @@ export class HyperframesSlideshow extends HTMLElement {
       const name = err instanceof DOMException ? err.name : "";
       if (name !== "AbortError" && name !== "NotAllowedError" && !state.warned) {
         state.warned = true;
-        console.warn("[hyperframes-slideshow] autoplay play() failed:", err);
+        console.warn("[frames-slideshow] autoplay play() failed:", err);
       }
     });
     return false;
@@ -1257,7 +1257,7 @@ export class HyperframesSlideshow extends HTMLElement {
     const explicit = this.getAttribute("notes-storage-key")?.trim();
     if (explicit) return explicit;
 
-    const playerSrc = this.querySelector("hyperframes-player")?.getAttribute("src") ?? "";
+    const playerSrc = this.querySelector("frames-player")?.getAttribute("src") ?? "";
     let resolvedPlayerSrc = playerSrc;
     try {
       const baseHref = typeof location !== "undefined" ? location.href : "http://localhost/";
@@ -1316,7 +1316,7 @@ export class HyperframesSlideshow extends HTMLElement {
     // panel. The player contains the composition, so the FULL slide stays visible
     // (letterboxed) at any width — its bottom is never hidden behind the panel —
     // and it re-fits to the top region on window resize.
-    const playerEl = this.querySelector("hyperframes-player");
+    const playerEl = this.querySelector("frames-player");
     if (playerEl instanceof HTMLElement) {
       playerEl.style.top = "0";
       playerEl.style.bottom = "32%";
@@ -1468,6 +1468,6 @@ function escHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-if (!customElements.get("hyperframes-slideshow")) {
-  customElements.define("hyperframes-slideshow", HyperframesSlideshow);
+if (!customElements.get("frames-slideshow")) {
+  customElements.define("frames-slideshow", HyperframesSlideshow);
 }

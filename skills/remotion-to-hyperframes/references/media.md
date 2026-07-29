@@ -118,7 +118,7 @@ animated dimensions, the GSAP tween animates them — see [timing.md](timing.md)
 When HF detects a nested iframe in a composition, it auto-falls back to
 **screenshot mode** rather than the deterministic BeginFrame mode. This
 costs render performance but produces visibly-correct output. See
-[hyperframes-vs-remotion.mdx](https://github.com/heygen-com/hyperframes/blob/main/docs/guides/hyperframes-vs-remotion.mdx)
+[frames-vs-remotion.mdx](https://github.com/hanzoai/frames/blob/main/docs/guides/frames-vs-remotion.mdx)
 for details.
 
 ## `delayRender()` / `continueRender()`
@@ -130,7 +130,7 @@ useEffect(() => {
 }, []);
 ```
 
-Drop. HF waits on asset readiness via the [Frame Adapter pattern](https://hyperframes.heygen.com/concepts/frame-adapters)
+Drop. HF waits on asset readiness via the [Frame Adapter pattern](https://frames.hanzo.ai/concepts/frame-adapters)
 — images, videos, fonts, and Lottie animations all signal load
 completion natively. There's nothing to do at the application level.
 

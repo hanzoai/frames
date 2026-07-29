@@ -133,7 +133,7 @@ export function initSandboxRuntimeModular(): void {
   state.canonicalFps = exportRenderFps.fps ?? state.canonicalFps;
   setRuntimeProtocolFps(state.canonicalFps);
   if (window.__HF_EXPORT_RENDER_SEEK_CONFIG) {
-    console.info("[hyperframes] render runtime fps", {
+    console.info("[frames] render runtime fps", {
       canonicalFps: state.canonicalFps,
       source: exportRenderFps.source,
       rawFpsSource: exportRenderFps.rawFpsSource,
@@ -2555,7 +2555,7 @@ export function initSandboxRuntimeModular(): void {
         );
         // eslint-disable-next-line no-console -- loud author-facing warning; this render would otherwise freeze at t=0
         console.warn(
-          `[hyperframes] Root timeline not bound — render will freeze at t=0. ` +
+          `[frames] Root timeline not bound — render will freeze at t=0. ` +
             (rootCompositionId
               ? `Root data-composition-id is "${rootCompositionId}" but window.__timelines has no such key. `
               : `Root composition element has no data-composition-id. `) +
@@ -2958,7 +2958,7 @@ export function initSandboxRuntimeModular(): void {
         colorGrading.redrawAnimated();
       }
 
-      // Looping is handled at the player layer (<hyperframes-player>),
+      // Looping is handled at the player layer (<frames-player>),
       // not the runtime. The clock pauses at duration; GSAP's repeat:-1
       // is bypassed because we drive tl.totalTime(t) directly. The
       // parent observes isPlaying=false at end and re-issues seek(0)+play()

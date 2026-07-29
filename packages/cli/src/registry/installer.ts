@@ -8,7 +8,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, relative, isAbsolute } from "node:path";
-import type { FileTarget, RegistryItem } from "@hyperframes/core";
+import type { FileTarget, RegistryItem } from "@frames/core";
 import { fetchItemFile, DEFAULT_REGISTRY_URL } from "./remote.js";
 
 export interface InstallOptions {
@@ -48,18 +48,18 @@ export function assertSafeTarget(destDir: string, target: string): void {
 
 function isInstalledRegistryBlockComposition(item: RegistryItem, file: FileTarget): boolean {
   return (
-    item.type === "hyperframes:block" &&
-    file.type === "hyperframes:composition" &&
+    item.type === "frames:block" &&
+    file.type === "frames:composition" &&
     file.target.toLowerCase().endsWith(".html")
   );
 }
 
 function addRegistryItemMarker(source: string, item: RegistryItem): string {
-  if (/^\s*<!--\s*hyperframes-registry-item:[^>]*-->/i.test(source.slice(0, 512))) {
+  if (/^\s*<!--\s*frames-registry-item:[^>]*-->/i.test(source.slice(0, 512))) {
     return source;
   }
 
-  return `<!-- hyperframes-registry-item: ${item.name} -->\n${source}`;
+  return `<!-- frames-registry-item: ${item.name} -->\n${source}`;
 }
 
 /**

@@ -16,7 +16,7 @@ A content array of `{ eyebrow, title, body, speedFactor, hold }` entries is redu
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="display">
   <div class="eyebrow" id="eyebrow"></div>
   <div class="title" id="title"></div>

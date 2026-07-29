@@ -39,17 +39,17 @@ describe("cloud/errors reportApiError", () => {
     );
   });
 
-  it("points oversized projects to dry-run and .hyperframesignore", () => {
+  it("points oversized projects to dry-run and .framesignore", () => {
     const err = new HyperframesApiError({
       status: 413,
       message: "project too large",
-      code: "hyperframes_project_too_large",
+      code: "frames_project_too_large",
     });
     expect(() => reportApiError("Upload failed", err)).toThrow(CliRuntimeError);
     expect(errorBox).toHaveBeenCalledWith(
       "Upload failed (HTTP 413)",
       "project too large",
-      "The zip exceeded the 200 MB limit. Run `hyperframes cloud render --dry-run`, then add only verified-unneeded paths to `.hyperframesignore` or pre-host required large media.",
+      "The zip exceeded the 200 MB limit. Run `frames cloud render --dry-run`, then add only verified-unneeded paths to `.framesignore` or pre-host required large media.",
     );
   });
 
@@ -65,7 +65,7 @@ describe("cloud/errors reportApiError", () => {
     expect(errorBox).toHaveBeenCalledWith(
       "Submit failed (HTTP 400)",
       "bad param",
-      "Check the listed parameter against `hyperframes cloud render --help` for the accepted values.",
+      "Check the listed parameter against `frames cloud render --help` for the accepted values.",
     );
   });
 

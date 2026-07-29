@@ -12,10 +12,10 @@ import { join } from "node:path";
 
 const ENV_KEYS = [
   "HEYGEN_API_KEY",
-  "HYPERFRAMES_API_KEY",
+  "FRAMES_API_KEY",
   "HEYGEN_CONFIG_DIR",
   "HEYGEN_API_URL",
-  "HYPERFRAMES_OAUTH_CLIENT_ID",
+  "FRAMES_OAUTH_CLIENT_ID",
 ] as const;
 
 type EnvKey = (typeof ENV_KEYS)[number];

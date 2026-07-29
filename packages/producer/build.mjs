@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @hyperframes/producer (public OSS package)
+ * Build script for @frames/producer (public OSS package)
  *
  * Bundles src/server.ts → dist/public-server.js (standalone server).
  */
@@ -38,7 +38,7 @@ const workspaceAliases = {
 const workspaceAliasPlugin = {
   name: "workspace-alias",
   setup(build) {
-    build.onResolve({ filter: /^@hyperframes\/(?:engine|core)(?:\/.*)?$/ }, (args) => {
+    build.onResolve({ filter: /^@frames\/(?:engine|core)(?:\/.*)?$/ }, (args) => {
       const path = workspaceAliases[args.path];
       return path ? { path } : undefined;
     });

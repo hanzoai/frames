@@ -12,12 +12,12 @@ describe("htmlDocument helpers", () => {
     expect(doc.body.querySelector("template")?.innerHTML).toContain("<span>hello</span>");
   });
 
-  it("strips every known embedded HyperFrames runtime marker", () => {
+  it("strips every known embedded Frames runtime marker", () => {
     const html = `
 <script src="hyperframe.runtime.iife.js"></script>
-<script src="hyperframes-runtime.modular.inline.js"></script >
+<script src="frames-runtime.modular.inline.js"></script >
 <script src="hyperframe-runtime.modular-runtime.inline.js"></script>
-<script data-hyperframes-preview-runtime="1"></script>
+<script data-frames-preview-runtime="1"></script>
 <script>window.__playerReady = true;</script >
 <script>window.__renderReady = false;</script>
 <script>window.authored = true;</script>`;
@@ -25,9 +25,9 @@ describe("htmlDocument helpers", () => {
     const stripped = stripEmbeddedRuntimeScripts(html);
 
     expect(stripped).not.toContain("hyperframe.runtime.iife.js");
-    expect(stripped).not.toContain("hyperframes-runtime.modular.inline.js");
+    expect(stripped).not.toContain("frames-runtime.modular.inline.js");
     expect(stripped).not.toContain("hyperframe-runtime.modular-runtime.inline.js");
-    expect(stripped).not.toContain("data-hyperframes-preview-runtime");
+    expect(stripped).not.toContain("data-frames-preview-runtime");
     expect(stripped).not.toContain("window.__playerReady");
     expect(stripped).not.toContain("window.__renderReady");
     expect(stripped).toContain("window.authored = true");

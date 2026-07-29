@@ -1,10 +1,10 @@
 {
-  "name": "@hyperframes/shader-transitions",
+  "name": "@frames/shader-transitions",
   "version": "0.7.81",
-  "description": "WebGL shader transitions for HyperFrames compositions",
+  "description": "WebGL shader transitions for Frames compositions",
   "repository": {
     "type": "git",
-    "url": "https://github.com/heygen-com/hyperframes",
+    "url": "https://github.com/hanzoai/frames",
     "directory": "packages/shader-transitions"
   },
   "files": [

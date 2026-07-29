@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Airbnb 2009 Seed Deck — Slideshow Demo</title>
-    <script src="../../../packages/player/dist/hyperframes-player.global.js"></script>
-    <script src="../../../packages/player/dist/slideshow/hyperframes-slideshow.global.js"></script>
+    <script src="../../../packages/player/dist/frames-player.global.js"></script>
+    <script src="../../../packages/player/dist/slideshow/frames-slideshow.global.js"></script>
     <style>
       *,
       *::before,
@@ -25,19 +25,19 @@
   </head>
   <body>
     <!--
-      NOTE: The <script type="application/hyperframes-slideshow+json"> island below is a
-      COPY of the island inside index.html. This duplication is intentional: <hyperframes-slideshow>
+      NOTE: The <script type="application/frames-slideshow+json"> island below is a
+      COPY of the island inside index.html. This duplication is intentional: <frames-slideshow>
       reads the island from its OWN innerHTML (not from the composition loaded by
-      <hyperframes-player>). Keep this copy in sync with the island in index.html whenever
+      <frames-player>). Keep this copy in sync with the island in index.html whenever
       slides, fragments, hotspots, or sequences change.
     -->
-    <hyperframes-slideshow tabindex="0" sound style="display: block; position: relative; width: 100vw; height: 100vh">
-      <hyperframes-player
+    <frames-slideshow tabindex="0" sound style="display: block; position: relative; width: 100vw; height: 100vh">
+      <frames-player
         style="position: absolute; inset: 0"
         src="index.html"
-      ></hyperframes-player>
+      ></frames-player>
 
-      <script type="application/hyperframes-slideshow+json">
+      <script type="application/frames-slideshow+json">
         {
           "slides": [
             {
@@ -108,7 +108,7 @@
           ]
         }
       </script>
-    </hyperframes-slideshow>
+    </frames-slideshow>
 
     <!--
       Sound effects play HERE, in the parent document. The composition (loaded in the
@@ -117,7 +117,7 @@
       receives the user's gesture (the parent) — an iframe without its own user
       activation is autoplay-blocked. The mp3s are in sfx/ next to this file.
 
-      Mute state is owned by <hyperframes-slideshow sound>. Listen for 'hf-sound'
+      Mute state is owned by <frames-slideshow sound>. Listen for 'hf-sound'
       events (or read slideshow.muted / data-hf-muted) to skip playback when muted.
     -->
     <script>
@@ -136,7 +136,7 @@
 
         // Track mute state: updated via 'hf-sound' events from the slideshow chrome.
         var muted = false;
-        var slideshow = document.querySelector("hyperframes-slideshow");
+        var slideshow = document.querySelector("frames-slideshow");
         if (slideshow) {
           slideshow.addEventListener("hf-sound", function (e) {
             muted = e.detail && e.detail.muted === true;

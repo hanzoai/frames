@@ -21,7 +21,7 @@
  * New for distributed mode:
  *   - `materializeSymlinks` (default `false`) — when `true`, the stage
  *     instructs `materializeExtractedFramesForCompiledDir` to recursively
- *     copy frames into `compiledDir/__hyperframes_video_frames/<videoId>/`
+ *     copy frames into `compiledDir/__frames_video_frames/<videoId>/`
  *     instead of creating a single symlink. Required for distributed
  *     plan() output where the planDir must be self-contained across
  *     machines (symlinks don't survive S3 / GCS round-trips). Default
@@ -47,8 +47,8 @@ import {
   isHdrColorSpace,
   resolveProjectRelativeSrc,
   runVideoExtractionWithRetry,
-} from "@hyperframes/engine";
-import { fpsToNumber } from "@hyperframes/core";
+} from "@frames/engine";
+import { fpsToNumber } from "@frames/core";
 import {
   collectVideoMetadataHints,
   collectVideoReadinessSkipIds,
@@ -374,7 +374,7 @@ export async function runExtractVideosStage(
       // output framerate exact.
       {
         fps: fpsToNumber(job.config.fps),
-        outputDir: join(compiledDir, "__hyperframes_video_frames"),
+        outputDir: join(compiledDir, "__frames_video_frames"),
         format: job.config.videoFrameFormat ?? "auto",
         maxTransientRetries: extractionPolicy.maxTransientRetries,
         collectProbeFailures: extractionPolicy.failureMode === "enforce",

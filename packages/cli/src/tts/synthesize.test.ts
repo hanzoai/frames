@@ -76,11 +76,11 @@ const EXPECTED_ESPEAK_LANGS = {
 describe("synthesize — espeak-ng language code translation", () => {
   beforeEach(() => {
     resetCapturedArgv();
-    delete process.env.HYPERFRAMES_PYTHON;
+    delete process.env.FRAMES_PYTHON;
   });
 
   it("translates the public zh lang to espeak-ng's cmn at the Python boundary", async () => {
-    await synthesize("你好世界", "/tmp/hyperframes-test-zh.wav", { voice: "zf_xiaobei" });
+    await synthesize("你好世界", "/tmp/frames-test-zh.wav", { voice: "zf_xiaobei" });
 
     const argv = getCapturedArgv();
     expect(argv).toBeDefined();
@@ -90,7 +90,7 @@ describe("synthesize — espeak-ng language code translation", () => {
 
   it("translates an explicit zh override too", async () => {
     const progress: string[] = [];
-    await synthesize("你好世界", "/tmp/hyperframes-test-explicit-zh.wav", {
+    await synthesize("你好世界", "/tmp/frames-test-explicit-zh.wav", {
       voice: "af_heart",
       lang: "zh",
       onProgress: (message) => progress.push(message),
@@ -104,7 +104,7 @@ describe("synthesize — espeak-ng language code translation", () => {
     for (const lang of SUPPORTED_LANGS) {
       resetCapturedArgv();
 
-      await synthesize("Hello world", `/tmp/hyperframes-test-${lang}.wav`, {
+      await synthesize("Hello world", `/tmp/frames-test-${lang}.wav`, {
         voice: "af_heart",
         lang,
       });
@@ -114,7 +114,7 @@ describe("synthesize — espeak-ng language code translation", () => {
   });
 
   it("leaves voice-inferred Spanish unchanged", async () => {
-    await synthesize("Hola mundo", "/tmp/hyperframes-test-es.wav", {
+    await synthesize("Hola mundo", "/tmp/frames-test-es.wav", {
       voice: "ef_dora",
     });
 

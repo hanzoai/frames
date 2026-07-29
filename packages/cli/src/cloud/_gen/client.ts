@@ -1,7 +1,7 @@
 /**
  * AUTO-GENERATED from experiment-framework/openapi/external-api.json.
  * DO NOT EDIT MANUALLY. Re-run
- * `python scripts/generate_hyperframes_cli_client.py` in
+ * `python scripts/generate_frames_cli_client.py` in
  * experiment-framework to regenerate.
  */
 import type {
@@ -80,9 +80,9 @@ interface RequestOptions {
 }
 
 /**
- * Typed client for the HyperFrames cloud-render API. Auto-generated; do
+ * Typed client for the Frames cloud-render API. Auto-generated; do
  * not hand-edit. Submit new endpoints by adding them to
- * scripts/generate_hyperframes_cli_client.py in experiment-framework.
+ * scripts/generate_frames_cli_client.py in experiment-framework.
  */
 export class HyperframesCloudClient {
   private readonly baseUrl: string;
@@ -267,9 +267,9 @@ export class HyperframesCloudClient {
   }
 
   /**
-   * Create HyperFrames Render
+   * Create Frames Render
    *
-   * Renders a HyperFrames composition (an HTML+JS+assets project bundled as a .zip) into a video. Submit the project via `url`, `asset_id` (pre-uploaded via POST /v3/assets), or inline `base64`. Returns a `render_id` to poll via GET /v3/hyperframes/renders/{render_id}.
+   * Renders a Frames composition (an HTML+JS+assets project bundled as a .zip) into a video. Submit the project via `url`, `asset_id` (pre-uploaded via POST /v3/assets), or inline `base64`. Returns a `render_id` to poll via GET /v3/frames/renders/{render_id}.
    */
   async createRender(args: {
     body: CreateHyperframesRenderRequest;
@@ -278,7 +278,7 @@ export class HyperframesCloudClient {
   }): Promise<CreateHyperframesRenderResponse> {
     return await this.request<CreateHyperframesRenderResponse>({
       method: "POST",
-      path: "/v3/hyperframes/renders",
+      path: "/v3/frames/renders",
       body: args.body,
       idempotencyKey: args.idempotencyKey,
       signal: args.signal,
@@ -286,9 +286,9 @@ export class HyperframesCloudClient {
   }
 
   /**
-   * List HyperFrames Renders
+   * List Frames Renders
    *
-   * Returns a cursor-paginated list of HyperFrames renders in the account, newest first.
+   * Returns a cursor-paginated list of Frames renders in the account, newest first.
    */
   async listRenders(args: { limit?: number; token?: string; signal?: AbortSignal }): Promise<{
     data?: Array<HyperframesRenderDetail>;
@@ -305,7 +305,7 @@ export class HyperframesCloudClient {
       next_token?: string | null;
     }>({
       method: "GET",
-      path: "/v3/hyperframes/renders",
+      path: "/v3/frames/renders",
       query,
       unwrapData: false,
       signal: args.signal,
@@ -313,9 +313,9 @@ export class HyperframesCloudClient {
   }
 
   /**
-   * Get HyperFrames Render
+   * Get Frames Render
    *
-   * Returns full details for a single HyperFrames render, including status and signed video_url when complete.
+   * Returns full details for a single Frames render, including status and signed video_url when complete.
    */
   async getRender(args: {
     render_id: string;
@@ -323,15 +323,15 @@ export class HyperframesCloudClient {
   }): Promise<HyperframesRenderDetail> {
     return await this.request<HyperframesRenderDetail>({
       method: "GET",
-      path: `/v3/hyperframes/renders/${encodeURIComponent(args.render_id)}`,
+      path: `/v3/frames/renders/${encodeURIComponent(args.render_id)}`,
       signal: args.signal,
     });
   }
 
   /**
-   * Delete HyperFrames Render
+   * Delete Frames Render
    *
-   * Soft-deletes a HyperFrames render. Subsequent GETs return 404.
+   * Soft-deletes a Frames render. Subsequent GETs return 404.
    */
   async deleteRender(args: {
     render_id: string;
@@ -339,7 +339,7 @@ export class HyperframesCloudClient {
   }): Promise<DeleteHyperframesRenderResponse> {
     return await this.request<DeleteHyperframesRenderResponse>({
       method: "DELETE",
-      path: `/v3/hyperframes/renders/${encodeURIComponent(args.render_id)}`,
+      path: `/v3/frames/renders/${encodeURIComponent(args.render_id)}`,
       signal: args.signal,
     });
   }

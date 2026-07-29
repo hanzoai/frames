@@ -1,11 +1,11 @@
 /**
- * Port utilities for the HyperFrames preview server.
+ * Port utilities for the Frames preview server.
  *
  * The multi-host availability probe and instance-reuse port selection are
  * inspired by Remotion's approach to dev-server port management.
  *
  * - Multi-host availability testing (catches port-forwarding ghosts)
- * - HTTP probe for detecting existing HyperFrames instances
+ * - HTTP probe for detecting existing Frames instances
  * - PID detection for actionable conflict logging
  * - Smart port selection with instance reuse
  */
@@ -22,7 +22,7 @@ const execFileAsync = promisify(execFile);
 /** Max ports to scan before giving up. */
 const MAX_PORT_SCAN = 100;
 
-/** Localhost HTTP probe timeout — HyperFrames responds in <1ms, so 300ms is generous. */
+/** Localhost HTTP probe timeout — Frames responds in <1ms, so 300ms is generous. */
 const PROBE_TIMEOUT_MS = 300;
 
 /** Max bytes to read from HTTP probe response (guards against malicious servers). */
@@ -107,11 +107,11 @@ interface HyperframesConfigResponse {
 export type DetectionResult =
   | { type: "match" }
   | { type: "mismatch"; projectName: string }
-  | { type: "not-hyperframes" };
+  | { type: "not-frames" };
 
 /**
- * Probe an occupied port to check if it's running a HyperFrames preview server.
- * HTTP GET to /__hyperframes_config with a short timeout.
+ * Probe an occupied port to check if it's running a Frames preview server.
+ * HTTP GET to /__frames_config with a short timeout.
  */
 export function detectHyperframesServer(
   port: number,
@@ -123,13 +123,13 @@ export function detectHyperframesServer(
       {
         hostname: "127.0.0.1",
         port,
-        path: "/__hyperframes_config",
+        path: "/__frames_config",
         timeout: PROBE_TIMEOUT_MS,
       },
       (res) => {
         if (res.statusCode !== 200) {
           res.resume();
-          return resolveResult({ type: "not-hyperframes" });
+          return resolveResult({ type: "not-frames" });
         }
 
         let data = "";
@@ -138,18 +138,18 @@ export function detectHyperframesServer(
           bytes += typeof chunk === "string" ? chunk.length : chunk.byteLength;
           if (bytes > PROBE_MAX_BYTES) {
             req.destroy();
-            return resolveResult({ type: "not-hyperframes" });
+            return resolveResult({ type: "not-frames" });
           }
           data += chunk;
         });
         res.on("error", () => {
-          resolveResult({ type: "not-hyperframes" });
+          resolveResult({ type: "not-frames" });
         });
         res.on("end", () => {
           try {
             const json = JSON.parse(data) as HyperframesConfigResponse;
             if (json.isHyperframes !== true) {
-              return resolveResult({ type: "not-hyperframes" });
+              return resolveResult({ type: "not-frames" });
             }
 
             const normalize = (p: string) => resolve(p).replace(/\\/g, "/").toLowerCase();
@@ -166,19 +166,19 @@ export function detectHyperframesServer(
 
             return resolveResult({ type: "mismatch", projectName: json.projectName });
           } catch {
-            resolveResult({ type: "not-hyperframes" });
+            resolveResult({ type: "not-frames" });
           }
         });
       },
     );
 
     req.on("error", () => {
-      resolveResult({ type: "not-hyperframes" });
+      resolveResult({ type: "not-frames" });
     });
 
     req.on("timeout", () => {
       req.destroy();
-      resolveResult({ type: "not-hyperframes" });
+      resolveResult({ type: "not-frames" });
     });
   });
 }
@@ -220,13 +220,13 @@ export interface ActiveServer {
 }
 
 /**
- * Probe a single port for a HyperFrames config response.
- * Returns the full config or null if not a HyperFrames server.
+ * Probe a single port for a Frames config response.
+ * Returns the full config or null if not a Frames server.
  */
 function probePort(port: number): Promise<HyperframesConfigResponse | null> {
   return new Promise<HyperframesConfigResponse | null>((resolveResult) => {
     const req = http.get(
-      { hostname: "127.0.0.1", port, path: "/__hyperframes_config", timeout: PROBE_TIMEOUT_MS },
+      { hostname: "127.0.0.1", port, path: "/__frames_config", timeout: PROBE_TIMEOUT_MS },
       (res) => {
         if (res.statusCode !== 200) {
           res.resume();
@@ -262,7 +262,7 @@ function probePort(port: number): Promise<HyperframesConfigResponse | null> {
 }
 
 /**
- * Scan the default port range for active HyperFrames preview servers.
+ * Scan the default port range for active Frames preview servers.
  * Probes ports in parallel batches for speed.
  */
 export async function scanActiveServers(startPort = 3002): Promise<ActiveServer[]> {
@@ -302,7 +302,7 @@ export async function scanActiveServers(startPort = 3002): Promise<ActiveServer[
 }
 
 /**
- * Kill all active HyperFrames preview servers by sending SIGTERM to their PIDs.
+ * Kill all active Frames preview servers by sending SIGTERM to their PIDs.
  * Returns the number of servers killed.
  */
 export async function killActiveServers(startPort = 3002): Promise<number> {
@@ -336,9 +336,9 @@ export type FindPortResult =
  * For each port in the scan range:
  *   1. Test availability on multiple hosts (catches port-forwarding ghosts)
  *   2. If available → bind the server and return
- *   3. If occupied and !forceNew → HTTP-probe for an existing HyperFrames server
+ *   3. If occupied and !forceNew → HTTP-probe for an existing Frames server
  *      - Same project → return "already-running" (caller reopens browser)
- *      - Different project or non-HyperFrames → log and skip to next port
+ *      - Different project or non-Frames → log and skip to next port
  *   4. If bind still fails with EADDRINUSE (race) → retry next port
  */
 export async function findPortAndServe(
@@ -354,9 +354,9 @@ export async function findPortAndServe(
   // unauthenticated project file read/write/delete + render-spawn endpoints;
   // a bare `listen(port)` binds the unspecified address (`::`/`0.0.0.0`),
   // handing those endpoints to anyone on the LAN. Operators who genuinely
-  // need LAN exposure opt in explicitly via the HYPERFRAMES_PREVIEW_HOST
-  // env var (e.g. HYPERFRAMES_PREVIEW_HOST=0.0.0.0).
-  const host = bindHost ?? (process.env.HYPERFRAMES_PREVIEW_HOST?.trim() || "127.0.0.1");
+  // need LAN exposure opt in explicitly via the FRAMES_PREVIEW_HOST
+  // env var (e.g. FRAMES_PREVIEW_HOST=0.0.0.0).
+  const host = bindHost ?? (process.env.FRAMES_PREVIEW_HOST?.trim() || "127.0.0.1");
   const normalizedDir = resolve(projectDir).replace(/\\/g, "/").toLowerCase();
   const endPort = startPort + MAX_PORT_SCAN - 1;
 
@@ -392,7 +392,7 @@ export async function findPortAndServe(
       }
     }
 
-    // Port is occupied — probe for existing HyperFrames instance
+    // Port is occupied — probe for existing Frames instance
     if (!forceNew) {
       const detection = await detectHyperframesServer(
         port,
@@ -404,7 +404,7 @@ export async function findPortAndServe(
       }
       if (detection.type === "mismatch") {
         console.log(
-          `  ${c.dim(`Port ${port} in use by HyperFrames project "${detection.projectName}" — skipping`)}`,
+          `  ${c.dim(`Port ${port} in use by Frames project "${detection.projectName}" — skipping`)}`,
         );
         continue;
       }

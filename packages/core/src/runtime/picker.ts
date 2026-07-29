@@ -7,15 +7,15 @@ type PickerModuleDeps = {
 };
 
 const PICKER_IGNORE_SELECTOR = [
-  "[data-hyperframes-ignore]",
-  "[data-hyperframes-picker-ignore]",
+  "[data-frames-ignore]",
+  "[data-frames-picker-ignore]",
   "[data-hf-ignore]",
   "[data-no-inspect]",
   "[data-no-pick]",
   "[data-hyper-shader-loading]",
 ].join(",");
 const PICKER_BLOCK_SELECTOR = [
-  "[data-hyperframes-picker-block]",
+  "[data-frames-picker-block]",
   "[data-hyper-shader-loading]",
 ].join(",");
 

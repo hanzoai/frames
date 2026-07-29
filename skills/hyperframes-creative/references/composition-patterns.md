@@ -40,7 +40,7 @@ tl.to("#pip-frame", { left: 40, duration: 0.6 }, 30);
 
 ## Text Behind Subject (transparent webm overlay)
 
-Put a headline _behind_ a presenter so their silhouette occludes the text. Requires a transparent cutout produced by `npx hyperframes remove-background presenter.mp4 -o presenter.webm`.
+Put a headline _behind_ a presenter so their silhouette occludes the text. Requires a transparent cutout produced by `npx frames remove-background presenter.mp4 -o presenter.webm`.
 
 Three layers, plus one critical rule:
 
@@ -64,7 +64,7 @@ Three layers, plus one critical rule:
      transform:translate(-50%,-50%); z-index:2; font-size:220px; font-weight:900;
      color:#fff; text-shadow:0 6px 32px rgba(0,0,0,.55); clip-path:inset(0 0 100% 0);"
 >
-  MAKE IT IN HYPERFRAMES
+  MAKE IT IN FRAMES
 </h1>
 
 <!-- z=3 cutout — same source, alpha around presenter, hidden until the cut -->

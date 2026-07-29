@@ -1,0 +1,21 @@
+Hanzo Frames
+Copyright 2026 Hanzo AI, Inc.
+
+This product includes software developed by the HyperFrames project
+(https://github.com/heygen-com/hyperframes), Copyright HeyGen, licensed under
+the Apache License, Version 2.0.
+
+Hanzo Frames is a fork. It has been rebranded and adapted for the Hanzo stack:
+the package and identifiers were renamed hyperframes -> frames, and hosts point
+at frames.hanzo.ai.
+
+The JSON Schema identifiers ($schema) were remapped to frames.hanzo.ai/schema/*.
+Those are dereferenced by validators, so the schema files in docs/schema/ MUST be
+served at that path; until they are, the identifiers name a host that does not
+answer.
+
+The upstream HeyGen SaaS integration (CLI auth against heygen.com, api.heygen.com)
+is deliberately retained unrenamed pending removal: it is a dependency on their
+cloud rather than a name of ours to take.
+
+Original attribution files (LICENSE, CREDITS.md) are carried forward unmodified.

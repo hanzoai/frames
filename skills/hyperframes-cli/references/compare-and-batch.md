@@ -13,7 +13,7 @@ Use these commands for deliberate visual comparison or variable-driven template 
 Render the same timestamp from two or more project directories or HTML files into one labeled contact sheet:
 
 ```bash
-npx hyperframes compare <path-a> <path-b> [<path-c> ...] \
+npx frames compare <path-a> <path-b> [<path-c> ...] \
   --at <seconds> \
   --labels baseline,candidate \
   --out compare.png \
@@ -38,14 +38,14 @@ One sheet accepts at most 16 variants. Extra inputs are truncated with a warning
 Create grade candidates from a source frame:
 
 ```bash
-npx hyperframes grade-compare \
+npx frames grade-compare \
   --for frame.png \
   --grades grades.json \
   --project . \
   --out grade-compare.png
 ```
 
-`grades.json` is an array of labeled HyperFrames grading blocks:
+`grades.json` is an array of labeled Frames grading blocks:
 
 ```json
 [{ "label": "warm", "grading": { "adjust": { "temperature": 0.2, "contrast": 0.1 } } }]
@@ -54,7 +54,7 @@ npx hyperframes grade-compare \
 Or compare explicit LUT files:
 
 ```bash
-npx hyperframes grade-compare \
+npx frames grade-compare \
   --for source.mp4 \
   --luts warm.cube,cool.cube \
   --out grade-compare.png
@@ -85,7 +85,7 @@ This command helps select a grade. It does not apply the selected grade to the c
 Declare the variables in the composition, then run:
 
 ```bash
-npx hyperframes render \
+npx frames render \
   --batch rows.json \
   --output "renders/{name}.mp4" \
   --batch-concurrency 1 \

@@ -583,7 +583,7 @@ describe("detectRenderModeHints", () => {
     // broken video with no visible error — worse than refusing to render.
     // compileForRender (render-only) runs a pre-flight check
     // (assertSubCompositionsUsable, using the same checkSubCompositionUsability
-    // helper the inliner and hyperframes lint use) before any compilation
+    // helper the inliner and frames lint use) before any compilation
     // work starts, and aborts immediately instead of silently producing a
     // broken render 45+ seconds later.
     const projectDir = makeSubCompProject(
@@ -783,7 +783,7 @@ describe("detectShaderTransitionUsage", () => {
   it("detects authored HyperShader initialization", () => {
     const html = `<!doctype html>
 <html><body>
-  <script src="https://cdn.jsdelivr.net/npm/@hyperframes/shader-transitions/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@frames/shader-transitions/dist/index.global.js"></script>
   <script>
     window.HyperShader.init({
       scenes: ["s1", "s2"],
@@ -798,7 +798,7 @@ describe("detectShaderTransitionUsage", () => {
   it("ignores comments and external scripts by themselves", () => {
     const html = `<!doctype html>
 <html><body>
-  <script src="https://cdn.jsdelivr.net/npm/@hyperframes/shader-transitions/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@frames/shader-transitions/dist/index.global.js"></script>
   <script>
     // window.HyperShader.init({ scenes: ["s1", "s2"], transitions: [] });
     const label = "safe";
@@ -850,7 +850,7 @@ describe("system-primary font normalization", () => {
     expect(compact).toContain("font-family:var(--system-font),sans-serif");
     expect(compact).toContain('font-family:"Montserrat",system-ui,sans-serif');
     expect(compact).toContain('data-font-family="Inter,ui-monospace,monospace"');
-    expect(compact).toContain('data-hyperframes-deterministic-fonts="true"');
+    expect(compact).toContain('data-frames-deterministic-fonts="true"');
 
     const { document } = parseHTML(compiled.html);
     const rootStyle = document.querySelector('[data-composition-id="root"]')?.getAttribute("style");
@@ -1215,7 +1215,7 @@ describe("text-rendering rule injection", () => {
     const compiled = await compileForRender(projectDir, join(projectDir, "index.html"), projectDir);
 
     const { document } = parseHTML(compiled.html);
-    const styleEls = document.querySelectorAll("style[data-hyperframes-text-rendering]");
+    const styleEls = document.querySelectorAll("style[data-frames-text-rendering]");
     expect(styleEls.length).toBe(1);
     expect((styleEls[0]?.textContent || "").replace(/\s+/g, "")).toContain(
       "html,body,*{text-rendering:geometricPrecision}",
@@ -1843,7 +1843,7 @@ describe("sub-composition variable injection (render path, #2064)", () => {
     <div data-composition-id="card" data-width="320" data-height="240">
       <div class="card-bg"></div>
       <script>
-        var color = __hyperframes.getVariables().color || "#000000";
+        var color = __frames.getVariables().color || "#000000";
         document.querySelector('[data-composition-id="card"] .card-bg').style.background = color;
       </script>
     </div>
@@ -1866,7 +1866,7 @@ describe("sub-composition variable injection (render path, #2064)", () => {
 
   it("injects the __hfVariablesByComp writer so JS getVariables() sees per-instance values", async () => {
     // Regression for #2064: render inlined the sub-comp reader scripts but never
-    // emitted the writer, so window.__hyperframes.getVariables() returned {} and
+    // emitted the writer, so window.__frames.getVariables() returned {} and
     // parametrized sub-comps shipped blank/default text in the final MP4 while
     // snapshot QA passed.
     const projectDir = writeSubCompVarProject(`data-variable-values='{"color":"#00ff00"}'`);
@@ -1899,7 +1899,7 @@ describe("sub-composition variable injection (render path, #2064)", () => {
     <div data-composition-id="card" data-width="320" data-height="240">
       <div class="lbl"></div>
       <script>
-        document.querySelector('.lbl').textContent = __hyperframes.getVariables().label || "DEFAULT";
+        document.querySelector('.lbl').textContent = __frames.getVariables().label || "DEFAULT";
       </script>
     </div>
   </body>
@@ -1944,7 +1944,7 @@ describe("sub-composition variable injection (render path, #2064)", () => {
     <div data-composition-id="card" data-width="320" data-height="240">
       <div class="lbl"></div>
       <script>
-        document.querySelector('.lbl').textContent = __hyperframes.getVariables().label || "DEFAULT";
+        document.querySelector('.lbl').textContent = __frames.getVariables().label || "DEFAULT";
       </script>
     </div>
   </body>
@@ -2057,7 +2057,7 @@ describe("sub-composition variable injection (render path, #2064)", () => {
     <div data-composition-id="${id}" data-width="320" data-height="240">
       <div class="lbl"></div>
       <script>
-        document.querySelector('.lbl').textContent = __hyperframes.getVariables().label || "DEFAULT";
+        document.querySelector('.lbl').textContent = __frames.getVariables().label || "DEFAULT";
       </script>
     </div>
   </body>

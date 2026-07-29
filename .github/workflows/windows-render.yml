@@ -3,12 +3,12 @@ name: Windows render verification
 permissions:
   contents: read
 
-# Suppress hyperframes CLI telemetry from HeyGen's own CI runs.
+# Suppress frames CLI telemetry from HeyGen's own CI runs.
 # External users' CI continues to emit telemetry unless they set this themselves.
 env:
-  HYPERFRAMES_NO_TELEMETRY: "1"
+  FRAMES_NO_TELEMETRY: "1"
 
-# Manually triggered smoke test that renders a HyperFrames composition on a
+# Manually triggered smoke test that renders a Frames composition on a
 # real Windows runner. Proves the PR #336 `where ffmpeg` fix actually works
 # end-to-end: FFmpeg is discovered natively on Windows, Chrome is installed
 # and launched, frames are captured, and an MP4 is produced — without Docker
@@ -190,10 +190,10 @@ jobs:
         run: bun run build
 
       # -----------------------------------------------------------------
-      # Prove the PR #336 fix: hyperframes doctor exercises findFFmpeg()
+      # Prove the PR #336 fix: frames doctor exercises findFFmpeg()
       # and whichBinary() — both must pass on Windows without workarounds.
       # -----------------------------------------------------------------
-      - name: hyperframes doctor (verifies `where ffmpeg` fix)
+      - name: frames doctor (verifies `where ffmpeg` fix)
         shell: pwsh
         run: node packages/cli/dist/cli.js doctor
 
@@ -202,7 +202,7 @@ jobs:
         # init's --skip-skills flag is neutered (see init.ts); opt out of the
         # GitHub skills check via this env so the canary scaffold stays offline.
         env:
-          HYPERFRAMES_SKIP_SKILLS: "1"
+          FRAMES_SKIP_SKILLS: "1"
         run: |
           New-Item -ItemType Directory -Force -Path "$env:RUNNER_TEMP\windows-canary" | Out-Null
           cd "$env:RUNNER_TEMP\windows-canary"
@@ -440,11 +440,11 @@ jobs:
         # Enumerate the packages we want to test instead of negating —
         # `bun run --filter "!a" --filter "!b"` composes as a union (any
         # package matching either negation runs), not an intersection.
-        # That meant `@hyperframes/producer` was effectively still being
+        # That meant `@frames/producer` was effectively still being
         # tested on Windows, which is what we explicitly want skipped
         # (Docker / LFS-baseline tooling).
-        run: bun run --filter @hyperframes/core --filter @hyperframes/engine --filter @hyperframes/player --filter @hyperframes/cli --filter @hyperframes/studio --filter @hyperframes/shader-transitions test
+        run: bun run --filter @frames/core --filter @frames/engine --filter @frames/player --filter @frames/cli --filter @frames/studio --filter @frames/shader-transitions test
 
       - name: Run runtime contract test
         shell: pwsh
-        run: bun run --filter "@hyperframes/core" test:hyperframe-runtime-ci
+        run: bun run --filter "@frames/core" test:hyperframe-runtime-ci

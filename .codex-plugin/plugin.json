@@ -1,17 +1,17 @@
 {
-  "name": "hyperframes",
-  "description": "Write HTML, render video. Compositions, Tailwind v4 styles, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for HyperFrames.",
+  "name": "frames",
+  "description": "Write HTML, render video. Compositions, Tailwind v4 styles, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for Frames.",
   "version": "0.7.81",
   "author": {
     "name": "HeyGen",
-    "email": "hyperframes@heygen.com",
-    "url": "https://hyperframes.heygen.com"
+    "email": "frames@heygen.com",
+    "url": "https://frames.hanzo.ai"
   },
-  "homepage": "https://hyperframes.heygen.com",
-  "repository": "https://github.com/heygen-com/hyperframes",
+  "homepage": "https://frames.hanzo.ai",
+  "repository": "https://github.com/hanzoai/frames",
   "license": "Apache-2.0",
   "keywords": [
-    "hyperframes",
+    "frames",
     "video",
     "html",
     "tailwind",
@@ -29,13 +29,13 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "HyperFrames by HeyGen",
+    "displayName": "Frames by HeyGen",
     "shortDescription": "Write HTML, render video",
-    "longDescription": "Build videos from HTML with HyperFrames. Author compositions with HTML, CSS, Tailwind v4 browser-runtime styles, GSAP, Anime.js, Lottie, Three.js, and WAAPI adapter patterns, use the CLI for the dev loop (init/preview/render), preprocess assets (tts/transcribe/remove-background) for compositions, install reusable registry blocks and components, and turn any website into a video with the 7-step capture-to-video pipeline.",
+    "longDescription": "Build videos from HTML with Frames. Author compositions with HTML, CSS, Tailwind v4 browser-runtime styles, GSAP, Anime.js, Lottie, Three.js, and WAAPI adapter patterns, use the CLI for the dev loop (init/preview/render), preprocess assets (tts/transcribe/remove-background) for compositions, install reusable registry blocks and components, and turn any website into a video with the 7-step capture-to-video pipeline.",
     "developerName": "HeyGen",
     "category": "Creativity",
     "capabilities": ["Read", "Write"],
-    "websiteURL": "https://hyperframes.heygen.com",
+    "websiteURL": "https://frames.hanzo.ai",
     "defaultPrompt": [
       "Turn this website into a 20-second product promo",
       "Create an animated title card with kinetic type",

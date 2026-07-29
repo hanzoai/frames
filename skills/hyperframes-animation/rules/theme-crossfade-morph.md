@@ -23,7 +23,7 @@ The only animated property is `opacity` — which is why this rule is seek-safe 
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="theme-stage">
   <!-- One complete pre-styled layer per skin; skin-0 visible at t=0 -->
   <div class="skin skin-0"><div class="shell">…terminal chrome, mono type, footer badge…</div></div>

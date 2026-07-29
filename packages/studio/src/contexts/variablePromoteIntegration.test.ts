@@ -6,8 +6,8 @@
  * show bound state.
  */
 import { describe, expect, it } from "vitest";
-import { openComposition } from "@hyperframes/sdk";
-import { createMemoryAdapter } from "@hyperframes/sdk/adapters/memory";
+import { openComposition } from "@frames/sdk";
+import { createMemoryAdapter } from "@frames/sdk/adapters/memory";
 import { applyBind, type BindAction } from "../components/panels/VariablesBindElement";
 import { readBindingFrom } from "./variablePromoteHelpers";
 

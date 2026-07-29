@@ -131,13 +131,13 @@ Every composition has two layers:
 
 ## Variables
 
-HyperFrames does not automatically bind `data-var-*` attributes into your composition DOM or CSS.
+Frames does not automatically bind `data-var-*` attributes into your composition DOM or CSS.
 
 The supported pattern is:
 
 1. Declare the variables once on the sub-comp's composition root with `data-composition-variables` (id + type + default) — the `<html>` element for a full-document composition, or the `[data-composition-id]` root element for a template / fragment sub-composition.
 2. Pass per-instance values on each composition host with `data-variable-values`.
-3. Read the resolved values inside the composition with `window.__hyperframes.getVariables()`. The runtime layers the host's `data-variable-values` over the declared defaults on a per-instance basis, so the same source can be embedded multiple times with different values.
+3. Read the resolved values inside the composition with `window.__frames.getVariables()`. The runtime layers the host's `data-variable-values` over the declared defaults on a per-instance basis, so the same source can be embedded multiple times with different values.
 
 ```html index.html
 <div
@@ -178,7 +178,7 @@ The supported pattern is:
       <script>
         // Inside a sub-comp script, getVariables() returns the per-instance
         // values: declared defaults < host data-variable-values overrides.
-        const { title, color } = __hyperframes.getVariables();
+        const { title, color } = __frames.getVariables();
         const root = document.querySelector('[data-composition-id="card"]');
         root.querySelector(".title").textContent = title;
         root.style.setProperty("--card-color", color);
@@ -188,14 +188,14 @@ The supported pattern is:
 </html>
 ```
 
-If you are building tooling on top of `@hyperframes/core`, the same `data-composition-variables` array is readable via `extractCompositionMetadata()` for Studio editing UI and analysis pipelines.
+If you are building tooling on top of `@frames/core`, the same `data-composition-variables` array is readable via `extractCompositionMetadata()` for Studio editing UI and analysis pipelines.
 
 ## Listing Compositions
 
 Use the [CLI](/packages/cli) to see all compositions in a project:
 
 ```bash
-npx hyperframes compositions
+npx frames compositions
 ```
 
 ## Next Steps

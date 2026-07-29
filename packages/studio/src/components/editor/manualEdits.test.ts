@@ -59,8 +59,8 @@ function mockComputedStyle(element: HTMLElement, values: Record<string, string>)
 
 describe("studio manual edits", () => {
   it("recognizes studio file-change payloads", () => {
-    expect(readStudioFileChangePath({ path: ".hyperframes/studio-manual-edits.json" })).toBe(
-      ".hyperframes/studio-manual-edits.json",
+    expect(readStudioFileChangePath({ path: ".frames/studio-manual-edits.json" })).toBe(
+      ".frames/studio-manual-edits.json",
     );
     expect(readStudioFileChangePath({ data: '{"path":"nested/file.html"}' })).toBe(
       "nested/file.html",

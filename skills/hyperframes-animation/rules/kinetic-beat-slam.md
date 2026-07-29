@@ -16,7 +16,7 @@ A single tempo grid — `PULSE` seconds per sub-beat, `BEATS = [t0, t1, t2, …]
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <div class="kbs-stage">
   <div class="kbs-line" id="p1"><span class="verb">Notice</span> more.</div>
   <div class="kbs-line" id="p2"><span class="verb">Decide</span> faster.</div>
@@ -122,7 +122,7 @@ tl.to(
 | BEATS spacing     | 1.2–1.8s             | <0.8s frantic, >2.5s loses the pulse; keep spacing even — it's a beat                        |
 | entrance duration | 0.35–0.6s            | the hit must resolve before the next beat; exits ≤0.25s                                      |
 | accent hue        | exactly 1            | the verbs; the rest mono white / near-black                                                  |
-| display face      | 150px+, heavy weight | Archivo Black / League Gothic / Oswald — see `hyperframes-creative/references/typography.md` |
+| display face      | 150px+, heavy weight | Archivo Black / League Gothic / Oswald — see `frames-creative/references/typography.md` |
 
 ## Critical Constraints
 

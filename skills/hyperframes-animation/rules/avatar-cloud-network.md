@@ -16,7 +16,7 @@ Three layers: SVG lines (z-index 1, behind), avatars (z-index 2), hub (z-index 5
 ## Recipe
 
 ```html
-<!-- inside a standard scene clip (hyperframes-core) -->
+<!-- inside a standard scene clip (frames-core) -->
 <svg class="lines" viewBox="0 0 1920 1080"><!-- lines injected --></svg>
 <div class="hub-wrap">
   <div class="hub">{counterValue} {counterLabel}</div>

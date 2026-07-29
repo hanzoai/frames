@@ -105,7 +105,7 @@ export function showTelemetryNotice(): boolean {
     `  ${c.dim("If you sign in to HeyGen, your account (email, or username) is linked to your usage.")}`,
   );
   diag.notice();
-  diag.notice(`  ${c.dim("Disable anytime:")} ${c.accent("hyperframes telemetry disable")}`);
+  diag.notice(`  ${c.dim("Disable anytime:")} ${c.accent("frames telemetry disable")}`);
   diag.notice();
 
   return true;

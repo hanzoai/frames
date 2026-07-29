@@ -228,7 +228,7 @@ export interface EngineConfig {
    * Directory where the content-addressed extraction cache persists frame
    * bundles keyed on (path, mtime, size, mediaStart, duration, fps, format).
    * Defaults on under the OS temp directory:
-   * `<tmpdir>/hyperframes-extract-cache-<uid>`.
+   * `<tmpdir>/frames-extract-cache-<uid>`.
    *
    * New entries publish atomically: frames are extracted into a unique
    * partial directory, the `.hf-complete` sentinel is written there, and the
@@ -236,7 +236,7 @@ export interface EngineConfig {
    * renders against the same cache are safe; at worst, two renders duplicate
    * ffmpeg work and one rehydrates from the winner.
    *
-   * Set `HYPERFRAMES_EXTRACT_CACHE_DIR` to a path to override the default, or
+   * Set `FRAMES_EXTRACT_CACHE_DIR` to a path to override the default, or
    * to `off`, `none`, `false`, or `0` to disable caching for the process.
    * When disabled, extraction runs into the render's workDir and cleanup
    * removes it when the render ends, preserving the pre-cache behaviour.
@@ -246,7 +246,7 @@ export interface EngineConfig {
    * produce spurious cache hits if a source file is overwritten within the
    * same mtime tick. Local filesystems are the intended deployment target.
    *
-   * Env fallback: `HYPERFRAMES_EXTRACT_CACHE_DIR`.
+   * Env fallback: `FRAMES_EXTRACT_CACHE_DIR`.
    */
   extractCacheDir?: string;
   /**
@@ -255,7 +255,7 @@ export interface EngineConfig {
    * entries until the cache is under this cap, while protecting young entries
    * that may belong to live renders.
    *
-   * Env fallback: `HYPERFRAMES_EXTRACT_CACHE_MAX_MB` (megabytes).
+   * Env fallback: `FRAMES_EXTRACT_CACHE_MAX_MB` (megabytes).
    */
   extractCacheMaxBytes: number;
 
@@ -628,7 +628,7 @@ export function shouldAutoDisableStreamingEncodeOnWin32Compound(opts: {
 
 /**
  * Result of resolving the extract cache directory from the env, decoupled from
- * the wider {@link resolveConfig} pipeline so `hyperframes doctor` (and any
+ * the wider {@link resolveConfig} pipeline so `frames doctor` (and any
  * other diagnostic surface) can report the exact same effective value the
  * renderer will use — including whether the user has explicitly disabled the
  * cache via `off`/`none`/`false`/`0`.
@@ -652,11 +652,11 @@ export const EXTRACT_CACHE_DIR_DISABLED_ALIASES: readonly string[] = ["off", "no
 
 /**
  * Compute the default extract-cache directory when the user has NOT set
- * `HYPERFRAMES_EXTRACT_CACHE_DIR`. Exported so downstream tests can reproduce
+ * `FRAMES_EXTRACT_CACHE_DIR`. Exported so downstream tests can reproduce
  * the exact path without duplicating the uid-suffix idiom.
  */
 export function defaultExtractCacheDir(): string {
-  return join(tmpdir(), `hyperframes-extract-cache-${process.getuid?.() ?? "u"}`);
+  return join(tmpdir(), `frames-extract-cache-${process.getuid?.() ?? "u"}`);
 }
 
 /**
@@ -670,7 +670,7 @@ export function defaultExtractCacheDir(): string {
 export function resolveExtractCacheDir(
   env: Record<string, string | undefined> = process.env,
 ): ExtractCacheDirResolution {
-  const raw = env["HYPERFRAMES_EXTRACT_CACHE_DIR"];
+  const raw = env["FRAMES_EXTRACT_CACHE_DIR"];
   if (raw === undefined) {
     return { dir: defaultExtractCacheDir(), disabled: false, source: "default" };
   }
@@ -684,8 +684,8 @@ export function resolveExtractCacheDir(
 function resolveExtractCacheDirFromEnv(
   env: (key: string) => string | undefined,
 ): string | undefined {
-  const raw = env("HYPERFRAMES_EXTRACT_CACHE_DIR");
-  return resolveExtractCacheDir(raw === undefined ? {} : { HYPERFRAMES_EXTRACT_CACHE_DIR: raw })
+  const raw = env("FRAMES_EXTRACT_CACHE_DIR");
+  return resolveExtractCacheDir(raw === undefined ? {} : { FRAMES_EXTRACT_CACHE_DIR: raw })
     .dir;
 }
 
@@ -876,7 +876,7 @@ export function resolveConfig(overrides?: Partial<EngineConfig>): EngineConfig {
 
     extractCacheDir: resolveExtractCacheDirFromEnv(env),
     extractCacheMaxBytes:
-      envNum("HYPERFRAMES_EXTRACT_CACHE_MAX_MB", DEFAULT_CONFIG.extractCacheMaxBytes / 1024 ** 2) *
+      envNum("FRAMES_EXTRACT_CACHE_MAX_MB", DEFAULT_CONFIG.extractCacheMaxBytes / 1024 ** 2) *
       1024 ** 2,
   };
 
@@ -1005,7 +1005,7 @@ export function resolveConfig(overrides?: Partial<EngineConfig>): EngineConfig {
     merged.enableStreamingEncode = false;
     merged.streamingEncodeAutoDisabledOnWin32Compound = true;
     console.error(
-      "[hyperframes] Windows compound-workaround auto-detected — disabling streaming-encode " +
+      "[frames] Windows compound-workaround auto-detected — disabling streaming-encode " +
         "(platform=win32, software-GPU forced, workers=1). Field signal ts=1784131903. " +
         "Override: PRODUCER_ENABLE_STREAMING_ENCODE=true.",
     );

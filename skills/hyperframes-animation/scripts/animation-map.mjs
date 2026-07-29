@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-// animation-map.mjs — HyperFrames animation map for agents
+// animation-map.mjs — Frames animation map for agents
 //
 // Reads every GSAP timeline registered in window.__timelines, enumerates
 // tweens, samples bboxes at N points per tween, computes flags and
 // human-readable summaries. Outputs a single animation-map.json.
 //
 // Usage:
-//   node skills/hyperframes-animation/scripts/animation-map.mjs <composition-dir> \
+//   node skills/frames-animation/scripts/animation-map.mjs <composition-dir> \
 //     [--frames N] [--out <dir>] [--min-duration S] [--width W] [--height H] [--fps N]
 //
 // Env:
-//   HYPERFRAMES_SKILL_PKG_VERSION — pin the @hyperframes/producer version used
+//   FRAMES_SKILL_PKG_VERSION — pin the @frames/producer version used
 //     when bootstrapping (global skill installs cannot infer it; falls back to
 //     @latest with a warning otherwise).
 
@@ -19,23 +19,23 @@ import { resolve, join } from "node:path";
 import { sampleTweenBboxes } from "./animation-map-sampling.mjs";
 import {
   bundleCompositionForCapture,
-  hyperframesPackageSpec,
+  framesPackageSpec,
   importPackagesOrBootstrap,
   initializeSessionWithRetry,
 } from "./package-loader.mjs";
 
 const packages = await importPackagesOrBootstrap(
-  ["@hyperframes/producer", "@hyperframes/core", "@hyperframes/core/compiler"],
+  ["@frames/producer", "@frames/core", "@frames/core/compiler"],
   {
     npmPackages: [
-      hyperframesPackageSpec("@hyperframes/producer"),
-      hyperframesPackageSpec("@hyperframes/core"),
+      framesPackageSpec("@frames/producer"),
+      framesPackageSpec("@frames/core"),
     ],
   },
 );
 const { createFileServer, createCaptureSession, closeCaptureSession, getCompositionDuration } =
-  packages["@hyperframes/producer"];
-const { parseFps } = packages["@hyperframes/core"];
+  packages["@frames/producer"];
+const { parseFps } = packages["@frames/core"];
 
 // ─── CLI ─────────────────────────────────────────────────────────────────────
 
@@ -43,7 +43,7 @@ const args = parseArgs(process.argv.slice(2));
 if (!args.composition) die("missing <composition-dir>");
 
 const FRAMES = Number(args.frames ?? 6);
-const OUT_DIR = resolve(args.out ?? ".hyperframes/anim-map");
+const OUT_DIR = resolve(args.out ?? ".frames/anim-map");
 const MIN_DUR = Number(args["min-duration"] ?? 0.15);
 const WIDTH = Number(args.width ?? 1920);
 const HEIGHT = Number(args.height ?? 1080);
@@ -58,7 +58,7 @@ await mkdir(OUT_DIR, { recursive: true });
 
 // Raw modular hosts do not mount child compositions in the capture helper.
 // Bundle first so duration/timeline discovery sees the same DOM as render/check.
-const bundle = await bundleCompositionForCapture(packages["@hyperframes/core/compiler"], COMP_DIR);
+const bundle = await bundleCompositionForCapture(packages["@frames/core/compiler"], COMP_DIR);
 let server;
 let session;
 try {
@@ -73,7 +73,7 @@ try {
   // "zero duration / Runtime ready: false" — retry once with a fresh browser
   // instead of false-failing the project.
   session = await initializeSessionWithRetry(
-    packages["@hyperframes/producer"],
+    packages["@frames/producer"],
     () =>
       createCaptureSession(
         server.url,

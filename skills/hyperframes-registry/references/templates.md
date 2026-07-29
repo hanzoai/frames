@@ -121,8 +121,8 @@ Copy-paste starter templates for each component type. These embed the proven pat
           }
 
           // Pretext overflow prevention
-          if (window.__hyperframes && window.__hyperframes.fitTextFontSize) {
-            var _fit = window.__hyperframes.fitTextFontSize(g.text.toUpperCase(), {
+          if (window.__frames && window.__frames.fitTextFontSize) {
+            var _fit = window.__frames.fitTextFontSize(g.text.toUpperCase(), {
               fontFamily: "Montserrat",
               fontWeight: 900,
               maxWidth: 1550,
@@ -319,9 +319,9 @@ Copy-paste starter templates for each component type. These embed the proven pat
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "BLOCKNAME",
-  "type": "hyperframes:block",
+  "type": "frames:block",
   "title": "Human-Readable Title",
   "description": "One sentence: what it does and who uses it",
   "dimensions": { "width": 1920, "height": 1080 },
@@ -331,7 +331,7 @@ Copy-paste starter templates for each component type. These embed the proven pat
     {
       "path": "BLOCKNAME.html",
       "target": "compositions/BLOCKNAME.html",
-      "type": "hyperframes:composition"
+      "type": "frames:composition"
     }
   ]
 }
@@ -341,9 +341,9 @@ Copy-paste starter templates for each component type. These embed the proven pat
 
 ```json
 {
-  "$schema": "https://hyperframes.heygen.com/schema/registry-item.json",
+  "$schema": "https://frames.hanzo.ai/schema/registry-item.json",
   "name": "COMPONENTNAME",
-  "type": "hyperframes:component",
+  "type": "frames:component",
   "title": "Human-Readable Title",
   "description": "One sentence: what it does",
   "tags": ["category"],
@@ -351,7 +351,7 @@ Copy-paste starter templates for each component type. These embed the proven pat
     {
       "path": "COMPONENTNAME.html",
       "target": "compositions/components/COMPONENTNAME.html",
-      "type": "hyperframes:snippet"
+      "type": "frames:snippet"
     }
   ]
 }

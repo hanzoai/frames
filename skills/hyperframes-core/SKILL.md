@@ -1,13 +1,13 @@
 ---
-name: hyperframes-core
-description: The HyperFrames composition contract — build one renderable project. Use for composition structure, the `data-*` timing attributes, `class="clip"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Also covers Tailwind projects and the STORYBOARD.md / SCRIPT.md plan formats. Read before writing composition HTML.
+name: frames-core
+description: The Frames composition contract — build one renderable project. Use for composition structure, the `data-*` timing attributes, `class="clip"`, tracks, sub-compositions, variables, framework-owned media playback, deterministic-render rules, and validation. Also covers Tailwind projects and the STORYBOARD.md / SCRIPT.md plan formats. Read before writing composition HTML.
 ---
 
-# HyperFrames Core
+# Frames Core
 
-HyperFrames renders video from HTML. A composition is an HTML file whose DOM declares timing with `data-*` attributes, whose animation runtime is seekable, and whose media playback is owned by the framework.
+Frames renders video from HTML. A composition is an HTML file whose DOM declares timing with `data-*` attributes, whose animation runtime is seekable, and whose media playback is owned by the framework.
 
-This skill is the **technical contract** — how to build one hyperframes project. The body below is the build guide; per-topic detail lives in `references/` (index next), read on demand. Other concerns live in the sibling domain skills — `hyperframes-animation`, `hyperframes-creative`, `media-use`, `hyperframes-cli`, `hyperframes-registry`. The capability map in `/hyperframes` says what each one covers.
+This skill is the **technical contract** — how to build one frames project. The body below is the build guide; per-topic detail lives in `references/` (index next), read on demand. Other concerns live in the sibling domain skills — `frames-animation`, `frames-creative`, `media-use`, `frames-cli`, `frames-registry`. The capability map in `/frames` says what each one covers.
 
 ## References
 
@@ -24,14 +24,14 @@ This skill is the **technical contract** — how to build one hyperframes projec
 | `references/storyboard-format.md`    | author a `STORYBOARD.md` plan (+ the parsed manifest)                                                                                                                              |
 | `references/review-loop.md`          | run the plan → sketch → build review passes on a live board — shared by every storyboard-planning workflow                                                                         |
 | `references/production-loop.md`      | take an approved plan to a delivered video — the stage dependencies (audio, frames, assembly, transitions, captions, verify, deliver) a freeform build follows directly            |
-| `references/brief-contract.md`       | the brief's ground rules — mode derivation (collaborative / autonomous), shared field registry, question invariants (the asking itself lives in `/hyperframes` → the intent layer) |
+| `references/brief-contract.md`       | the brief's ground rules — mode derivation (collaborative / autonomous), shared field registry, question invariants (the asking itself lives in `/frames` → the intent layer) |
 | `references/brief-format.md`         | author `BRIEF.md` — the confirmed intent document a workflow's Setup writes and every later step reads                                                                             |
 | `references/script-format.md`        | author the optional `SCRIPT.md` locked narration                                                                                                                                   |
 | `references/subagent-dispatch.md`    | map subagent dispatch verbs (parallel fan-out / background / wait) to your harness                                                                                                 |
 | `references/frame-worker-core.md`    | the shared frame-worker role contract — each narrative workflow's packet builder prepends it to that workflow's `sub-agents/frame-worker.md` delta                                 |
 | `references/tailwind.md`             | work in a Tailwind v4 project (`init --tailwind`; runtime contract differs from Studio's v3)                                                                                       |
 
-For animation runtime specifics (GSAP API, Lottie, Three.js, etc.) go to `hyperframes-animation` → `adapters/<runtime>.md`.
+For animation runtime specifics (GSAP API, Lottie, Three.js, etc.) go to `frames-animation` → `adapters/<runtime>.md`.
 
 ## Building a composition
 
@@ -51,7 +51,7 @@ The standalone root needs an explicit **sized box** (`width`/`height` in px), an
 
 ### One paused timeline
 
-Each composition registers **exactly one** `gsap.timeline({ paused: true })` at `window.__timelines["<id>"]` (key = root `data-composition-id`), built **synchronously** at page load. Render duration = root `data-duration`, not timeline length. Don't manually nest sub-timelines into the host. Full contract (incl. non-GSAP runtimes) → `references/determinism-rules.md` + `hyperframes-animation/adapters/`.
+Each composition registers **exactly one** `gsap.timeline({ paused: true })` at `window.__timelines["<id>"]` (key = root `data-composition-id`), built **synchronously** at page load. Render duration = root `data-duration`, not timeline length. Don't manually nest sub-timelines into the host. Full contract (incl. non-GSAP runtimes) → `references/determinism-rules.md` + `frames-animation/adapters/`.
 
 ### Non-negotiable rules (silent bugs automated gates may miss)
 
@@ -74,9 +74,9 @@ Surfaced here; full rationale in the linked reference. Do not violate:
 
 ## Validation
 
-Use `hyperframes-cli` for command details
+Use `frames-cli` for command details
 
-- [ ] `npx hyperframes check` passes (0 findings across lint, runtime, layout, motion, and contrast)
-- [ ] Projects with sub-compositions: `npx hyperframes snapshot --at <midpoints>` and eyeball each frame
-- [ ] `npx hyperframes preview` for review (the user can edit anything in Studio's timeline)
-- [ ] `npx hyperframes render` only after the user approves
+- [ ] `npx frames check` passes (0 findings across lint, runtime, layout, motion, and contrast)
+- [ ] Projects with sub-compositions: `npx frames snapshot --at <midpoints>` and eyeball each frame
+- [ ] `npx frames preview` for review (the user can edit anything in Studio's timeline)
+- [ ] `npx frames render` only after the user approves

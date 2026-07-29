@@ -4,7 +4,7 @@ import type {
   ExtractionResult,
   VideoElement,
   VideoExtractionFailure,
-} from "@hyperframes/engine";
+} from "@frames/engine";
 import {
   appendAutoDetectedVideoAudio,
   assertVideoExtractionSucceeded,

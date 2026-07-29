@@ -96,7 +96,7 @@ type RunResult = {
 
 /**
  * Find the iframe Puppeteer Frame that hosts the fixture composition. The
- * `<hyperframes-player>` shell wraps an iframe whose URL is derived from the
+ * `<frames-player>` shell wraps an iframe whose URL is derived from the
  * player's `src` attribute, so we match by path substring rather than full URL.
  */
 async function getFixtureFrame(page: Page, fixture: string): Promise<Frame> {

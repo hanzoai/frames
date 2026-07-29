@@ -18,7 +18,7 @@ import {
 import { MetricField, Section } from "./propertyPanelPrimitives";
 import { createTransformCommitHandlers } from "./propertyPanelTransformCommit";
 import { resolveAnimIdForProperty } from "../../player/components/TimelinePropertyLanes";
-import { resolveEditingSections } from "@hyperframes/core/editing";
+import { resolveEditingSections } from "@frames/core/editing";
 import { MediaSection } from "./propertyPanelMediaSection";
 import { ColorGradingSection } from "./propertyPanelColorGradingSection";
 import { domEditSelectionToFacts } from "./domEditingLayers";

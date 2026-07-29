@@ -370,13 +370,13 @@ describe("resolveBrowserGpuMode", () => {
 
 describe("resolveHeadlessShellPath", () => {
   const originalHeadlessShellPath = process.env.PRODUCER_HEADLESS_SHELL_PATH;
-  const originalHyperframesBrowserPath = process.env.HYPERFRAMES_BROWSER_PATH;
+  const originalHyperframesBrowserPath = process.env.FRAMES_BROWSER_PATH;
 
   afterEach(() => {
     if (originalHeadlessShellPath === undefined) delete process.env.PRODUCER_HEADLESS_SHELL_PATH;
     else process.env.PRODUCER_HEADLESS_SHELL_PATH = originalHeadlessShellPath;
-    if (originalHyperframesBrowserPath === undefined) delete process.env.HYPERFRAMES_BROWSER_PATH;
-    else process.env.HYPERFRAMES_BROWSER_PATH = originalHyperframesBrowserPath;
+    if (originalHyperframesBrowserPath === undefined) delete process.env.FRAMES_BROWSER_PATH;
+    else process.env.FRAMES_BROWSER_PATH = originalHyperframesBrowserPath;
   });
 
   it("throws a clear error when PRODUCER_HEADLESS_SHELL_PATH points at a missing binary", () => {
@@ -387,13 +387,13 @@ describe("resolveHeadlessShellPath", () => {
     );
   });
 
-  it("uses HYPERFRAMES_BROWSER_PATH when the CLI resolved a browser explicitly", () => {
-    const dir = mkdtempSync(join(tmpdir(), "hyperframes-engine-browser-env-"));
+  it("uses FRAMES_BROWSER_PATH when the CLI resolved a browser explicitly", () => {
+    const dir = mkdtempSync(join(tmpdir(), "frames-engine-browser-env-"));
     try {
       const binary = join(dir, "chrome-headless-shell");
       writeFileSync(binary, "");
       delete process.env.PRODUCER_HEADLESS_SHELL_PATH;
-      process.env.HYPERFRAMES_BROWSER_PATH = binary;
+      process.env.FRAMES_BROWSER_PATH = binary;
 
       expect(resolveHeadlessShellPath({})).toBe(binary);
     } finally {
@@ -401,13 +401,13 @@ describe("resolveHeadlessShellPath", () => {
     }
   });
 
-  it("reuses chrome-headless-shell from the HyperFrames-managed cache", () => {
-    const home = mkdtempSync(join(tmpdir(), "hyperframes-engine-browser-cache-"));
+  it("reuses chrome-headless-shell from the Frames-managed cache", () => {
+    const home = mkdtempSync(join(tmpdir(), "frames-engine-browser-cache-"));
     try {
       const binary = join(
         home,
         ".cache",
-        "hyperframes",
+        "frames",
         "chrome",
         "chrome-headless-shell",
         "linux-152.0.7928.2",
@@ -423,7 +423,7 @@ describe("resolveHeadlessShellPath", () => {
       // os.homedir() reads HOME on POSIX and USERPROFILE on Windows.
       const env = { ...process.env, HOME: home, USERPROFILE: home };
       delete env.PRODUCER_HEADLESS_SHELL_PATH;
-      delete env.HYPERFRAMES_BROWSER_PATH;
+      delete env.FRAMES_BROWSER_PATH;
       const moduleUrl = new URL("./browserManager.ts", import.meta.url).href;
       const stdout = execFileSync(
         "bun",

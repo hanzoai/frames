@@ -1,5 +1,5 @@
 {
-  "package": "@hyperframes/studio",
+  "package": "@frames/studio",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

@@ -21,14 +21,14 @@ describe("auth/resolver", () => {
 
   it("prefers HEYGEN_API_KEY over everything else", async () => {
     process.env["HEYGEN_API_KEY"] = "env-key";
-    process.env["HYPERFRAMES_API_KEY"] = "alias-key";
+    process.env["FRAMES_API_KEY"] = "alias-key";
     await writeStore({ api_key: "file-key" });
     const r = await resolveCredential();
     expect(r).toEqual({ type: "api_key", key: "env-key", source: "env" });
   });
 
-  it("falls through to HYPERFRAMES_API_KEY", async () => {
-    process.env["HYPERFRAMES_API_KEY"] = "alias-key";
+  it("falls through to FRAMES_API_KEY", async () => {
+    process.env["FRAMES_API_KEY"] = "alias-key";
     await writeStore({ api_key: "file-key" });
     const r = await resolveCredential();
     expect(r).toEqual({ type: "api_key", key: "alias-key", source: "env_alias" });

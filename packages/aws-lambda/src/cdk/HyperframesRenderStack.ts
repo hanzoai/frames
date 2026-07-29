@@ -2,7 +2,7 @@
  * `HyperframesRenderStack` — aws-cdk-lib L2 construct that emits the same
  * topology as `examples/aws-lambda/template.yaml`.
  *
- * Adopters who embed HyperFrames inside their own CDK app can extend this
+ * Adopters who embed Frames inside their own CDK app can extend this
  * construct or compose alongside it; the construct exposes its `.bucket`,
  * `.renderFunction`, and `.stateMachine` properties so additional
  * resources (alarms, dashboards, SNS topics) can be wired without
@@ -11,7 +11,7 @@
  * `aws-cdk-lib` and `constructs` are **peerDependencies**. The package
  * still type-checks (and the snapshot test still runs) because they're
  * also `devDependencies`, but adopters who only consume the SDK side of
- * `@hyperframes/aws-lambda` don't pull the CDK tree at runtime.
+ * `@frames/aws-lambda` don't pull the CDK tree at runtime.
  *
  * Drift from the SAM template is guarded by the snapshot test
  * (`HyperframesRenderStack.snapshot.test.ts`), which diffs the synthed
@@ -32,7 +32,7 @@ import { Construct } from "constructs";
 
 /** Construction-time props for {@link HyperframesRenderStack}. */
 export interface HyperframesRenderStackProps {
-  /** Name prefix applied to function / state-machine / alarm names. Default `"hyperframes"`. */
+  /** Name prefix applied to function / state-machine / alarm names. Default `"frames"`. */
   projectName?: string;
   /** Lambda memory in MB. Allowed: 2048..10240 in 1024 steps. Default 10240. */
   lambdaMemoryMb?: 2048 | 3072 | 4096 | 5120 | 6144 | 7168 | 8192 | 9216 | 10240;
@@ -71,7 +71,7 @@ export class HyperframesRenderStack extends Construct {
   constructor(scope: Construct, id: string, props: HyperframesRenderStackProps = {}) {
     super(scope, id);
 
-    const projectName = props.projectName ?? "hyperframes";
+    const projectName = props.projectName ?? "frames";
     const memorySize = props.lambdaMemoryMb ?? DEFAULT_MEMORY_MB;
     const timeoutSec = props.lambdaTimeoutSec ?? DEFAULT_TIMEOUT_SEC;
     const chromeSource = props.chromeSource ?? DEFAULT_CHROME_SOURCE;
@@ -109,8 +109,8 @@ export class HyperframesRenderStack extends Construct {
       environment: {
         NODE_OPTIONS: "--enable-source-maps",
         TMPDIR: "/tmp",
-        HYPERFRAMES_LAMBDA_CHROME_SOURCE: chromeSource,
-        HYPERFRAMES_RENDER_BUCKET: this.bucket.bucketName,
+        FRAMES_LAMBDA_CHROME_SOURCE: chromeSource,
+        FRAMES_RENDER_BUCKET: this.bucket.bucketName,
       },
     });
 
@@ -487,7 +487,7 @@ export class HyperframesRenderStack extends Construct {
  * to `packages/aws-lambda/dist/handler.zip`. The package is published with
  * `main: "./src/index.ts"`, so this path resolves correctly both in the
  * source tree (during `bun test` / local CDK synth) and in a consumer's
- * `node_modules/@hyperframes/aws-lambda/` install.
+ * `node_modules/@frames/aws-lambda/` install.
  */
 function defaultHandlerZipPath(): string {
   const here = dirname(fileURLToPath(import.meta.url));

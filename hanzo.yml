@@ -1,0 +1,19 @@
+# Hanzo Frames — the programmatic video toolkit (14 workspace packages, bun).
+#
+# The gate is upstream's own build job, verbatim: install from the frozen
+# bun.lock, build every package in dependency order, then typecheck all of them.
+# The build alone would miss type errors in code it does not emit, which is why
+# the typecheck follows rather than replaces it.
+#
+# bun is curl-installed when absent — the runner image has none, and this repo
+# is bun-native (bun.lock, `bun run --filter`), so there is no npm spelling of
+# this that would be the same gate.
+test:
+  - name: build
+    run: |
+      set -e
+      command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun install --frozen-lockfile
+      bun run build
+      bun run --filter '*' typecheck

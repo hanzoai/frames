@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { decideMusic, decideVoice, KOKORO_PIP, MUSICGEN_PIP } from "./providers.js";
 
-describe("decideVoice — mirrors the skill's hanzo → kokoro order", () => {
+describe("decideVoice — hanzo → kokoro order", () => {
   it("prefers Hanzo speech when a credential is present", () => {
     const r = decideVoice({ hosted: true, kokoro: true });
     expect(r.engine).toBe("hanzo");

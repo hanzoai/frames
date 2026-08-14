@@ -1,11 +1,13 @@
 /**
  * Which voice / music engine a workflow will actually use, and whether
- * its local dependencies are present. Mirrors the resolution order the
- * media-use skill scripts use, so `auth status` and `doctor`
- * report the same engine the render pipeline would pick:
+ * its local dependencies are present, so `auth status` and `doctor`
+ * report what a run would reach for:
  *
  *   voice: Hanzo speech (credential) → Kokoro (local)
  *   music: MusicGen (local)
+ *
+ * Hosted speech is `POST /v1/audio/speech`. Kokoro is the local model
+ * `frames tts` runs, and needs no account.
  *
  * The decision is split from the probing: `decide*` is pure (unit-tested
  * without spawning Python); `gather*` collects the live facts.

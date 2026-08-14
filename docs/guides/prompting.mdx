@@ -215,9 +215,9 @@ Hand-drawn emphasis effects for text:
 
 ### Text-to-speech voices
 
-Voiceover is one route: `POST /v1/audio/speech` on your Hanzo credential. Describe the content and the agent picks a voice, or name one directly:
+Voiceover has two routes: `POST /v1/audio/speech` on your Hanzo credential, or `frames tts`, which runs Kokoro on-device and needs no account. Describe the content and the agent picks a voice, or name a Kokoro voice directly:
 
-| Content type  | Kokoro voices              |
+| Content type  | Kokoro voice               |
 | ------------- | -------------------------- |
 | Product demo  | `af_heart`, `af_nova`      |
 | Tutorial      | `am_adam`, `bf_emma`       |

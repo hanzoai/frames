@@ -16,10 +16,10 @@
 //   4. domain favicon — small-raster last resort (DuckDuckGo ip3). Responses
 //                      under ~500B are DDG's globe placeholder, not a hit.
 //
-// HeyGen asset search is deliberately absent: for brand queries it returns
-// generic look-alike icons (0/3 in testing) — worse than a miss. A total miss
-// falls through to resolve's normal failure path (`no provider could resolve
-// logo`, exit 1).
+// A general image search is deliberately absent: for brand queries it returns
+// generic look-alike icons, which is worse than a miss. A total miss falls
+// through to resolve's normal failure path (`no provider could resolve logo`,
+// exit 1).
 
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -55,7 +55,7 @@ const GITHUB_ORGS = {
   vercel: "vercel",
   nextjs: "vercel",
   alibaba: "alibaba",
-  heygen: "heygen-com",
+  hanzo: "hanzoai",
 };
 
 // Favicon domains that aren't `<entity>.com`.

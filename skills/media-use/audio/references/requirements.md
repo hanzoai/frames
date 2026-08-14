@@ -1,29 +1,44 @@
-# Requirements & Caches
+# Requirements & caches
 
-## Credential & key priority
+## Credential
 
-Run `npx frames auth status` to see what's configured and which engines a workflow will use (see the skill's **Preflight** section). Keys resolve in this order — **first match wins**:
+One credential, one host. Read it from Hanzo KMS (`kms.hanzo.ai`) and export it:
 
-| Provider                             | Resolution order (first non-empty wins)                                                                                                                                    | Local deps when used                             |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| **HeyGen** (TTS + BGM/SFX retrieval) | `$HEYGEN_API_KEY` → `$FRAMES_API_KEY` → `~/.heygen/credentials` (shared with heygen-cli; `$HEYGEN_CONFIG_DIR` overrides the dir; written by `frames auth login`) | none (REST)                                      |
-| **ElevenLabs** (TTS fallback)        | `$ELEVENLABS_API_KEY`                                                                                                                                                      | `pip install elevenlabs`                         |
-| **Lyria** (BGM fallback)             | `$GEMINI_API_KEY` → `$GOOGLE_API_KEY`                                                                                                                                      | `pip install google-genai`                       |
-| **Kokoro** (TTS, no key)             | always — final voice fallback                                                                                                                                              | `pip install kokoro-onnx soundfile`              |
-| **MusicGen** (BGM, no key)           | always — final music fallback                                                                                                                                              | `pip install transformers torch soundfile numpy` |
+```bash
+export HANZO_API_KEY=...   # a Hanzo IAM token, or an sk- cloud key
+export HANZO_ORG=...       # the tenant that owns the shared media bucket
+```
 
-`frames auth login` (browser OAuth) is the recommended setup: one sign-in, every project, no per-repo `.env`. An OAuth login is sent as `Authorization: Bearer`; an API key as `X-Api-Key`; both are tagged with `X-HeyGen-Source: cli`. OAuth CLI users can consume the web-plan free allowance for HeyGen TTS (10 min/month); API keys follow the normal API billing path. With no HeyGen credential, voice/BGM run fully locally (Kokoro / MusicGen) — `frames auth status` and `frames doctor` both report whether those local deps are installed.
+There is no credential file and no per-repo `.env`. A publishable `pk-` key is
+read-only and the media routes refuse it. `HANZO_BASE_URL` points the same code
+at a Hanzo Engine on your own machine (default `https://api.hanzo.ai`).
 
-## Model caches & system dependencies
+`node <SKILL_DIR>/scripts/resolve.mjs --doctor` reports what is set and what is
+reachable.
 
-Each command downloads its own model on first run and caches it under `~/.cache/frames/`:
+## What each capability needs
 
-- **TTS (HeyGen)** — no local deps; needs a HeyGen credential + `ffmpeg` on PATH (to transcode the mp3 response to `.wav`). Credential resolves like the CLI: `$HEYGEN_API_KEY` → `$FRAMES_API_KEY` → `~/.heygen/credentials` (shared with heygen-cli; run `npx frames auth login`). An OAuth login is sent as `Authorization: Bearer`; an API key as `X-Api-Key`; both include `X-HeyGen-Source: cli` so the backend can apply CLI OAuth free usage.
-- **TTS (ElevenLabs)** — same as HeyGen: API key + `ffmpeg`.
-- **TTS (Kokoro)** — Kokoro-82M (~311 MB) + voices (~27 MB) in `tts/`. Requires Python 3.8+ with `kokoro-onnx` and `soundfile` (`pip install kokoro-onnx soundfile`). Non-English text also needs `espeak-ng` system-wide.
-- **BGM (Lyria)** — needs `$GEMINI_API_KEY` or `$GOOGLE_API_KEY` + `pip install google-genai`. No local model cache.
-- **BGM (MusicGen)** — `pip install transformers torch soundfile`. `facebook/musicgen-small` (~300 MB) cached under `~/.cache/huggingface/` on first run.
-- **Transcribe** — Whisper model size depending on choice (75 MB – 3.1 GB) in `whisper/`, downloaded from HuggingFace on first use. `whisper.cpp` itself is NOT bundled: the CLI resolves it from PATH, installs via Homebrew (macOS), or builds it from source with git+cmake on first use (`$FRAMES_WHISPER_PATH` overrides).
-- **Remove-background** — `u2net_human_seg` (~168 MB ONNX) in `background-removal/models/`. Peak inference RAM ~1.5 GB.
+| Capability         | Route                           | Local dependency              |
+| ------------------ | ------------------------------- | ----------------------------- |
+| Voice              | `POST /v1/audio/speech`         | `ffmpeg` for `.wav` output    |
+| Word timings       | `POST /v1/audio/transcriptions` | none                          |
+| Music              | `POST /v1/audio/music`          | none                          |
+| Sound effects      | `POST /v1/audio/foley`          | none                          |
+| Images             | `POST /v1/images/generations`   | none                          |
+| Video              | `POST /v1/videos/generations`   | none                          |
+| The shared catalog | `GET /v1/s3/buckets/media/…`    | none                          |
+| Grade / LUT        | built locally from `params`     | `ffprobe` for measured grades |
 
-Run `npx frames doctor` if a command fails because of a missing dependency.
+No model downloads and no per-provider Python: everything but ffmpeg is an HTTP
+call. `ffmpeg` and `ffprobe` are the only strict requirements
+(`brew install ffmpeg`).
+
+## Limits worth knowing
+
+- **Speech input is capped at 4096 bytes per request.** The engine sends one
+  request per line, which is also how each line gets its own duration.
+- **Transcription upload is capped at 25 MiB.** Longer audio is cut first.
+- **A catalog listing returns at most 1000 keys per prefix.** Treat a full page
+  as "there may be more".
+- **A catalog link is signed and expires in minutes.** Fetch it now; never write
+  one into a document.

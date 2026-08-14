@@ -16,7 +16,6 @@ import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { appendRecord, readManifest } from "./lib/manifest.mjs";
 import { regenerateIndex } from "./lib/index-gen.mjs";
 import { getProvider } from "./lib/providers.mjs";
-import { HEYGEN_NOT_FOUND_MESSAGE } from "./lib/heygen-cli.mjs";
 import { freezeLocalFile } from "./lib/freeze.mjs";
 import { cachePut, cacheGet, importFromCache } from "./lib/cache.mjs";
 import { validateCubeFile } from "./lib/cube-validate.mjs";
@@ -152,17 +151,15 @@ function test(name, fn) {
 
 // --- manifest cache hit ---
 
-test("bundled SFX resolve without HeyGen on PATH", () => {
+test("bundled SFX resolves with no credential present", () => {
   setup();
   const result = spawnResolve(["--type", "sfx", "--intent", "whoosh", "--project", tmp, "--json"], {
-    env: { HOME: tmp, PATH: tmp },
+    env: { HOME: tmp, PATH: tmp, HANZO_API_KEY: "" },
   });
   assert.equal(result.status, 0, result.stderr);
   const parsed = JSON.parse(result.stdout);
   assert.equal(parsed.ok, true);
   assert.equal(parsed.provenance.provider, "bundled.sfx");
-  assert.equal(parsed.advisory?.message, HEYGEN_NOT_FOUND_MESSAGE);
-  assert.equal(parsed.advisory.message.includes("| bash"), false);
   assert.ok(existsSync(join(tmp, parsed.path)));
   cleanup();
 });
@@ -190,42 +187,7 @@ test("missing bundled SFX install returns a typed recovery command", () => {
   cleanup();
 });
 
-function writeFakeHeygen(body, exitCode = 0) {
-  const binDir = join(tmp, "bin");
-  mkdirSync(binDir, { recursive: true });
-  const command = join(binDir, "heygen");
-  writeFileSync(command, `#!/bin/sh\n${body}\nexit ${exitCode}\n`);
-  chmodSync(command, 0o755);
-  return binDir;
-}
-
-test("bundled SFX advises update when the HeyGen CLI is outdated", () => {
-  setup();
-  const binDir = writeFakeHeygen('echo "heygen v0.1.5 does not support --headers" >&2', 1);
-  const result = spawnResolve(["--type", "sfx", "--intent", "whoosh", "--project", tmp, "--json"], {
-    env: { HOME: tmp, PATH: binDir },
-  });
-  assert.equal(result.status, 0, result.stderr);
-  const parsed = JSON.parse(result.stdout);
-  assert.equal(parsed.provenance.provider, "bundled.sfx");
-  assert.match(parsed.advisory?.message ?? "", /heygen update/);
-  cleanup();
-});
-
-test("bundled SFX does not advise installation after a healthy catalog miss", () => {
-  setup();
-  const binDir = writeFakeHeygen(`echo '{"data":[]}'`);
-  const result = spawnResolve(["--type", "sfx", "--intent", "whoosh", "--project", tmp, "--json"], {
-    env: { HOME: tmp, PATH: binDir },
-  });
-  assert.equal(result.status, 0, result.stderr);
-  const parsed = JSON.parse(result.stdout);
-  assert.equal(parsed.provenance.provider, "bundled.sfx");
-  assert.equal(parsed.advisory, undefined);
-  cleanup();
-});
-
-test("explicit local bundled SFX resolution does not advise installation", () => {
+test("pinned local bundled SFX resolution stays on the bundled rung", () => {
   for (const extraArgs of [["--local-only"], ["--provider", "bundled.sfx"]]) {
     setup();
     const result = spawnResolve(
@@ -235,23 +197,8 @@ test("explicit local bundled SFX resolution does not advise installation", () =>
     assert.equal(result.status, 0, result.stderr);
     const parsed = JSON.parse(result.stdout);
     assert.equal(parsed.provenance.provider, "bundled.sfx");
-    assert.equal(parsed.advisory, undefined);
     cleanup();
   }
-});
-
-test("human bundled fallback prints the install hint once", () => {
-  setup();
-  const result = spawnResolve(["--type", "sfx", "--intent", "whoosh", "--project", tmp], {
-    env: { HOME: tmp, PATH: tmp },
-  });
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(
-    result.stderr.match(/Install the CLI from https:\/\/developers\.heygen\.com\/cli/g)?.length,
-    1,
-  );
-  assert.match(result.stdout, /resolved sfx_001/);
-  cleanup();
 });
 
 test("project manifest hit skips providers", () => {
@@ -301,84 +248,6 @@ test("entity hit matches across icon/image (figma-imported brand marks)", () => 
   assert.equal(parsed.ok, true);
   assert.equal(parsed.id, "image_001");
   assert.equal(parsed._source, "cached");
-  cleanup();
-});
-
-// --- auth_method provenance (U6) ---
-
-test("manifest hit for an OAuth-credentialed heygen resolve surfaces authMethod: oauth", () => {
-  setup();
-  const record = makeRecord({
-    id: "voice_001",
-    type: "voice",
-    path: ".media/audio/voice/voice_001.wav",
-    provenance: { provider: "heygen.tts", authMethod: "oauth", prompt: "oauth voice" },
-  });
-  appendRecord(tmp, record);
-  const filePath = join(tmp, record.path);
-  mkdirSync(join(filePath, ".."), { recursive: true });
-  writeFileSync(filePath, "cached voice");
-
-  const out = runResolve([
-    "--type",
-    "voice",
-    "--intent",
-    "oauth voice",
-    "--project",
-    tmp,
-    "--json",
-  ]);
-  const parsed = JSON.parse(out.trim());
-  assert.equal(parsed.ok, true);
-  assert.equal(parsed.provenance.authMethod, "oauth");
-  cleanup();
-});
-
-test("manifest hit for an API-key-credentialed heygen resolve surfaces authMethod: api_key", () => {
-  setup();
-  const record = makeRecord({
-    id: "voice_001",
-    type: "voice",
-    path: ".media/audio/voice/voice_001.wav",
-    provenance: { provider: "heygen.tts", authMethod: "api_key", prompt: "api key voice" },
-  });
-  appendRecord(tmp, record);
-  const filePath = join(tmp, record.path);
-  mkdirSync(join(filePath, ".."), { recursive: true });
-  writeFileSync(filePath, "cached voice");
-
-  const out = runResolve([
-    "--type",
-    "voice",
-    "--intent",
-    "api key voice",
-    "--project",
-    tmp,
-    "--json",
-  ]);
-  const parsed = JSON.parse(out.trim());
-  assert.equal(parsed.ok, true);
-  assert.equal(parsed.provenance.authMethod, "api_key");
-  cleanup();
-});
-
-test("manifest hit for a non-heygen provider omits authMethod entirely", () => {
-  setup();
-  const record = makeRecord({
-    id: "logo_001",
-    type: "logo",
-    path: ".media/images/logo_001.svg",
-    provenance: { provider: "svgl", prompt: "acme logo" },
-  });
-  appendRecord(tmp, record);
-  const filePath = join(tmp, record.path);
-  mkdirSync(join(filePath, ".."), { recursive: true });
-  writeFileSync(filePath, "<svg/>");
-
-  const out = runResolve(["--type", "logo", "--intent", "acme logo", "--project", tmp, "--json"]);
-  const parsed = JSON.parse(out.trim());
-  assert.equal(parsed.ok, true);
-  assert.equal("authMethod" in parsed.provenance, false);
   cleanup();
 });
 
@@ -436,30 +305,39 @@ test("freezeLocalFile creates parent dirs and copies", () => {
 
 test("failed remote freeze removes its reserved placeholder", async () => {
   setup();
-  const server = createServer((_req, res) => {
+  // Stand in for api.hanzo.ai: the catalog holds one image, its link resolves,
+  // and the download 503s. The placeholder reserved for those bytes must not
+  // survive the failure.
+  const server = createServer((req, res) => {
+    const here = `http://127.0.0.1:${server.address().port}`;
+    if (req.url.startsWith("/v1/s3/buckets/media/objects?")) {
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ objects: [{ key: "download-failure.jpg", isDir: false, size: 9 }] }));
+      return;
+    }
+    if (req.url.startsWith("/v1/s3/buckets/media/objects/")) {
+      res.writeHead(200, { "content-type": "application/json" });
+      res.end(JSON.stringify({ url: `${here}/blob.jpg`, method: "GET" }));
+      return;
+    }
     res.writeHead(503);
     res.end("unavailable");
   });
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   const port = server.address().port;
-  const binDir = writeFakeHeygen(
-    `printf '%s\\n' '{"data":[{"id":"asset.jpg","url":"http://127.0.0.1:${port}/asset.jpg"}]}'`,
-  );
 
   try {
     const result = await spawnResolveAsync(
-      [
-        "--type",
-        "image",
-        "--intent",
-        "download failure",
-        "--provider",
-        "heygen",
-        "--project",
-        tmp,
-        "--json",
-      ],
-      { env: { HOME: tmp, PATH: binDir } },
+      ["--type", "image", "--intent", "download failure", "--project", tmp, "--json"],
+      {
+        env: {
+          HOME: tmp,
+          PATH: tmp,
+          HANZO_BASE_URL: `http://127.0.0.1:${port}`,
+          HANZO_API_KEY: "test-key",
+          HANZO_ORG: "test-org",
+        },
+      },
     );
 
     assert.equal(result.status, 1, result.stderr);
@@ -591,17 +469,15 @@ test("--from uses .mp4 as the default video extension", () => {
   cleanup();
 });
 
-test("--avatar-id/--voice-id parse as real CLI flags (regression guard: docs promise them, parseArgs must not reject them)", () => {
+test("--voice-id parses as a real CLI flag (regression guard: the docs promise it, parseArgs must not reject it)", () => {
   setup();
   const result = spawnResolve(
     [
       "--type",
-      "video",
+      "voice",
       "--intent",
       "regression guard",
       "--local-only",
-      "--avatar-id",
-      "avatar-override",
       "--voice-id",
       "voice-override",
       "--project",
@@ -659,9 +535,8 @@ test("--doctor --json reports dependency checks and top-level ok requires ffmpeg
 
   const expected = [
     "bundled SFX assets",
-    "heygen on PATH",
-    "heygen version",
-    "heygen authenticated",
+    "hanzo credential",
+    "hanzo org",
     "ffmpeg on PATH",
     "ffprobe on PATH",
     "node version",
@@ -994,12 +869,7 @@ test("track() posts to MEDIA_USE_TELEMETRY_HOST when set, proving real intercept
     // Override this one invocation's env only: allow tracking (DO_NOT_TRACK
     // default flipped off), sandbox HOME so anonymousId()/showTelemetryNotice()
     // never touch the real developer machine, and point the host at the local
-    // server. HEYGEN_CONFIG_DIR is sandboxed too -- runResolve's env is
-    // {...process.env, ...env}, so a developer with that var set to a real
-    // credentials dir would otherwise have heygenAccountDistinctId() read
-    // their real email into this test's local-server payload despite HOME
-    // being sandboxed (HEYGEN_CONFIG_DIR, not HOME, resolves the credentials
-    // path). Every other test in this file keeps its untouched default env.
+    // server. Every other test in this file keeps its untouched default env.
     runResolve(["--type", "bgm", "--intent", "telemetry seam test", "--project", tmp, "--json"], {
       env: {
         DO_NOT_TRACK: "0",
@@ -1007,7 +877,6 @@ test("track() posts to MEDIA_USE_TELEMETRY_HOST when set, proving real intercept
         CI: "",
         NODE_ENV: "test",
         HOME: sandboxHome,
-        HEYGEN_CONFIG_DIR: join(sandboxHome, ".heygen"),
         MEDIA_USE_TELEMETRY_HOST: `http://127.0.0.1:${port}`,
       },
     });

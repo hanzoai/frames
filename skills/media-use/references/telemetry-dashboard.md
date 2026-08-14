@@ -9,11 +9,10 @@ from `.media/` + `~/.media`, no dashboard access needed).
 
 ## Identity (see `scripts/lib/telemetry.mjs`)
 
-Events attribute to the **same person as the frames CLI and studio**
-— the shared install id in `~/.frames/config.json` (`anonymousId`), stitched
-to the HeyGen account (`$identify`, `distinct_id` = email/username) on sign-in.
-Not fully anonymous by design; pseudonymous before sign-in, account-linked after.
-`$ip:null`. Opt-out: `FRAMES_NO_TELEMETRY=1` / `DO_NOT_TRACK=1` (also CI, dev).
+Events attribute to the **same install as the CLI and studio** — the shared
+install id in `~/.frames/config.json` (`anonymousId`) and nothing else. No
+account is stitched in: pseudonymous, always. `$ip:null`. Opt-out:
+`FRAMES_NO_TELEMETRY=1` / `DO_NOT_TRACK=1` (also CI, dev).
 
 ## Event catalog (verified present in-project)
 

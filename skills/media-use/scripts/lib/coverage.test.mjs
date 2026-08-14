@@ -4,7 +4,6 @@ import { existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { listTypes, getProviders } from "./registry.mjs";
-import { CAPABILITIES, listModels } from "./local-models.mjs";
 
 // Capstone: media-use must actually OWN each frames media weakness. This
 // test enforces the weakness→owner matrix in references/meta.md so a claim can't rot — if
@@ -48,14 +47,10 @@ test("weakness: no transcript-driven cutting → cut compiler entrypoints exist"
   assert.equal(typeof cutlist.compileCutList, "function");
 });
 
-test("weakness: whisper.cpp is weak → better local ASR (Parakeet) entrypoint exists", async () => {
+test("weakness: no transcript → one transcription entrypoint on the one client", async () => {
   assert.ok(existsSync(join(SKILL, "scripts", "transcribe.mjs")), "transcribe.mjs missing");
-  const pw = await import("./parakeet-words.mjs");
-  assert.equal(typeof pw.mergeTokensToWords, "function", "token->word merge missing");
-  const lm = await import("./local-models.mjs");
-  const asr = lm.listModels("asr");
-  const parakeet = asr.find((m) => m.id === "parakeet-mlx");
-  assert.ok(parakeet && parakeet.rank === 0, "Parakeet must be the rank-0 preferred ASR");
+  const api = await import("./api.mjs");
+  assert.equal(typeof api.transcript, "function", "transcription call missing");
 });
 
 test("weakness: no auto-duck/loudness → duck compiler and recipes exist", async () => {
@@ -76,38 +71,25 @@ test("weakness: no cross-project memory → global cache + ingest entrypoints ex
   assert.equal(typeof freeze.isDirectMediaUrl, "function", "ingest URL guard missing");
 });
 
-// Wenbo (06-29): heygen free-usage is the default; local models are the opt-out
-// fallback ("if user no, then local"). We still assert the fallback table is
-// populated so the opt-out path stays real.
-test("weakness: weak local defaults → local models exist as the opt-out fallback (tts/asr/upscale)", () => {
-  for (const cap of ["tts", "asr", "upscale"]) {
-    assert.ok(CAPABILITIES.includes(cap), `capability ${cap} missing`);
-    assert.ok(listModels(cap).length > 0, `no local models for ${cap}`);
-  }
-});
-
-test("weakness: no image generation → local mflux (RAM-graded) + codex upsell", async () => {
+test("weakness: no image generation → catalog search then generation", () => {
   const ps = getProviders("image");
   assert.ok(
-    ps.some((p) => p.name === "mflux.local" && typeof p.generate === "function"),
-    "local image gen missing",
+    ps.some((p) => p.name === "catalog.image" && typeof p.search === "function"),
+    "image catalog search missing",
   );
   assert.ok(
-    ps.some((p) => p.name === "codex.image_gen" && typeof p.generate === "function"),
-    "codex image upsell missing",
+    ps.some((p) => p.name === "hanzo.image" && typeof p.generate === "function"),
+    "image generation missing",
   );
-  const lm = await import("./local-models.mjs");
-  assert.ok(lm.CAPABILITIES.includes("imagegen"), "imagegen capability missing");
-  assert.ok(lm.listModels("imagegen").length >= 3, "imagegen RAM ladder too small");
-  assert.equal(typeof lm.describeModelLadder, "function", "agent-facing ladder missing");
 });
 
-test("weakness: no video generation → local videogen ladder + heygen avatar upsell", async () => {
-  const lm = await import("./local-models.mjs");
-  assert.ok(lm.CAPABILITIES.includes("videogen"), "videogen capability missing");
-  assert.ok(lm.listModels("videogen").length >= 2, "videogen ladder too small");
-  const ops = existsSync(join(SKILL, "references", "operations.md"));
-  assert.ok(ops, "operations.md (avatar-upsell recipe) missing");
+test("weakness: no video generation → the video type generates", () => {
+  const ps = getProviders("video");
+  assert.ok(
+    ps.some((p) => p.name === "hanzo.video" && typeof p.generate === "function"),
+    "video generation missing",
+  );
+  assert.ok(existsSync(join(SKILL, "references", "operations.md")), "operations.md missing");
 });
 
 test("every resolve type has at least one enabled provider", () => {

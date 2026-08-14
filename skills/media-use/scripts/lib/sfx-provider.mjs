@@ -1,23 +1,12 @@
-import { heygenSearch } from "./heygen-search.mjs";
+import { asResult, compose, find } from "./catalog.mjs";
 
 export const sfxProvider = {
   async search(intent) {
-    const results = heygenSearch("audio sounds list", intent, {
-      type: "sound_effects",
-      minScore: 0.4,
-    });
-    if (!results) return null;
-    const best = results[0];
-    return {
-      url: best.audio_url,
-      source: "search",
-      // ext derived from audio_url by resolve.mjs — catalog SFX are .mp3 or .wav
-      metadata: {
-        description: best.description || best.name || intent,
-        duration: best.duration || null,
-        provider: "heygen.audio.sounds",
-        provenance: { track_id: best.id, score: best.score, query: intent },
-      },
-    };
+    const hit = await find("sfx", intent);
+    if (!hit || hit.empty) return null;
+    return asResult(hit, intent, "sfx");
+  },
+  async generate(intent, ctx) {
+    return compose(intent, { kind: "sfx", seconds: ctx?.seconds });
   },
 };

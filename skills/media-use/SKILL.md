@@ -7,7 +7,7 @@ description: Agent Media OS, the single skill for every media need in a Frames p
 
 The media OS for Frames: resolve · generate · operate · remember — every media type, one skill, zero context noise.
 
-First run: install and sign in to the `heygen` CLI (the free-usage path), then verify with `node <SKILL_DIR>/scripts/resolve.mjs --doctor`. Setup and providers: `references/setup-providers.md`.
+First run: export `HANZO_API_KEY` (from Hanzo KMS) and `HANZO_ORG`, then verify with `node <SKILL_DIR>/scripts/resolve.mjs --doctor`. Setup and providers: `references/setup-providers.md`.
 
 ## Resolve — the one verb
 
@@ -19,12 +19,12 @@ Returns one line: `resolved <id> → <path> (<type>, <metadata>)`. All search no
 
 | Type    | One-line intent                                                                     |
 | ------- | ----------------------------------------------------------------------------------- |
-| `bgm`   | background music (HeyGen catalog, 10k+ tracks)                                      |
-| `sfx`   | sound effects (bundled 19-file library + catalog)                                   |
-| `image` | photos, backgrounds (HeyGen asset search, 75k+ vectors)                             |
+| `bgm`   | background music (shared catalog, then generated)                                   |
+| `sfx`   | sound effects (21 bundled files, then the catalog, then foley)                      |
+| `image` | photos, backgrounds (shared catalog, then generated)                                |
 | `icon`  | icons, symbols (transparent)                                                        |
 | `logo`  | official brand marks (svgl → simple-icons → GitHub avatar → favicon; never redrawn) |
-| `voice` | TTS voiceover (HeyGen free-usage path; optional local Kokoro)                       |
+| `voice` | spoken narration, with word timings from the same transcript pass                   |
 | `grade` | measured correction candidate; broad polish/stylization follows Media Treatments    |
 | `lut`   | user-provided or explicitly chosen reusable validated `.cube` file                  |
 
@@ -76,7 +76,7 @@ Surface an opportunity only when a concrete signal is present:
 | Image that is a placeholder, tiny, or upscaled-looking   | a better `image` (and/or upscale — see `references/operations.md`)                                     |
 | Hard scene cuts / transitions with no sound              | transition `sfx`                                                                                       |
 | A piece over ~10s with no music bed                      | `bgm`                                                                                                  |
-| Footage that reads under/over-exposed or color-cast      | a corrective grade (inspect it with `frames media-treatment --selector '#hero' --analyze --json`) |
+| Footage that reads under/over-exposed or color-cast      | a corrective grade (inspect it with `frames media-treatment --selector '#hero' --analyze --json`)      |
 | Photographic media that feels visually flat or off-topic | one specific source-appropriate preset or custom treatment, with the intended target named             |
 | A meaningful media entrance/reveal that feels static     | one supported seek-safe treatment animation; preserve color unless the request also justifies a preset |
 
@@ -84,13 +84,13 @@ Rules that keep this a help, not nagware: **grounded, not generic** (no signal �
 
 ## Where to look — read only the file your task needs
 
-| Task                                                                      | Read                             |
-| ------------------------------------------------------------------------- | -------------------------------- |
-| resolve / reuse / adopt / ingest, flags, cascade, inventory               | `references/resolve.md`          |
-| color grading, LUTs, smart grade (`--for`), grade-compare                 | `references/grading.md`          |
-| voiceover / TTS, music, SFX, captions, transcription (audio engine)       | `references/audio.md`            |
-| cut / reframe / transform existing media, exact error diffusion, HEVC     | `references/operations.md`       |
-| source-aware creative treatments, realtime effects, overlays, reveals     | `references/media-treatments.md` |
-| install + auth, provider table, RAM ladders, `--local-only`, `--provider` | `references/setup-providers.md`  |
-| remembered preferences + frozen recipes (user memory)                     | `references/memory.md`           |
-| ownership matrix, usage stats, telemetry, privacy (maintainer-facing)     | `references/meta.md`             |
+| Task                                                                  | Read                             |
+| --------------------------------------------------------------------- | -------------------------------- |
+| resolve / reuse / adopt / ingest, flags, cascade, inventory           | `references/resolve.md`          |
+| color grading, LUTs, smart grade (`--for`), grade-compare             | `references/grading.md`          |
+| voiceover / TTS, music, SFX, captions, transcription (audio engine)   | `references/audio.md`            |
+| cut / reframe / transform existing media, exact error diffusion, HEVC | `references/operations.md`       |
+| source-aware creative treatments, realtime effects, overlays, reveals | `references/media-treatments.md` |
+| credential, provider table, `--local-only`, `--provider`              | `references/setup-providers.md`  |
+| remembered preferences + frozen recipes (user memory)                 | `references/memory.md`           |
+| ownership matrix, usage stats, telemetry, privacy (maintainer-facing) | `references/meta.md`             |

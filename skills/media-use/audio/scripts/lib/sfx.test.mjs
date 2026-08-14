@@ -5,12 +5,11 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { resolveSfx } from "./sfx.mjs";
 
-// Offline (no HeyGen) SFX resolution: the bundled library may ship manifest.json
-// without the actual mp3s. The old code copied only when the source existed but
-// pushed the sfx entry unconditionally — producing a dangling reference that
-// silently dropped downstream ("not on disk"). These tests lock in the loud
-// behavior: a present file is copied + referenced; a missing file yields an
-// anomaly and NO dangling entry.
+// The bundled SFX library may ship manifest.json without the actual mp3s. An
+// entry pushed for a file that was never copied is a dangling reference that
+// drops silently downstream ("not on disk"). These tests lock in the loud
+// behavior: a present file is copied and referenced; a missing one says so.
+// No credential is set here, so the catalog and foley rungs are never reached.
 
 async function withDirs(fn) {
   const root = mkdtempSync(join(tmpdir(), "hf-sfx-"));
@@ -27,7 +26,7 @@ async function withDirs(fn) {
   }
 }
 
-test("offline: copies and references a present bundled file", async () => {
+test("copies and references a present bundled file", async () => {
   await withDirs(async ({ libDir, projDir }) => {
     writeFileSync(
       join(libDir, "manifest.json"),
@@ -36,19 +35,18 @@ test("offline: copies and references a present bundled file", async () => {
     writeFileSync(join(libDir, "whoosh.mp3"), "ID3-fake-bytes");
     const { sfx, anomalies } = await resolveSfx({
       cues: [{ id: "s1", name: "whoosh" }],
-      heygenOK: false,
       framesDir: projDir,
       sfxLibDir: libDir,
     });
     assert.equal(sfx.length, 1);
     assert.equal(sfx[0].file, "assets/sfx/whoosh.mp3");
-    assert.equal(sfx[0].source, "local");
+    assert.equal(sfx[0].source, "library");
     assert.ok(existsSync(join(projDir, "assets/sfx/whoosh.mp3")), "mp3 copied into project");
     assert.equal(anomalies.length, 0);
   });
 });
 
-test("offline: a matched-but-missing bundled file yields an anomaly and NO dangling entry", async () => {
+test("a matched-but-missing bundled file yields an anomaly and NO dangling entry", async () => {
   await withDirs(async ({ libDir, projDir }) => {
     // Manifest names whoosh.mp3, but the mp3 was never shipped (the reported bug).
     writeFileSync(
@@ -57,13 +55,13 @@ test("offline: a matched-but-missing bundled file yields an anomaly and NO dangl
     );
     const { sfx, anomalies } = await resolveSfx({
       cues: [{ id: "s1", name: "whoosh" }],
-      heygenOK: false,
       framesDir: projDir,
       sfxLibDir: libDir,
     });
     assert.equal(sfx.length, 0, "no dangling entry for a file that was never copied");
-    assert.equal(anomalies.length, 1);
-    assert.match(anomalies[0], /missing from the offline library/);
+    assert.equal(anomalies.length, 2);
+    assert.match(anomalies[0], /is missing from/);
+    assert.match(anomalies[1], /none could be made/);
     assert.ok(!existsSync(join(projDir, "assets/sfx/whoosh.mp3")), "nothing copied");
   });
 });

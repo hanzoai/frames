@@ -1,20 +1,18 @@
-// sfx.mjs — sound effects for the media audio engine. Provider-gated (NOT a
-// per-cue merge): the decision is made once, by whether HeyGen is configured —
-// mirroring how TTS and BGM degrade.
+// sfx.mjs — sound effects for the media audio engine. Each cue is resolved in
+// the same order, cheapest first:
 //
-//   HeyGen credential present  →  retrieve EVERY cue from HeyGen's audio library
-//        (/v3/audio/sounds, type=sound_effects, min_score=0.4). The bundled
-//        library is NOT consulted.
-//   HeyGen credential absent   →  resolve cues against the bundled 21-file
-//        library (assets/sfx/manifest.json), copying matched files into the
-//        project. Offline, deterministic, free.
+//   library   the 21 files bundled with this skill (assets/sfx/manifest.json).
+//             Offline, deterministic, free — and the same bytes every run.
+//   catalog   media/sfx/ in our object store, for the long tail the 21 miss.
+//   foley     POST /v1/audio/foley when neither has it.
 //
-// A cue that matches nothing is skipped (recorded as an anomaly); SFX never
-// blocks a render. Every cue sits at volume ~0.35, under voice + BGM.
+// A cue nothing can answer is skipped and recorded as an anomaly; SFX never
+// blocks a render. Every cue sits at volume 0.35, under voice and BGM.
 
-import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { downloadTo, searchSounds } from "./heygen.mjs";
+import { save } from "../../../scripts/lib/api.mjs";
+import { compose, find } from "../../../scripts/lib/catalog.mjs";
 
 const SFX_VOLUME = 0.35;
 const slug = (s) =>
@@ -25,15 +23,47 @@ const slug = (s) =>
     .slice(0, 40) || "x";
 const r3 = (x) => Number(x.toFixed(3));
 
+/**
+ * Build the lookup for the bundled library: by manifest key, by file basename,
+ * and by slug of either, so a cue can name "whoosh", "whoosh.mp3", or
+ * "ui click" and all three land.
+ */
+export function indexLibrary(manifest) {
+  const byName = new Map();
+  for (const [key, entry] of Object.entries(manifest)) {
+    if (!entry?.file || !isFinite(entry.duration)) continue;
+    const rec = { key, file: entry.file, duration: entry.duration };
+    byName.set(key, rec);
+    byName.set(entry.file, rec);
+    byName.set(slug(key), rec);
+    byName.set(slug(entry.file.replace(/\.\w+$/, "")), rec);
+  }
+  return byName;
+}
+
+function readLibrary(sfxLibDir, anomalies) {
+  const manifestPath = join(sfxLibDir, "manifest.json");
+  if (!existsSync(manifestPath)) {
+    anomalies.push(`no SFX library at ${sfxLibDir} — the bundled rung is unavailable`);
+    return new Map();
+  }
+  try {
+    return indexLibrary(JSON.parse(readFileSync(manifestPath, "utf8")));
+  } catch (e) {
+    anomalies.push(`SFX manifest parse failed (${e.message}) — the bundled rung is unavailable`);
+    return new Map();
+  }
+}
+
 // cues: [{ id, name }] (id = the line/frame/scene the cue fires in). Returns
 // { sfx: [{ id, name, file, source, offset_s, duration_s, volume }], anomalies }.
-export async function resolveSfx({ cues, heygenOK, headers, framesDir, sfxLibDir }) {
+export async function resolveSfx({ cues, framesDir, sfxLibDir }) {
   const sfx = [];
   const anomalies = [];
   const destDir = join(framesDir, "assets", "sfx");
 
   // Dedupe identical (id,name) cues — the same effect named twice in one line
-  // downloads/copies once.
+  // resolves once.
   const seen = new Set();
   const uniq = cues.filter((c) => {
     const k = `${c.id}:${c.name}`;
@@ -41,103 +71,72 @@ export async function resolveSfx({ cues, heygenOK, headers, framesDir, sfxLibDir
     seen.add(k);
     return true;
   });
+  if (!uniq.length) return { sfx, anomalies };
 
-  if (heygenOK) {
-    for (const { id, name } of uniq) {
-      try {
-        // SFX hits score low (~0.5–0.67), below the API's default 0.7 which
-        // silently drops most named cues — floor to 0.4. (BGM/music score high
-        // and keep the default.)
-        const results = await searchSounds(name, "sound_effects", headers, {
-          limit: 3,
-          minScore: 0.4,
+  const library = readLibrary(sfxLibDir, anomalies);
+  mkdirSync(destDir, { recursive: true });
+
+  for (const { id, name } of uniq) {
+    const hit = library.get(name) ?? library.get(slug(name));
+    if (hit) {
+      const src = join(sfxLibDir, hit.file);
+      const rel = `assets/sfx/${hit.file}`;
+      const dest = join(framesDir, rel);
+      // The bundled library may be incomplete: some installs ship manifest.json
+      // without the mp3s. An entry pointing at a file we never copied is a
+      // dangling reference that drops silently downstream, so say so and try
+      // the next rung instead.
+      if (existsSync(dest) || existsSync(src)) {
+        if (!existsSync(dest)) copyFileSync(src, dest);
+        sfx.push({
+          id,
+          name,
+          file: rel,
+          source: "library",
+          offset_s: 0,
+          duration_s: r3(hit.duration),
+          volume: SFX_VOLUME,
         });
-        if (!results.length) {
-          anomalies.push(`sfx "${name}" (id ${id}): no HeyGen match — skipped`);
-          continue;
-        }
-        const top = results[0];
-        const file = `assets/sfx/${slug(name)}.mp3`;
-        await downloadTo(top.audio_url, join(framesDir, file));
+        continue;
+      }
+      anomalies.push(
+        `sfx "${name}" (id ${id}): bundled file ${hit.file} is missing from ${sfxLibDir}`,
+      );
+    }
+
+    const rel = `assets/sfx/${slug(name)}`;
+    try {
+      const found = await find("sfx", name);
+      if (found && !found.empty) {
+        const file = `${rel}${(/\.\w+$/.exec(found.key) ?? [".mp3"])[0]}`;
+        await save(found.url, join(framesDir, file));
         sfx.push({
           id,
           name,
           file,
-          source: "heygen",
+          source: "catalog",
           offset_s: 0,
-          duration_s: typeof top.duration === "number" ? r3(top.duration) : 1.0,
+          duration_s: null,
           volume: SFX_VOLUME,
         });
-      } catch (e) {
-        anomalies.push(`sfx "${name}" (id ${id}): retrieval failed — ${e.message}`);
-      }
-    }
-    return { sfx, anomalies };
-  }
-
-  // ── offline: bundled library ──
-  const manifestPath = join(sfxLibDir, "manifest.json");
-  if (!existsSync(manifestPath)) {
-    if (uniq.length)
-      anomalies.push(`no HeyGen credential and no SFX library at ${sfxLibDir} — all cues dropped`);
-    return { sfx, anomalies };
-  }
-  let manifest;
-  try {
-    manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  } catch (e) {
-    anomalies.push(`SFX manifest parse failed (${e.message}) — all cues dropped`);
-    return { sfx, anomalies };
-  }
-  // Build lookups: by manifest key, by file basename, and by slug of either, so
-  // a cue can name "whoosh", "whoosh.mp3", or "ui click" (→ slug match).
-  const byKey = new Map();
-  for (const [key, entry] of Object.entries(manifest)) {
-    if (!entry?.file || !isFinite(entry.duration)) continue;
-    const rec = { key, file: entry.file, duration: entry.duration };
-    byKey.set(key, rec);
-    byKey.set(entry.file, rec);
-    byKey.set(slug(key), rec);
-    byKey.set(slug(entry.file.replace(/\.\w+$/, "")), rec);
-  }
-  mkdirSync(destDir, { recursive: true });
-  for (const { id, name } of uniq) {
-    const hit = byKey.get(name) ?? byKey.get(slug(name));
-    if (!hit) {
-      const known = [...new Set([...byKey.values()].map((v) => v.key))].slice(0, 8).join(", ");
-      anomalies.push(
-        `sfx "${name}" (id ${id}): not in bundled library — skipped (have: ${known}…)`,
-      );
-      continue;
-    }
-    const src = join(sfxLibDir, hit.file);
-    const destRel = `assets/sfx/${hit.file}`;
-    const dest = join(framesDir, destRel);
-    // The bundled library may be incomplete: some installs of the skill ship
-    // manifest.json without the actual mp3s. Pushing an sfx entry that points at
-    // a file we never copied produces a dangling reference that silently drops
-    // downstream ("not on disk"). Surface it as a loud anomaly and skip the cue
-    // instead, so the audio_meta never references a missing file.
-    if (!existsSync(dest)) {
-      if (!existsSync(src)) {
-        anomalies.push(
-          `sfx "${name}" (id ${id}): bundled file ${hit.file} missing from the offline ` +
-            `library (${sfxLibDir}) — skipped. Reinstall the media-use skill to ` +
-            `restore assets/sfx/*.mp3, or configure a HeyGen credential for retrieval.`,
-        );
         continue;
       }
-      copyFileSync(src, dest);
+      const made = await compose(name, { kind: "sfx" });
+      const file = `${rel}.wav`;
+      copyFileSync(made.localPath, join(framesDir, file));
+      rmSync(made.localPath, { force: true });
+      sfx.push({
+        id,
+        name,
+        file,
+        source: "foley",
+        offset_s: 0,
+        duration_s: null,
+        volume: SFX_VOLUME,
+      });
+    } catch (e) {
+      anomalies.push(`sfx "${name}" (id ${id}): not in the library and none could be made — ${e.message}`);
     }
-    sfx.push({
-      id,
-      name,
-      file: destRel,
-      source: "local",
-      offset_s: 0,
-      duration_s: r3(hit.duration),
-      volume: SFX_VOLUME,
-    });
   }
   return { sfx, anomalies };
 }

@@ -1,52 +1,45 @@
 # Transcription
 
-Create normalized word-level timestamps. **Always specify `--model` explicitly** — the CLI default is `small.en`, which silently translates non-English audio into English.
+Word-level timestamps from audio, through `POST /v1/audio/transcriptions`.
 
 ```bash
-npx frames transcribe audio.mp3  --model small.en             # known English
-npx frames transcribe video.mp4  --model small --language es  # known Spanish
-npx frames transcribe audio.mp3  --model small                # unknown language (auto-detect)
-npx frames transcribe subtitles.srt                           # import existing
-npx frames transcribe subtitles.vtt
-npx frames transcribe openai-response.json
+node <SKILL_DIR>/scripts/transcribe.mjs --input audio.mp3
+node <SKILL_DIR>/scripts/transcribe.mjs --input video.mp4 --lang es
+node <SKILL_DIR>/scripts/transcribe.mjs --input audio.mp3 --out words.json --json
 ```
 
-## Language Rule (Non-Negotiable)
+## Language
 
-`.en` models (`tiny.en` / `base.en` / `small.en` / `medium.en`) **translate** non-English audio into English. This silently destroys the original language.
+`--lang` defaults to `en` and is sent as the request language. Pass the real
+language of the audio: a transcription asked for the wrong language returns
+translated text, which silently destroys the original. For mixed-language audio,
+name the one you want kept.
 
-1. **Known English** → `--model small.en` (or `medium.en` for music / noisy audio)
-2. **Known non-English** → `--model small --language <iso-code>` (no `.en` suffix)
-3. **Unknown language** → `--model small` (whisper auto-detects)
+## Model
 
-**CLI default is `small.en`** — do not rely on it; always pass `--model` to make the choice explicit. `--language` also filters out non-target-language segments from mixed-language audio.
+`--model` defaults to `whisper`. `whisper-small` is the faster, smaller
+alternative. Both are served by our speech service; there is nothing to download
+and no first-run build.
 
-## Model Sizes
+## Output shape
 
-| Model      | Size   | Speed    | When                                  |
-| ---------- | ------ | -------- | ------------------------------------- |
-| `tiny`     | 75 MB  | Fastest  | Quick previews, smoke tests           |
-| `base`     | 142 MB | Fast     | Short clips, clear audio              |
-| `small`    | 466 MB | Moderate | Default for most multilingual content |
-| `medium`   | 1.5 GB | Slow     | Music with vocals, noisy audio        |
-| `large-v3` | 3.1 GB | Slowest  | Production quality                    |
-
-### Picking a model by content type
-
-1. Speech over silence / light background → `small.en`
-2. Speech over music, or music with vocals → start with `medium.en`
-3. Produced music track (vocals + full instrumentation) → start with `medium.en`; expect to need manual lyrics or an external API ([`captions/transcript-handling.md`](captions/transcript-handling.md) → "Using External Transcription APIs")
-4. Multilingual → `medium` or `large-v3` (no `.en` suffix), pair with `--language`
-
-## Output Shape
-
-Compositions consume a flat array of word objects. The `id` (`w0`, `w1`, …) is added during normalization for stable references in caption overrides; optional for backwards compatibility.
+A flat array of word objects. The `id` (`w0`, `w1`, …) is added during
+normalization so caption overrides have a stable reference.
 
 ```json
-[
-  { "id": "w0", "text": "Hello", "start": 0.0, "end": 0.5 },
-  { "id": "w1", "text": "world.", "start": 0.6, "end": 1.2 }
-]
+{
+  "text": "Hello world.",
+  "words": [
+    { "text": "Hello", "start": 0.0, "end": 0.5 },
+    { "text": "world.", "start": 0.6, "end": 1.2 }
+  ]
+}
 ```
 
-For mandatory caption-quality checks, retry rules, and the OpenAI/Groq Whisper API import path, see `captions/transcript-handling.md`.
+**`words` is empty when the service returns text without per-word timings**, and
+the command says so on stderr. Nothing is interpolated to fill the gap. Callers
+that need per-word cuts should treat an empty `words` as "captions fall back to
+line timing", not as a failed transcription.
+
+For caption-quality checks and retry rules, see
+`captions/transcript-handling.md`.

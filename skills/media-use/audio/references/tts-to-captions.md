@@ -1,26 +1,31 @@
-# TTS → Captions
+# Voice to captions
 
-When no recorded voiceover exists, generate one and obtain word-level caption timing. Two paths depending on which TTS provider is in use:
-
-## Path A — HeyGen (single call, no Whisper)
-
-HeyGen returns word timestamps in the same response as the audio. Use the
-bundled REST helper (the `frames tts` command is Kokoro-only):
+When no recorded voiceover exists, render one and take its word timing from the
+same audio.
 
 ```bash
-node skills/media-use/audio/scripts/heygen-tts.mjs \
+node skills/media-use/audio/scripts/speak.mjs \
   script.txt --output narration.wav --words narration.words.json
 ```
 
-`narration.words.json` is already in the `[{ id, text, start, end }]` shape the captions pipeline consumes — no separate transcribe pass.
+`speak.mjs` renders the line through `POST /v1/audio/speech`, then reads word
+timings back through `POST /v1/audio/transcriptions` over the audio it just
+wrote. `narration.words.json` lands in the `[{ id, text, start, end }]` shape
+the captions pipeline consumes.
 
-## Path B — ElevenLabs / Kokoro (TTS → Whisper)
+Two calls, not one, because they answer two questions — a piece with no captions
+never pays for the alignment pass. Aligning against the rendered audio (rather
+than trusting a synthesis-time estimate) is also what keeps caption timing
+matched to delivery.
 
-These providers don't return word data. Generate the audio, then transcribe:
+## When there are no timings
 
-```bash
-npx frames tts script.txt --voice af_heart --output narration.wav
-npx frames transcribe narration.wav --model small.en   # voice af_heart is American English
-```
+If the transcription returns text without per-word timings, `--words` writes
+nothing and says so. Timings are never interpolated from the audio duration: a
+caption cut on invented boundaries reads as correct and drifts against the
+voice. Captions then fall back to line-level timing, which the audio engine
+already records as `voices[].duration_s`.
 
-Whisper extracts precise word boundaries from the generated audio, so caption timing matches delivery without hand-tuning. Match `--model` to the voice's language (use `small.en` for `a`/`b` prefixes, `small --language <code>` otherwise). Then consume `transcript.json` via the caption references in `captions/`.
+For a whole script — every line, plus music and effects, with timings folded
+into `audio_meta.json` — use the audio engine rather than calling `speak.mjs`
+per line. See `../../references/audio.md`.

@@ -1,50 +1,66 @@
 # Background music (BGM)
 
-One music bed per composition, produced by the shared audio engine (`scripts/audio.mjs` → `scripts/lib/bgm.mjs`). Two routes, chosen by the engine's one switch — whether a HeyGen credential is present:
+One music bed per composition, produced by the shared audio engine
+(`scripts/audio.mjs` -> `scripts/lib/bgm.mjs`). Two routes:
 
-- **HeyGen retrieval — the default when credentialed.** Search HeyGen's music catalog by mood, download the top track. No generation; same `~/.heygen` / `$HEYGEN_API_KEY` credential as TTS.
-- **Local generation (Lyria → MusicGen) — the fallback when there is no credential** (or when asked for explicitly). Generate a WAV from a mood prompt. There is **no `npx frames bgm` command**; the engine spawns `scripts/lyria-recipe.py` or an inline MusicGen script directly.
+- **catalog** — the closest name under `media/bgm/` in the shared catalog,
+  downloaded to `assets/bgm/track.<ext>`. Free, instant, identical every run.
+- **compose** — `POST /v1/audio/music` with a mood prompt, written to
+  `assets/bgm/track.wav`. Used when the catalog cannot answer.
 
-> **Run the Preflight first — no credential is not a green light to silently generate locally.** Before generating, complete the sign-in **Preflight** (see `../SKILL.md` → Preflight): run `npx frames auth status`, recommend signing in, and **STOP for the user's choice** (sign in for HeyGen's music library, or continue offline with local generation). This applies to a one-off "generate a BGM" request just as much as inside a full workflow.
+Both are synchronous: when the engine returns, the file is on disk.
 
 ## Driving it from the request
 
-`audio_request.json` → `bgm: { mode?, query?, prompt? }`:
+`audio_request.json` -> `bgm: { mode?, query?, prompt? }`:
 
-- **`mode`** — `retrieve | generate | none`. Omit for **auto** (retrieve when credentialed, else generate). An **explicit** `retrieve` is strict: no credential ⇒ skip, never a detached generate (so a caller with no `wait-bgm` step, e.g. product-launch, can't get a pending job it won't await).
-- **`query`** — the mood, used for retrieval and as a fallback prompt seed (e.g. a storyboard's `music:` field, falling back to `message` → `arc` → `"calm cinematic underscore"`).
-- **`prompt`** — an explicit full prompt for generation; omit and the engine infers one (see Mood inference). Optional `blob` / `archetype` / `arc` feed that inference.
+- **`mode`** — `catalog | compose | none`. Omit for **auto** (catalog, then
+  compose). An explicit `catalog` is honored as written: an empty or unmatched
+  shelf is reported and BGM is skipped, never quietly composed instead.
+- **`query`** — the mood. It is the catalog query and the fallback prompt seed
+  (a storyboard's `music:` field, falling back to `message` -> `arc` ->
+  `"calm cinematic underscore"`).
+- **`prompt`** — an explicit full prompt for compose; omit it and the engine
+  infers one. Optional `blob` / `archetype` / `arc` feed that inference.
 
-## HeyGen retrieval (default)
+## The catalog rung
 
-`searchSounds(query, "music", { limit: 5 })` → `GET /audio/sounds?query=<mood>&type=music&limit=5`. Take the top result (ranked by `score`), download its presigned `audio_url` → `assets/bgm/track.mp3`. Synchronous. No match → skip (BGM is optional; never fail the render over it). Cue written to `audio_meta.json`:
+The catalog is a listing under `media/bgm/`, browsed through
+`GET /v1/s3/buckets/media/objects`. **An object key IS its description** — a
+file named `calm-cinematic-underscore.mp3` answers "calm cinematic underscore" —
+so stock it with names written in the words a brief would use.
+
+**The catalog is empty until someone stocks it.** That is reported, not hidden:
+an empty prefix logs `the catalog holds no music yet (bgm/)` and, under auto,
+falls through to compose.
+
+The cue written to `audio_meta.json`:
 
 ```jsonc
 {
   "path": "assets/bgm/track.mp3",
   "volume": 0.12,
-  "mode": "retrieve",
+  "mode": "catalog",
   "query": "calm cinematic underscore",
-  "duration_s": 42.0,
+  "key": "bgm/calm-cinematic-underscore.mp3",
 }
 ```
 
-`volume` comes from the engine's `bgmDefaultVolume()`: `BGM_BED_VOLUME` (currently `0.12` ≈ -18 dB — a bed under the voice) under narration, `BGM_SILENT_VOLUME` (currently `0.9`) for a silent film (no voice). Tune those constants in `scripts/lib/bgm.mjs`, not call sites. An explicit `volume` in `audio_meta.json` always overrides this default. `bgm_pending` is `false` — the file is on disk when the engine returns.
+`volume` comes from `bgmDefaultVolume()`: `BGM_BED_VOLUME` (0.12, about -18 dB —
+a bed under the voice) under narration, `BGM_SILENT_VOLUME` (0.9) for a silent
+film. Tune those constants in `scripts/lib/bgm.mjs`, not at call sites. An
+explicit `volume` in `audio_meta.json` always wins.
 
-## Local generation (fallback) — Lyria → MusicGen
+## The compose rung
 
-Spawned **detached** so voice work isn't blocked; `audio_meta.bgm_pending: true` and `bgm_pid` / `bgm_log` are set until it finishes. **Run `scripts/wait-bgm.mjs` before assembling** — it polls the output file / process / log, detects crashes, and writes `bgm_status.json` (`status: ready | failed | timeout | disabled`). A failed/absent track is simply omitted; it never blocks voice/SFX.
+`POST /v1/audio/music` with the inferred (or given) prompt and the total voice
+duration. Output goes to `assets/bgm/track.wav`.
 
-| Order | Provider                             | Env / deps                                                                            | Speed                                   | Quality                     |
-| ----- | ------------------------------------ | ------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------- |
-| 1     | Google Lyria RealTime                | `$GEMINI_API_KEY` or `$GOOGLE_API_KEY` + `google-genai` (auto-installed on demand)    | Real-time stream (≈ requested duration) | Production-grade            |
-| 2     | MusicGen (`facebook/musicgen-small`) | Python `transformers + torch + soundfile + numpy` (~300 MB first run; auto-installed) | Slow on CPU; fast on Apple MPS / CUDA   | Decent; prompt-only control |
+## Mood inference (the compose prompt)
 
-Output → `assets/bgm/track.wav`, target = total voice duration. MusicGen generates **one** seed clip (≤28–30s, under the decoder's positional limit) then crossfade-loops it up to the target (or trims down if shorter), avoiding per-segment seams. Backend selection is by what can actually **run**: Lyria only when `import google.genai` succeeds, else MusicGen; if neither can be made to run, BGM is skipped (voice + SFX still render).
-
-## Mood inference (the generate prompt)
-
-`inferBgmPrompt()` in `scripts/lib/bgm.mjs`: an explicit `prompt` wins; otherwise industry-keyword **base** → narrative-**archetype** shape → emotional-**arc** tiebreaker.
+`inferBgmPrompt()` in `scripts/lib/bgm.mjs`: an explicit `prompt` wins;
+otherwise industry-keyword **base** -> narrative-**archetype** shape ->
+emotional-**arc** tiebreaker.
 
 | Match in `blob` / `query`                              | Base prompt                                                                 | BPM |
 | ------------------------------------------------------ | --------------------------------------------------------------------------- | --- |
@@ -53,20 +69,19 @@ Output → `assets/bgm/track.wav`, target = total voice duration. MusicGen gener
 | `creative / agency / design / studio / art / brand`    | playful electronic, warm pads, light percussion                             | 115 |
 | _(default: SaaS / tech / platform)_                    | uplifting corporate tech, bright modern piano with synth pads               | 108 |
 
-Archetype then reshapes the arc — PAS → "MINOR to MAJOR" build; BAB / future-pacing → aspirational rising; feature-cascade → +10 BPM driving; demo-loop → −8 BPM minimal. The emotional arc breaks remaining ties (tension→relief, excitement, trust/reassurance).
-
-## Lyria knobs (direct recipe use)
-
-The engine bakes BPM / scale into the **prompt text** (via the inference above) and passes only `--output` / `--duration` / `--prompt` to the recipe. If you invoke `scripts/lyria-recipe.py` directly you can also set: `--bpm` (90–110 calm, 110–130 energetic), `--brightness` (0–1, ≥0.7 promotional), `--density` (0–1, higher = fuller), `--scale` (`MAJOR` / `MINOR` / `PENTATONIC` / …), `--negative-prompt` (styles to exclude). MusicGen ignores all of these — put the mood in the prompt.
+Archetype then reshapes the arc — PAS -> "MINOR to MAJOR" build; BAB /
+future-pacing -> aspirational rising; feature-cascade -> +10 BPM driving;
+demo-loop -> -8 BPM minimal. The emotional arc breaks remaining ties
+(tension->relief, excitement, trust/reassurance).
 
 ## Failure modes
 
-| Failure                                       | Behavior                                                                                 |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| No music match (retrieve)                     | `bgm: null`, anomaly logged. Render proceeds without BGM.                                |
-| Explicit `retrieve`, no credential            | Skipped (no silent generate fallback). Use `mode: generate` or omit `mode` for auto.     |
-| Neither Lyria nor MusicGen can run (generate) | `bgm` disabled with a `pip install …` hint. Voice + SFX still render.                    |
-| Generate still rendering at assemble time     | `bgm_pending: true`; `wait-bgm.mjs` waits/checks and writes `bgm_status.json` first.     |
-| Generate crashed                              | `wait-bgm.mjs` → `bgm_status.json { status: "failed" }`; the `<audio>` track is omitted. |
+| Failure                         | Behavior                                                    |
+| ------------------------------- | ----------------------------------------------------------- |
+| Empty catalog, auto mode        | Anomaly logged, composes instead.                           |
+| Empty catalog, explicit catalog | Anomaly logged, `bgm: null`. Render proceeds without music. |
+| No catalog match                | Same as above — reported, then composed or skipped.         |
+| No credential                   | `bgm: null`, anomaly logged.                                |
+| The music call fails            | `bgm: null`, anomaly names the HTTP status.                 |
 
 BGM failure never blocks a render.

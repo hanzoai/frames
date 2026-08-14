@@ -1,10 +1,9 @@
-// Opt-out usage tracking for media-use, sharing the frames CLI/studio
-// identity (packages/cli/src/telemetry): the same install id from
-// ~/.frames/config.json, plus a $identify to the HeyGen account on sign-in,
-// so a person is one PostHog profile across surfaces — not a fresh id per tool.
-// Not fully anonymous by design (it must dedupe): pseudonymous before sign-in,
-// account-linked after. Event PROPERTIES stay coarse — media TYPE, resolution
-// SOURCE, winning PROVIDER — never the intent text, file names, or paths.
+// Opt-out usage tracking for media-use, sharing the frames CLI/studio install
+// id (packages/cli/src/telemetry, ~/.frames/config.json) so a person is one
+// profile across surfaces rather than a fresh id per tool. Pseudonymous: the
+// install id and nothing else — no account, no credential, no email. Event
+// PROPERTIES stay coarse — media TYPE, resolution SOURCE, winning PROVIDER —
+// never the intent text, file names, or paths.
 //
 // Same public PostHog project key as the CLI (a write-only ingestion key, safe
 // to ship), same opt-outs (DO_NOT_TRACK / FRAMES_NO_TELEMETRY / CI / dev),
@@ -19,7 +18,6 @@ import { join } from "node:path";
 const POSTHOG_API_KEY = "phc_zjjbX0PnWxERXrMHhkEJWj9A9BhGVLRReICgsfTMmpx";
 const POSTHOG_HOST = "https://us.i.posthog.com";
 const TIMEOUT_MS = 1500;
-let identifiedAccount = false;
 let warnedNonDefaultHost = false;
 
 // Same CI/test signals the test suite itself sets (resolve.test.mjs's U7 test
@@ -128,26 +126,6 @@ function anonymousId() {
   }
 }
 
-function heygenAccountDistinctId() {
-  const file = join(process.env.HEYGEN_CONFIG_DIR || join(homedir(), ".heygen"), "credentials");
-  try {
-    if (!existsSync(file)) return null;
-    const raw = readFileSync(file, "utf8").trim();
-    if (!raw.startsWith("{")) return null;
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
-    const user = parsed.user;
-    if (!user || typeof user !== "object" || Array.isArray(user)) return null;
-    const id = typeof user.email === "string" && user.email.trim() ? user.email : user.username;
-    // Lowercased so this joins with the CLI's own identify call regardless of
-    // the account's stored email casing — two different-case distinct ids
-    // would otherwise split one person across two PostHog profiles.
-    return typeof id === "string" && id.trim() ? id.trim().toLowerCase() : null;
-  } catch {
-    return null;
-  }
-}
-
 function showTelemetryNotice() {
   if (optedOut()) return;
   try {
@@ -158,7 +136,7 @@ function showTelemetryNotice() {
     console.error(
       [
         "media-use sends usage telemetry: media type, resolution source, and provider; never intent text, file names, or paths.",
-        "If you sign in to HeyGen, usage links to your account email or username. Opt out with FRAMES_NO_TELEMETRY=1 or DO_NOT_TRACK=1.",
+        "Opt out with FRAMES_NO_TELEMETRY=1 or DO_NOT_TRACK=1.",
       ].join("\n"),
     );
     writeSharedConfig({ ...config, telemetryNoticeShown: true });
@@ -191,14 +169,6 @@ async function postEvent(event, properties, distinctId) {
   ]);
 }
 
-async function identifyAccount(anonId) {
-  if (optedOut() || identifiedAccount) return;
-  const distinctId = heygenAccountDistinctId();
-  if (!distinctId) return;
-  identifiedAccount = true;
-  await postEvent("$identify", { $anon_distinct_id: anonId }, distinctId);
-}
-
 /**
  * Fire-and-forget a single event to PostHog. Best-effort: awaited with a short
  * timeout so a short-lived script flushes before exit, but any failure (offline,
@@ -207,9 +177,7 @@ async function identifyAccount(anonId) {
 export async function track(event, properties = {}) {
   if (optedOut()) return;
   showTelemetryNotice();
-  const anonId = anonymousId();
-  await identifyAccount(anonId);
-  await postEvent(event, properties, anonId);
+  await postEvent(event, properties, anonymousId());
 }
 
 export function __anonymousIdForTest() {
@@ -217,6 +185,5 @@ export function __anonymousIdForTest() {
 }
 
 export function __resetTelemetryForTest() {
-  identifiedAccount = false;
   warnedNonDefaultHost = false;
 }

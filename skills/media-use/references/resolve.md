@@ -8,16 +8,16 @@ Returns one line: `resolved <id> → <path> (<type>, <metadata>)`
 
 ## Types
 
-| Type    | What it finds                    | Provider / cascade                                           |
-| ------- | -------------------------------- | ------------------------------------------------------------ |
-| `bgm`   | Background music                 | HeyGen audio catalog (10k+ tracks)                           |
-| `sfx`   | Sound effects                    | Bundled 19-file library + HeyGen catalog                     |
-| `image` | Photos, backgrounds              | HeyGen asset search (75k+ vectors)                           |
-| `icon`  | Icons, symbols                   | HeyGen asset search (type=icon)                              |
-| `logo`  | Official brand marks             | svgl → simple-icons → GitHub org avatar → domain favicon     |
-| `voice` | TTS voiceover                    | HeyGen TTS free-usage path; optional local Kokoro            |
+| Type    | What it finds               | Provider / cascade                                           |
+| ------- | --------------------------- | ------------------------------------------------------------ |
+| `bgm`   | Background music            | Shared catalog (`media/bgm/`), then generated                |
+| `sfx`   | Sound effects               | 21 bundled files, then the catalog, then foley               |
+| `image` | Photos, backgrounds         | Shared catalog (`media/image/`), then generated              |
+| `icon`  | Icons, symbols              | Shared catalog (`media/icon/`)                               |
+| `logo`  | Official brand marks        | svgl → simple-icons → GitHub org avatar → domain favicon     |
+| `voice` | Spoken narration            | `POST /v1/audio/speech`, timings from the transcript pass    |
 | `grade` | Frames color-grading blocks | Core preset → look index params/CDN LUT → deterministic cube |
-| `lut`   | Reusable `.cube` LUT files       | Look index params/CDN LUT → deterministic cube               |
+| `lut`   | Reusable `.cube` LUT files  | Look index params/CDN LUT → deterministic cube               |
 
 ## Examples
 
@@ -64,7 +64,7 @@ node <SKILL_DIR>/scripts/resolve.mjs --type lut --intent "teal orange blockbuste
 | `--from`        | Freeze a local file or direct public URL (ingest)                                    |
 | `--for`         | Analyze a local image/video and add measured adjust suggestions (`grade` only)       |
 | `--local-only`  | Offline: skip every network provider (cache + local only)                            |
-| `--provider`    | Force one generator (e.g. `codex`, `mflux`, `kokoro`, `heygen`)                      |
+| `--provider`    | Pin one rung (e.g. `catalog` to stay on the shelf, `hanzo` to generate)              |
 | `--adopt`       | Bulk-import existing assets/ into manifest                                           |
 | `--doctor`      | Check local CLI dependencies; no manifest changes                                    |
 | `--stats`       | Print local usage stats from `.media/` and `~/.media`; no manifest changes           |
@@ -77,9 +77,9 @@ Before resolving bgm/sfx/image/icon/logo/grade/lut, **check what already exists 
 
 ```bash
 node <SKILL_DIR>/scripts/resolve.mjs --type bgm --intent "upbeat tech launch" --candidates --project .
-#   [project] upbeat tech launch (25s, heygen.audio.sounds)
+#   [project] upbeat tech launch (25s, catalog.bgm)
 #           .media/audio/bgm/bgm_001.wav
-#   [global]  energetic tech intro (22s, heygen.audio.sounds)
+#   [global]  energetic tech intro (22s, catalog.bgm)
 #           --reuse 06e052c075fd2b80
 ```
 
@@ -100,7 +100,7 @@ The deterministic floor still runs automatically: an identical (case/whitespace-
 1. Check project `.media/manifest.jsonl` for a prompt match (case- and whitespace-insensitive) — auto-reuse
 2. Scan existing `assets/` directory for unregistered files that share a word with the need
 3. Check global cache `~/.media/` for a reusable asset matched on the same normalized prompt — auto-reuse
-4. Search via provider (HeyGen audio catalog, HeyGen asset search), or resolve color locally
+4. Search the shared catalog, then generate, or resolve color locally
 5. Freeze file to `.media/<type>/`, register in manifest, regenerate `index.md`, auto-promote to `~/.media/`
 
 Steps 1 and 3 are the **deterministic floor**: they only auto-reuse an exact-normalized match, never a fuzzy one. Semantic reuse ("close enough") is the agent's explicit call via [Reuse before you resolve](#reuse-before-you-resolve) — it never happens automatically. The agent gets back **one line**; candidates, scores, provenance stay on disk.

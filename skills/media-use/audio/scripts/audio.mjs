@@ -6,52 +6,40 @@
 //
 //   node <MEDIA_DIR>/scripts/audio.mjs --request ./audio_request.json --frames . --out ./audio_meta.json
 //
-// The three capabilities degrade on ONE switch — whether HeyGen is configured
-// (credential present, NOT the CLI). This mirrors the table in ../SKILL.md:
+// All three capabilities go through api.hanzo.ai — one credential, one host:
 //
-//   TTS : HeyGen REST → ElevenLabs → Kokoro (CLI)
-//   BGM : HeyGen retrieve  → (no credential) Lyria/MusicGen generate
-//   SFX : HeyGen retrieve  → (no credential) bundled 19-file library
+//   TTS : POST /v1/audio/speech, then /v1/audio/transcriptions for word timings
+//   BGM : media/bgm/ in our object store, else POST /v1/audio/music
+//   SFX : the 21 bundled files, else media/sfx/, else POST /v1/audio/foley
 //
 // ── audio_request.json (input) ────────────────────────────────────────────────
 //   {
-//     "provider": "auto",          // auto|heygen|elevenlabs|kokoro (override: --provider)
 //     "lang": "en", "speed": 1.0,
+//     "voice": null,               // a voice id the speech service accepts
 //     "lines": [                   // one TTS unit each; id joins back to the caller's model
 //       { "id": "01", "text": "...", "sfx": ["whoosh", "ui click"] }
 //     ],
-//     "bgm": { "mode": "retrieve", // retrieve|generate|none (override: --bgm-mode / --no-bgm)
-//              "query": "calm cinematic underscore",   // mood for retrieval
-//              "prompt": null,      // full prompt for generation (else inferred)
+//     "bgm": { "mode": "catalog",  // catalog|compose|none (override: --bgm-mode / --no-bgm)
+//              "query": "calm cinematic underscore",   // mood, and the catalog query
+//              "prompt": null,      // full prompt for compose (else inferred)
 //              "blob": "...", "archetype": "...", "arc": "..." }  // optional mood-inference hints
 //   }
 //
 // ── audio_meta.json (output, id-keyed) ───────────────────────────────────────
-//   { tts_provider, voice_id,
-//     bgm: { path, volume, mode, query?, duration_s? } | null,
-//     bgm_pending, bgm_provider, bgm_pid, bgm_log, bgm_mode, bgm_target_duration_s, …,
+//   { voice_id,
+//     bgm: { path, volume, mode, query?, duration_s? } | null, bgm_mode,
 //     voices: [ { id, path, duration_s, words: [{id,text,start,end}] } ],
 //     sfx:    [ { id, name, file, source, offset_s, duration_s, volume } ],
 //     total_duration_s }
 //
 // --only tts,bgm,sfx  runs a subset and MERGES into an existing --out (so a
-// workflow can do TTS+BGM early, then SFX later once cues exist). When BGM uses
-// the generate path it is spawned detached (bgm_pending:true) — run wait-bgm.mjs
-// before assembling.
+// workflow can do TTS+BGM early, then SFX later once cues exist).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { heygenAuthHeaders, heygenCredential, loadEnvFromDir } from "./lib/heygen.mjs";
-import {
-  ffprobeDuration,
-  pickProvider,
-  resolveVoiceId,
-  synthesizeOne,
-  transcribeWav,
-  withWordIds,
-} from "./lib/tts.mjs";
-import { generateBgmDetached, inferBgmPrompt, retrieveBgm } from "./lib/bgm.mjs";
+import { align, ffprobeDuration, ready, synthesize, withWordIds } from "./lib/tts.mjs";
+import { fromCatalog, fromPrompt, inferBgmPrompt } from "./lib/bgm.mjs";
 import { resolveSfx } from "./lib/sfx.mjs";
 import { mapWithConcurrency } from "./lib/concurrency.mjs";
 
@@ -82,7 +70,6 @@ const framesDir = resolve(flag("frames", "."));
 const requestPath = resolve(flag("request", join(framesDir, "audio_request.json")));
 const outPath = resolve(flag("out", join(framesDir, "audio_meta.json")));
 const sfxLibDir = resolve(flag("sfx-lib", join(HERE, "..", "assets", "sfx")));
-const lyriaRecipe = resolve(flag("lyria-recipe", join(HERE, "lyria-recipe.py")));
 const onlyArg = flag("only", "tts,bgm,sfx");
 const only = new Set(
   onlyArg
@@ -90,13 +77,11 @@ const only = new Set(
     .map((s) => s.trim())
     .filter(Boolean),
 );
-const providerOverride = flag("provider", null);
 const bgmModeOverride = flag("bgm-mode", null);
 const noBgm = has("no-bgm");
 const voiceOverride = flag("voice", null);
 const speedOverride = flag("speed", null);
 const langOverride = flag("lang", null);
-const seedSeconds = Number(flag("seed-seconds", "28")) || 28;
 
 if (!existsSync(requestPath)) die(`audio_request.json not found at ${requestPath}`);
 let request;
@@ -109,10 +94,12 @@ const lines = Array.isArray(request.lines) ? request.lines : [];
 const lang = langOverride || request.lang || "en";
 const speed = Number(speedOverride ?? request.speed ?? 1.0) || 1.0;
 
-// ── env + HeyGen availability (the single switch) ─────────────────────────────
-loadEnvFromDir(framesDir);
-const heygenOK = heygenCredential() !== null;
-const headers = heygenOK ? heygenAuthHeaders() : null;
+// ── credential (the single switch) ────────────────────────────────────────────
+const online = ready();
+if (!online)
+  console.error(
+    "· no HANZO_API_KEY — voice and generated audio are unavailable; bundled SFX still resolve",
+  );
 
 // ── merge base: preserve sections not selected by --only ──────────────────────
 const prev = existsSync(outPath) ? JSON.parse(readFileSync(outPath, "utf8")) : {};
@@ -120,22 +107,13 @@ const anomalies = [];
 
 // ── TTS ───────────────────────────────────────────────────────────────────────
 let voices = prev.voices ?? [];
-let ttsProvider = prev.tts_provider ?? null;
 let voiceId = prev.voice_id ?? null;
 if (only.has("tts") && lines.length) {
-  try {
-    ttsProvider = pickProvider(
-      providerOverride || (request.provider === "auto" ? null : request.provider),
-    );
-  } catch (e) {
-    die(e.message);
-  }
-  voiceId = await resolveVoiceId({
-    provider: ttsProvider,
-    userVoice: voiceOverride || request.voice,
-    lang,
-  });
-  console.error(`· tts: ${ttsProvider} · voice ${voiceId} · ${lines.length} line(s)`);
+  if (!online) die("voice needs a Hanzo credential — export HANZO_API_KEY");
+  // No voice id means the speech service picks its own default. Pass one to
+  // choose; there is no second catalog here to keep in step with theirs.
+  voiceId = voiceOverride || request.voice || null;
+  console.error(`· tts: ${voiceId ?? "service default"} voice · ${lines.length} line(s)`);
   const synthLine = async (line) => {
     const id = String(line.id);
     const text = String(line.text ?? "").trim();
@@ -145,27 +123,19 @@ if (only.has("tts") && lines.length) {
     }
     const rel = `assets/voice/${id}.wav`;
     const abs = join(framesDir, rel);
-    const { ok, words, error } = await synthesizeOne({
-      provider: ttsProvider,
-      text,
-      voiceId,
-      lang,
-      speed,
-      wavAbs: abs,
-      framesDir,
-    });
+    const { ok, error } = await synthesize({ text, voice: voiceId, lang, speed, out: abs });
     if (!ok) {
       anomalies.push(`line ${id}: TTS failed — omitted${error ? ` (${error})` : ""}`);
       return null;
     }
-    let wordArr = words; // heygen: native; else transcribe
-    if (!wordArr) wordArr = await transcribeWav({ wavRel: rel, lang, framesDir });
     const dur = ffprobeDuration(abs);
     if (!isFinite(dur) || dur <= 0) {
       anomalies.push(`line ${id}: bad voice duration — omitted`);
       return null;
     }
-    return { id, path: rel, duration_s: r3(dur), words: withWordIds(wordArr) };
+    const words = await align({ file: abs, lang });
+    if (!words) anomalies.push(`line ${id}: no word timings returned — captions fall back to line timing`);
+    return { id, path: rel, duration_s: r3(dur), words: withWordIds(words) };
   };
   const results = await mapWithConcurrency(lines, ttsConcurrency, synthLine);
   voices = results.filter(Boolean);
@@ -177,77 +147,48 @@ const totalDuration = r3(voices.reduce((a, v) => a + (v.duration_s || 0), 0));
 
 // ── BGM ─────────────────────────────────────────────────────────────────────
 let bgm = prev.bgm ?? null;
-const bgmFields = {
-  bgm_pending: prev.bgm_pending ?? false,
-  bgm_provider: prev.bgm_provider ?? null,
-  bgm_pid: prev.bgm_pid ?? null,
-  bgm_log: prev.bgm_log ?? null,
-  bgm_mode: prev.bgm_mode ?? null,
-  bgm_target_duration_s: prev.bgm_target_duration_s ?? null,
-  bgm_seed_duration_s: prev.bgm_seed_duration_s ?? null,
-  bgm_loop_count: prev.bgm_loop_count ?? null,
-};
+let bgmMode = prev.bgm_mode ?? null;
 if (only.has("bgm")) {
   bgm = null;
-  Object.keys(bgmFields).forEach((k) => (bgmFields[k] = k === "bgm_pending" ? false : null));
-  // Mode resolution. An EXPLICIT mode (flag or request.bgm.mode) is strict:
-  // "retrieve" means retrieve-or-nothing — it never silently starts a detached
-  // generate (a caller with no wait-bgm step, e.g. product-launch, must not get
-  // a pending job it can't await). Only the UNSET/auto default picks generate
-  // when HeyGen is absent.
+  bgmMode = null;
+  // An EXPLICIT mode (flag or request.bgm.mode) is honored as written: asking
+  // for the catalog and getting a generated track instead is a surprise the
+  // caller cannot see in the output. Only the unset default falls through.
   const explicitMode = bgmModeOverride || request.bgm?.mode || null;
-  let mode = noBgm ? "none" : explicitMode || (heygenOK ? "retrieve" : "generate");
-  if (mode === "retrieve" && !heygenOK) {
-    anomalies.push(
-      "bgm: retrieve requires a HeyGen credential — skipped (no generate fallback for an explicit retrieve)",
-    );
-    mode = "none";
-  }
+  const mode = noBgm ? "none" : explicitMode || "auto";
+  const query = request.bgm?.query;
 
-  if (mode === "none") {
+  if (mode === "none" || !online) {
+    if (mode !== "none") anomalies.push("bgm: needs a Hanzo credential — skipped");
     console.error(`· bgm: disabled`);
-  } else if (mode === "retrieve") {
+  } else {
     try {
-      bgm = await retrieveBgm({ query: request.bgm?.query, headers, framesDir, hasVoice });
-      if (bgm) {
-        bgmFields.bgm_provider = "heygen";
-        bgmFields.bgm_mode = "retrieve";
-        console.error(`  bgm: ${bgm.path} (retrieve "${bgm.query}")`);
+      const hit = mode === "compose" ? null : await fromCatalog({ query, framesDir, hasVoice });
+      if (hit?.path) {
+        bgm = hit;
+        bgmMode = "catalog";
+        console.error(`  bgm: ${bgm.path} (catalog "${bgm.query}")`);
+      } else if (mode === "catalog") {
+        anomalies.push(
+          hit?.empty
+            ? `bgm: the catalog holds no music yet (${hit.prefix} is empty) — skipped`
+            : `bgm: no catalog match for "${query ?? ""}" — skipped`,
+        );
       } else {
-        anomalies.push(`bgm: no music match for "${request.bgm?.query ?? ""}" — skipped`);
+        if (hit?.empty)
+          anomalies.push(`bgm: the catalog holds no music yet (${hit.prefix}) — composing instead`);
+        const prompt = inferBgmPrompt({
+          userPrompt: request.bgm?.prompt,
+          blob: request.bgm?.blob || query,
+          archetype: request.bgm?.archetype,
+          arc: request.bgm?.arc,
+        });
+        bgm = await fromPrompt({ prompt, durationS: totalDuration || 30, framesDir, hasVoice });
+        bgmMode = "compose";
+        console.error(`  bgm: ${bgm.path} (composed)`);
       }
     } catch (e) {
-      anomalies.push(`bgm retrieve failed: ${e.message} — skipped`);
-    }
-  } else {
-    // generate
-    const prompt = inferBgmPrompt({
-      userPrompt: request.bgm?.prompt,
-      blob: request.bgm?.blob || request.bgm?.query,
-      archetype: request.bgm?.archetype,
-      arc: request.bgm?.arc,
-    });
-    const gen = generateBgmDetached({
-      prompt,
-      durationS: totalDuration || 30,
-      framesDir,
-      lyriaRecipe: existsSync(lyriaRecipe) ? lyriaRecipe : null,
-      seedSeconds,
-      hasVoice,
-    });
-    if (gen.disabled) {
-      anomalies.push(`bgm: ${gen.reason}`);
-    } else {
-      bgm = { path: gen.path, volume: gen.volume, mode: gen.mode, duration_s: null };
-      bgmFields.bgm_pending = true;
-      bgmFields.bgm_provider = gen.provider;
-      bgmFields.bgm_pid = gen.pid;
-      bgmFields.bgm_log = gen.log;
-      bgmFields.bgm_mode = gen.mode;
-      bgmFields.bgm_target_duration_s = gen.target_duration_s ?? null;
-      bgmFields.bgm_seed_duration_s = gen.seed_duration_s ?? null;
-      bgmFields.bgm_loop_count = gen.loop_count ?? null;
-      console.error(`  bgm: launched ${gen.provider} (detached, pid ${gen.pid}) → ${gen.path}`);
+      anomalies.push(`bgm failed: ${e.message} — skipped`);
     }
   }
 }
@@ -260,20 +201,17 @@ if (only.has("sfx")) {
       .map((name) => ({ id: String(l.id), name: String(name).trim() }))
       .filter((c) => c.name),
   );
-  const res = await resolveSfx({ cues, heygenOK, headers, framesDir, sfxLibDir });
+  const res = await resolveSfx({ cues, framesDir, sfxLibDir });
   sfx = res.sfx;
   anomalies.push(...res.anomalies);
-  console.error(
-    `· sfx: ${sfx.length} cue(s) resolved (${heygenOK ? "heygen retrieval" : "bundled library"})`,
-  );
+  console.error(`· sfx: ${sfx.length} cue(s) resolved`);
 }
 
 // ── write audio_meta.json ─────────────────────────────────────────────────────
 const meta = {
-  tts_provider: ttsProvider,
   voice_id: voiceId,
   bgm,
-  ...bgmFields,
+  bgm_mode: bgmMode,
   voices,
   sfx,
   total_duration_s: totalDuration,
@@ -282,9 +220,9 @@ mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(meta, null, 2));
 
 console.log(`✓ audio engine → ${outPath}`);
-console.log(`  heygen: ${heygenOK ? "yes" : "no"}  ·  ran: ${[...only].join(",")}`);
+console.log(`  ran: ${[...only].join(",")}`);
 console.log(
-  `  voices: ${voices.length}  ·  bgm: ${bgm ? `${bgmFields.bgm_provider}${bgmFields.bgm_pending ? " (pending)" : ""}` : "none"}  ·  sfx: ${sfx.length}`,
+  `  voices: ${voices.length}  ·  bgm: ${bgm ? bgmMode : "none"}  ·  sfx: ${sfx.length}`,
 );
 console.log(`  total voice duration: ${totalDuration}s`);
 if (anomalies.length) {

@@ -3,22 +3,21 @@
 // Each media type maps to an ORDERED list of provider entries. Providers are
 // tried in order; the first to return a non-null result wins, which keeps
 // resolution deterministic (same request -> same provider -> same file ->
-// reproducible renders). heygen-CLI is always first for the types it serves.
+// reproducible renders).
 //
 // An entry exposes any of three capability methods — search / generate /
-// process — plus { name }. media-use holds no keys; each external tool owns its
-// own auth. Providers, by type:
-//   - heygen CLI: catalog + TTS, first for every type it serves (OAuth free
-//     allowance first, then the user's HeyGen billing path)
-//   - mflux: local FLUX-class image gen, spec-selected to the machine's RAM
-//     (free, private, offline once cached)
-//   - codex CLI: image gen on the user's ChatGPT sub — the better-quality upsell
-//     and the fallback when no local model fits
-//   - Kokoro (via the frames CLI): local voiceover, free/private fallback
-//     when HeyGen credentials are absent or --local-only is requested
+// process — plus { name }. Everything remote goes through api.hanzo.ai on one
+// credential ($HANZO_API_KEY, from Hanzo KMS), so a type's cascade is: look in
+// the shared catalog first, make it if the catalog cannot answer.
 //
-// Generation is local-first, cloud-upsell. `ctx.provider` forces one provider
-// (e.g. "make an image with codex").
+//   catalog.*   files under media/<type>/ in our object store — free, instant,
+//               and byte-identical run to run
+//   hanzo.*     the generating routes: /v1/audio/{speech,music,foley},
+//               /v1/images/generations, /v1/videos/generations
+//   bundled.sfx the 21 sound effects shipped inside this skill
+//   svgl … favicon  public brand marks, for the `logo` type only
+//
+// `ctx.provider` forces one provider (e.g. "resolve this bgm from the catalog").
 
 import { bgmProvider } from "./bgm-provider.mjs";
 import { sfxProvider } from "./sfx-provider.mjs";
@@ -31,68 +30,47 @@ import {
   githubAvatarSearch,
   faviconSearch,
 } from "./logo-provider.mjs";
-import { heygenTtsGenerate } from "./voice-provider.mjs";
-import { heygenVideoGenerate } from "./heygen-video-provider.mjs";
-import { ltxVideoGenerate } from "./ltx-video-provider.mjs";
-import { localTtsGenerate } from "./tts-local-provider.mjs";
-import { codexImageGenerate } from "./codex-provider.mjs";
-import { mfluxImageGenerate } from "./mflux-provider.mjs";
+import { ttsGenerate } from "./voice-provider.mjs";
+import { videoGenerate } from "./video-provider.mjs";
 
-// Provider markers: `network` = hits a remote service (skipped by --local-only).
-// `paid` = may cost wallet credits after any OAuth/web-plan free allowance
-// (documentation for the agent's cost judgment, X4: agent-initiated paid should
-// confirm). HeyGen catalog SEARCH is free; HeyGen TTS is free for eligible
-// OAuth CLI users up to the monthly allowance, then follows the user's billing.
-const A = (name, caps) => ({ name, ...caps }); // local, free
+// Provider markers: `network` = reaches api.hanzo.ai (skipped by --local-only).
+// `paid` = metered against the org's balance, which is documentation for the
+// agent's cost judgment (X4: agent-initiated paid should confirm). Catalog reads
+// are metered per storage operation; generation is metered per model call.
+const A = (name, caps) => ({ name, ...caps }); // on this machine, free
 const N = (name, caps) => ({ name, network: true, ...caps }); // remote, free
-const P = (name, caps) => ({ name, network: true, paid: true, ...caps }); // remote, paid
+const P = (name, caps) => ({ name, network: true, paid: true, ...caps }); // remote, metered
 
-// heygen-CLI first. All remote providers are skipped by --local-only.
+// Catalog before generation, everywhere it applies. All remote providers are
+// skipped by --local-only.
 const REGISTRY = {
-  bgm: [N("heygen.audio.sounds", { search: bgmProvider.search })],
+  bgm: [
+    N("catalog.bgm", { search: bgmProvider.search }),
+    P("hanzo.music", { generate: bgmProvider.generate }),
+  ],
   sfx: [
-    N("heygen.audio.sounds", { search: sfxProvider.search }),
     A("bundled.sfx", { search: bundledSfxProvider.search }),
+    N("catalog.sfx", { search: sfxProvider.search }),
+    P("hanzo.foley", { generate: sfxProvider.generate }),
   ],
   image: [
-    N("heygen.asset.search", { search: imageProvider.search }),
-    // Catalog miss -> generate. Local first (best FLUX-class model the machine's
-    // RAM can run, spec-selected; free, private, kept under --local-only), then
-    // the codex CLI on the user's ChatGPT sub as the better-quality upsell and
-    // the fallback when no local model fits.
-    A("mflux.local", { generate: mfluxImageGenerate }),
-    N("codex.image_gen", { generate: codexImageGenerate }),
+    N("catalog.image", { search: imageProvider.search }),
+    P("hanzo.image", { generate: imageProvider.generate }),
   ],
-  icon: [N("heygen.asset.search", { search: iconProvider.search })],
+  icon: [N("catalog.icon", { search: iconProvider.search })],
   logo: [
-    // Official brand marks. Tiers verified by a 54-brand stress test (100%
-    // cascade hit); HeyGen asset search is deliberately absent — it returns
-    // generic look-alike icons for brand queries. All free, all network →
+    // Official brand marks, from the sources that publish them. Tiers verified
+    // by a 54-brand stress test (100% cascade hit). All free, all network, so
     // --local-only leaves only the cache rungs.
     N("svgl", { search: svglSearch }),
     N("simple-icons", { search: simpleIconsSearch }),
     N("github.avatar", { search: githubAvatarSearch }),
     N("favicon.ddg", { search: faviconSearch }),
   ],
-  voice: [
-    // HeyGen TTS first when credentialed so CLI/OAuth users consume the free
-    // web-plan allowance (10 min/month) before any paid path. --local-only skips
-    // it and keeps Kokoro as the private/offline fallback.
-    // Deliberately kept `paid` (X4 confirm-before-call) even though the first
-    // 10 min/month are free: the client can't know the remaining allowance, so
-    // confirming is safer than risking a silent charge once it's spent. (A
-    // tri-state "quota-first, paid after" would need backend quota state.)
-    P("heygen.tts", { generate: heygenTtsGenerate }),
-    A("kokoro.local", { generate: localTtsGenerate }),
-  ],
-  video: [
-    // HeyGen avatar video first when credentialed; --local-only skips it and
-    // keeps LTX as the local fallback.
-    P("heygen.video", { generate: heygenVideoGenerate }),
-    A("ltx.local", { generate: ltxVideoGenerate }),
-  ],
+  voice: [P("hanzo.voice", { generate: ttsGenerate })],
+  video: [P("hanzo.video", { generate: videoGenerate })],
   brand: [
-    // Local design spec, not heygen — reads frame.md / design.md tokens.
+    // Local design spec — reads frame.md / design.md tokens.
     A("design_spec", { search: brandProvider.search }),
   ],
   grade: [
@@ -128,19 +106,15 @@ export function providerNamesFor(type) {
 }
 
 /**
- * Does an override token (full name like "codex.image_gen" or a prefix like
- * "codex") match any provider declared for the type? Same match rule as
+ * Does an override token (a full name like "catalog.bgm" or a prefix like
+ * "catalog") match any provider declared for the type? Same match rule as
  * runProviders, so validation and dispatch never disagree.
  */
 export function providerMatches(type, want) {
   return providerNamesFor(type).some((n) => n === want || n.startsWith(`${want}.`));
 }
 
-/**
- * Back-compat shim for the v1 single-provider API. Returns the first declared
- * provider for the type (tagged with `type`); throws for an unknown type.
- * Kept for v1 callers only — new code should use getProviders/runCapability.
- */
+/** The first declared provider for a type, tagged with `type`. */
 export function getProvider(type) {
   const first = listFor(type)[0] || {};
   return { ...first, type };
@@ -156,10 +130,9 @@ export function getProvider(type) {
  * safety flag: it must never make a network call. Forcing a network provider
  * while offline yields a clean miss (the caller explains the conflict), never a
  * silent network request.
- * Provider override: `ctx.provider` (a full name like "codex.image_gen" or a
- * prefix like "codex") pins resolution to matching providers only — this is how
- * a user "make an image WITH codex" forces the upsell instead of taking the
- * free-first default.
+ * Provider override: `ctx.provider` (a full name like "hanzo.image" or a prefix
+ * like "catalog") pins resolution to matching providers only — this is how a
+ * user "generate this image, do not search" skips the catalog rung.
  */
 export async function runProviders(providers, capability, intent, ctx) {
   const want = ctx?.provider;
@@ -174,7 +147,7 @@ export async function runProviders(providers, capability, intent, ctx) {
   return null;
 }
 
-/** Run a capability over the providers for a type (deterministic, heygen-first). */
+/** Run a capability over the providers for a type (deterministic, catalog-first). */
 export async function runCapability(type, capability, intent, ctx) {
   return runProviders(getProviders(type), capability, intent, ctx);
 }

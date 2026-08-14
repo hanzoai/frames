@@ -47,19 +47,19 @@ test("complete-filter intent aliases resolve deterministically", () => {
   assert.equal(matchColorLook("creator video").preset, "creator-camcorder");
 });
 
-test("library look freezes a validated cube from params offline (--local-only)", async () => {
+test("library look freezes a validated cube from params, online or off", async () => {
   const projectDir = mkdtempSync(join(tmpdir(), "mu-lut-provider-"));
   try {
     const match = matchColorLook("teal orange blockbuster");
     assert.equal(match.kind, "library");
-    // localOnly forces the deterministic params path (no network); online, the
-    // same look downloads its .cube from the CDN url (via "url").
+    // Bundled looks are params-only: the same bytes on every machine, with or
+    // without a network. `url` remains for a look someone hosts themselves.
     const frozen = await freezeLibraryLut(match, { projectDir, type: "grade", localOnly: true });
     assert.match(frozen.localPath, /^\.media\/luts\/grade_001\.cube$/);
     assert.ok(existsSync(join(projectDir, frozen.localPath)));
     assert.equal(validateCubeFile(join(projectDir, frozen.localPath)).ok, true);
     assert.equal(frozen.lut.src, frozen.localPath);
-    assert.equal(frozen.metadata.provenance.via, "params-fallback");
+    assert.equal(frozen.metadata.provenance.via, "params");
   } finally {
     rmSync(projectDir, { recursive: true, force: true });
   }
@@ -82,16 +82,13 @@ test("zero-overlap intent returns no preset or library match", () => {
   assert.equal(matchColorLook("zqxv imaginary neutron look"), null);
 });
 
-test("bundled LUT index entries resolve from params or url", () => {
+test("every bundled LUT index entry builds from params, and none needs a host", () => {
   for (const entry of readBundledLutIndex()) {
     assert.ok(entry.id);
     assert.ok(entry.description);
-    assert.ok(entry.params || entry.url, `${entry.id} should define params or url`);
-    if (entry.params) {
-      assert.equal(typeof entry.params, "object");
-      assert.equal(validateCube(buildCube(entry.params)).ok, true, `${entry.id} params validate`);
-    }
-    if (entry.url) assert.equal(typeof entry.url, "string");
+    assert.equal(typeof entry.params, "object", `${entry.id} should build from params`);
+    assert.equal(validateCube(buildCube(entry.params)).ok, true, `${entry.id} params validate`);
+    assert.equal("url" in entry, false, `${entry.id} should not depend on a hosted cube`);
   }
 });
 

@@ -32,7 +32,7 @@ A short design-led motion graphic. **Asset-first**: decide the asset strategy an
 | build    | subagent — reuse-first composition                                    | `compositions/index.html`                                        | `agents/builder.md`           |
 | verify   | Bash — `lint`, `check`, proof snapshots; repair on failure            | `snapshots/contact-sheet.jpg`                                    | Step 5                        |
 | approve  | Ask preview or render; wait for the answer                            | explicit render approval                                         | Step 6                        |
-| render   | Bash — `hanzo frame render` (MP4, or `--format webm/mov` for overlay) | `renders/video.mp4` or transparent overlay                       | Step 6                        |
+| render   | Bash — `frames render` (MP4, or `--format webm/mov` for overlay) | `renders/video.mp4` or transparent overlay                       | Step 6                        |
 
 `◇ source` runs only when the chosen category declares assets. Pure code/text categories (e.g. `kinetic-type`, most `charts`/`stat`) have `asset_needs: []` and skip straight from plan to design.
 
@@ -89,7 +89,7 @@ npx @hanzo/frame init "$PROJECT_DIR" --non-interactive --example=blank --skill=m
 
 `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
-**Constraints:** never `hanzo frame init` in the workspace root; never nest another `frames/` inside `PROJECT_DIR`; every Bash command (master + subagents) is a `(cd "$PROJECT_DIR" && ...)` subshell — never bare `cd`.
+**Constraints:** never `frames init` in the workspace root; never nest another `frames/` inside `PROJECT_DIR`; every Bash command (master + subagents) is a `(cd "$PROJECT_DIR" && ...)` subshell — never bare `cd`.
 
 ### Step 1 — Plan (subagent: Director Part 1)
 

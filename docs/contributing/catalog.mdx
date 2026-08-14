@@ -8,7 +8,7 @@ Your agent already knows how to build video components. It writes HTML. Frames r
 This guide shows you how to add to it.
 
 <Info>
-**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `hanzo frame lint` + `validate`. Publish with `npx @hanzo/frame publish`. Open a PR.
+**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `frames lint` + `validate`. Publish with `npx @hanzo/frame publish`. Open a PR.
 </Info>
 
 ## Why Contribute?
@@ -140,8 +140,8 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Validate">
     ```bash
-    hanzo frame lint
-    hanzo frame check
+    frames lint
+    frames check
     npx oxfmt your-block.html
     ```
   </Step>
@@ -154,7 +154,7 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Render preview">
     ```bash
-    hanzo frame render -o preview.mp4
+    frames render -o preview.mp4
     ```
   </Step>
   <Step title="Publish and PR">

@@ -42,7 +42,7 @@ npx @hanzo/frame --help
 ```
 
 This skill runs entirely on the **frames** CLI plus system `ffmpeg` / `ffprobe`.
-Transcription is local **Whisper** via `hanzo frame transcribe` — no third-party
+Transcription is local **Whisper** via `frames transcribe` — no third-party
 service, API key, or rate-limited proxy.
 
 ## Workflow
@@ -60,9 +60,9 @@ Required:
 - `ffmpeg` / `ffprobe` (system)
 - `<SKILL_DIR>/assets/fonts/*.woff2`, `<SKILL_DIR>/assets/vendor/gsap.min.js` (bundled inside this skill, staged to work dir in Step 9)
 
-Transcription needs no key — `hanzo frame transcribe` runs Whisper locally (Step 4).
+Transcription needs no key — `frames transcribe` runs Whisper locally (Step 4).
 
-Strongly recommended on macOS for `hanzo frame render`:
+Strongly recommended on macOS for `frames render`:
 
 ```bash
 export PRODUCER_BROWSER_GPU_MODE=hardware
@@ -1171,7 +1171,7 @@ PRODUCER_BROWSER_GPU_MODE=hardware npx @hanzo/frame render public \
   --fps 30
 ```
 
-`hanzo frame render <dir>` reads `<dir>/index.html` and produces the MP4.
+`frames render <dir>` reads `<dir>/index.html` and produces the MP4.
 The canonical composition keeps the visual `<video>` muted and mounts the same
 source as the root `#source-audio` track, so the rendered MP4 preserves the
 talking-head audio without a manual remux. This uses a separate audio track

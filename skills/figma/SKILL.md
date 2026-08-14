@@ -11,9 +11,9 @@ Bring the user's Figma work into a composition. **Split by capability** (design 
 
 | Phase | What                | Transport                 | Surface                       |
 | ----- | ------------------- | ------------------------- | ----------------------------- |
-| 1     | Static assets       | REST                      | `hanzo frame figma asset`     |
-| 2     | Brand tokens/styles | REST                      | `hanzo frame figma tokens`    |
-| 3     | Components → HTML   | REST                      | `hanzo frame figma component` |
+| 1     | Static assets       | REST                      | `frames figma asset`     |
+| 2     | Brand tokens/styles | REST                      | `frames figma tokens`    |
+| 3     | Components → HTML   | REST                      | `frames figma component` |
 | 4     | Motion → GSAP       | connector when available  | use its motion context        |
 | 5     | Shaders             | connector / manual export | use it or a native export     |
 
@@ -51,31 +51,31 @@ Parse the user's figma link with `parseFigmaRef` (URL, `fileKey:nodeId`, bare `f
 ## Assets (Phase 1 — CLI)
 
 ```bash
-hanzo frame figma asset '<url-or-fileKey:nodeId>' [more refs…] [--format svg|png|jpg|pdf] [--scale 2] [--description "..."] [--entity "..."]
+frames figma asset '<url-or-fileKey:nodeId>' [more refs…] [--format svg|png|jpg|pdf] [--scale 2] [--description "..."] [--entity "..."]
 ```
 
 Renders over REST, sanitizes SVG, freezes under `.media/images/`, appends the manifest with provenance, regenerates `.media/index.md` (the shared media-use inventory), prints an `<img>` snippet. Idempotent per `fileKey:nodeId:format:scale:version`. Prefer SVG for vectors/logos (scalable, animatable), PNG `--scale 2` for raster fidelity. **Always pass `--description "<what it is>"`** (it becomes the index row + `<img alt>`); add `--entity "<name>"` for named brand marks so media-use `resolve --entity` finds them later (entity hits match across image/icon).
 
-**Batch many nodes in ONE request** — pass several refs (space-separated or comma-joined) of the SAME file: `hanzo frame figma asset 'KEY:1-2' 'KEY:3-4' 'KEY:5-6'`. All render in a single `/v1/images` call, which is figma's own answer to the per-minute rate limit — prefer it over N separate commands when pulling a whole frame's worth of assets. `--description`/`--entity` apply to every node in the batch, so batch nodes that share a purpose. 429s also auto-retry with backoff regardless.
+**Batch many nodes in ONE request** — pass several refs (space-separated or comma-joined) of the SAME file: `frames figma asset 'KEY:1-2' 'KEY:3-4' 'KEY:5-6'`. All render in a single `/v1/images` call, which is figma's own answer to the per-minute rate limit — prefer it over N separate commands when pulling a whole frame's worth of assets. `--description`/`--entity` apply to every node in the batch, so batch nodes that share a purpose. 429s also auto-retry with backoff regardless.
 
 ## Tokens (Phase 2 — CLI)
 
 ```bash
-hanzo frame figma tokens <fileKey>
+frames figma tokens <fileKey>
 ```
 
 Imports variables as composition brand-variable entries + `figma-tokens.json` sidecar + binding-index records (`.media/figma-bindings.jsonl`). Variables are Enterprise-gated upstream: on other plans the command degrades to published-style metadata (values resolve at component-import time). Add the printed entries to the composition's `data-composition-variables`.
 
 **Import tokens before components** when both are wanted — that's what lets component colors link to brand variables instead of baking duplicates.
 
-**Non-Enterprise variables path (field-tested):** REST variables are Enterprise-gated, but a compatible connector may provide variable definitions. When `tokens` reports `REQUIRES_ENTERPRISE` and the connector is available, retrieve the parent scene's variables once, cache the raw response to `.media/figma-cache/`, and use it to build the binding index. The REST node tree's `boundVariables` supplies per-property `VariableID`s; join them by node and property, then write `.media/figma-bindings.jsonl` rows (`{kind:"binding", figmaId, sourceFileKey, compositionVariableId: "figma:<name>", version}`) plus the composition-variable entries. Everything downstream (component `var()` resolution, refresh, runtime CSS variables) is the shipped machinery. Label it for the user: "tokens via the Figma connector — Enterprise plans get this from `hanzo frame figma tokens` directly."
+**Non-Enterprise variables path (field-tested):** REST variables are Enterprise-gated, but a compatible connector may provide variable definitions. When `tokens` reports `REQUIRES_ENTERPRISE` and the connector is available, retrieve the parent scene's variables once, cache the raw response to `.media/figma-cache/`, and use it to build the binding index. The REST node tree's `boundVariables` supplies per-property `VariableID`s; join them by node and property, then write `.media/figma-bindings.jsonl` rows (`{kind:"binding", figmaId, sourceFileKey, compositionVariableId: "figma:<name>", version}`) plus the composition-variable entries. Everything downstream (component `var()` resolution, refresh, runtime CSS variables) is the shipped machinery. Label it for the user: "tokens via the Figma connector — Enterprise plans get this from `frames figma tokens` directly."
 
-The runtime defines every declared composition variable as a CSS custom property (document root + sub-comp hosts), so imported `var(--slug, literal)` fills recolor when the variable default changes — updating one value in `data-composition-variables` re-brands every imported component without re-importing anything. `hanzo frame render --variables '<json>'` overrides them at render time.
+The runtime defines every declared composition variable as a CSS custom property (document root + sub-comp hosts), so imported `var(--slug, literal)` fills recolor when the variable default changes — updating one value in `data-composition-variables` re-brands every imported component without re-importing anything. `frames render --variables '<json>'` overrides them at render time.
 
 ## Components (Phase 3 — CLI)
 
 ```bash
-hanzo frame figma component '<url-or-fileKey:nodeId>'
+frames figma component '<url-or-fileKey:nodeId>'
 ```
 
 Node tree → editable HTML at exact figma geometry, packaged as a registry item under `compositions/components/<name>/`. Vectors/boolean-ops auto-rasterize via Phase-1 export. Binding pass (spec §7.1, exact-ID only — never value matching):

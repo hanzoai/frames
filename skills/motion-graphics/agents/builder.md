@@ -25,7 +25,7 @@ Build the **hero-frame end-state** in CSS first (flex + padding; never absolute 
 
 ## IR → composition
 
-- `content.block` → `hanzo frame add` it (or inline) + apply `content.customize`.
+- `content.block` → `frames add` it (or inline) + apply `content.customize`.
 - per-category `content` (text scenes / chart data / fusion positions / news-tweet content) → realize per `categories/<id>/module.md`.
 - resolved `asset_needs` → reference **frozen project-local paths** (never a remote URL or a prompt).
 - `palette[-1]` / bg + `font` from the envelope.
@@ -33,8 +33,8 @@ Build the **hero-frame end-state** in CSS first (flex + padding; never absolute 
 
 ## Critical correctness (GSAP / seek)
 
-Opacity-gate delayed elements (set hidden until their entrance). Clamp at tween bounds (no overshoot past a held value). Allowed eases: `power1–4`, `back`, `bounce`, `circ`, `elastic`, `expo`, `sine` (`.in/.out/.inOut`). One motif per scene. Run `hanzo frame check` for overflow / collisions.
+Opacity-gate delayed elements (set hidden until their entrance). Clamp at tween bounds (no overshoot past a held value). Allowed eases: `power1–4`, `back`, `bounce`, `circ`, `elastic`, `expo`, `sine` (`.in/.out/.inOut`). One motif per scene. Run `frames check` for overflow / collisions.
 
 ## Hand off for verification
 
-Self-check the authored file, then return it to the orchestrator. Step 5 runs `hanzo frame lint`, `hanzo frame check`, and proof snapshots on the assembled project. Do not render. When redispatched with a finding, fix the offending element and never change a fixed `data-duration` during repair. Remotion-source migrations use `/remotion-to-frames` and its SSIM harness instead.
+Self-check the authored file, then return it to the orchestrator. Step 5 runs `frames lint`, `frames check`, and proof snapshots on the assembled project. Do not render. When redispatched with a finding, fix the offending element and never change a fixed `data-duration` during repair. Remotion-source migrations use `/remotion-to-frames` and its SSIM harness instead.

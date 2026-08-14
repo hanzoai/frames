@@ -112,10 +112,10 @@ Supersampling re-renders the page at higher DPR. That genuinely helps anything t
 
 ```bash
 # OK — both landscape
-hanzo frame render --resolution 4k         # composition is 1920×1080
+frames render --resolution 4k         # composition is 1920×1080
 
 # Error — composition is landscape, target is portrait
-hanzo frame render --resolution portrait-4k  # composition is 1920×1080
+frames render --resolution portrait-4k  # composition is 1920×1080
 # → outputResolution portrait-4k (2160×3840) does not match the aspect ratio
 #   of the composition (1920×1080). Pick a preset whose orientation matches.
 ```
@@ -157,8 +157,8 @@ The resolution applies per render, not per project — your composition files ar
 
 You can also drive resolution from the CLI:
 
-- **New project**: `hanzo frame init my-video --resolution 4k`
-- **Existing project**: `hanzo frame render --resolution 4k --output 4k.mp4`
+- **New project**: `frames init my-video --resolution 4k`
+- **Existing project**: `frames render --resolution 4k --output 4k.mp4`
 
 ## See also
 

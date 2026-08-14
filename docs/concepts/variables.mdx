@@ -159,7 +159,7 @@ A small set of inputs are read once from the source HTML or from the CLI / SDK, 
 |------|----------------------------|
 | Composition dimensions | `data-width` / `data-height` on the composition element, parsed from the source HTML at compile time, not from the live DOM |
 | Root composition total duration | `data-duration` on the **root** composition element (the total render length / frame count), parsed from the source HTML at compile time. A static root `data-duration` is locked before scripts run, so neither a script nor a variable can change the render length. (A clip's own `data-duration` is different: it is re-read from the live DOM, as shown above.) |
-| Frame rate | `--fps` flag on `hanzo frame render`, or `config.fps` in the SDK |
+| Frame rate | `--fps` flag on `frames render`, or `config.fps` in the SDK |
 | Output format / codec / quality | `--format` / `--codec` / `--quality` flags, or the SDK equivalents |
 | A sibling or parent composition's variables | Variables are per-composition; use [`data-variable-values`](#per-instance-overrides-sub-compositions) on each sub-comp host element to pass overrides |
 
@@ -312,7 +312,7 @@ Variable values are resolved by merging three sources, lowest to highest precede
 |--------|-----------|---------------|
 | Declared defaults | Lowest | `data-composition-variables` on the declaration root (`<html>`, or the composition root div for template/fragment comps) |
 | Per-instance host overrides | Middle | `data-variable-values` on the sub-comp host element |
-| CLI `--variables` flag | Highest | `hanzo frame render --variables '{...}'` |
+| CLI `--variables` flag | Highest | `frames render --variables '{...}'` |
 
 A missing key at any layer falls through to the next lower layer. If no layer provides a value, the declared `default` is used.
 
@@ -361,7 +361,7 @@ system:
 - **Render with values** — renders started from the Renders tab carry the active
   preview overrides.
 - **Handoff** — copy the effective values as JSON or as a ready-to-run
-  `hanzo frame render --variables` command.
+  `frames render --variables` command.
 - **Usage** — declarations no script reads are badged `unused`; ids read by scripts
   but missing from the schema get a one-click Declare action.
 

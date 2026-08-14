@@ -89,7 +89,7 @@ Use the bare name without `/`. If the command fails, surface the error; do not r
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | Composition structure, timing attributes, tracks, variables, determinism                                            | `/frames-core`      |
 | Motion rules, scene blueprints, transitions, runtime adapters                                                       | `/frames-animation` |
-| Seek-safe GSAP, CSS, Anime.js, WAAPI, FLIP, paths, masks, SVG, 3D keyframes, or `hanzo frame keyframes` diagnostics | `/frames-keyframes` |
+| Seek-safe GSAP, CSS, Anime.js, WAAPI, FLIP, paths, masks, SVG, 3D keyframes, or `frames keyframes` diagnostics | `/frames-keyframes` |
 | Design specs, concept, palette, typography, narration, beat planning                                                | `/frames-creative`  |
 | Images, icons, logos, audio, captions, grades, LUTs, reusable media                                                 | `/media-use`             |
 | Init, lint, check, snapshots, compare, batch render, Studio, render, publish, or diagnostics                        | `/frames-cli`       |

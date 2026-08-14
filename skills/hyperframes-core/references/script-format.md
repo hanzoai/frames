@@ -47,6 +47,6 @@ A header block, then one section per spoken line.
 ## To TTS
 
 Feed each line's spoken text to the provider documented in
-`media-use/audio/references/tts.md`. The `hanzo frame tts` command is
+`media-use/audio/references/tts.md`. The `frames tts` command is
 Pass `--voice` to choose a voice, or use the bundled `speak.mjs` helper when word
 timestamps are required. Real per-word timing replaces the `**Time:**` guides.

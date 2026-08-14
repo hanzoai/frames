@@ -17,7 +17,7 @@ Stop here and use that treatment workflow for requests such as retro, old home
 video, camcorder, film, print, ASCII, glitch, privacy, or a media reveal. Do not
 assemble those from a generic LUT plus handmade CSS vignette/grain/opacity.
 
-**Never `cat`/read a `.cube` file into context.** A 3D LUT is ~size^3 lines of raw numbers (33^3 ≈ 36k lines at the default size). It bloats context and carries zero human/agent-legible signal. To understand or choose a LUT, use `hanzo frame grade-compare` to see it rendered, or `cube-validate.mjs` for a one-line `{ok,size}` check. Read `.media/index.md` or `luts/index.json` for the description. Never read the LUT body itself.
+**Never `cat`/read a `.cube` file into context.** A 3D LUT is ~size^3 lines of raw numbers (33^3 ≈ 36k lines at the default size). It bloats context and carries zero human/agent-legible signal. To understand or choose a LUT, use `frames grade-compare` to see it rendered, or `cube-validate.mjs` for a one-line `{ok,size}` check. Read `.media/index.md` or `luts/index.json` for the description. Never read the LUT body itself.
 
 ```bash
 node <SKILL_DIR>/scripts/resolve.mjs --type grade --intent "warm daylight" --project . --json
@@ -35,7 +35,7 @@ Preset-first output uses the core runtime vocabulary and does not freeze a file:
 Apply that payload to one unambiguous real media element:
 
 ```bash
-hanzo frame media-treatment --project . --file index.html \
+frames media-treatment --project . --file index.html \
   --selector '#hero' \
   --grading '{"preset":"warm-daylight","intensity":1}' --apply --json
 ```
@@ -58,13 +58,13 @@ To build a treatment that is not already represented by a recipe, inspect the
 canonical toolbox first:
 
 ```bash
-hanzo frame media-treatment --capabilities --json
+frames media-treatment --capabilities --json
 ```
 
 It reports a concise family map. Read `--capability grading` for the processing
 order, then request only the focused family needed to get its legal controls
 and ranges from Core. Compose one nested payload and pass it back through
-`hanzo frame media-treatment`; the command rejects unknown keys before
+`frames media-treatment`; the command rejects unknown keys before
 mutation. Do not generate or hand-edit a LUT merely to combine controls already
 owned by the realtime shader.
 
@@ -129,7 +129,7 @@ transforms. Use a CDN-backed scanned `.cube` entry or ingest a real scanned
 For visual selection, list reusable LUT candidates with
 `resolve --type grade --candidates`, write the promising entries to a
 `grades.json`, run
-`hanzo frame grade-compare --for <frame> --grades grades.json`, then commit the
+`frames grade-compare --for <frame> --grades grades.json`, then commit the
 winner with `resolve -t grade` as the final `data-color-grading` block.
 
 For media already selected in a composition, use `media-treatment --analyze`
@@ -139,7 +139,7 @@ suggestion without modifying the composition. The suggestion is a starting
 point for visual review, not an automatic neutralization of intentional color.
 
 ```bash
-hanzo frame media-treatment --project . --file index.html \
+frames media-treatment --project . --file index.html \
   --selector '#hero' --analyze --json
 ```
 

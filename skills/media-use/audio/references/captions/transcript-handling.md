@@ -8,7 +8,7 @@ The CLI auto-detects and normalizes these formats:
 
 | Format                | Extension | Source                                                                      | Word-level?       |
 | --------------------- | --------- | --------------------------------------------------------------------------- | ----------------- |
-| whisper.cpp JSON      | `.json`   | `hanzo frame init --video`, `hanzo frame transcribe`                        | Yes               |
+| whisper.cpp JSON      | `.json`   | `frames init --video`, `frames transcribe`                        | Yes               |
 | OpenAI Whisper API    | `.json`   | `openai.audio.transcriptions.create({ timestamp_granularities: ["word"] })` | Yes               |
 | SRT subtitles         | `.srt`    | Video editors, subtitle tools, YouTube                                      | No (phrase-level) |
 | VTT subtitles         | `.vtt`    | Web players, YouTube, transcription services                                | No (phrase-level) |

@@ -1,6 +1,6 @@
 # cloud — hosted rendering (zero-infra)
 
-`hanzo frame cloud render` renders a composition on Hanzo Cloud. The CLI zips the project, uploads it, runs the render (Chromium + FFmpeg) there, and downloads the finished video. Nothing to deploy, and no Chrome/FFmpeg/AWS to manage; the render is metered against the org's balance.
+`frames cloud render` renders a composition on Hanzo Cloud. The CLI zips the project, uploads it, runs the render (Chromium + FFmpeg) there, and downloads the finished video. Nothing to deploy, and no Chrome/FFmpeg/AWS to manage; the render is metered against the org's balance.
 
 ```bash
 export HANZO_API_KEY=...          # from Hanzo KMS
@@ -9,10 +9,10 @@ npx @hanzo/frame cloud render           # zip, upload, render, download
 
 ## When to use managed cloud, Lambda, Cloud Run, or local
 
-- **`hanzo frame render`** (local): fastest iteration loop, use while authoring.
-- **`hanzo frame cloud render`**: zero-infra. Hanzo Cloud runs the render, metered against the org's balance. This is the default answer to "render in the cloud" when you don't want to manage Chrome/FFmpeg/AWS.
-- **`hanzo frame lambda render`**: bring-your-own-AWS distributed rendering with chunked parallelism. Only worth it when you've already invested in AWS (see `lambda.md`).
-- **`hanzo frame cloudrun render`**: bring-your-own-GCP distributed rendering through Cloud Run and Workflows. Use only when GCP ownership is explicit (see `cloudrun.md`).
+- **`frames render`** (local): fastest iteration loop, use while authoring.
+- **`frames cloud render`**: zero-infra. Hanzo Cloud runs the render, metered against the org's balance. This is the default answer to "render in the cloud" when you don't want to manage Chrome/FFmpeg/AWS.
+- **`frames lambda render`**: bring-your-own-AWS distributed rendering with chunked parallelism. Only worth it when you've already invested in AWS (see `lambda.md`).
+- **`frames cloudrun render`**: bring-your-own-GCP distributed rendering through Cloud Run and Workflows. Use only when GCP ownership is explicit (see `cloudrun.md`).
 
 ## Authentication
 
@@ -38,7 +38,7 @@ npx @hanzo/frame auth status             # which credential is in use, identity,
 
 1. **Resolve the project**: a local directory (default `.`), or skip the upload with `--asset-id` / `--url`.
 2. **Auto-detect aspect ratio** from the entry HTML's `data-width`/`data-height`.
-3. **Zip** the project (same ignore set as `hanzo frame publish`, including `.framesignore`).
+3. **Zip** the project (same ignore set as `frames publish`, including `.framesignore`).
 4. **Upload** the zip through the direct-to-S3 asset flow, yielding an `asset_id`.
 5. **Submit** the render, yielding a `render_id`.
 6. **Poll** that render until it completes or fails (skip with `--no-wait`).
@@ -46,7 +46,7 @@ npx @hanzo/frame auth status             # which credential is in use, identity,
 
 ## Archive size and `.framesignore`
 
-The direct-upload limit is 200 MB. Frames automatically excludes root-level `renders/` and `snapshots/`, along with its existing development exclusions such as `.git`, `node_modules`, `dist`, `.next`, `coverage`, and dotfiles. Add project-specific gitignore-style rules to `<project>/.framesignore` when other generated or intermediate assets are not required at render time. The same rules affect `hanzo frame publish`.
+The direct-upload limit is 200 MB. Frames automatically excludes root-level `renders/` and `snapshots/`, along with its existing development exclusions such as `.git`, `node_modules`, `dist`, `.next`, `coverage`, and dotfiles. Add project-specific gitignore-style rules to `<project>/.framesignore` when other generated or intermediate assets are not required at render time. The same rules affect `frames publish`.
 
 Inspect the exact archive without authenticating, uploading, spending credits, or starting a render:
 
@@ -129,7 +129,7 @@ By default the CLI blocks, polls, and downloads. Combine `--no-wait` (submit and
 
 ```bash
 npx @hanzo/frame cloud render --callback-url https://example.com/hf-hook --no-wait
-#    Poll later with: hanzo frame cloud get hfr_def456
+#    Poll later with: frames cloud get hfr_def456
 ```
 
 | Flag              | Meaning                                             |

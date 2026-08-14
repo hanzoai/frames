@@ -1,6 +1,6 @@
 # Generate a project beat grid
 
-Use `hanzo frame beats` when an existing Frames project needs the Studio-compatible beat file for its music track. This is a CLI utility, not a complete video workflow.
+Use `frames beats` when an existing Frames project needs the Studio-compatible beat file for its music track. This is a CLI utility, not a complete video workflow.
 
 ```bash
 npx @hanzo/frame beats

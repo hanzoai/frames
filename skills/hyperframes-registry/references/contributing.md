@@ -97,18 +97,18 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 ### Step 4: Validate
 
 ```bash
-hanzo frame lint                    # 0 errors required
-hanzo frame check --no-contrast  # 0 console errors required
+frames lint                    # 0 errors required
+frames check --no-contrast  # 0 console errors required
 ```
 
 ### Step 5: Preview
 
 ```bash
 # Render preview video
-hanzo frame render -o preview.mp4
+frames render -o preview.mp4
 
 # Snapshot for visual QA
-hanzo frame snapshot --at "1.0,3.0,5.0,7.0"
+frames snapshot --at "1.0,3.0,5.0,7.0"
 
 # Publish to frames.hanzo.ai for review
 npx @hanzo/frame publish
@@ -156,8 +156,8 @@ gh pr create --title "feat(registry): {name}" --body "preview: {frames.hanzo.ai-
 
 ## Quality Gate
 
-- [ ] `hanzo frame lint` → 0 errors
-- [ ] `hanzo frame check` → 0 console errors
+- [ ] `frames lint` → 0 errors
+- [ ] `frames check` → 0 console errors
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)

@@ -1,6 +1,6 @@
 # Lambda rendering on AWS
 
-Use `hanzo frame lambda` when the user explicitly wants self-managed AWS infrastructure or needs distributed rendering. It wraps `@frames/aws-lambda` and AWS SAM.
+Use `frames lambda` when the user explicitly wants self-managed AWS infrastructure or needs distributed rendering. It wraps `@frames/aws-lambda` and AWS SAM.
 
 ## Contents
 
@@ -177,7 +177,7 @@ The default action set is deliberately broad (`Resource: "*"`) because CloudForm
 
 ## State, cost, and cleanup
 
-`hanzo frame lambda` stores per-stack metadata under `<cwd>/.frames/lambda-stack-<name>.json` (bucket name, state-machine ARN, region). Not secret, but AWS-account-identifying. Commit it to a repo or `.gitignore` it per your workflow.
+`frames lambda` stores per-stack metadata under `<cwd>/.frames/lambda-stack-<name>.json` (bucket name, state-machine ARN, region). Not secret, but AWS-account-identifying. Commit it to a repo or `.gitignore` it per your workflow.
 
 - `lambda destroy` removes the SAM stack but **leaves the S3 bucket** (`Retain`). Delete it manually if you want the storage back.
 - Lambda billing is per-invocation + duration. `progress` reports the accrued cost.

@@ -49,7 +49,7 @@ The CLI ships a built-in `remove-background` command that runs locally — no AP
     </div>
     ```
 
-    Render the composition with the usual `hanzo frame render`.
+    Render the composition with the usual `frames render`.
   </Step>
 </Steps>
 
@@ -355,7 +355,7 @@ ffmpeg -i frames-%04d.png -c:v libvpx-vp9 \
 
 ### How to choose
 
-- **Person / portrait video, web playback, MIT-clean** → use the built-in `hanzo frame remove-background` (this is what it's tuned for).
+- **Person / portrait video, web playback, MIT-clean** → use the built-in `frames remove-background` (this is what it's tuned for).
 - **Non-human subject** (product, animal, object) → `rembg` with `isnet-general-use`.
 - **Maximum portrait quality, especially hair** → `BiRefNet` via Python.
 - **Long video where edge flicker would be visible**, GPL is OK → `RVM`.
@@ -418,7 +418,7 @@ That usually means the source frame is high-contrast against a similar-toned bac
 
 ## Reference
 
-- CLI: [`hanzo frame remove-background`](/packages/cli#remove-background)
+- CLI: [`frames remove-background`](/packages/cli#remove-background)
 - Eval: matting comparison v7, u²-net_human_seg on a 4-second 1080p clip
 - Source model: [danielgatis/rembg](https://github.com/danielgatis/rembg)
 - ONNX runtime: [`onnxruntime-node`](https://www.npmjs.com/package/onnxruntime-node)

@@ -1,6 +1,6 @@
 # Cloud Run rendering on Google Cloud
 
-Use `hanzo frame cloudrun` only when the user explicitly wants self-managed Google Cloud infrastructure. It deploys Cloud Run, Workflows, and Cloud Storage. For a managed default use `hanzo frame cloud`; for AWS use `hanzo frame lambda`.
+Use `frames cloudrun` only when the user explicitly wants self-managed Google Cloud infrastructure. It deploys Cloud Run, Workflows, and Cloud Storage. For a managed default use `frames cloud`; for AWS use `frames lambda`.
 
 ## Prerequisites
 

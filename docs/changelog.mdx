@@ -999,12 +999,12 @@ Frames now uses a 0–10 recommendation scale for feedback, keeps canvas z-order
   description="Released - 2026-07-14"
   tags={["Release", "Producer", "Release", "CLI"]}
 >
-`hanzo frame publish` now returns a stable public URL: re-publishing updates the same link in place, and a `--space` flag plus a committable project file let a whole team publish to one shared URL. This release also keeps preview review sessions alive across reloads and tags HeyGen API calls with an `X-HeyGen-Client-Source` header.
+`frames publish` now returns a stable public URL: re-publishing updates the same link in place, and a `--space` flag plus a committable project file let a whole team publish to one shared URL. This release also keeps preview review sessions alive across reloads and tags HeyGen API calls with an `X-HeyGen-Client-Source` header.
 
 ## Features
 
 - **Preview:** Keep review sessions alive ([2a7a5e623](https://github.com/hanzoai/frames/commit/2a7a5e62361c178daf5f741ee6d0479b3c16c3e9), [#2384](https://github.com/hanzoai/frames/pull/2384))
-- **CLI:** Stable public URL for hanzo frame publish (re-publish updates the same link) ([4495cb735](https://github.com/hanzoai/frames/commit/4495cb7355bcbb401bcaa04355c817220ef0be48), [#2363](https://github.com/hanzoai/frames/pull/2363))
+- **CLI:** Stable public URL for frames publish (re-publish updates the same link) ([4495cb735](https://github.com/hanzoai/frames/commit/4495cb7355bcbb401bcaa04355c817220ef0be48), [#2363](https://github.com/hanzoai/frames/pull/2363))
 - **Media Use:** Tag HeyGen calls with X-HeyGen-Client-Source ([dd938c7a1](https://github.com/hanzoai/frames/commit/dd938c7a16dc0200fb46ff2037e07913d299a471), [#2365](https://github.com/hanzoai/frames/pull/2365))
 - **CLI:** Tag HeyGen API calls with X-HeyGen-Client-Source ([746b6d5b7](https://github.com/hanzoai/frames/commit/746b6d5b7558220f213c8dae69e4175d3aa6445f), [#2368](https://github.com/hanzoai/frames/pull/2368))
 - **CLI:** Coordinate-frame layout findings in check ([7f4eaeb56](https://github.com/hanzoai/frames/commit/7f4eaeb56813640cfb026ff6392d3900dcc12715), [#2354](https://github.com/hanzoai/frames/pull/2354))
@@ -1224,7 +1224,7 @@ This release makes studio manual editing safe for color-graded compositions: edi
   description="Released - 2026-07-11"
   tags={["Release", "CLI", "Skills", "Sdk"]}
 >
-The CLI now runs a free trial of the drawElement parallel router (`HF_DE_PARALLEL_ROUTER`) on eligible local renders — it stays on until a real failure fires the safety net, then turns off for that install — and every router/inversion failure path (OOM, blank frames, PSNR, capture errors) now reaches telemetry with a fallback reason, with OOM retries dropping to a single worker after killing stale workers. Also fixes keyframe shots ignoring direct entries, SDK template GSAP scripts missing from resolver parity, and `hanzo frame lint` tripping on macOS AppleDouble files.
+The CLI now runs a free trial of the drawElement parallel router (`HF_DE_PARALLEL_ROUTER`) on eligible local renders — it stays on until a real failure fires the safety net, then turns off for that install — and every router/inversion failure path (OOM, blank frames, PSNR, capture errors) now reaches telemetry with a fallback reason, with OOM retries dropping to a single worker after killing stale workers. Also fixes keyframe shots ignoring direct entries, SDK template GSAP scripts missing from resolver parity, and `frames lint` tripping on macOS AppleDouble files.
 
 ## Features
 
@@ -1257,7 +1257,7 @@ The CLI now runs a free trial of the drawElement parallel router (`HF_DE_PARALLE
   description="Released - 2026-07-11"
   tags={["Release", "Media Use", "CLI"]}
 >
-`media-use`'s HeyGen resolves now tag whether a call went through the free (OAuth) or paid (API-key) path and classify failures into stable reasons, with a test-isolation fix so local runs can't reach the production telemetry endpoint. `hanzo frame skills update` now converges when a skill has been retired or renamed upstream — it no longer fails with `Skill(s) still missing after install` or loops on `No matching skills found`, and reconciles the orphaned skill away instead.
+`media-use`'s HeyGen resolves now tag whether a call went through the free (OAuth) or paid (API-key) path and classify failures into stable reasons, with a test-isolation fix so local runs can't reach the production telemetry endpoint. `frames skills update` now converges when a skill has been retired or renamed upstream — it no longer fails with `Skill(s) still missing after install` or loops on `No matching skills found`, and reconciles the orphaned skill away instead.
 
 ## Features
 
@@ -1275,7 +1275,7 @@ The CLI now runs a free trial of the drawElement parallel router (`HF_DE_PARALLE
   description="Released - 2026-07-10"
   tags={["Release", "CLI", "Core", "Cli,skills"]}
 >
-This release makes `hanzo frame check` the canonical verification gate: one command, one browser session covering lint, runtime errors, layout, motion intent, and WCAG contrast, with agent-actionable findings (source anchors, contrast fix suggestions) and snapshot evidence via annotated frames and per-finding crops. `validate`, `inspect`, and `layout` are deprecated but fully functional; `snapshot` gains `--zoom` for high-density crops of any element or region.
+This release makes `frames check` the canonical verification gate: one command, one browser session covering lint, runtime errors, layout, motion intent, and WCAG contrast, with agent-actionable findings (source anchors, contrast fix suggestions) and snapshot evidence via annotated frames and per-finding crops. `validate`, `inspect`, and `layout` are deprecated but fully functional; `snapshot` gains `--zoom` for high-density crops of any element or region.
 
 ## Features
 
@@ -1354,7 +1354,7 @@ Hardens the Figma integration end to end — clearer 403/scope errors, 429 retry
   description="Released - 2026-07-10"
   tags={["Release", "CLI"]}
 >
-Prevents slow Chrome downloads from losing their install lock and colliding with another Frames process. Also restores `hanzo frame tts --text-file` compatibility for existing skills and scripts.
+Prevents slow Chrome downloads from losing their install lock and colliding with another Frames process. Also restores `frames tts --text-file` compatibility for existing skills and scripts.
 
 ## Fixes
 
@@ -1861,7 +1861,7 @@ This release hardens the CLI validation and browser-install paths: validate now 
   description="Released - 2026-07-04"
   tags={["Release", "Core,cli"]}
 >
-This release makes Figma imports first-class citizens of the shared media inventory: every `hanzo frame figma asset` import now regenerates `.media/index.md` (byte-identical with media-use's format), carries `--description`/`--entity` metadata into the manifest, index, and alt text, and the reuse path correctly upserts metadata and dedupes against any prior format/scale/version tuple. media-use's entity lookups now match figma-imported brand marks across the icon/image boundary.
+This release makes Figma imports first-class citizens of the shared media inventory: every `frames figma asset` import now regenerates `.media/index.md` (byte-identical with media-use's format), carries `--description`/`--entity` metadata into the manifest, index, and alt text, and the reuse path correctly upserts metadata and dedupes against any prior format/scale/version tuple. media-use's entity lookups now match figma-imported brand marks across the icon/image boundary.
 
 ## Features
 
@@ -1893,7 +1893,7 @@ This release adds a low-volume attempt counter to the resolver-shadow tripwire, 
   description="Released - 2026-07-04"
   tags={["Release", "Skills", "Studio", "Core,cli"]}
 >
-This release ships the Figma integration: import Figma frames as frozen assets, pull brand variables and styles as composition tokens, convert frames to editable brand-linked HTML components, and translate Figma Motion timelines into seekable GSAP — all routed through the new /figma skill and `hanzo frame figma` CLI. It also lands a wave of engine extraction-performance work (caching, dedup, one-pass VFR/HDR) and studio persist-failure hardening.
+This release ships the Figma integration: import Figma frames as frozen assets, pull brand variables and styles as composition tokens, convert frames to editable brand-linked HTML components, and translate Figma Motion timelines into seekable GSAP — all routed through the new /figma skill and `frames figma` CLI. It also lands a wave of engine extraction-performance work (caching, dedup, one-pass VFR/HDR) and studio persist-failure hardening.
 
 ## Features
 
@@ -2012,7 +2012,7 @@ v0.7.26 makes imported designs more reliable by normalizing host-system primary 
   description="Released - 2026-07-02"
   tags={["Release", "CLI", "Engine", "Render"]}
 >
-v0.7.25 adds the `hanzo frame keyframes` command for inspecting GSAP, CSS, Anime.js, and 3D onion-skin shots from the CLI. It also improves first-time render reliability with Linux/WSL dependency checks, actionable preset preflight failures, transient capture retries with OOM guidance, and isolated forced-screenshot workers for parallel renders.
+v0.7.25 adds the `frames keyframes` command for inspecting GSAP, CSS, Anime.js, and 3D onion-skin shots from the CLI. It also improves first-time render reliability with Linux/WSL dependency checks, actionable preset preflight failures, transient capture retries with OOM guidance, and isolated forced-screenshot workers for parallel renders.
 
 ## Features
 
@@ -2132,7 +2132,7 @@ Adds a lint rule that errors on `crossorigin` on media (it renders fine but show
 
 ## Docs & Examples
 
-- **Skills:** Instruct agents to run `hanzo frame feedback` after render ([04700ea9](https://github.com/hanzoai/frames/commit/04700ea9c51d6b29f8512e2ae4c2655054acf20b), [#1785](https://github.com/hanzoai/frames/pull/1785))
+- **Skills:** Instruct agents to run `frames feedback` after render ([04700ea9](https://github.com/hanzoai/frames/commit/04700ea9c51d6b29f8512e2ae4c2655054acf20b), [#1785](https://github.com/hanzoai/frames/pull/1785))
 
 [View the full commit range](https://github.com/hanzoai/frames/compare/v0.7.20...v0.7.21).
 </Update>
@@ -2210,7 +2210,7 @@ README motion preview.
 This release targets the reported render regression by removing per-frame empty
 animation scans, fixing software WebGL auto-detection on CPU render hosts, and
 reducing headless capture setup overhead. It also exposes Studio selection state
-through `hanzo frame preview` so coding agents can inspect and edit the active
+through `frames preview` so coding agents can inspect and edit the active
 composition more directly.
 
 ## Features
@@ -2283,7 +2283,7 @@ Studio gains **element groups**: select multiple elements and group them into a 
   description="Released - 2026-06-27"
   tags={["Release", "CLI"]}
 >
-This CLI release keeps `hanzo frame init` on the GitHub-backed skills
+This CLI release keeps `frames init` on the GitHub-backed skills
 freshness path while the skills.sh registry catches up, with a CI-only escape
 hatch and offline-safe best-effort install behavior. It also publishes the newly
 extracted parser, lint, and studio-server packages as part of the fixed-version
@@ -2361,7 +2361,7 @@ the agents a project actually uses and adds a product-launch video skill.
   description="Released - 2026-06-26"
   tags={["Release", "CLI", "Runtime", "Producer"]}
 >
-This release keeps the `hanzo frame skills` CLI honest about what's installed. `skills check` now flags skills that were renamed or dropped upstream, `skills update` prunes them and installs with `--copy` so a freshly installed set matches the published manifest, and login persists and shows a friendly user identity. It also lands producer and runtime reliability work: render fps is honored when seeking, `/health` is served from a worker thread so probes survive main-thread stalls, and binary file responses now stream.
+This release keeps the `frames skills` CLI honest about what's installed. `skills check` now flags skills that were renamed or dropped upstream, `skills update` prunes them and installs with `--copy` so a freshly installed set matches the published manifest, and login persists and shows a friendly user identity. It also lands producer and runtime reliability work: render fps is honored when seeking, `/health` is served from a worker thread so probes survive main-thread stalls, and binary file responses now stream.
 
 ## Features
 
@@ -2672,7 +2672,7 @@ Studio GSAP keyframe and motion-path editing, instant flicker-free manual editin
   description="Released - 2026-06-21"
   tags={["Release", "CLI"]}
 >
-This hotfix restores `hanzo frame skills` on Windows by invoking npm's `npx.cmd`
+This hotfix restores `frames skills` on Windows by invoking npm's `npx.cmd`
 shim through `cmd.exe`, while preserving direct `npx` execution on Linux and macOS.
 The same resolver also covers the local Studio preview's `npx vite` path and is
 verified by CI on all three operating systems.
@@ -2755,7 +2755,7 @@ This hotfix improves render reliability across WebM and MP4 outputs: VP9 encodes
   description="Released - 2026-06-20"
   tags={["Release", "Slideshow", "Core", "Core,studio"]}
 >
-Full slideshow stack: schema, parser, controller, `<frames-slideshow>` web component, presenter mode, branching editor panel, and `hanzo frame present` CLI command. SDK gains element add/remove ops, elastic timing, keyframe writers, variables/brand model, and image-alpha hit-testing. Fixes cross-realm iframe media handling, per-element audio muting, querySelector injection, and DOM edit parity.
+Full slideshow stack: schema, parser, controller, `<frames-slideshow>` web component, presenter mode, branching editor panel, and `frames present` CLI command. SDK gains element add/remove ops, elastic timing, keyframe writers, variables/brand model, and image-alpha hit-testing. Fixes cross-realm iframe media handling, per-element audio muting, querySelector injection, and DOM edit parity.
 
 ## Features
 
@@ -3160,7 +3160,7 @@ Wires the SDK session into Studio (stage 7 steps 1-3b), adding shadow dispatch p
 
 ## Fixes
 
-- **CLI:** Restore `hanzo frame capture \<url\>`; move video download to `--video` flag ([f8d9f512](https://github.com/hanzoai/frames/commit/f8d9f51245908d64b74a8df96bc80e901fd1f5cf))
+- **CLI:** Restore `frames capture \<url\>`; move video download to `--video` flag ([f8d9f512](https://github.com/hanzoai/frames/commit/f8d9f51245908d64b74a8df96bc80e901fd1f5cf))
 - **Core:** Stop transport re-seek from clobbering Studio drag drafts ([1ab7dcfe](https://github.com/hanzoai/frames/commit/1ab7dcfe477d526cb153c0e73f113d4de0cbd190), [#1464](https://github.com/hanzoai/frames/pull/1464))
 
 ## Docs & Examples

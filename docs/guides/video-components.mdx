@@ -92,7 +92,7 @@ The catalog ships two kinds of item, installed the same way but wired differentl
 Your agent already knows how to build video components — it writes HTML, Frames renders it. The registry is where that work ships to **every** Frames user. Spotted a caption style on TikTok that doesn't exist yet, or built a transition worth sharing? Add it to the catalog.
 
 <Info>
-**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `hanzo frame lint` + `validate`. Publish with `npx @hanzo/frame publish`. Open a PR.
+**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `frames lint` + `validate`. Publish with `npx @hanzo/frame publish`. Open a PR.
 </Info>
 
 Every item is a single self-contained HTML file with a paused GSAP timeline — no build step, no framework. It must be deterministic (seeded randomness only, no `Date.now()` / `Math.random()`), register its timeline on `window.__timelines`, and meet the production-quality bar.

@@ -9,9 +9,9 @@ The work your designer already did in Figma — layout, color, type, motion — 
 
 | Capability | What you get | Surface |
 | --- | --- | --- |
-| **Static assets** | A frame/layer rendered to SVG/PNG/JPG/PDF, frozen under `.media/` | `hanzo frame figma asset` |
-| **Brand tokens** | Figma variables/styles as composition brand variables | `hanzo frame figma tokens` (Enterprise) or the `/figma` skill via MCP (any plan) |
-| **Components** | A frame as editable HTML with brand-linked colors | `hanzo frame figma component` |
+| **Static assets** | A frame/layer rendered to SVG/PNG/JPG/PDF, frozen under `.media/` | `frames figma asset` |
+| **Brand tokens** | Figma variables/styles as composition brand variables | `frames figma tokens` (Enterprise) or the `/figma` skill via MCP (any plan) |
+| **Components** | A frame as editable HTML with brand-linked colors | `frames figma component` |
 | **Motion** | A Figma Motion timeline as an editable, paused GSAP timeline | `/figma` skill (agent, MCP) |
 | **Shaders** | A shader fill/effect as a frozen still or clip | `/figma` skill (agent, MCP) |
 | **Storyboards** | Scene frames reconstructed as motion — frames read as states, not slides | `/figma` skill (agent) |
@@ -32,7 +32,7 @@ Do both if your project needs everything; each is independent, so it doesn't mat
 
 ### Step A — Figma token (assets, tokens, components)
 
-Needed for anything you run from the `hanzo frame figma` CLI.
+Needed for anything you run from the `frames figma` CLI.
 
 <Steps>
   <Step title="Mint a token">
@@ -65,7 +65,7 @@ This is also the easiest way to pull brand colors on **any** Figma plan, includi
 ## Import an asset
 
 ```bash
-hanzo frame figma asset 'https://www.figma.com/design/KEY/Title?node-id=1-2'
+frames figma asset 'https://www.figma.com/design/KEY/Title?node-id=1-2'
 ```
 
 The node renders over REST, lands frozen under `.media/images/`, and the command prints a ready-to-paste `<img>` snippet:
@@ -82,7 +82,7 @@ imported image_007 → .media/images/image_007.svg
 ## Pull your brand
 
 ```bash
-hanzo frame figma tokens KEY
+frames figma tokens KEY
 ```
 
 Reads the file's variables (or published styles), writes a `figma-tokens.json` sidecar plus a binding index, and prints entries for the composition's `data-composition-variables`. Every scene that references a brand role — instead of a hard-coded hex — is on-brand automatically, and stays on-brand when the file changes.
@@ -94,7 +94,7 @@ Import tokens **before** components. That's what lets an imported component's co
 ## Import a component
 
 ```bash
-hanzo frame figma component 'https://www.figma.com/design/KEY/Title?node-id=10-20'
+frames figma component 'https://www.figma.com/design/KEY/Title?node-id=10-20'
 ```
 
 The frame's node tree becomes editable HTML at exact Figma geometry, packaged under `compositions/components/<name>/`. Vector and boolean-op nodes that don't map to clean HTML auto-rasterize through the asset path.

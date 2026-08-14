@@ -13,7 +13,7 @@ Analyze spoken content to determine caption style. If user specifies a style, us
 ]
 ```
 
-`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `hanzo frame transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
+`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `frames transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
 
 ## Style Detection (When No Style Specified)
 

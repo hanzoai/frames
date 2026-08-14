@@ -110,7 +110,7 @@ Captures still PNGs from the composition for visual diffing, thumbnails, or atta
 
 ### Zooming into a reported finding
 
-`hanzo frame check --snapshots` already writes a `finding-NN-<code>.png` crop for every error finding that carries a bbox, but the same zoom is available standalone once you know what to look at:
+`frames check --snapshots` already writes a `finding-NN-<code>.png` crop for every error finding that carries a bbox, but the same zoom is available standalone once you know what to look at:
 
 ```bash
 npx @hanzo/frame check --snapshots               # reports a finding, e.g. content_overlap on "#cta"

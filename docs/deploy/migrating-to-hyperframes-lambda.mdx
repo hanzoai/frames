@@ -9,12 +9,12 @@ If you're already running a different framework that deploys a serverless video 
 
 | In your current framework you call... | In Frames you call... | Notes |
 |--------------------------------------|----------------------------|-------|
-| One-shot deploy command | `hanzo frame lambda deploy` | Builds `packages/aws-lambda/dist/handler.zip` and runs `sam deploy`. Idempotent. |
-| One-shot site upload | `hanzo frame lambda sites create ./project` | Content-addressed S3 key — re-uploads of an unchanged tree are skipped via a HeadObject 200. |
-| Trigger a render | `hanzo frame lambda render ./project --width 1920 --height 1080` | Returns immediately with a `renderId`; add `--wait` to stream per-chunk progress. |
-| Poll render progress | `hanzo frame lambda progress <renderId>` | Includes accrued cost in the same response. |
-| Tear down | `hanzo frame lambda destroy` | The S3 bucket is `Retain`'d — documented in the deploy guide. |
-| Print/validate IAM policy | `hanzo frame lambda policies user`/`role`/`validate` | Wire `validate` into CI to catch policy drift before the next deploy fails. |
+| One-shot deploy command | `frames lambda deploy` | Builds `packages/aws-lambda/dist/handler.zip` and runs `sam deploy`. Idempotent. |
+| One-shot site upload | `frames lambda sites create ./project` | Content-addressed S3 key — re-uploads of an unchanged tree are skipped via a HeadObject 200. |
+| Trigger a render | `frames lambda render ./project --width 1920 --height 1080` | Returns immediately with a `renderId`; add `--wait` to stream per-chunk progress. |
+| Poll render progress | `frames lambda progress <renderId>` | Includes accrued cost in the same response. |
+| Tear down | `frames lambda destroy` | The S3 bucket is `Retain`'d — documented in the deploy guide. |
+| Print/validate IAM policy | `frames lambda policies user`/`role`/`validate` | Wire `validate` into CI to catch policy drift before the next deploy fails. |
 
 ## Composition format
 
@@ -51,7 +51,7 @@ Most adopters' render config maps directly:
 
 ## Variables (inputProps)
 
-Render-time payloads — `inputProps` in some frameworks, `variables` in Frames — are isomorphic. Declare the composition's variable shape on the root `<html>` element via `data-composition-variables`, then pass per-render values with `hanzo frame render --variables '{...}'` locally or `hanzo frame lambda render --variables` on the Lambda surface. The same 256 KiB execution-input cap and "URL your assets, don't inline base64" convention apply.
+Render-time payloads — `inputProps` in some frameworks, `variables` in Frames — are isomorphic. Declare the composition's variable shape on the root `<html>` element via `data-composition-variables`, then pass per-render values with `frames render --variables '{...}'` locally or `frames lambda render --variables` on the Lambda surface. The same 256 KiB execution-input cap and "URL your assets, don't inline base64" convention apply.
 
 The full mapping — `defaultProps` → declarations, `useCurrentFrame()` + `props.<x>` → `__frames.getVariables().<x>`, `renderMediaOnLambda({ inputProps })` → `renderToLambda({ config: { variables } })` — lives in [Templates on Lambda](/deploy/templates-on-lambda#migrating-from-remotion-lambda-inputprops).
 
@@ -79,11 +79,11 @@ Distributed webm files are typically ~10-25% larger than the same composition re
 
 ### State files are local by default
 
-`hanzo frame lambda deploy` writes `<cwd>/.frames/lambda-stack-<name>.json` so subsequent verbs don't re-derive the bucket / state-machine ARN. Two worktrees produce two distinct state files. If you need a shared default location across CI workers, symlink the directory or pass `--stack-name` explicitly on every call.
+`frames lambda deploy` writes `<cwd>/.frames/lambda-stack-<name>.json` so subsequent verbs don't re-derive the bucket / state-machine ARN. Two worktrees produce two distinct state files. If you need a shared default location across CI workers, symlink the directory or pass `--stack-name` explicitly on every call.
 
 ### IAM policy is print-then-narrow
 
-The default policy doc emitted by `hanzo frame lambda policies user/role` uses `Resource: "*"` because the CloudFormation stack creates new ARNs on every adopter's first deploy. After your first successful deploy, narrow the `Resource` to the deployed ARNs — they're predictable from the CFN outputs. CI users typically check the narrowed policy into source and run `hanzo frame lambda policies validate ./infra/policy.json` as a pre-deploy gate.
+The default policy doc emitted by `frames lambda policies user/role` uses `Resource: "*"` because the CloudFormation stack creates new ARNs on every adopter's first deploy. After your first successful deploy, narrow the `Resource` to the deployed ARNs — they're predictable from the CFN outputs. CI users typically check the narrowed policy into source and run `frames lambda policies validate ./infra/policy.json` as a pre-deploy gate.
 
 ## Migration checklist
 
@@ -91,8 +91,8 @@ The default policy doc emitted by `hanzo frame lambda policies user/role` uses `
 2. **Translate** each composition to plain HTML. The `[Concepts](/concepts)` page covers the data-attribute conventions; installing the skills (`npx skills add hanzoai/frames`) makes Claude / Cursor / Codex aware of them too — start at `/frames`, which routes to `/frames-core` for the composition contract.
 3. **Wire** the new composition into your build pipeline alongside the old one. Frames doesn't need an external bundler — you can `npx @hanzo/frame preview` against the HTML directly.
 4. **Deploy** in a separate AWS account or with a `--stack-name=frames-staging` first. Run a real render with `--wait`; verify the output bytes.
-5. **Add the policy** to your CI. `hanzo frame lambda policies user > infra/iam/frames.json` then `hanzo frame lambda policies validate infra/iam/frames.json` on every PR.
-6. **Cut over** by pointing your existing automation at the new render endpoint. Keep the old deployment alive until you've verified rolling renders for a release cycle, then `hanzo frame lambda destroy` the staging stack and decommission the previous one.
+5. **Add the policy** to your CI. `frames lambda policies user > infra/iam/frames.json` then `frames lambda policies validate infra/iam/frames.json` on every PR.
+6. **Cut over** by pointing your existing automation at the new render endpoint. Keep the old deployment alive until you've verified rolling renders for a release cycle, then `frames lambda destroy` the staging stack and decommission the previous one.
 
 ## Non-Lambda runtimes
 

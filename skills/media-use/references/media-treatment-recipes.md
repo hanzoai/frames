@@ -4,7 +4,7 @@ These are optional tested seeds, not the complete capability surface. Read the
 shared policy and choose one relevant section through `media-treatments.md`.
 Agents may modify or combine a seed with compatible canonical controls after
 inspecting the media, or assemble a bespoke payload from
-`hanzo frame media-treatment --capabilities --json` when no seed fits.
+`frames media-treatment --capabilities --json` when no seed fits.
 
 ## Natural Portrait
 

@@ -51,7 +51,7 @@ function parseTransitionIn(raw) {
   return spec;
 }
 
-// Mounted STORYBOARD hanzo frame present in index.html, in document order: { id, frame }.
+// Mounted STORYBOARD frames present in index.html, in document order: { id, frame }.
 function mountedFramesInOrder(manifest, html) {
   const out = [];
   for (const f of manifest.frames) {

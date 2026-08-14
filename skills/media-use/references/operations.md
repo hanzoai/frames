@@ -47,7 +47,7 @@ scenedetect -i in.mp4 detect-adaptive list-scenes           # pip install scened
 
 | Op                 | Command                                            |
 | ------------------ | -------------------------------------------------- |
-| Background removal | `hanzo frame remove-background in.png` (u2net)     |
+| Background removal | `frames remove-background in.png` (u2net)     |
 | Upscale            | `realesrgan-ncnn-vulkan -i in.png -o out.png -s 4` |
 
 After any op: `resolve --from out.ext --type <type>` to register the derived

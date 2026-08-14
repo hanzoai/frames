@@ -42,7 +42,7 @@ Default to `collaborative` only when a legacy project lacks enough state to deri
 | ------------------------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
 | Preference: preset, voice, caption identity                                     | Ask when the workflow marks it as required.                     | Decide and state the choice with a one-line reason.             |
 | Checkpoint: plan, sketches, pre-render review                                   | Ask and wait.                                                   | Post the same summary, then continue.                           |
-| Quality: fetch completeness, `lint`, `hanzo frame check`, workflow verification | Run and stop on errors.                                         | Run and stop on errors.                                         |
+| Quality: fetch completeness, `lint`, `frames check`, workflow verification | Run and stop on errors.                                         | Run and stop on errors.                                         |
 | Routing ambiguity                                                               | Resolve explicitly; a wrong route changes the deliverable.      | Same requirement.                                               |
 | Sign-in or credential unavailable                                               | Show status and wait for sign-in or explicit offline selection. | Show status and continue through an available offline provider. |
 

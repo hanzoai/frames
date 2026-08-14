@@ -103,7 +103,7 @@ All three templates follow the same flow: the browser plays a preview locally, t
 ```
  Browser                    Edge / Function              Sandboxed renderer
 ┌──────────────────┐       ┌────────────────────┐       ┌──────────────────────────┐
-│ <frames-    │ ────▶ │ /api/render        │ ────▶ │ hanzo frame render       │
+│ <frames-    │ ────▶ │ /api/render        │ ────▶ │ frames render       │
 │  player>         │       │  ship composition  │       │  (Chromium + FFmpeg,     │
 │ preview iframe   │       │  → renderer        │       │   pre-installed)         │
 │                  │ ◀──── │  ← stream MP4      │ ◀──── │                          │
@@ -157,7 +157,7 @@ Templates are optimized for **a single render endpoint behind a preview UI**. Th
 
 - A **render queue** with retries, deduplication, or priorities — start from a template, then add your own queue (e.g. Vercel Queues, Cloudflare Queues, SQS).
 - **Multi-tenant rendering** with per-user composition uploads — start from a template, replace the bundled composition with a runtime-fetched one.
-- **Self-hosted** rendering — see the [Rendering guide](/guides/rendering) and run `hanzo frame render --docker` on your own infrastructure.
+- **Self-hosted** rendering — see the [Rendering guide](/guides/rendering) and run `frames render --docker` on your own infrastructure.
 
 For everything else, the templates are the recommended starting point.
 

@@ -97,7 +97,7 @@ Use `selection.target.hfId` when available, otherwise its selector and source fi
 | Self-managed distributed AWS render      | `npx @hanzo/frame lambda render <project> --width 1920 --height 1080 --wait`   |
 | Self-managed distributed GCP render      | `npx @hanzo/frame cloudrun render <project> --width 1920 --height 1080 --wait` |
 
-Skill attribution is automatic — the examples above need no `--skill`. A project scaffolded by a workflow (`hanzo frame init --skill=<workflow>`) records its owning skill in `frames.json`, and every later render inherits it on anonymous telemetry: re-renders, `npm run render`, and `--batch` alike. Pass `--skill=<slug>` explicitly only to stamp a project that was not created through a workflow (its first render then persists it).
+Skill attribution is automatic — the examples above need no `--skill`. A project scaffolded by a workflow (`frames init --skill=<workflow>`) records its owning skill in `frames.json`, and every later render inherits it on anonymous telemetry: re-renders, `npm run render`, and `--batch` alike. Pass `--skill=<slug>` explicitly only to stamp a project that was not created through a workflow (its first render then persists it).
 
 Use cloud rendering when the user wants hosted rendering without local Chrome, FFmpeg, or AWS. Use Lambda only when AWS ownership is a requirement. Use Cloud Run only when GCP ownership is a requirement. Read the matching reference before running any cloud path.
 
@@ -126,7 +126,7 @@ The following references and owning skills are mandatory command contracts, not 
 | Google Cloud Run deployment and rendering                                              | `references/cloudrun.md`              |
 | `info`, `upgrade`, `compositions`, `docs`, `benchmark`, telemetry, media preprocessing | `references/upgrade-info-misc.md`     |
 
-For composition variables, also read `/frames-core` → `references/variables-and-media.md`. For `hanzo frame add` and `hanzo frame catalog`, use `/frames-registry`. Before `hanzo frame present`, read `/slideshow`; before `hanzo frame keyframes`, read `/frames-keyframes`. For TTS, transcription, captions, or background removal choices, use `/media-use`.
+For composition variables, also read `/frames-core` → `references/variables-and-media.md`. For `frames add` and `frames catalog`, use `/frames-registry`. Before `frames present`, read `/slideshow`; before `frames keyframes`, read `/frames-keyframes`. For TTS, transcription, captions, or background removal choices, use `/media-use`.
 
 The specialized commands are deliberately documented by their owning workflows:
 

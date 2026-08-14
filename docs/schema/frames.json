@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://frames.hanzo.ai/schema/frames.json",
   "title": "Hyperframes Project Config",
-  "description": "Per-project configuration for a Hyperframes project (frames.json). Tells `hanzo frame add` which registry to pull items from and where to drop them in the project tree. Created by `hanzo frame init`; users may edit it to point at custom registries or reshape their project layout.",
+  "description": "Per-project configuration for a Hyperframes project (frames.json). Tells `frames add` which registry to pull items from and where to drop them in the project tree. Created by `frames init`; users may edit it to point at custom registries or reshape their project layout.",
   "type": "object",
   "required": ["registry", "paths"],
   "additionalProperties": false,
@@ -55,7 +55,7 @@
     "authoringSkill": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
-      "description": "Owning authoring-workflow skill slug (e.g. product-launch-video). Set by `hanzo frame init --skill` or seeded from the first `hanzo frame render --skill`; every render of this project is then attributed to it on anonymous telemetry, without re-passing the flag."
+      "description": "Owning authoring-workflow skill slug (e.g. product-launch-video). Set by `frames init --skill` or seeded from the first `frames render --skill`; every render of this project is then attributed to it on anonymous telemetry, without re-passing the flag."
     }
   }
 }

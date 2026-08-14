@@ -8,11 +8,14 @@ name: publish
 # in both directions, so there is none: the job is idempotent and a push that
 # changes nothing publishes nothing.
 #
-# The tarball is packed by bun and uploaded by npm. That split is deliberate.
-# Every package depends on its siblings through `workspace:` specifiers, which
-# npm cannot resolve; bun rewrites them to the concrete version as it packs.
-# npm then does the half it is good at — registry auth and upload. Neither tool
-# is asked to do the other's job, and no manifest is rewritten in place.
+# The tarball is packed by scripts/pack.mjs and uploaded by npm. That split is
+# deliberate. Every package depends on its siblings through `workspace:`
+# specifiers, which npm cannot resolve; the packer builds on bun, which rewrites
+# them to the concrete version, and applies the publishConfig entrypoints on top.
+# npm then does the half it is good at — registry auth and upload.
+#
+# verify:packed-manifests calls that same packer, so the tarball inspected in
+# the build step is the tarball this job uploads.
 
 on:
   push:
@@ -147,7 +150,7 @@ jobs:
           set -e
           mkdir -p "$RUNNER_TEMP/tarballs"
           for dir in ${{ steps.plan.outputs.pending }}; do
-            ( cd "packages/$dir" && bun pm pack --destination "$RUNNER_TEMP/tarballs" )
+            node scripts/pack.mjs "packages/$dir" "$RUNNER_TEMP/tarballs"
           done
           for tarball in "$RUNNER_TEMP"/tarballs/*.tgz; do
             echo "publishing $(basename "$tarball")"

@@ -17,6 +17,8 @@ import { extname, join, posix } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
+import { packWorkspace } from "./pack.mjs";
+
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
 const DEP_FIELDS = ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"];
@@ -226,15 +228,6 @@ function verifyPackedJavaScriptImports(workspace, filename, packedFiles) {
   }
 }
 
-function parsePackJson(output, workspace) {
-  try {
-    const parsed = JSON.parse(output);
-    return Array.isArray(parsed) ? parsed : [parsed];
-  } catch {
-    throw new Error(`Could not parse pnpm pack JSON output for ${workspace}`);
-  }
-}
-
 function readWorkspacePackage(workspace) {
   return JSON.parse(readFileSync(join(ROOT, workspace, "package.json"), "utf8"));
 }
@@ -246,15 +239,6 @@ function assertPublishedExportsMatchSource(workspace, sourcePackageJson) {
   throw new Error(
     `${workspace} publishConfig.exports is missing source exports: ${missingPublishedExports.join(", ")}`,
   );
-}
-
-function packWorkspace(workspace, packDir) {
-  const packOutput = execFileSync("pnpm", ["pack", "--json", "--pack-destination", packDir], {
-    cwd: join(ROOT, workspace),
-    encoding: "utf8",
-  });
-  const [{ filename }] = parsePackJson(packOutput, workspace);
-  return filename;
 }
 
 function readPackedPackage(filename) {
@@ -449,15 +433,11 @@ function verifyPackedConsumer(packDir, packedWorkspaces) {
     encoding: "utf8",
     stdio: "pipe",
   });
-  const cliOutput = execFileSync(
-    join(fixtureDir, "node_modules", ".bin", "frames"),
-    ["--help"],
-    {
-      cwd: fixtureDir,
-      encoding: "utf8",
-      env: { ...process.env, FRAMES_TELEMETRY_DISABLED: "1" },
-    },
-  );
+  const cliOutput = execFileSync(join(fixtureDir, "node_modules", ".bin", "frames"), ["--help"], {
+    cwd: fixtureDir,
+    encoding: "utf8",
+    env: { ...process.env, FRAMES_TELEMETRY_DISABLED: "1" },
+  });
   if (!cliOutput.toLowerCase().includes("frames")) {
     throw new Error("Packed CLI help did not identify Frames");
   }

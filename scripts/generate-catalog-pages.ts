@@ -27,7 +27,10 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");
 const registryDir = resolve(repoRoot, "registry");
 const docsDir = resolve(repoRoot, "docs");
-const catalogImageBase = "https://static.heygen.ai/frames-oss/docs/images/catalog";
+// Previews resolve from the docs site's own /images/ path, produced by
+// `bun run generate:catalog-previews` at deploy time. Root-relative, so the
+// emitted pages carry no host and match what is already checked in.
+const catalogImageBase = "/images/catalog";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 

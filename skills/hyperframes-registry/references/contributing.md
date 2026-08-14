@@ -117,7 +117,7 @@ npx @hanzo/frames publish
 **Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
 
 - **Maintainers:** regenerate previews with `bun run generate:catalog-previews`; they are served from the docs site's own `/images/` path, so nothing is uploaded anywhere
-- **External contributors:** attach the preview MP4 to your PR description. A maintainer will generate and upload the catalog image before merging.
+- **External contributors:** attach the preview MP4 to your PR description. A maintainer will generate the catalog image before merging.
 
 ### Step 6: Ship
 

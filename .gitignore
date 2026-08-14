@@ -17,9 +17,9 @@ lefthook-local.yml
 .DS_Store
 Thumbs.db
 
-# Docs media — served from CDN, not committed.
-# Regenerate with scripts/generate-{catalog,template}-previews.ts then upload
-# with `bun run upload:docs-images`. Add explicit negations below for any
+# Docs media — built at deploy time, not committed. Regenerate with
+# scripts/generate-{catalog,template}-previews.ts; the docs site serves them
+# from its own /images/ path. Add explicit negations below for any
 # non-generated assets (logos, svgs) that should stay in the repo.
 docs/images/
 

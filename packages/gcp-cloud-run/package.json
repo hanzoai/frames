@@ -1,6 +1,6 @@
 {
   "name": "@hanzo/frames-gcp-cloud-run",
-  "version": "0.7.82",
+  "version": "0.7.83",
   "description": "Google Cloud Run + Workflows adapter for Frames distributed rendering — request handler, client-side SDK, and Terraform module.",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "@hanzo/frames",
-  "version": "0.7.82",
+  "version": "0.7.83",
   "description": "Frames CLI — create, preview, and render HTML video compositions",
   "license": "Apache-2.0",
   "repository": {

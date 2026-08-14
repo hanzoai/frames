@@ -11,6 +11,22 @@ Entries are a record of what shipped, kept as written. Frames began as a fork; e
 {/* New release entries are prepended by `bun run changelog:draft <version> --write`. */}
 
 <Update
+  label="Frames v0.7.83"
+  description="Released - 2026-08-13"
+  tags={["Release", "CLI", "Player", "Docs"]}
+>
+The toolchain publishes as `@hanzo/frames`. The singular `@hanzo/frame` belongs to the hero video primitive that already holds that name on npm; this is the many-frames toolchain, so it takes the plural and the workspace packages follow it (`@hanzo/frames-core`, `@hanzo/frames-engine`, and the rest). This is also the first release of the port that installs and updates correctly: the CLI manifest mapped `frames` to a `bin/frames.mjs` that did not exist, and the update path resolved the unscoped `frames` name — a different author's package — so a self-update could pull a stranger's code over the CLI.
+
+## Fixes
+
+- **CLI:** Ship the `frames` binary the manifest declares
+- **CLI:** Check for updates against `@hanzo/frames`, and install with the scoped name for npm, bun, and pnpm
+- **CLI:** Scaffolded projects and the render image pin `@hanzo/frames`, replacing an unscoped and an upstream specifier
+- **Player:** Publish as a public scoped package
+- **Docs:** Voice guidance names both routes — hosted speech on a Hanzo credential, and `frames tts` running Kokoro on-device with no account
+</Update>
+
+<Update
   label="Frames v0.7.81"
   description="Released - 2026-07-29"
   tags={["Release", "Producer"]}

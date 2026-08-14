@@ -52,7 +52,7 @@ export function resolveProjectOrThrow(
     throw new InvalidProjectError(
       "No composition found in " + dir,
       "No index.html file found.",
-      "Run npx frames init to create a new composition.",
+      "Run npx @hanzo/frames init to create a new composition.",
     );
   }
 

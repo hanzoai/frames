@@ -1,5 +1,5 @@
 {
-  "name": "@hanzo/frame-player",
+  "name": "@hanzo/frames-player",
   "version": "0.7.82",
   "description": "Embeddable web component for Frames compositions",
   "repository": {
@@ -27,6 +27,9 @@
       "require": "./dist/slideshow/frames-slideshow.cjs"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup && node scripts/verify-runtime-pin.mjs",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/perf/tsconfig.json",
@@ -34,7 +37,7 @@
     "perf": "bun run tests/perf/index.ts"
   },
   "dependencies": {
-    "@hanzo/frame-core": "workspace:*"
+    "@hanzo/frames-core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "^1.1.0",

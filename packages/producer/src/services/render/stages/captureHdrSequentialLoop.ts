@@ -18,7 +18,7 @@ import {
   type TransitionFn,
   TRANSITIONS,
   crossfade,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import type { ProducerLogger } from "../../../logger.js";
 import {
   type HdrCompositeContext,

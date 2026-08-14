@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect } from "vitest";
-import { openComposition } from "@hanzo/frame-sdk";
-import { createMemoryAdapter } from "@hanzo/frame-sdk/adapters/memory";
-import { parseGsapScriptAcorn } from "@hanzo/frame-core/gsap-parser-acorn";
+import { openComposition } from "@hanzo/frames-sdk";
+import { createMemoryAdapter } from "@hanzo/frames-sdk/adapters/memory";
+import { parseGsapScriptAcorn } from "@hanzo/frames-core/gsap-parser-acorn";
 import { mergeTweenProperties } from "./useGsapPropertyDebounce";
 import { extractGsapScriptText } from "../utils/gsapSoftReload";
 

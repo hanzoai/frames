@@ -5,7 +5,7 @@
  * touches getComputedStyle and only resolves meaningfully against a laid-out DOM.
  */
 
-import { resolveEditingAffordances, type EditingAffordances } from "@hanzo/frame-core/editing";
+import { resolveEditingAffordances, type EditingAffordances } from "@hanzo/frames-core/editing";
 import type { FramesElement } from "../types.js";
 
 export interface AffordanceContext {

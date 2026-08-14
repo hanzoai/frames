@@ -1,7 +1,7 @@
 import {
   calculateHfColorGradingSecondaryMask,
   type NormalizedHfColorGradingSecondary,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import { clampNumber } from "../../utils/studioHelpers";
 
 const BYTE_MAX = 255;

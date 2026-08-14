@@ -3,7 +3,7 @@ name: product-launch-video
 description: "Turn a product or marketing URL, pasted script, or brief into a product launch / promo video — SaaS promos, feature reveals, product demos, app and company launches. Use when the user wants to market, launch, promote, or reveal a product; the default for any commercial URL. Site tours / showcases of a website route here too — the brief carries the show-it-as-is intent. Unclear → /frames."
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update product-launch-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frames skills update product-launch-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **media-use**: Before sourcing audio/images/logos, call `/media-use` to resolve BGM/SFX/images from the shared catalog and brand logos from their official sources. Run `--adopt` first to register existing assets. See `/media-use` skill.
 
@@ -29,7 +29,7 @@ Goal: Enter with a confirmed brief, create the Frames project, and make the brie
 
 Initialize only if `frames.json` is missing. Name `<project>` from the brand or domain in kebab-case, such as `acme-promo`; never use workspace name or timestamp.
 
-`npx @hanzo/frame init "videos/<project>" --non-interactive --example=blank --skill=product-launch-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
+`npx @hanzo/frames init "videos/<project>" --non-interactive --example=blank --skill=product-launch-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 After init, let `<PROJECT_ROOT>` be `videos/<project>` and run every subsequent relative-path command with that directory as its working directory. In the commands below, `.` means `<PROJECT_ROOT>`; never write `.media`, `capture`, or output files in the caller directory.
 
@@ -52,7 +52,7 @@ Goal: Collect the source material, brand signals, and usable assets for the vide
 
 Classify the input and choose the path. Explicit URL -> capture it and use the site for narration and assets. Pasted script/brief -> save verbatim as `user_script.txt`; `VO_MODE` (verbatim or restructured) comes from `BRIEF.md` — the intent layer asks it when a script arrives (ask once here only if the brief somehow lacks it). Then resolve capture target: URL in text -> use it; brand name only -> `WebSearch`, confirm URL in one line, then crawl; no URL/site (or the brief says don't scrape) -> no-capture path.
 
-Run capture with: `npx @hanzo/frame capture "<URL>" -o ./capture`
+Run capture with: `npx @hanzo/frames capture "<URL>" -o ./capture`
 
 If `HANZO_API_KEY` exists, capture auto-captions assets into `capture/extracted/asset-descriptions.md`. This is not a review gate. Without it, use DOM context and continue.
 
@@ -182,11 +182,11 @@ Inject transitions, run checks, pause for review, then render.
 
 `node <SKILL_DIR>/scripts/transitions.mjs verify --storyboard ./STORYBOARD.md --index ./index.html`
 
-`npx @hanzo/frame lint`
+`npx @hanzo/frames lint`
 
-`npx @hanzo/frame check`
+`npx @hanzo/frames check`
 
-`npx @hanzo/frame snapshot --at <frame-midpoints>`
+`npx @hanzo/frames snapshot --at <frame-midpoints>`
 
 `snapshot` stitches the captured frames into one contact sheet (`snapshots/contact-sheet.jpg`). Glance at it; if nothing is obviously broken, move on — don't linger here.
 
@@ -194,11 +194,11 @@ If a command fails, surface stderr and stop — don't pile on recovery commands.
 
 After checks pass, pause for user review — the review loop's final look (`../frames-core/references/review-loop.md` § 4): one question, on the Studio that has been open since Step 3 — render now, or what changes? (Autonomous: the one kept question, preview first or render.) Then deliver the MP4 with the contact sheet and the frame ids so revisions can target a single frame.
 
-Preview: `npx @hanzo/frame preview`
+Preview: `npx @hanzo/frames preview`
 
 Render only after user approval (autonomous mode: after the preview-or-render question):
 
-`npx @hanzo/frame render --skill=product-launch-video --quality high --output renders/video.mp4`
+`npx @hanzo/frames render --skill=product-launch-video --quality high --output renders/video.mp4`
 
 Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks.
 
@@ -214,21 +214,21 @@ Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks
 
 The reusable, product-agnostic shot shapes live in `../frames-animation/blueprints/` (indexed by `../frames-animation/blueprints-index.md`).
 
-| Read                                                                                                                                                        | When                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `[../frames-core/references/brief-contract.md](../frames-core/references/brief-contract.md)`                                                      | Gate types, mode derivation from `BRIEF.md`, field semantics.                  |
-| `[../frames-creative/references/story-spine.md](../frames-creative/references/story-spine.md)`                                                    | Step 3: story doctrine — hook language, value-before-evidence, proposal shape. |
-| `[../frames-creative/frame-presets/](../frames-creative/frame-presets/)`                                                                          | Step 2: choose and adopt a frame preset.                                       |
-| `[../frames-creative/references/design-spec.md](../frames-creative/references/design-spec.md)`                                                    | Step 2: apply brand tokens correctly.                                          |
-| `[references/story-design.md](references/story-design.md)`                                                                                                  | Step 3: plan the product-launch story.                                         |
-| `[../frames-animation/blueprints-index.md](../frames-animation/blueprints-index.md)`                                                              | Step 3: role→blueprint menu. Step 4: pick the shot shape.                      |
-| `[../frames-core/references/storyboard-format.md](../frames-core/references/storyboard-format.md)`                                                | Step 3: write `STORYBOARD.md`.                                                 |
-| `[../frames-core/references/script-format.md](../frames-core/references/script-format.md)`                                                        | Step 3: write `SCRIPT.md`.                                                     |
-| `[../media-use/audio/references/tts.md](../media-use/audio/references/tts.md)`                                                                              | Step 3.1: choose or understand TTS providers and voices.                       |
-| `[references/visual-design.md](references/visual-design.md)`                                                                                                | Step 4: write the frame's shot sequence (+ Layout vocabulary).                 |
-| `[references/motion-language.md](references/motion-language.md)`                                                                                            | Step 4: the motion vocabulary + the motion doctrine.                           |
-| `[references/cut-catalog.md](references/cut-catalog.md)`                                                                                                    | Step 4-5: the cut catalog (worker builds within-frame seams).                  |
+| Read                                                                                                                                    | When                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `[../frames-core/references/brief-contract.md](../frames-core/references/brief-contract.md)`                                            | Gate types, mode derivation from `BRIEF.md`, field semantics.                  |
+| `[../frames-creative/references/story-spine.md](../frames-creative/references/story-spine.md)`                                          | Step 3: story doctrine — hook language, value-before-evidence, proposal shape. |
+| `[../frames-creative/frame-presets/](../frames-creative/frame-presets/)`                                                                | Step 2: choose and adopt a frame preset.                                       |
+| `[../frames-creative/references/design-spec.md](../frames-creative/references/design-spec.md)`                                          | Step 2: apply brand tokens correctly.                                          |
+| `[references/story-design.md](references/story-design.md)`                                                                              | Step 3: plan the product-launch story.                                         |
+| `[../frames-animation/blueprints-index.md](../frames-animation/blueprints-index.md)`                                                    | Step 3: role→blueprint menu. Step 4: pick the shot shape.                      |
+| `[../frames-core/references/storyboard-format.md](../frames-core/references/storyboard-format.md)`                                      | Step 3: write `STORYBOARD.md`.                                                 |
+| `[../frames-core/references/script-format.md](../frames-core/references/script-format.md)`                                              | Step 3: write `SCRIPT.md`.                                                     |
+| `[../media-use/audio/references/tts.md](../media-use/audio/references/tts.md)`                                                          | Step 3.1: choose or understand TTS providers and voices.                       |
+| `[references/visual-design.md](references/visual-design.md)`                                                                            | Step 4: write the frame's shot sequence (+ Layout vocabulary).                 |
+| `[references/motion-language.md](references/motion-language.md)`                                                                        | Step 4: the motion vocabulary + the motion doctrine.                           |
+| `[references/cut-catalog.md](references/cut-catalog.md)`                                                                                | Step 4-5: the cut catalog (worker builds within-frame seams).                  |
 | `[../frames-animation/rules-index.md](../frames-animation/rules-index.md)` + `[../frames-animation/rules/](../frames-animation/rules/)` | Step 5: local rule recipe bodies for the cited motions.                        |
-| `[../frames-core/references/frame-worker-core.md](../frames-core/references/frame-worker-core.md)`                                                | Step 5: the shared worker contract (packet builder prepends it to the delta).  |
-| `[sub-agents/frame-worker.md](sub-agents/frame-worker.md)`                                                                                                  | Step 5: the workflow's frame-worker delta.                                     |
-| `[../frames-core/references/subagent-dispatch.md](../frames-core/references/subagent-dispatch.md)`                                                | Step 5: dispatch sub-agents safely.                                            |
+| `[../frames-core/references/frame-worker-core.md](../frames-core/references/frame-worker-core.md)`                                      | Step 5: the shared worker contract (packet builder prepends it to the delta).  |
+| `[sub-agents/frame-worker.md](sub-agents/frame-worker.md)`                                                                              | Step 5: the workflow's frame-worker delta.                                     |
+| `[../frames-core/references/subagent-dispatch.md](../frames-core/references/subagent-dispatch.md)`                                      | Step 5: dispatch sub-agents safely.                                            |

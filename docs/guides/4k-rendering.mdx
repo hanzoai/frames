@@ -9,13 +9,13 @@ Hyperframes renders to 4K (3840×2160) two ways. Both produce a true 4K MP4; pic
   <Card title="Author at 4K" icon="ruler">
     Scaffold the project at 4K so the composition is laid out at 4K natively. Best when you want crisp 4K-native typography and assets.
     ```bash
-    npx @hanzo/frame init my-video --resolution 4k
+    npx @hanzo/frames init my-video --resolution 4k
     ```
   </Card>
   <Card title="Supersample at render" icon="up-right-and-down-left-from-center">
     Keep your existing 1080p composition. Pass `--resolution 4k` at render time and Chrome renders at 2× DPR so the screenshot lands at 4K.
     ```bash
-    npx @hanzo/frame render --resolution 4k --output 4k.mp4
+    npx @hanzo/frames render --resolution 4k --output 4k.mp4
     ```
   </Card>
 </CardGroup>
@@ -25,14 +25,14 @@ Hyperframes renders to 4K (3840×2160) two ways. Both produce a true 4K MP4; pic
 <Steps>
   <Step title="Render an existing project at 4K">
     ```bash Terminal
-    npx @hanzo/frame render --resolution 4k --output my-video-4k.mp4
+    npx @hanzo/frames render --resolution 4k --output my-video-4k.mp4
     ```
 
     The composition's `data-width` / `data-height` are unchanged. Chrome's `deviceScaleFactor` is set to `2`, so the captured screenshot for each frame is 3840×2160. ffmpeg auto-detects the dimensions from the screenshot stream and encodes at 4K.
   </Step>
   <Step title="Or scaffold a new project at 4K">
     ```bash Terminal
-    npx @hanzo/frame init my-video --resolution 4k
+    npx @hanzo/frames init my-video --resolution 4k
     ```
 
     Every scaffolded HTML file is patched in place: `data-width="3840"`, `data-height="2160"`, `data-resolution="landscape-4k"`, `#stage` CSS dimensions, and the `<meta viewport>` tag.
@@ -66,9 +66,9 @@ Hyperframes renders to 4K (3840×2160) two ways. Both produce a true 4K MP4; pic
 Examples:
 
 ```bash Terminal
-npx @hanzo/frame render --resolution 4k         # landscape 4K
-npx @hanzo/frame render --resolution portrait-4k # vertical 4K (TikTok / Reels at max quality)
-npx @hanzo/frame render --resolution 1080p       # explicit 1080p (no-op on 1080p compositions)
+npx @hanzo/frames render --resolution 4k         # landscape 4K
+npx @hanzo/frames render --resolution portrait-4k # vertical 4K (TikTok / Reels at max quality)
+npx @hanzo/frames render --resolution 1080p       # explicit 1080p (no-op on 1080p compositions)
 ```
 
 ## How `--resolution` works (supersampling)

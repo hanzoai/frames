@@ -1,4 +1,4 @@
-import type { CapturePerfSummary } from "@hanzo/frame-engine";
+import type { CapturePerfSummary } from "@hanzo/frames-engine";
 import type { RenderObservabilityRecorder } from "./observability.js";
 
 /**

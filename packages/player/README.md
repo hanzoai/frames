@@ -1,23 +1,23 @@
-# @hanzo/frame-player
+# @hanzo/frames-player
 
 Embeddable web component for playing Frames compositions. Zero dependencies, works with any framework.
 
 ## Install
 
 ```bash
-npm install @hanzo/frame-player
+npm install @hanzo/frames-player
 ```
 
 Or load directly via CDN:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/npm/@hanzo/frame-player"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@hanzo/frames-player"></script>
 ```
 
 If you need a classic `<script>` tag instead of ESM, use the explicit global build:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hanzo/frame-player/dist/frames-player.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hanzo/frames-player/dist/frames-player.global.js"></script>
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ The player loads the composition in a sandboxed iframe, auto-detects its dimensi
 ### With a framework
 
 ```typescript
-import "@hanzo/frame-player";
+import "@hanzo/frames-player";
 
 // The custom element is now registered — use it in your markup
 // React: <frames-player src="..." controls />
@@ -66,7 +66,7 @@ Show a static image before playback starts:
 
 ### Shader transition previews
 
-When a composition uses `@hanzo/frame-shader-transitions`, the player can own preview-only shader capture settings:
+When a composition uses `@hanzo/frames-shader-transitions`, the player can own preview-only shader capture settings:
 
 ```html
 <frames-player
@@ -141,10 +141,10 @@ iframe.contentDocument.querySelectorAll("[data-composition-id]");
 iframe.contentWindow.__timelines;
 ```
 
-This is the canonical way to bridge the player into tools like [`@hanzo/frame-studio`](../studio). The studio exports a `resolveIframe` helper that works with both iframe refs and web-component refs:
+This is the canonical way to bridge the player into tools like [`@hanzo/frames-studio`](../studio). The studio exports a `resolveIframe` helper that works with both iframe refs and web-component refs:
 
 ```ts
-import { useTimelinePlayer, resolveIframe } from "@hanzo/frame-studio";
+import { useTimelinePlayer, resolveIframe } from "@hanzo/frames-studio";
 
 const { iframeRef } = useTimelinePlayer();
 const player = document.createElement("frames-player");
@@ -160,9 +160,9 @@ iframeRef.current = resolveIframe(player);
 If you prefer JSX over imperative element creation, attach a ref directly to the web component and resolve the iframe inside an effect:
 
 ```tsx
-import "@hanzo/frame-player";
-import type { HyperframesPlayer } from "@hanzo/frame-player";
-import { useTimelinePlayer, resolveIframe } from "@hanzo/frame-studio";
+import "@hanzo/frames-player";
+import type { HyperframesPlayer } from "@hanzo/frames-player";
+import { useTimelinePlayer, resolveIframe } from "@hanzo/frames-studio";
 
 function StudioPreview({ src }: { src: string }) {
   const { iframeRef, onIframeLoad } = useTimelinePlayer();
@@ -178,7 +178,7 @@ function StudioPreview({ src }: { src: string }) {
 
 > **Heads up — common gotcha**
 >
-> If you pass the `<frames-player>` element itself (not `iframeElement`) into a hook that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Always extract `iframeElement` first, or use `resolveIframe` from `@hanzo/frame-studio` which handles both iframe and web-component hosts transparently.
+> If you pass the `<frames-player>` element itself (not `iframeElement`) into a hook that expects an `<iframe>`, every `.contentWindow` / `.contentDocument` access returns `null` because the iframe lives inside the player's Shadow DOM. Always extract `iframeElement` first, or use `resolveIframe` from `@hanzo/frames-studio` which handles both iframe and web-component hosts transparently.
 
 ## Events
 

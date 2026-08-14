@@ -10,7 +10,7 @@
  */
 
 import type { Page } from "puppeteer-core";
-import { parseAnimatedGifMetadata } from "@hanzo/frame-core";
+import { parseAnimatedGifMetadata } from "@hanzo/frames-core";
 
 export interface CatalogedAsset {
   url: string;

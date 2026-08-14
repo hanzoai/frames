@@ -51,7 +51,7 @@ import {
   type FpsInput,
   fpsToNumber,
   toFps,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 import {
   type EngineConfig,
   resolveConfig,
@@ -88,7 +88,7 @@ import {
   getDrawElementVerificationDetails,
   augmentProtocolTimeoutError,
   augmentPageNavigationTimeoutError,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import { join, dirname, resolve } from "path";
 import { totalmem } from "node:os";
 import { randomUUID } from "crypto";
@@ -259,7 +259,7 @@ export interface RenderConfig {
    * Frame rate as an exact rational. Integer fps is `{ num: 30, den: 1 }`;
    * NTSC is `{ num: 30000, den: 1001 }`. This shape lets the orchestrator
    * pass the exact rational through to FFmpeg's `-r` / `-framerate` flags
-   * without a decimal round-trip — see `fpsToFfmpegArg` in @hanzo/frame-core.
+   * without a decimal round-trip — see `fpsToFfmpegArg` in @hanzo/frames-core.
    *
    * Use `fpsToNumber(config.fps)` at any site that needs a `number` for
    * arithmetic (frame-index → time, telemetry, frame-interval ms). Decimal
@@ -382,7 +382,7 @@ export interface RenderPerfSummary {
    * htmlInCanvas / low-memory pins short-circuited sizing). `boundBy` names
    * the binding constraint; the heap fields are the advisory budget being
    * validated by fleet telemetry before enforcement — see
-   * `computeWorkerSizing` in @hanzo/frame-engine.
+   * `computeWorkerSizing` in @hanzo/frames-engine.
    */
   workerSizing?: WorkerSizing;
   chunkedEncode: boolean;

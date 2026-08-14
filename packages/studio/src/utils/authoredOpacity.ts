@@ -1,11 +1,11 @@
 /**
  * Authored-opacity contract, studio side. The runtime stamps every graded
  * element's authored inline opacity at document parse time (see
- * installAuthoredOpacityCapture in @hanzo/frame-core); studio code that makes
+ * installAuthoredOpacityCapture in @hanzo/frames-core); studio code that makes
  * GSAP re-initialize tweens (soft reload, in-place patches) restores it so
  * re-captures never bake a runtime transient in as a tween bound.
  */
-import { COLOR_GRADING_AUTHORED_OPACITY_ATTR } from "@hanzo/frame-core/color-grading";
+import { COLOR_GRADING_AUTHORED_OPACITY_ATTR } from "@hanzo/frames-core/color-grading";
 
 interface AttributeReader {
   getAttribute(name: string): string | null;

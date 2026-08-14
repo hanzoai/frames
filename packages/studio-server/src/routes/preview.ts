@@ -2,8 +2,8 @@ import type { Hono } from "hono";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
-import { injectScriptsIntoHtml, stripEmbeddedRuntimeScripts } from "@hanzo/frame-core/compiler";
-import { isWithinProjectRoot } from "@hanzo/frame-parsers/asset-resolution";
+import { injectScriptsIntoHtml, stripEmbeddedRuntimeScripts } from "@hanzo/frames-core/compiler";
+import { isWithinProjectRoot } from "@hanzo/frames-parsers/asset-resolution";
 import type { StudioApiAdapter } from "../types.js";
 import { resolveWithinProject } from "../helpers/safePath.js";
 import { getMimeType } from "../helpers/mime.js";
@@ -16,7 +16,7 @@ import {
   createStudioMotionRenderBodyScript,
   STUDIO_MOTION_PATH,
 } from "../helpers/studioMotionRenderScript.js";
-import { ensureHfIds } from "@hanzo/frame-parsers/hf-ids";
+import { ensureHfIds } from "@hanzo/frames-parsers/hf-ids";
 import { persistHfIdsIfNeeded, stampFileHfIds } from "../helpers/hfIdPersist.js";
 import { isVariablesPayload, VARIABLES_PAYLOAD_ERROR } from "../helpers/variablesPayload.js";
 import {

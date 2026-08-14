@@ -120,7 +120,7 @@ function applyUpgrade(result: UpdateCheckResult, autoYes: boolean): void {
   const installer = detectInstaller();
   const invocation = installInvocation(installer.kind, result.latest);
   const displayCmd = installer.installCommand(result.latest);
-  const npxFallback = `npx frames@${result.latest}`;
+  const npxFallback = `npx @hanzo/frames@${result.latest}`;
 
   // Undetectable / ephemeral (npx, bunx) / project-local / workspace: don't
   // guess a manager command; point at the universal npx fallback instead.
@@ -223,7 +223,7 @@ function printProjectPinResult(
     `   ${c.success("◇")}  ${verb} project scripts ${res.from.join(", ")} → ${c.accent(res.to)}`,
   );
   if (checkOnly)
-    console.log(`   ${c.dim("Run `npx frames@latest upgrade --project` to apply.")}`);
+    console.log(`   ${c.dim("Run `npx @hanzo/frames@latest upgrade --project` to apply.")}`);
 }
 
 export function runDetectedInstall(

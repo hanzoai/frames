@@ -1,5 +1,5 @@
 import { existsSync } from "fs";
-import { FFMPEG_PATH_ENV, FFPROBE_PATH_ENV, findFfBinary } from "@hanzo/frame-parsers/ff-binaries";
+import { FFMPEG_PATH_ENV, FFPROBE_PATH_ENV, findFfBinary } from "@hanzo/frames-parsers/ff-binaries";
 
 export { FFMPEG_PATH_ENV, FFPROBE_PATH_ENV };
 

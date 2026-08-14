@@ -87,12 +87,12 @@ describe("printUpdateNotice — install-method-aware command", () => {
     const out = await noticeWith({ installerCommand: "brew upgrade frames" });
     expect(out).toContain("Update available");
     expect(out).toContain("brew upgrade frames");
-    expect(out).not.toContain("npx frames@latest");
+    expect(out).not.toContain("npx @hanzo/frames@latest");
   });
 
-  it("falls back to npx frames@latest when the install method is skip/unknown", async () => {
+  it("falls back to npx @hanzo/frames@latest when the install method is skip/unknown", async () => {
     const out = await noticeWith({ installerCommand: null });
-    expect(out).toContain("npx frames@latest");
+    expect(out).toContain("npx @hanzo/frames@latest");
   });
 
   it("is suppressed on a non-TTY stderr", async () => {

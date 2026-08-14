@@ -18,7 +18,7 @@ describe("rewriteProjectPinnedScripts", () => {
     check: "npx --yes frames@0.7.48 check",
     render: "npx --yes frames@0.7.48 render",
     unrelated: "echo hi",
-    unpinned: "npx frames render",
+    unpinned: "npx @hanzo/frames render",
   };
 
   it("bumps every pinned frames script to the target, leaving others untouched", () => {
@@ -28,14 +28,11 @@ describe("rewriteProjectPinnedScripts", () => {
     expect(r.scripts.render).toBe("npx --yes frames@0.7.55 render");
     expect(r.scripts.dev).toBe("npx --yes frames@0.7.55 preview");
     expect(r.scripts.unrelated).toBe("echo hi");
-    expect(r.scripts.unpinned).toBe("npx frames render");
+    expect(r.scripts.unpinned).toBe("npx @hanzo/frames render");
   });
 
   it("is a no-op when already at target", () => {
-    const at = rewriteProjectPinnedScripts(
-      { render: "npx --yes frames@0.7.55 render" },
-      "0.7.55",
-    );
+    const at = rewriteProjectPinnedScripts({ render: "npx --yes frames@0.7.55 render" }, "0.7.55");
     expect(at.changed).toBe(false);
     expect(at.fromVersions).toEqual([]);
   });
@@ -50,8 +47,8 @@ describe("rewriteProjectPinnedScripts", () => {
     expect(
       readPinnedHyperframesVersions({
         a: "npx --yes frames@0.7.48 render",
-        b: "npx frames@0.7.50 check",
-        c: "npx frames render",
+        b: "npx @hanzo/frames@0.7.50 check",
+        c: "npx @hanzo/frames render",
       }),
     ).toEqual(["0.7.48", "0.7.50"]);
   });

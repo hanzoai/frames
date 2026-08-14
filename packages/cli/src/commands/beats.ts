@@ -2,7 +2,7 @@ import { failCommand } from "../utils/commandResult.js";
 import { defineCommand } from "citty";
 import { existsSync, readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { resolve, join, dirname } from "node:path";
-import { findMusicAudioSrc, audioRelPathForSrc, serializeBeats } from "@hanzo/frame-core/beats";
+import { findMusicAudioSrc, audioRelPathForSrc, serializeBeats } from "@hanzo/frames-core/beats";
 import type { Example } from "./_examples.js";
 import { resolveProject, type ProjectDir } from "../utils/project.js";
 import { analyzeBeatsHeadless, type HeadlessBeatResult } from "../beats/headlessAnalyzer.js";
@@ -40,7 +40,7 @@ async function detect(audioPath: string): Promise<HeadlessBeatResult> {
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     const hint = /chrome|executable|browser|ENOENT/i.test(msg)
-      ? "\nRun: npx frames browser ensure"
+      ? "\nRun: npx @hanzo/frames browser ensure"
       : "";
     fail(`Beat detection failed: ${msg}${hint}`);
   }

@@ -6,7 +6,7 @@ import {
   patchElementInHtml,
   type PatchOperation,
   type SourceMutationTarget,
-} from "@hanzo/frame-studio-server/source-mutation";
+} from "@hanzo/frames-studio-server/source-mutation";
 import { describe, expect, it } from "vitest";
 import {
   collectDomEditTextFields,

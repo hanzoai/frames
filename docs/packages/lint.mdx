@@ -12,7 +12,7 @@ npm install @frames/lint
 ## When to Use
 
 <Tip>
-  This package is the payoff of running validation **as a library** instead of shelling out to the CLI. A Node app (an agent harness, a CI step, an editor plugin) can `import { lintProject } from '@frames/lint'` and lint a composition directory directly — no `npx @hanzo/frame lint` subprocess, no stdout parsing.
+  This package is the payoff of running validation **as a library** instead of shelling out to the CLI. A Node app (an agent harness, a CI step, an editor plugin) can `import { lintProject } from '@frames/lint'` and lint a composition directory directly — no `npx @hanzo/frames lint` subprocess, no stdout parsing.
 </Tip>
 
 **Use `@frames/lint` when you need to:**
@@ -136,7 +136,7 @@ Detected issues include:
     Types and runtime; re-exports the linter for back-compat.
   </Card>
   <Card title="CLI" icon="terminal" href="/packages/cli">
-    `npx @hanzo/frame lint` wraps this package.
+    `npx @hanzo/frames lint` wraps this package.
   </Card>
   <Card title="Studio" icon="palette" href="/packages/studio">
     Surfaces lint findings in the editor.

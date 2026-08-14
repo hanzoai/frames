@@ -1,4 +1,4 @@
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import type { DomEditSelection } from "./domEditingTypes";
 
 /**

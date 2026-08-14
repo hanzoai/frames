@@ -9,14 +9,14 @@ import {
   type CanvasResolution,
   type Fps,
   type FpsParseResult,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 import {
   EXTRACT_CACHE_DIR_DISABLED_ALIASES,
   MAX_VP9_CPU_USED,
   MIN_VP9_CPU_USED,
   isVideoFrameFormat,
   type VideoFrameFormat,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import { errorBox } from "../../ui/format.js";
 import { failUsage } from "../../utils/commandResult.js";
 import { resolveProject } from "../../utils/project.js";

@@ -31,7 +31,7 @@ import {
   type PlanV2ArtifactPublisher,
   type PlanV2Manifest,
   publishPlanV2FromV1,
-} from "@hanzo/frame-producer/distributed";
+} from "@hanzo/frames-producer/distributed";
 import { recomputePlanHashFromPlanDir } from "../../producer/src/services/render/stages/freezePlan.js";
 import { asStorage, FakeGcs } from "./__fixtures__/fakeGcs.js";
 import type { AssembleEvent, CloudRunEvent, PlanEvent, RenderChunkEvent } from "./events.js";

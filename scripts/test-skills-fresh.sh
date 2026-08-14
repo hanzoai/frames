@@ -19,7 +19,7 @@
 #
 # Why a sandbox (and not `npx skills add hanzoai/frames#test/skills-fresh`):
 #   `skills add` only copies skills/. The capture tool you changed lives in
-#   packages/cli (the @hanzo/frame package), so an online skills-only install
+#   packages/cli (the @hanzo/frames package), so an online skills-only install
 #   would pull this branch's skills but the PUBLISHED CLI's old capture. This
 #   script builds + file:-links the local CLI so capture comes from the branch too.
 #
@@ -36,7 +36,7 @@
 #      is newer than the built bundle (so your capture edits are never tested stale).
 #   3. Creates a fresh WORKSPACE ROOT under /tmp/skills-fresh-<timestamp>/ with a
 #      package.json (`file:` CLI dep). It does NOT init a frames project here
-#      — the video workflows run `npx frames init` inside their own subdirs.
+#      — the video workflows run `npx @hanzo/frames init` inside their own subdirs.
 #   4. Runs npm install (file: dep), then installs the CLI into a sandbox-private
 #      npm global prefix ($TEST_DIR/.npm-global). npx checks that prefix before its
 #      ~/.npm/_npx cache, so `npx frames` resolves to the LOCAL build from any
@@ -176,7 +176,7 @@ cd "$TEST_PARENT"
 [[ -e "$TEST_NAME" ]] && fail "$TEST_DIR already exists. Wait 1s and re-run."
 
 # WORKSPACE ROOT, not a frames project: the video workflows run
-# `npx frames init` inside their own subdirs, so a project at the root would
+# `npx @hanzo/frames init` inside their own subdirs, so a project at the root would
 # make a skill find a stray composition here. We only need a package.json with the
 # `file:` CLI dep so `npx frames` (and the skills' init/render calls from
 # subdirs) resolve to the local build.
@@ -219,7 +219,7 @@ NPM_GLOBAL_PREFIX="$TEST_DIR/.npm-global"
 npm install -g "file:$HF_CLI_PKG" --prefix "$NPM_GLOBAL_PREFIX" --no-audit --no-fund --silent \
   || fail "global-prefix install failed."
 [[ -x "$NPM_GLOBAL_PREFIX/bin/frames" ]] || fail "$NPM_GLOBAL_PREFIX/bin/frames missing after install."
-ok "npx frames now resolves to the local build from ANY directory (launch with the env below)"
+ok "npx @hanzo/frames now resolves to the local build from ANY directory (launch with the env below)"
 
 # --------- step 5: install skills from the local repo, then prune _meta ---------
 say "Installing skills from the local repo (--agent $AGENT) ..."

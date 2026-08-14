@@ -1,5 +1,5 @@
 import { normalizeErrorMessage } from "../../utils/errorMessage.js";
-import { CaptureFailure, classifyCaptureFailure } from "@hanzo/frame-engine";
+import { CaptureFailure, classifyCaptureFailure } from "@hanzo/frames-engine";
 
 export class CaptureStageError extends CaptureFailure {
   readonly browserConsole: string[];

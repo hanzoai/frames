@@ -24,9 +24,9 @@ The domain skills (`/frames-core`, `/frames-animation`, `/frames-keyframes`, `/f
 
 > **Tailwind v4 projects** (`frames init --tailwind`): see `/frames-core` → `references/tailwind.md`.
 
-> **Skill missing or stale?** Run `npx frames skills update <name>` to install/refresh
+> **Skill missing or stale?** Run `npx @hanzo/frames skills update <name>` to install/refresh
 > the specific skill you need (the `/frames` router does this automatically before
-> entering a workflow), or bare `npx frames skills update` to refresh the core set plus
+> entering a workflow), or bare `npx @hanzo/frames skills update` to refresh the core set plus
 > everything already installed — neither pulls the full set. Restart the agent session so
 > newly installed skills load.
 
@@ -37,23 +37,23 @@ npm run dev          # start the preview server (long-running — keep it alive 
 npm run check        # lint + runtime + layout + motion + contrast (one command)
 npm run render       # render to MP4
 npm run publish      # publish and get a shareable link
-npx frames lint --verbose  # include info-level findings
-npx frames lint --json     # machine-readable output for CI
-npx frames docs <topic> # reference docs in terminal
+npx @hanzo/frames lint --verbose  # include info-level findings
+npx @hanzo/frames lint --json     # machine-readable output for CI
+npx @hanzo/frames docs <topic> # reference docs in terminal
 ```
 
 > **`npm run dev` is a long-running server, not a one-shot command.** It blocks until stopped.
 > In Claude Code, always run it with `run_in_background: true`. Never run it as a foreground
 > command — it will time out and the server will die, breaking the browser preview.
 
-> **Pinned CLI version.** These scripts pin an exact `frames@X.Y.Z` so this project re-renders identically over time. Weeks later that pin lags fixes shipped since. To move up: `npx frames@latest upgrade --project . --check` (shows the delta), then `npx frames@latest upgrade --project .` to rewrite the pins. Always unpinned — the pinned script re-runs the old version against itself.
+> **Pinned CLI version.** These scripts pin an exact `frames@X.Y.Z` so this project re-renders identically over time. Weeks later that pin lags fixes shipped since. To move up: `npx @hanzo/frames@latest upgrade --project . --check` (shows the delta), then `npx @hanzo/frames@latest upgrade --project .` to rewrite the pins. Always unpinned — the pinned script re-runs the old version against itself.
 
 ## Documentation
 
 **For quick reference**, use the local CLI docs command (no network required):
 
 ```bash
-npx frames docs <topic>
+npx @hanzo/frames docs <topic>
 ```
 
 Topics: `data-attributes`, `gsap`, `compositions`, `rendering`, `examples`, `troubleshooting`

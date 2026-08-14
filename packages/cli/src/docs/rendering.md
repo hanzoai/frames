@@ -1,6 +1,6 @@
 # Rendering
 
-Render compositions to MP4 with `npx frames render`.
+Render compositions to MP4 with `npx @hanzo/frames render`.
 
 ## Local Mode (default)
 
@@ -31,5 +31,5 @@ Requires: Docker installed and running.
 - Local renders auto-detect GPU on first launch; use `--browser-gpu` to force hardware (errors if no GPU) or `--no-browser-gpu` to force SwiftShader
 - Use `--gpu` when a local render also benefits from hardware FFmpeg encoding
 - Use `--video-frame-format png` when source videos contain saturated UI colors that should avoid JPEG extraction
-- Use `npx frames benchmark` to find optimal settings
+- Use `npx @hanzo/frames benchmark` to find optimal settings
 - 4 workers is usually the sweet spot for most compositions

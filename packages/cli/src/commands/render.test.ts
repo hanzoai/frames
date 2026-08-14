@@ -1272,7 +1272,7 @@ describe("checkRenderResolutionPreflight", () => {
       expect(result?.kind).toBe("aspect-mismatch");
       // No sibling preset to suggest → message falls back to the "pick a preset
       // whose orientation matches" hint (see `buildAspectMismatch` in
-      // `@hanzo/frame-parsers/outputResolutionCompatibility`).
+      // `@hanzo/frames-parsers/outputResolutionCompatibility`).
       expect(result?.message).toMatch(/preset whose orientation matches|omit --resolution/i);
     });
 

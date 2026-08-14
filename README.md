@@ -7,8 +7,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@hanzo/frame"><img src="https://img.shields.io/npm/v/@hanzo/frame.svg?style=flat" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/@hanzo/frame"><img src="https://img.shields.io/npm/dm/@hanzo/frame.svg?style=flat" alt="npm downloads"></a>
+  <a href="https://www.npmjs.com/package/@hanzo/frames"><img src="https://img.shields.io/npm/v/@hanzo/frames.svg?style=flat" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@hanzo/frames"><img src="https://img.shields.io/npm/dm/@hanzo/frames.svg?style=flat" alt="npm downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%3E%3D22-brightgreen" alt="Node.js"></a>
 </p>
@@ -39,7 +39,7 @@ Install the Frames skills, then describe the video you want:
 npx skills add hanzoai/frames --full-depth
 ```
 
-> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/frames` router installs each creation workflow on demand. Agents and non-interactive runs should use `npx @hanzo/frame skills update` instead — it installs exactly the core set, whereas a non-interactive `skills add` without `--skill` installs all 19.
+> The picker opens with nothing pre-selected — the **Core Skills** group is all you need: the `/frames` router installs each creation workflow on demand. Agents and non-interactive runs should use `npx @hanzo/frames skills update` instead — it installs exactly the core set, whereas a non-interactive `skills add` without `--skill` installs all 19.
 >
 > `--full-depth` does a full clone of the repo's current `main`. Without it, `skills add` fetches the skills.sh registry blob, which lags `main` by hours — you'd get an older copy of a skill. (`frames skills update` already installs full-depth.)
 
@@ -53,9 +53,9 @@ The skills teach agents the Frames production loop: plan the video, write valid 
 
 Frames ships 19 skills agents load on demand. Read `/frames` first — it's the router and capability map; it picks a workflow for any "make me a…" request — video, deck, or composition port — and points to the domain skills below.
 
-Default to the **core set** — the router installs each creation workflow on demand. `npx @hanzo/frame skills update` installs exactly that from anywhere; the interactive picker (`npx skills add hanzoai/frames --full-depth`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 19. Use `npx skills add hanzoai/frames --all --full-depth` to install all 19 deliberately (skips the picker), or `npx skills add hanzoai/frames --skill <name> --full-depth` for just one (bare name, no leading `/`). Keep `--full-depth` — it installs the current `main`; without it `skills add` fetches the skills.sh blob, which lags by hours.
+Default to the **core set** — the router installs each creation workflow on demand. `npx @hanzo/frames skills update` installs exactly that from anywhere; the interactive picker (`npx skills add hanzoai/frames --full-depth`) lists it as the "Core Skills" group, nothing pre-selected. The picker is interactive-only — a non-interactive or agent run without `--skill` installs all 19. Use `npx skills add hanzoai/frames --all --full-depth` to install all 19 deliberately (skips the picker), or `npx skills add hanzoai/frames --skill <name> --full-depth` for just one (bare name, no leading `/`). Keep `--full-depth` — it installs the current `main`; without it `skills add` fetches the skills.sh blob, which lags by hours.
 
-Installs stay lean after that: `npx @hanzo/frame init` keeps the **core set** fresh (the router, the `frames-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `npx @hanzo/frame skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
+Installs stay lean after that: `npx @hanzo/frames init` keeps the **core set** fresh (the router, the `frames-*` domain skills, and `media-use` — plus whatever is already installed; `/figma` stays on demand) and never expands a partial install; the creation workflows install **on demand** — the router runs `npx @hanzo/frames skills update <workflow>` before entering one. Nothing re-pulls the full set behind your back.
 
 ### Upload to Codex
 
@@ -108,10 +108,10 @@ For visual design handoff workflows, see the [Claude Design guide](https://frame
 ### Manually with the CLI
 
 ```bash
-npx @hanzo/frame init my-video
+npx @hanzo/frames init my-video
 cd my-video
-npx @hanzo/frame preview      # preview in browser with live reload
-npx @hanzo/frame render       # render to MP4
+npx @hanzo/frames preview      # preview in browser with live reload
+npx @hanzo/frames render       # render to MP4
 ```
 
 **Requirements:** Node.js 22+, FFmpeg
@@ -192,9 +192,9 @@ Frames is the open-source rendering engine, plus a growing set of tools around H
 Install ready-to-use blocks and components:
 
 ```bash
-npx @hanzo/frame add flash-through-white   # shader transition
-npx @hanzo/frame add instagram-follow      # social overlay
-npx @hanzo/frame add data-chart            # animated chart
+npx @hanzo/frames add flash-through-white   # shader transition
+npx @hanzo/frames add instagram-follow      # social overlay
+npx @hanzo/frames add data-chart            # animated chart
 ```
 
 Browse the catalog at [frames.hanzo.ai/catalog](https://frames.hanzo.ai/catalog/blocks/data-chart).
@@ -237,16 +237,16 @@ Full documentation: [frames.hanzo.ai/introduction](https://frames.hanzo.ai/intro
 
 ## Packages
 
-| Package                                                          | Description                                                       |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`@hanzo/frame`](packages/cli)                                         | CLI for creating, previewing, linting, and rendering compositions |
-| [`@hanzo/frame-core`](packages/core)                             | Types, parsers, generators, linter, runtime, and frame adapters   |
-| [`@hanzo/frame-engine`](packages/engine)                         | Seekable page-to-video capture engine using Puppeteer and FFmpeg  |
-| [`@hanzo/frame-producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
-| [`@hanzo/frame-studio`](packages/studio)                         | Browser-based composition editor UI                               |
-| [`@hanzo/frame-player`](packages/player)                         | Embeddable `<frames-player>` web component                        |
-| [`@hanzo/frame-shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                         |
-| [`@hanzo/frame-aws-lambda`](packages/aws-lambda)                 | AWS Lambda SDK and deployment surface for distributed renders     |
+| Package                                                           | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`@hanzo/frames`](packages/cli)                                   | CLI for creating, previewing, linting, and rendering compositions |
+| [`@hanzo/frames-core`](packages/core)                             | Types, parsers, generators, linter, runtime, and frame adapters   |
+| [`@hanzo/frames-engine`](packages/engine)                         | Seekable page-to-video capture engine using Puppeteer and FFmpeg  |
+| [`@hanzo/frames-producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
+| [`@hanzo/frames-studio`](packages/studio)                         | Browser-based composition editor UI                               |
+| [`@hanzo/frames-player`](packages/player)                         | Embeddable `<frames-player>` web component                        |
+| [`@hanzo/frames-shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                         |
+| [`@hanzo/frames-aws-lambda`](packages/aws-lambda)                 | AWS Lambda SDK and deployment surface for distributed renders     |
 
 ## Community
 

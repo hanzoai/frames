@@ -8,9 +8,9 @@ Use this as a fast reference when you are directing agents, cutting timing, maki
 ## The Fast Loop
 
 ```bash
-npx @hanzo/frame init my-video --example blank
+npx @hanzo/frames init my-video --example blank
 cd my-video
-npx @hanzo/frame preview
+npx @hanzo/frames preview
 ```
 
 Keep the preview running while your agent edits `index.html` or files in `compositions/`. The Studio updates automatically, so you can direct the agent, scrub the result, make manual visual tweaks, then repeat.
@@ -26,21 +26,21 @@ Most production work should feel like this:
 Before showing or rendering a project:
 
 ```bash
-npx @hanzo/frame lint
-npx @hanzo/frame check
-npx @hanzo/frame render --quality standard --output review.mp4
+npx @hanzo/frames lint
+npx @hanzo/frames check
+npx @hanzo/frames render --quality standard --output review.mp4
 ```
 
 For fast iteration renders, use draft quality:
 
 ```bash
-npx @hanzo/frame render --quality draft --output draft.mp4
+npx @hanzo/frames render --quality draft --output draft.mp4
 ```
 
 For final delivery:
 
 ```bash
-npx @hanzo/frame render --quality high --fps 30 --output final.mp4
+npx @hanzo/frames render --quality high --fps 30 --output final.mp4
 ```
 
 ## Terminal Shortcuts
@@ -72,13 +72,13 @@ Run Frames commands from the project root, where `index.html` lives. If you are 
 Start the Studio:
 
 ```bash
-npx @hanzo/frame preview
+npx @hanzo/frames preview
 ```
 
 Use a different port if `3002` is already busy:
 
 ```bash
-npx @hanzo/frame preview --port 4567
+npx @hanzo/frames preview --port 4567
 ```
 
 Inside the Studio, shortcuts are grouped the same way the playbar's `⌨` panel groups them — playback first, then work-area markers, view controls, and app-level commands. Open the `⌨` panel in the playbar for an in-app cheatsheet, a frame-jump input, and live readouts of the in/out points.
@@ -168,20 +168,20 @@ I moved the hero title and resized the CTA manually in Studio. Inspect the chang
 
 | Command | Use it for |
 | --- | --- |
-| `npx @hanzo/frame init my-video` | Create a new project |
-| `npx @hanzo/frame init my-video --example warm-grain` | Start from a visual template |
-| `npx @hanzo/frame init my-video --video source.mp4` | Import video and generate captions from the source audio |
-| `npx @hanzo/frame capture https://example.com` | Capture a website as source material for a video |
-| `npx @hanzo/frame preview` | Open the live Studio preview |
-| `npx @hanzo/frame lint` | Catch structural mistakes before preview or render |
-| `npx @hanzo/frame check` | Run the composition in headless Chrome to catch runtime errors |
-| `npx @hanzo/frame check` | Find text overflow and layout problems across the timeline |
-| `npx @hanzo/frame snapshot --at 1,3,5` | Save PNG checks at exact timestamps |
-| `npx @hanzo/frame render --output final.mp4` | Render the video |
-| `npx @hanzo/frame publish` | Upload the project and get a shareable Frames URL |
-| `npx @hanzo/frame doctor` | Check Node.js, FFmpeg, Chrome, Docker, and other dependencies |
-| `npx @hanzo/frame docs` | Open local CLI docs |
-| `npx @hanzo/frame upgrade` | Check for a newer CLI version |
+| `npx @hanzo/frames init my-video` | Create a new project |
+| `npx @hanzo/frames init my-video --example warm-grain` | Start from a visual template |
+| `npx @hanzo/frames init my-video --video source.mp4` | Import video and generate captions from the source audio |
+| `npx @hanzo/frames capture https://example.com` | Capture a website as source material for a video |
+| `npx @hanzo/frames preview` | Open the live Studio preview |
+| `npx @hanzo/frames lint` | Catch structural mistakes before preview or render |
+| `npx @hanzo/frames check` | Run the composition in headless Chrome to catch runtime errors |
+| `npx @hanzo/frames check` | Find text overflow and layout problems across the timeline |
+| `npx @hanzo/frames snapshot --at 1,3,5` | Save PNG checks at exact timestamps |
+| `npx @hanzo/frames render --output final.mp4` | Render the video |
+| `npx @hanzo/frames publish` | Upload the project and get a shareable Frames URL |
+| `npx @hanzo/frames doctor` | Check Node.js, FFmpeg, Chrome, Docker, and other dependencies |
+| `npx @hanzo/frames docs` | Open local CLI docs |
+| `npx @hanzo/frames upgrade` | Check for a newer CLI version |
 
 ## Timing Cheatsheet
 
@@ -231,11 +231,11 @@ For GSAP animation, register one paused timeline per composition:
 
 | Goal | Command |
 | --- | --- |
-| Fast iteration | `npx @hanzo/frame render --quality draft --output draft.mp4` |
-| Review link | `npx @hanzo/frame render --quality standard --output review.mp4` |
-| Final export | `npx @hanzo/frame render --quality high --fps 30 --output final.mp4` |
-| Transparent overlay | `npx @hanzo/frame render --format webm --output overlay.webm` |
-| Deterministic output | `npx @hanzo/frame render --docker --output final.mp4` |
+| Fast iteration | `npx @hanzo/frames render --quality draft --output draft.mp4` |
+| Review link | `npx @hanzo/frames render --quality standard --output review.mp4` |
+| Final export | `npx @hanzo/frames render --quality high --fps 30 --output final.mp4` |
+| Transparent overlay | `npx @hanzo/frames render --format webm --output overlay.webm` |
+| Deterministic output | `npx @hanzo/frames render --docker --output final.mp4` |
 
 Use WebM for transparent overlays, captions, and lower thirds. Use `--docker` when you need pixel-consistent output across different machines.
 
@@ -244,14 +244,14 @@ Use WebM for transparent overlays, captions, and lower thirds. Use `--docker` wh
 Use `publish` when you want to share the editable project, not just the rendered MP4:
 
 ```bash
-npx @hanzo/frame publish
+npx @hanzo/frames publish
 ```
 
 Publish zips the current project, uploads it, and prints a stable `frames.hanzo.ai` URL. The URL includes a claim token so the recipient can open it, claim the project, and continue editing in the web app.
 
 ```bash
-npx @hanzo/frame publish ./my-video   # publish a specific folder
-npx @hanzo/frame publish --yes        # skip the confirmation prompt in scripts
+npx @hanzo/frames publish ./my-video   # publish a specific folder
+npx @hanzo/frames publish --yes        # skip the confirmation prompt in scripts
 ```
 
 Publish expects an `index.html` at the project root. It ignores `.git`, `node_modules`, `dist`, `.next`, and `coverage`.
@@ -270,19 +270,19 @@ agent-browser screenshot --screenshot-dir ./qa
 
 Use it when you want the agent to open the Frames Studio preview, play or scrub the video, click timeline controls, inspect visible UI text, capture screenshots for review, or record proof of a tested flow.
 
-For editor-facing changes, keep `npx @hanzo/frame preview` running, then have the agent use `agent-browser` against the local preview URL.
+For editor-facing changes, keep `npx @hanzo/frames preview` running, then have the agent use `agent-browser` against the local preview URL.
 
 ## Quick Fixes
 
 | Problem | Command or check |
 | --- | --- |
-| Preview will not start | `npx @hanzo/frame doctor` |
-| Port already in use | `npx @hanzo/frame preview --port 4567` |
-| Render fails | `npx @hanzo/frame lint` then `npx @hanzo/frame check` |
-| Need exact frame checks | `npx @hanzo/frame snapshot --at 1,2.5,5` |
-| Text overflows in the frame | `npx @hanzo/frame check` |
+| Preview will not start | `npx @hanzo/frames doctor` |
+| Port already in use | `npx @hanzo/frames preview --port 4567` |
+| Render fails | `npx @hanzo/frames lint` then `npx @hanzo/frames check` |
+| Need exact frame checks | `npx @hanzo/frames snapshot --at 1,2.5,5` |
+| Text overflows in the frame | `npx @hanzo/frames check` |
 | Final render is too slow | Try `--quality draft`, reduce image sizes, or lower `--fps` |
-| Need to share editable project | `npx @hanzo/frame publish` |
+| Need to share editable project | `npx @hanzo/frames publish` |
 
 <CardGroup cols={2}>
   <Card title="Prompt Guide" icon="wand-magic-sparkles" href="/guides/prompting">

@@ -3,7 +3,7 @@ name: talking-head-recut
 description: Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on "graphic overlays", "on-screen graphics", "package / dress up my video". Not plain subtitles (/embedded-captions). Unclear → /frames.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frames skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Talking Head Recut
 
@@ -38,7 +38,7 @@ Inspectable intermediate files in the work directory:
 
 ```bash
 # frames — transcription (local Whisper) + rendering the assembled HTML to MP4
-npx @hanzo/frame --help
+npx @hanzo/frames --help
 ```
 
 This skill runs entirely on the **frames** CLI plus system `ffmpeg` / `ffprobe`.
@@ -50,7 +50,7 @@ service, API key, or rate-limited proxy.
 ### 1. Check Environment
 
 ```bash
-npx @hanzo/frame doctor          # ffmpeg, headless browser, render deps
+npx @hanzo/frames doctor          # ffmpeg, headless browser, render deps
 # confirm bundled assets:
 ls "<SKILL_DIR>/assets/fonts" "<SKILL_DIR>/assets/vendor/gsap.min.js"
 ```
@@ -97,7 +97,7 @@ fraction evaluated, e.g. `30000/1001 → 29.97`) + `audio.mp3`.
 ### 4. Transcribe
 
 ```bash
-npx @hanzo/frame transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
+npx @hanzo/frames transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
 ```
 
 Local **Whisper** — no API key, no proxy, no rate limit. Writes a word-level
@@ -1165,7 +1165,7 @@ decides where the actual visible card sits.
 
 ```bash
 cd "$WORK_DIR"
-PRODUCER_BROWSER_GPU_MODE=hardware npx @hanzo/frame render public \
+PRODUCER_BROWSER_GPU_MODE=hardware npx @hanzo/frames render public \
   --skill=talking-head-recut \
   -o output.mp4 \
   --fps 30
@@ -1185,7 +1185,7 @@ For a sanity check before the full render, capture a single frame at a
 specific timestamp:
 
 ```bash
-npx @hanzo/frame snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
+npx @hanzo/frames snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
 ```
 
 ### 11. Report Results
@@ -1204,7 +1204,7 @@ Tell the user:
 **Optional live preview (on request only).** The clip plays unchanged inside `public/index.html` with the overlays on top, so it previews faithfully. **Don't open it during the run.** When the user asks, start a long-lived server **after** render and report the URL:
 
 ```bash
-(cd "$WORK_DIR/public" && npx @hanzo/frame preview)   # or `npx @hanzo/frame play` for a shareable link
+(cd "$WORK_DIR/public" && npx @hanzo/frames preview)   # or `npx @hanzo/frames play` for a shareable link
 ```
 
 Do not delete the work directory unless the user asks.

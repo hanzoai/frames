@@ -59,7 +59,7 @@ Traction: 200+ teams, $1.2M ARR, 18% MoM growth.
 CTA: autocrmhq.com
 ```
 
-Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `npx @hanzo/frame preview` running. See the [Claude Design guide](/guides/claude-design) for the full workflow.
+Claude Design produces a valid first draft (brand identity, scene content, animations, transitions). Download the ZIP and refine in any AI coding agent with `npx @hanzo/frames preview` running. See the [Claude Design guide](/guides/claude-design) for the full workflow.
 
 ## The two prompt shapes
 
@@ -267,17 +267,17 @@ Things that cause friction (or wrong output):
 - **Don't ask for React / Vue components.** Hyperframes compositions are plain HTML with `data-*` attributes and a GSAP timeline. Asking for "a React component for the intro" forces the agent to translate later.
 - **Don't ask for 4K or 60fps unless you need it.** Defaults (1920×1080, 30fps) render fast and look great. Higher specs slow rendering meaningfully.
 - **Don't skip the slash command.** Without `/frames`, the agent may guess at HTML video conventions instead of using the framework's actual rules (`class="clip"` on timed elements, `window.__timelines` registration, etc.).
-- **Don't paste long error logs into the prompt without context.** Run `npx @hanzo/frame check` first — lint catches structural issues, validate catches runtime errors (JS exceptions, missing assets, contrast problems).
+- **Don't paste long error logs into the prompt without context.** Run `npx @hanzo/frames check` first — lint catches structural issues, validate catches runtime errors (JS exceptions, missing assets, contrast problems).
 - **Don't assume the agent knows your assets.** Mention file paths explicitly (`assets/intro.mp4`, `assets/logo.png`) — the agent will check what's there but a hint speeds it up.
 
 ## Recommended workflow
 
-1. `npx @hanzo/frame init my-video` — scaffold a project (skills install automatically)
+1. `npx @hanzo/frames init my-video` — scaffold a project (skills install automatically)
 2. Open the project in Claude Code (or Cursor / Codex)
 3. Prompt with `/frames` and one of the shapes above
-4. `npx @hanzo/frame preview` — watch in the browser as the agent edits
+4. `npx @hanzo/frames preview` — watch in the browser as the agent edits
 5. Iterate with small targeted prompts
-6. `npx @hanzo/frame render --output final.mp4` when you're happy
+6. `npx @hanzo/frames render --output final.mp4` when you're happy
 
 ## Next steps
 

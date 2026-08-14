@@ -22,7 +22,7 @@ Hyperframes can render to HDR10 MP4 (H.265 10-bit, BT.2020) when your compositio
   </Step>
   <Step title="Render normally">
     ```bash Terminal
-    npx @hanzo/frame render --output output.mp4
+    npx @hanzo/frames render --output output.mp4
     ```
 
     HDR output requires `--format mp4`. If Hyperframes detects HDR sources, it renders HDR automatically. If you also pass `--format mov` or `--format webm`, Hyperframes logs a warning and falls back to SDR.
@@ -151,7 +151,7 @@ For HLG renders the only difference is `color_transfer=arib-std-b67` — the res
 Docker uses the same auto-detect logic as local rendering, so you can produce HDR10 MP4 output from the containerized renderer without extra flags:
 
 ```bash Terminal
-npx @hanzo/frame render --docker --output output.mp4
+npx @hanzo/frames render --docker --output output.mp4
 ```
 
 The container runs the same probe → composite → encode pipeline as the local renderer. Verify the output with the same `ffprobe` checks described in [Verifying HDR output](#verifying-hdr-output).

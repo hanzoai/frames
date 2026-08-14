@@ -10,7 +10,7 @@ separate namespaces, on purpose:
   (weekly changelog videos, doctrine-heavy authoring flows). Codex CLI's
   project-local skill dir.
 - `skills/` — **marketplace-distributable**, installed into other
-  projects via `npx @hanzo/frame skills` or `npx skills add
+  projects via `npx @hanzo/frames skills` or `npx skills add
 hanzoai/frames`.
 
 ## Weekly changelog video

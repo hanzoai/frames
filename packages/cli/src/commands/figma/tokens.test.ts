@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { runTokensImport } from "./tokens.js";
-import { FigmaClientError, type FigmaClient } from "@hanzo/frame-core/figma";
+import { FigmaClientError, type FigmaClient } from "@hanzo/frames-core/figma";
 
 let dir = "";
 beforeEach(() => {

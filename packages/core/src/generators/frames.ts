@@ -5,8 +5,8 @@ import {
   isMediaElement,
   isCompositionElement,
 } from "../core.types";
-import type { GsapAnimation } from "@hanzo/frame-parsers";
-import { serializeGsapAnimations, keyframesToGsapAnimations } from "@hanzo/frame-parsers";
+import type { GsapAnimation } from "@hanzo/frames-parsers";
+import { serializeGsapAnimations, keyframesToGsapAnimations } from "@hanzo/frames-parsers";
 import { GSAP_CDN, BASE_STYLES, ZOOM_CONTAINER_STYLES } from "../templates/constants";
 import { COMPOSITION_ATTRIBUTES } from "../compositionContract.js";
 

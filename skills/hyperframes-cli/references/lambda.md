@@ -18,9 +18,9 @@ Use `frames lambda` when the user explicitly wants self-managed AWS infrastructu
 The basic lifecycle is:
 
 ```bash
-npx @hanzo/frame lambda deploy
-npx @hanzo/frame lambda render ./my-project --width 1920 --height 1080 --wait
-npx @hanzo/frame lambda destroy
+npx @hanzo/frames lambda deploy
+npx @hanzo/frames lambda render ./my-project --width 1920 --height 1080 --wait
+npx @hanzo/frames lambda destroy
 ```
 
 ## Choose Lambda or local rendering
@@ -39,7 +39,7 @@ For one-off short renders Lambda is not worth the deploy overhead.
 ## Deploy
 
 ```bash
-npx @hanzo/frame lambda deploy \
+npx @hanzo/frames lambda deploy \
   --stack-name=frames-prod \
   --region=us-east-1 \
   --concurrency=8 \
@@ -50,7 +50,7 @@ Builds `packages/aws-lambda/dist/handler.zip` and SAM-deploys the stack (Lambda 
 
 | Flag              | Default                         | Description                            |
 | ----------------- | ------------------------------- | -------------------------------------- |
-| `--stack-name`    | `frames-default`           | CloudFormation stack name              |
+| `--stack-name`    | `frames-default`                | CloudFormation stack name              |
 | `--region`        | `AWS_REGION` env or `us-east-1` | AWS region                             |
 | `--profile`       | `AWS_PROFILE` env               | Named AWS credentials profile          |
 | `--concurrency`   | `8`                             | Lambda reserved concurrency            |
@@ -61,10 +61,10 @@ Builds `packages/aws-lambda/dist/handler.zip` and SAM-deploys the stack (Lambda 
 ## Upload a reusable site
 
 ```bash
-npx @hanzo/frame lambda sites create ./my-project
+npx @hanzo/frames lambda sites create ./my-project
 # → siteId: abc1234deadbeef0  (stable across re-runs of the same tree)
 
-npx @hanzo/frame lambda render ./my-project --site-id=abc1234deadbeef0 ...
+npx @hanzo/frames lambda render ./my-project --site-id=abc1234deadbeef0 ...
 ```
 
 Tars + uploads `<projectDir>` to S3 with a content-addressed key. Returns a stable `siteId` you can reuse — re-renders of the same tree skip the upload.
@@ -72,7 +72,7 @@ Tars + uploads `<projectDir>` to S3 with a content-addressed key. Returns a stab
 ## Render one composition
 
 ```bash
-npx @hanzo/frame lambda render ./my-project \
+npx @hanzo/frames lambda render ./my-project \
   --width 1920 --height 1080 --fps 30 --format mp4 \
   --chunk-size 240 --max-parallel-chunks 16 \
   --wait
@@ -110,7 +110,7 @@ For variable-driven templates, declare the schema in the composition and pass ei
 Use `render-batch` to upload one template once and start one Step Functions execution per nonblank JSONL line:
 
 ```bash
-npx @hanzo/frame lambda render-batch ./template \
+npx @hanzo/frames lambda render-batch ./template \
   --batch ./users.jsonl \
   --width 1920 --height 1080 \
   --max-concurrent 10 \
@@ -140,8 +140,8 @@ Batch rules:
 ## Inspect progress
 
 ```bash
-npx @hanzo/frame lambda progress hf-render-abcd1234
-npx @hanzo/frame lambda progress arn:aws:states:us-east-1:...:execution:...
+npx @hanzo/frames lambda progress hf-render-abcd1234
+npx @hanzo/frames lambda progress arn:aws:states:us-east-1:...:execution:...
 ```
 
 Prints one snapshot — overall percent, frames rendered, Lambda invocations, accrued cost, and any errors. Accepts a bare `renderId` (resolved against the stack's state-machine ARN) or a full SFN execution ARN.
@@ -149,7 +149,7 @@ Prints one snapshot — overall percent, frames rendered, Lambda invocations, ac
 ## Destroy the stack
 
 ```bash
-npx @hanzo/frame lambda destroy
+npx @hanzo/frames lambda destroy
 ```
 
 Calls `sam delete --no-prompts` and drops the local state file. **The render S3 bucket is configured `Retain`** so it survives stack destruction — empty + delete it via the AWS console / CLI if you want the storage back.
@@ -166,9 +166,9 @@ A subset of failures the Step Functions state machine short-circuits instead of 
 Print or validate the minimum IAM permissions the CLI needs.
 
 ```bash
-npx @hanzo/frame lambda policies user                                  # inline policy for an IAM user
-npx @hanzo/frame lambda policies role                                  # { TrustRelationship, InlinePolicy }
-npx @hanzo/frame lambda policies validate ./infra/iam/hf-deploy.json   # CI gate
+npx @hanzo/frames lambda policies user                                  # inline policy for an IAM user
+npx @hanzo/frames lambda policies role                                  # { TrustRelationship, InlinePolicy }
+npx @hanzo/frames lambda policies validate ./infra/iam/hf-deploy.json   # CI gate
 ```
 
 `validate` reads a JSON policy doc and checks the union of its `Effect: Allow` actions (expanding `s3:*` / `s3:Get*` / `*` wildcards) against the CLI's required action set. Missing actions print to stderr; the command exits non-zero. Wire it into CI to catch policy drift before the next deploy fails.

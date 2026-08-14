@@ -8,8 +8,8 @@ import {
   truncateSnippet,
   WINDOW_TIMELINE_ASSIGN_PATTERN,
 } from "../utils";
-import { COMPOSITION_VARIABLE_TYPES } from "@hanzo/frame-parsers/composition";
-import { COMPOSITION_ATTRIBUTES, readClipTiming } from "@hanzo/frame-parsers/composition-contract";
+import { COMPOSITION_VARIABLE_TYPES } from "@hanzo/frames-parsers/composition";
+import { COMPOSITION_ATTRIBUTES, readClipTiming } from "@hanzo/frames-parsers/composition-contract";
 
 // Agent guidance thresholds: warning-only nudges for files/tracks that become hard
 // to inspect and revise reliably in a single composition.

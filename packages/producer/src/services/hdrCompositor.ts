@@ -29,7 +29,7 @@ import {
   blitRgb48leAffine,
   parseTransformMatrix,
   convertTransfer,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import type { ProducerLogger } from "../logger.js";
 import { type HdrImageTransferCache } from "./hdrImageTransferCache.js";
 import { writeFileExclusiveSync } from "./render/shared.js";

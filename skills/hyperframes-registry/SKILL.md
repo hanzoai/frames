@@ -88,12 +88,12 @@ See [wiring-components.md](./references/wiring-components.md) for full details.
 Use the CLI as the primary discovery surface:
 
 ```bash
-npx @hanzo/frame catalog
-npx @hanzo/frame catalog --type block
-npx @hanzo/frame catalog --type component
-npx @hanzo/frame catalog --type block --tag social
-npx @hanzo/frame catalog --json
-npx @hanzo/frame catalog --human-friendly
+npx @hanzo/frames catalog
+npx @hanzo/frames catalog --type block
+npx @hanzo/frames catalog --type component
+npx @hanzo/frames catalog --type block --tag social
+npx @hanzo/frames catalog --json
+npx @hanzo/frames catalog --human-friendly
 ```
 
 The normal table and `--json` modes only list matches; install a selected name with `frames add <name>`. `--human-friendly` opens an interactive picker and installs the selected item immediately. In CI or agent workflows, prefer `--json` followed by an explicit `add`.

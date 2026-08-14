@@ -3,8 +3,12 @@
  * the `perf-summary.json` debug artifact.
  */
 
-import { fpsToNumber } from "@hanzo/frame-core";
-import type { CapturePerfSummary, SubTimelineWaitOutcome, WorkerSizing } from "@hanzo/frame-engine";
+import { fpsToNumber } from "@hanzo/frames-core";
+import type {
+  CapturePerfSummary,
+  SubTimelineWaitOutcome,
+  WorkerSizing,
+} from "@hanzo/frames-engine";
 import type { CaptureCalibrationSample, CaptureCostEstimate } from "./captureCost.js";
 import type {
   CaptureAttemptSummary,

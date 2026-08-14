@@ -1,5 +1,5 @@
-import { redactTelemetryString, type OutputResolutionIssueKind } from "@hanzo/frame-core";
-import type { SubTimelineWaitOutcome } from "@hanzo/frame-engine";
+import { redactTelemetryString, type OutputResolutionIssueKind } from "@hanzo/frames-core";
+import type { SubTimelineWaitOutcome } from "@hanzo/frames-engine";
 import { FEEDBACK_RATING_SCALE } from "../utils/feedbackRating.js";
 import { flush, shouldTrack, trackEvent } from "./client.js";
 import { getPowerState } from "./system.js";
@@ -175,7 +175,7 @@ export function trackRenderComplete(
     // Worker auto-sizing provenance (RenderPerfSummary.workerSizing). Answers
     // "why N workers?" fleet-wide, and validates the advisory per-worker heap
     // budget before it's enforced (field OOM: 6 auto workers on a 24GB/4GB-heap
-    // machine — see computeWorkerSizing in @hanzo/frame-engine).
+    // machine — see computeWorkerSizing in @hanzo/frames-engine).
     workersBoundBy?: string;
     workersCpuBased?: number;
     workersMemoryBased?: number;

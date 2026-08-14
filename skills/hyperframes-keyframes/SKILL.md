@@ -176,15 +176,15 @@ Keyframe camera position, camera target, object transform, material opacity, sha
 ## CLI Proof
 
 ```bash
-npx @hanzo/frame lint
-npx @hanzo/frame check
-npx @hanzo/frame keyframes .
-npx @hanzo/frame keyframes . --json
-npx @hanzo/frame keyframes . --runtime all
-npx @hanzo/frame keyframes . --selector "<selector>" --shot "<file>" --samples <n>
-npx @hanzo/frame keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
-npx @hanzo/frame keyframes . --shot "<file>" --ghost --angle <angle>
-npx @hanzo/frame snapshot . --at <times>
+npx @hanzo/frames lint
+npx @hanzo/frames check
+npx @hanzo/frames keyframes .
+npx @hanzo/frames keyframes . --json
+npx @hanzo/frames keyframes . --runtime all
+npx @hanzo/frames keyframes . --selector "<selector>" --shot "<file>" --samples <n>
+npx @hanzo/frames keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
+npx @hanzo/frames keyframes . --shot "<file>" --ghost --angle <angle>
+npx @hanzo/frames snapshot . --at <times>
 ```
 
 Choose `<selector>` for the real animated subject. Choose `<times>` for first frame, proof poses, final-minus-hold, and exact final. Choose `<angle>` only when depth must be proven.

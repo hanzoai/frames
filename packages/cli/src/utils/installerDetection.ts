@@ -120,7 +120,7 @@ export function detectInstaller(): InstallerInfo {
   if (normalizedEntry.includes("/.bun/")) {
     return {
       kind: "bun",
-      installCommand: (version) => `bun add -g frames@${version}`,
+      installCommand: (version) => `bun add -g @hanzo/frames@${version}`,
       reason: `bun global install detected at ${realEntry}`,
     };
   }
@@ -131,21 +131,21 @@ export function detectInstaller(): InstallerInfo {
   if (normalizedEntry.includes("/pnpm/global/")) {
     return {
       kind: "pnpm",
-      installCommand: (version) => `pnpm add -g frames@${version}`,
+      installCommand: (version) => `pnpm add -g @hanzo/frames@${version}`,
       reason: `pnpm global install detected at ${realEntry}`,
     };
   }
 
-  // npm's default global prefix is `<prefix>/lib/node_modules/frames/…`
+  // npm's default global prefix is `<prefix>/lib/node_modules/@hanzo/frames/…`
   // where `<prefix>` is `/usr/local` (macOS Intel), `/opt/homebrew` (Apple
   // Silicon, non-brew-formula npm), or a user-configured directory.
   if (
-    normalizedEntry.includes("/lib/node_modules/frames/") ||
-    normalizedEntry.includes("/npm/node_modules/frames/")
+    normalizedEntry.includes("/lib/node_modules/@hanzo/frames/") ||
+    normalizedEntry.includes("/npm/node_modules/@hanzo/frames/")
   ) {
     return {
       kind: "npm",
-      installCommand: (version) => `npm install -g frames@${version}`,
+      installCommand: (version) => `npm install -g @hanzo/frames@${version}`,
       reason: `npm global install detected at ${realEntry}`,
     };
   }
@@ -174,11 +174,11 @@ export interface InstallInvocation {
 export function installInvocation(kind: InstallerKind, version: string): InstallInvocation | null {
   switch (kind) {
     case "npm":
-      return { bin: "npm", args: ["install", "-g", `frames@${version}`] };
+      return { bin: "npm", args: ["install", "-g", `@hanzo/frames@${version}`] };
     case "bun":
-      return { bin: "bun", args: ["add", "-g", `frames@${version}`] };
+      return { bin: "bun", args: ["add", "-g", `@hanzo/frames@${version}`] };
     case "pnpm":
-      return { bin: "pnpm", args: ["add", "-g", `frames@${version}`] };
+      return { bin: "pnpm", args: ["add", "-g", `@hanzo/frames@${version}`] };
     case "brew":
       // brew has no per-version install; `brew upgrade` moves to the tap's
       // current formula (a no-op if the tap hasn't caught up).

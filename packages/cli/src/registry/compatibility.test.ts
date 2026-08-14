@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { RegistryItem } from "@hanzo/frame-core";
+import type { RegistryItem } from "@hanzo/frames-core";
 import {
   checkRegistryItemCompatibility,
   gateRegistryItemsCompatibility,

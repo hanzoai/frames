@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import type { Composition } from "@hanzo/frame-sdk";
+import type { Composition } from "@hanzo/frames-sdk";
 import type { DomEditSelection } from "../components/editor/domEditing";
 
 function toHfIds(group: DomEditSelection[], primary: DomEditSelection | null): string[] {

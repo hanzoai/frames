@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-studio-server/studio-motion-render-script */
-export * from "@hanzo/frame-studio-server/studio-motion-render-script";
+/** @deprecated Import from @hanzo/frames-studio-server/studio-motion-render-script */
+export * from "@hanzo/frames-studio-server/studio-motion-render-script";

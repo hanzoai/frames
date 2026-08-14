@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-parsers/hf-ids */
-export * from "@hanzo/frame-parsers/hf-ids";
+/** @deprecated Import from @hanzo/frames-parsers/hf-ids */
+export * from "@hanzo/frames-parsers/hf-ids";

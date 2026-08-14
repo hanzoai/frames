@@ -21,7 +21,7 @@ bun run build
 ```bash
 # If you previously installed frames globally, remove it first —
 # a global install takes priority over bun link and shadows your local build.
-npm uninstall -g frames 2>/dev/null
+npm uninstall -g @hanzo/frames 2>/dev/null
 
 # Link your local build
 cd packages/cli
@@ -45,7 +45,7 @@ To restore the published release when you're done:
 
 ```bash
 bun unlink frames
-npm install -g frames@latest
+npm install -g @hanzo/frames@latest
 ```
 
 ## Option 2: node alias (no PATH changes)
@@ -119,7 +119,7 @@ which frames
 If it points to a global store rather than your monorepo, remove the global install and re-link:
 
 ```bash
-npm uninstall -g frames
+npm uninstall -g @hanzo/frames
 cd packages/cli && bun link
 ```
 

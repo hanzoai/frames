@@ -361,7 +361,7 @@ function writeConsumerFixture(packDir, packedWorkspaces) {
         // Each packed tarball pins its inter-package deps to the exact
         // release version. On a release bump that version is not on the registry
         // yet, so a plain install fails to resolve those transitive deps. Force
-        // every @hanzo/frame-* to the sibling local tarball so the check is
+        // every @hanzo/frames-* to the sibling local tarball so the check is
         // self-contained pre-publish (matches how the packages install together).
         overrides: { ...workspaceFileDeps },
       },
@@ -414,7 +414,7 @@ function writeConsumerFixture(packDir, packedWorkspaces) {
       `  const options = specifier.endsWith(".json") ? { with: { type: "json" } } : undefined;\n` +
       `  await import(specifier, options);\n` +
       `}\n` +
-      `const terraform = await import("@hanzo/frame-gcp-cloud-run/terraform");\n` +
+      `const terraform = await import("@hanzo/frames-gcp-cloud-run/terraform");\n` +
       `if (!existsSync(join(terraform.getTerraformModuleDir(), "main.tf"))) throw new Error("packed Terraform module missing");\n` +
       `console.log(\`Resolved \${specifiers.length} packed exports and executed \${nodeSpecifiers.length} Node exports.\`);\n` +
       `process.exit(0);\n`,

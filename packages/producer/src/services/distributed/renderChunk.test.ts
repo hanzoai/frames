@@ -68,7 +68,7 @@ beforeAll(async () => {
   // contract is exercised.
   try {
     const { createCaptureSession, initializeSession, closeCaptureSession } =
-      await import("@hanzo/frame-engine");
+      await import("@hanzo/frames-engine");
     const { createFileServer } = await import("../fileServer.js");
     const smokeDir = join(runRoot, "smoke");
     mkdirSync(join(smokeDir, "compiled"), { recursive: true });

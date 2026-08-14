@@ -19,7 +19,7 @@ describe("frames-core contract docs", () => {
     const skill = read("skills", "frames-core", "SKILL.md");
     const brief = read("skills", "frames-core", "references", "brief-contract.md");
 
-    expect(skill).toContain("`npx frames check`");
+    expect(skill).toContain("`npx @hanzo/frames check`");
     expect(brief).toContain("`frames check`");
     expect(brief).not.toContain("`lint` / `validate` / `inspect`");
   });

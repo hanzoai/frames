@@ -1,12 +1,12 @@
 /**
  * Low-level GSAP runtime property readers shared by gsapRuntimeBridge and gsapDragCommit.
  */
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
-import { classifyPropertyGroup, type PropertyGroupName } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
+import { classifyPropertyGroup, type PropertyGroupName } from "@hanzo/frames-core/gsap-parser";
 import {
   COLOR_GRADING_SOURCE_HIDDEN_ATTR,
   HF_COLOR_GRADING_CANVAS_ID_PREFIX,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import { getIframeGsap, queryIframeElement, type IframeGsap } from "./gsapShared";
 import { roundTo3 } from "../utils/rounding";
 

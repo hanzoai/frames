@@ -28,23 +28,23 @@
 import { readFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { parseHTML } from "linkedom";
-import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
+import { rewriteAssetPath } from "@hanzo/frames-parsers/asset-paths";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   resolveLocalAssetCandidates,
-} from "@hanzo/frame-parsers/asset-resolution";
+} from "@hanzo/frames-parsers/asset-resolution";
 import {
   proxyVariantFor,
   scanProjectMediaCodecMap,
   type HtmlSourceLike,
-} from "@hanzo/frame-studio-server/media-codec-map";
+} from "@hanzo/frames-studio-server/media-codec-map";
 import {
   ProxyTranscodeError,
   resolveProxy,
   waitForProxy,
   TRANSCODE_TIMEOUT_MS,
-} from "@hanzo/frame-studio-server/proxy-transcoder";
+} from "@hanzo/frames-studio-server/proxy-transcoder";
 import { rewriteHtmlAttributes } from "./publishProject.js";
 
 /** Archive-path prefix for baked proxy files, mirroring `localizeExternalAssets`'s `_ext/`. */

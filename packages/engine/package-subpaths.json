@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-engine",
+  "package": "@hanzo/frames-engine",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

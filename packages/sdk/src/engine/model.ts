@@ -10,7 +10,7 @@ import {
   ensureHfIds,
   isCompositionTemplate,
   walkCompositionDescendants,
-} from "@hanzo/frame-core/hf-ids";
+} from "@hanzo/frames-core/hf-ids";
 
 export interface ParsedDocument {
   document: Document;

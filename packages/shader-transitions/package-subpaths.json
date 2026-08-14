@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-shader-transitions",
+  "package": "@hanzo/frames-shader-transitions",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

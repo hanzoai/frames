@@ -1,4 +1,4 @@
-import type { FrameStatus } from "@hanzo/frame-core/storyboard";
+import type { FrameStatus } from "@hanzo/frames-core/storyboard";
 
 /**
  * Single source of truth for how each frame lifecycle status is presented —

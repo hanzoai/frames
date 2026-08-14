@@ -60,7 +60,7 @@ Remotion @ 4.0 with PNG/BT.709 output is 0.953.
 
 ## Translation walk-through (skill cheat sheet)
 
-| Remotion                                                                    | Frames                                                                           |
+| Remotion                                                                    | Frames                                                                                |
 | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `<Composition schema={z.object({...})} defaultProps={...} />`               | data-\* attributes on root `#stage` div                                               |
 | nested array prop (`stats[]`)                                               | repeated HTML markup with per-instance `data-*` attrs                                 |
@@ -78,7 +78,7 @@ Remotion @ 4.0 with PNG/BT.709 output is 0.953.
 cd remotion-src && npm install && npm run render
 
 # Render Frames translation
-cd ../hf-src && npx @hanzo/frame render --output ../hf.mp4
+cd ../hf-src && npx @hanzo/frames render --output ../hf.mp4
 
 # Compare
 ../../../scripts/render_diff.sh ./remotion-src/out/baseline.mp4 ./hf.mp4 ./diff

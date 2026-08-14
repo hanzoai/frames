@@ -9,8 +9,8 @@ import { dirname, join } from "node:path";
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import { type Fps } from "@hanzo/frame-core";
-import { type VideoElement, type VideoFrameFormat, type VideoMetadata } from "@hanzo/frame-engine";
+import { type Fps } from "@hanzo/frames-core";
+import { type VideoElement, type VideoFrameFormat, type VideoMetadata } from "@hanzo/frames-engine";
 import { type RenderConfig, type RenderJob, createRenderJob } from "../renderOrchestrator.js";
 import { defaultLogger, type ProducerLogger } from "../../logger.js";
 
@@ -356,7 +356,7 @@ export function buildSyntheticRenderJob(input: SyntheticRenderJobInput): RenderJ
 
 /**
  * Resolve the producer package version by walking up from the calling
- * module until a `package.json` whose `name === "@hanzo/frame-producer"`
+ * module until a `package.json` whose `name === "@hanzo/frames-producer"`
  * is found. Works for both the bundled `dist/index.js` (1 level up) and
  * the unbundled source tree (4 levels up).
  *
@@ -376,7 +376,7 @@ export function readProducerVersion(): string {
           name?: string;
           version?: string;
         };
-        if (pkg.name === "@hanzo/frame-producer" && typeof pkg.version === "string") {
+        if (pkg.name === "@hanzo/frames-producer" && typeof pkg.version === "string") {
           cachedProducerVersion = pkg.version;
           return pkg.version;
         }

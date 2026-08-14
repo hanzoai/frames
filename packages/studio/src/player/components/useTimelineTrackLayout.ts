@@ -1,5 +1,5 @@
 import { useMemo, useRef } from "react";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import { animationLaneGroups } from "./TimelinePropertyLanes";
 import { usePlayerStore, type TimelineElement } from "../store/playerStore";
 import { STUDIO_KEYFRAMES_ENABLED } from "../../components/editor/manualEditingAvailability";

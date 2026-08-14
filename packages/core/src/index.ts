@@ -86,7 +86,7 @@ export {
 
 // Parsers — GSAP helpers. The AST parser (parseGsapScriptAcorn and write ops)
 // is browser-safe; mutation helpers are in gsapWriterAcorn.
-export type { GsapAnimation, GsapMethod, ParsedGsap } from "@hanzo/frame-parsers";
+export type { GsapAnimation, GsapMethod, ParsedGsap } from "@hanzo/frames-parsers";
 
 export {
   serializeGsapAnimations,
@@ -94,8 +94,8 @@ export {
   validateCompositionGsap,
   keyframesToGsapAnimations,
   gsapAnimationsToKeyframes,
-} from "@hanzo/frame-parsers";
-export type { ParsedHtml, CompositionMetadata } from "@hanzo/frame-parsers";
+} from "@hanzo/frames-parsers";
+export type { ParsedHtml, CompositionMetadata } from "@hanzo/frames-parsers";
 
 export {
   parseHtml,
@@ -104,7 +104,7 @@ export {
   removeElementFromHtml,
   validateCompositionHtml,
   extractCompositionMetadata,
-} from "@hanzo/frame-parsers";
+} from "@hanzo/frames-parsers";
 
 // Generators
 export type { SerializeOptions } from "./generators/frames";
@@ -144,8 +144,8 @@ export {
   MEDIA_DURATION_CLAMP_EPSILON_SECONDS,
 } from "./compiler/timingCompiler";
 
-// Lint moved to @hanzo/frame-lint. Import lint APIs from @hanzo/frame-lint
-// directly, or via the back-compat stub at @hanzo/frame-core/lint. Not
+// Lint moved to @hanzo/frames-lint. Import lint APIs from @hanzo/frames-lint
+// directly, or via the back-compat stub at @hanzo/frames-core/lint. Not
 // re-exported here — doing so would cycle core's main entry through the lint
 // package (which imports core utilities back).
 export {

@@ -2,7 +2,7 @@
 import { spawn } from "child_process";
 import { readFileSync } from "fs";
 import { basename, extname } from "path";
-import { redactTelemetryString } from "@hanzo/frame-core";
+import { redactTelemetryString } from "@hanzo/frames-core";
 import { FFPROBE_PATH_ENV, getFfprobeBinary } from "./ffmpegBinaries.js";
 import { ManagedChildProcess } from "./managedChildProcess.js";
 import { trackChildProcess } from "./processTracker.js";

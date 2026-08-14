@@ -11,7 +11,7 @@
 import { type Browser, type Page, type Viewport, type ConsoleMessage } from "puppeteer-core";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
-import { quantizeTimeToFrame, fpsToNumber } from "@hanzo/frame-core";
+import { quantizeTimeToFrame, fpsToNumber } from "@hanzo/frames-core";
 
 // ── Extracted modules ───────────────────────────────────────────────────────
 import {
@@ -1140,7 +1140,7 @@ async function constructCaptureSession(
   // wrappers around named functions. Empirically, this happens with:
   //   - tsx (its esbuild loader runs with keepNames=true), used by the
   //     producer's parity-harness, ad-hoc dev scripts, and the
-  //     `bun run --filter @hanzo/frame-engine test` Vitest path.
+  //     `bun run --filter @hanzo/frames-engine test` Vitest path.
   //   - any tsup/esbuild build that explicitly enables keepNames.
   //
   // The CLI (`packages/cli`) bundles this engine via tsup with

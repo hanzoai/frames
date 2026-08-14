@@ -82,8 +82,8 @@ import {
   runPostRenderStep,
   runPostRenderStepAsync,
 } from "../utils/render-success-state.js";
-import type { ProducerLogger, RenderJob } from "@hanzo/frame-producer";
-import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@hanzo/frame-engine";
+import type { ProducerLogger, RenderJob } from "@hanzo/frames-producer";
+import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@hanzo/frames-engine";
 import {
   checkOutputResolutionCompatibility,
   suggestMatchingPreset,
@@ -91,7 +91,7 @@ import {
   type CanvasResolution,
   type OutputResolutionIssueKind,
   type Fps,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 
 export default defineCommand({
   meta: {

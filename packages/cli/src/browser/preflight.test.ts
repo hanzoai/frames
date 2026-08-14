@@ -113,7 +113,7 @@ describe("runEnvironmentChecks", () => {
       expect(result.outcomes.find((outcome) => outcome.name === "Chrome")).toMatchObject({
         ok: false,
         title: "Chrome not found",
-        hint: "Run: npx frames browser ensure",
+        hint: "Run: npx @hanzo/frames browser ensure",
       });
       expect(result.browser).toBeUndefined();
     } finally {

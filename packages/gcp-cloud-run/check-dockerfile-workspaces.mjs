@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(import.meta.dirname, "../..");
-const ENTRY_PACKAGE = "@hanzo/frame-gcp-cloud-run";
-const PRODUCER_PACKAGE = "@hanzo/frame-producer";
+const ENTRY_PACKAGE = "@hanzo/frames-gcp-cloud-run";
+const PRODUCER_PACKAGE = "@hanzo/frames-producer";
 const RUNTIME_DEPENDENCY_FIELDS = ["dependencies", "optionalDependencies", "peerDependencies"];
 
 export function readWorkspacePackages(root = ROOT) {
@@ -57,11 +57,11 @@ function fullBuildPositions(dockerfile) {
 }
 
 /**
- * Workspace packages are named `@hanzo/frame-<directory>`; the CLI is the
- * plain `@hanzo/frame`, which lives in `packages/cli`.
+ * Workspace packages are named `@hanzo/frames-<directory>`; the CLI is the
+ * plain `@hanzo/frames`, which lives in `packages/cli`.
  */
 function directoryOf(name) {
-  const suffix = name.trim().replace(/^frame-?/, "");
+  const suffix = name.trim().replace(/^frames-?/, "");
   return suffix === "" ? "cli" : suffix;
 }
 

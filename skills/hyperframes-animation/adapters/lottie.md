@@ -104,8 +104,8 @@ The render engine needs the composition's total length. GSAP timelines report du
 After editing a Lottie composition:
 
 ```bash
-npx @hanzo/frame lint
-npx @hanzo/frame check
+npx @hanzo/frames lint
+npx @hanzo/frames check
 ```
 
 ## Credits And References

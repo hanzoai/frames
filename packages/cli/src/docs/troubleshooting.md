@@ -2,7 +2,7 @@
 
 ## "No composition found"
 
-Your directory needs an `index.html`. Run `npx frames init` to create one.
+Your directory needs an `index.html`. Run `npx @hanzo/frames init` to create one.
 
 ## "FFmpeg not found"
 
@@ -14,7 +14,7 @@ Local rendering requires FFmpeg. Install it:
 
 ## Lint errors
 
-Run `npx frames lint` to check for common issues:
+Run `npx @hanzo/frames lint` to check for common issues:
 
 - Missing `data-composition-id` on root element
 - Missing `class="clip"` on timed elements

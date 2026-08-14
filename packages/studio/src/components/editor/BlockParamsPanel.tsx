@@ -1,5 +1,5 @@
 import { memo, useState, useCallback } from "react";
-import type { BlockParam } from "@hanzo/frame-core/registry";
+import type { BlockParam } from "@hanzo/frames-core/registry";
 
 interface BlockParamsPanelProps {
   blockName: string;

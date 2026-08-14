@@ -1,5 +1,5 @@
 /**
- * SDK subpath export — `@hanzo/frame-gcp-cloud-run/sdk`.
+ * SDK subpath export — `@hanzo/frames-gcp-cloud-run/sdk`.
  *
  * Pulled into its own subpath so consumers that only drive renders (CLI, CI
  * scripts, adopter tooling) don't pay the cost of importing `./server.js`,

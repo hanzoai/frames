@@ -1,4 +1,4 @@
-import type { StudioSelectionSnapshot } from "@hanzo/frame-studio-server";
+import type { StudioSelectionSnapshot } from "@hanzo/frames-studio-server";
 import type { DomEditSelection } from "../components/editor/domEditing";
 
 function round3(value: number): number {

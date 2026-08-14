@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import type { CompositionVariable, CompositionVariableType } from "@hanzo/frame-sdk";
+import type { CompositionVariable, CompositionVariableType } from "@hanzo/frames-sdk";
 import { VARIABLES_INPUT_CLASS } from "./VariablesValueControls";
 
 const VARIABLE_TYPES: CompositionVariableType[] = [

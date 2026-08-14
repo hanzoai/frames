@@ -19,8 +19,8 @@
  * composition dimensions.
  */
 
-import { type CanvasResolution, resolveResolutionFlagPair } from "@hanzo/frame-core";
-import { VALID_CANVAS_RESOLUTIONS } from "@hanzo/frame-core";
+import { type CanvasResolution, resolveResolutionFlagPair } from "@hanzo/frames-core";
+import { VALID_CANVAS_RESOLUTIONS } from "@hanzo/frames-core";
 
 /**
  * Free-text prefix the thrown error is scoped to (e.g. `"[cloudrun render]"`,

@@ -1,8 +1,8 @@
 // Imports the parsers SOURCE (not the published subpath) so newly-added eases
 // like circ.inOut resolve before the parsers dist is rebuilt.
 import { SUPPORTED_EASES } from "../../../../parsers/src/gsapConstants";
-import { parseSpringBounce } from "@hanzo/frame-core/spring-ease";
-import { parseWiggleEase } from "@hanzo/frame-core/wiggle-ease";
+import { parseSpringBounce } from "@hanzo/frames-core/spring-ease";
+import { parseWiggleEase } from "@hanzo/frames-core/wiggle-ease";
 import { describe, expect, it } from "vitest";
 import { EASE_PRESETS, easePresetLabel } from "./easePresetLibrary";
 import { resolveEaseCurveTuple } from "./gsapAnimationConstants";

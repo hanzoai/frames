@@ -6,7 +6,7 @@ import {
   type HfColorGradingAdjustKey,
   type HfColorGradingDetailKey,
   type NormalizedHfColorGrading,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import { Plus, Settings } from "../../icons/SystemIcons";
 import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { LUT_EXT } from "../../utils/mediaTypes";

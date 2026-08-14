@@ -1,4 +1,4 @@
-import type { FrameStatus } from "@hanzo/frame-core/storyboard";
+import type { FrameStatus } from "@hanzo/frames-core/storyboard";
 
 /**
  * Frame comments — the storyboard review's structured feedback channel.

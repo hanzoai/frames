@@ -3,19 +3,19 @@ name: figma
 description: Import Figma content into a Frames composition — rendered assets, brand tokens, components, storyboard sections → reconstructed motion (frames read as states, not slides) (REST/CLI), connector-assisted motion when available, and shaders from a connector or native export. Use when the user pastes a figma.com link or asks to bring a Figma design, frame, logo, brand, or animation into a video/composition.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update figma`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frames skills update figma`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Figma → Frames
 
 Bring the user's Figma work into a composition. **Split by capability** (design spec §2):
 
-| Phase | What                | Transport                 | Surface                       |
-| ----- | ------------------- | ------------------------- | ----------------------------- |
-| 1     | Static assets       | REST                      | `frames figma asset`     |
-| 2     | Brand tokens/styles | REST                      | `frames figma tokens`    |
-| 3     | Components → HTML   | REST                      | `frames figma component` |
-| 4     | Motion → GSAP       | connector when available  | use its motion context        |
-| 5     | Shaders             | connector / manual export | use it or a native export     |
+| Phase | What                | Transport                 | Surface                   |
+| ----- | ------------------- | ------------------------- | ------------------------- |
+| 1     | Static assets       | REST                      | `frames figma asset`      |
+| 2     | Brand tokens/styles | REST                      | `frames figma tokens`     |
+| 3     | Components → HTML   | REST                      | `frames figma component`  |
+| 4     | Motion → GSAP       | connector when available  | use its motion context    |
+| 5     | Shaders             | connector / manual export | use it or a native export |
 
 REST is used wherever it can be (usable at volume, headless). A compatible Figma connector is optional for motion and shader data; without one, ask for a native export. Every path freezes assets locally so renders stay deterministic. Storyboard reconstructions compose Phase-1 asset exports (REST) with agent-driven timeline assembly — no connector needed. Existing frozen assets, manifest records, and bindings are unaffected by routing changes — the split only changes which credential the next import uses.
 
@@ -86,7 +86,7 @@ Node tree → editable HTML at exact figma geometry, packaged as a registry item
 
 ## Motion (Phase 4 — connector-assisted)
 
-**Usage beacon:** Connector-assisted phases have no CLI touchpoint, so fire the skill beacon at start and finish (anonymous, consent-gated, never fails): `npx @hanzo/frame events --skill=figma-motion` when you begin, `npx @hanzo/frame events --skill=figma-motion --event=skill_completed --outcome=success|error` when done. Same for shaders (`figma-shaders`) and storyboards (`figma-storyboard`).
+**Usage beacon:** Connector-assisted phases have no CLI touchpoint, so fire the skill beacon at start and finish (anonymous, consent-gated, never fails): `npx @hanzo/frames events --skill=figma-motion` when you begin, `npx @hanzo/frames events --skill=figma-motion --event=skill_completed --outcome=success|error` when done. Same for shaders (`figma-shaders`) and storyboards (`figma-storyboard`).
 
 No REST equivalent exists. When a compatible connector is available, use it and hand its output to the pure helpers in `@frames/core/figma`; otherwise ask for a native export:
 
@@ -95,7 +95,7 @@ No REST equivalent exists. When a compatible connector is available, use it and 
    2b. **Validate against ground truth before calling it done — mandatory**: export the cohort's root frame through the available connector and run `node skills/figma/scripts/verify-motion.mjs --reference <export.mp4> --render <render.mp4> --crop WxH+X+Y` — it compares motion-energy deltas (static import fidelity cancels out) and fails below 15dB min motion-PSNR (calibrated: faithful ≈ 20+, diverging ≈ 5). Measure `--crop` from the render's actual card edges, don't guess. FAIL means re-check the translation, not the threshold.
 3. `motionToGsap(doc)` → `emitTimelineScript(spec)` → inject as a `<script>` after the GSAP + CustomEase CDN tags. Paused, finite, registered on `window.__timelines` with a literal key.
 4. Untranslatable track (shader-driven, unsupported prop, complex masks) → export through the connector, freeze the MP4, then embed it as `<video class="clip">`. Exception: shader-driven tracks — Figma's export path flattens shaders to the base color (see Shaders below), so a bake there silently loses the shader; ask the user for a native Figma export instead. Always say which path you used and why. Named eases outside the mapped set fall back to linear — the mapping table lives in `motionEase.ts`; flag the fallback to the user when it fires.
-5. Run `npx @hanzo/frame check` before calling it done.
+5. Run `npx @hanzo/frames check` before calling it done.
 
 ## Shaders (Phase 5 — mostly manual)
 

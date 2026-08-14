@@ -21,7 +21,7 @@ import {
 } from "./editor/manualEditingAvailability";
 import { Tooltip } from "./ui";
 import { Scissors } from "../icons/SystemIcons";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import type { DomEditSelection } from "./editor/domEditingTypes";
 import { canSplitElement } from "../utils/timelineElementSplit";
 import { canAddBeatAt, addBeatAtCompositionTime } from "../utils/beatEditActions";

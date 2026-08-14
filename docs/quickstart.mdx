@@ -125,14 +125,14 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
 <Steps>
   <Step title="Scaffold the project">
     ```bash
-    npx @hanzo/frame init my-video
+    npx @hanzo/frames init my-video
     cd my-video
     ```
 
     This starts an interactive wizard that walks you through example selection and media import. To skip prompts (e.g. in CI or from an agent), use `--non-interactive`:
 
     ```bash
-    npx @hanzo/frame init my-video --non-interactive --example blank
+    npx @hanzo/frames init my-video --non-interactive --example blank
     ```
 
     See [Examples](/examples) for all available examples.
@@ -163,7 +163,7 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
     If you have a source video, pass it with `--video` for automatic transcription and captions:
 
     ```bash
-    npx @hanzo/frame init my-video --example warm-grain --video ./intro.mp4
+    npx @hanzo/frames init my-video --example warm-grain --video ./intro.mp4
     ```
 
     `frames init` installs AI agent skills automatically, so you can hand off to your AI agent at any point.
@@ -171,7 +171,7 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
 
   <Step title="Preview in the browser">
     ```bash
-    npx @hanzo/frame preview
+    npx @hanzo/frames preview
     ```
 
     This starts the Hyperframes Studio and opens your composition in the browser. Edits to `index.html` reload automatically.
@@ -221,7 +221,7 @@ The agent handles scaffolding, animation, and rendering. See the [prompting guid
 
   <Step title="Render to MP4">
     ```bash
-    npx @hanzo/frame render --output output.mp4
+    npx @hanzo/frames render --output output.mp4
     ```
 
     ```bash Expected output

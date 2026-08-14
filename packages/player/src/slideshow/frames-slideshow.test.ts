@@ -2084,7 +2084,7 @@ describe("dropInvalidSlides — phantom slide filtering", () => {
     sceneId: string,
     start: number,
     end: number,
-  ): import("@hanzo/frame-core/slideshow").ResolvedSlide {
+  ): import("@hanzo/frames-core/slideshow").ResolvedSlide {
     return { sceneId, start, end, fragments: [], hotspots: [] };
   }
 

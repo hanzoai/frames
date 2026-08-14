@@ -5,7 +5,7 @@ import type {
   LintResult,
   ResolvedProject,
   StudioSelectionResponse,
-} from "@hanzo/frame-studio-server";
+} from "@hanzo/frames-studio-server";
 
 export type StudioLintResponse = LintResult;
 

@@ -8,7 +8,7 @@
  */
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { Composition, CompositionVariable } from "@hanzo/frame-sdk";
+import type { Composition, CompositionVariable } from "@hanzo/frames-sdk";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import {
   applyBind,

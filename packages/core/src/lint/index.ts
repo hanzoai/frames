@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-lint */
-export * from "@hanzo/frame-lint";
+/** @deprecated Import from @hanzo/frames-lint */
+export * from "@hanzo/frames-lint";

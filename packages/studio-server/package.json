@@ -1,5 +1,5 @@
 {
-  "name": "@hanzo/frame-studio-server",
+  "name": "@hanzo/frames-studio-server",
   "version": "0.7.82",
   "repository": {
     "type": "git",
@@ -134,8 +134,8 @@
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
-    "@hanzo/frame-core": "workspace:*",
-    "@hanzo/frame-parsers": "workspace:*",
+    "@hanzo/frames-core": "workspace:*",
+    "@hanzo/frames-parsers": "workspace:*",
     "hono": "^4.0.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8",

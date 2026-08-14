@@ -113,11 +113,11 @@ tl.seek(0);
 
 ## Pre-Built Caption Components
 
-Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx @hanzo/frame add <name>` and wire as a sub-composition via `data-composition-src` (see `frames-registry`).
+Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx @hanzo/frames add <name>` and wire as a sub-composition via `data-composition-src` (see `frames-registry`).
 
 ```bash
-npx @hanzo/frame catalog --tag caption-style   # list all caption components
-npx @hanzo/frame add caption-highlight         # install a specific one
+npx @hanzo/frames catalog --tag caption-style   # list all caption components
+npx @hanzo/frames add caption-highlight         # install a specific one
 ```
 
 | Style                     | Component                    | Best for                     |

@@ -54,7 +54,7 @@ import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
   type CanvasResolution,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 
 interface VideoMeta {
   durationSeconds: number;
@@ -249,7 +249,7 @@ function toPackageName(projectName: string): string {
 }
 
 function getHyperframesPackageSpecifier(): string {
-  return VERSION === "0.0.0-dev" ? "frames" : `frames@${VERSION}`;
+  return VERSION === "0.0.0-dev" ? "@hanzo/frames" : `@hanzo/frames@${VERSION}`;
 }
 
 function framesScript(command: string): string {
@@ -645,7 +645,7 @@ async function keepSkillsCurrent(destDir: string): Promise<void> {
       // "up to date"; the engine already reported what it could verify or
       // blind-install. Point at the recovery command instead.
       console.log(
-        c.dim("Skills freshness unverified — run `npx frames skills update` when online."),
+        c.dim("Skills freshness unverified — run `npx @hanzo/frames skills update` when online."),
       );
     } else if (result.installed.length === 0) {
       console.log(c.success("AI coding skills are already up to date."));
@@ -750,7 +750,7 @@ export default defineCommand({
       // command copy-pasteable.
       console.error(
         c.error(
-          `The --template flag was renamed to --example. Example:\n  npx frames init ${args.name ?? "my-video"} --example "${args.template}"`,
+          `The --template flag was renamed to --example. Example:\n  npx @hanzo/frames init ${args.name ?? "my-video"} --example "${args.template}"`,
         ),
       );
       failCommand();
@@ -758,7 +758,7 @@ export default defineCommand({
     if (args["video-legacy"] !== undefined) {
       console.error(
         c.error(
-          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx frames init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
+          `The -V short flag no longer maps to --video. Use --video (or -v). Example:\n  npx @hanzo/frames init ${args.name ?? "my-video"} --video "${args["video-legacy"]}"`,
         ),
       );
       failCommand();
@@ -944,7 +944,7 @@ export default defineCommand({
       console.log();
       if (skipSkills) {
         console.log(`  ${c.accent("1.")} Install AI coding skills (one-time):`);
-        console.log(`     ${c.accent("npx frames skills update")}`);
+        console.log(`     ${c.accent("npx @hanzo/frames skills update")}`);
       } else {
         console.log(
           `  ${c.accent("1.")} Restart your AI agent (new session) so it loads the skills.`,

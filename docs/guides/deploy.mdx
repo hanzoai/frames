@@ -15,7 +15,7 @@ All three templates use the same shape:
 
 - **Preview** the bundled `ui-3d-reveal` composition in the browser via the [`<frames-player>`](/packages/player) web component.
 - **Render** to MP4 by POSTing to `/api/render`. The handler ships the composition to a sandboxed runtime that has Chromium, FFmpeg, and `frames` pre-installed, then streams the MP4 back to storage and returns a URL.
-- **Author locally**, deploy the preview + render API. Compositions are still built on your machine with `npx @hanzo/frame init`, then dropped into the template's compositions directory.
+- **Author locally**, deploy the preview + render API. Compositions are still built on your machine with `npx @hanzo/frames init`, then dropped into the template's compositions directory.
 
 ## Choosing a template
 
@@ -124,9 +124,9 @@ All three templates ship with one bundled composition (`ui-3d-reveal`). To use y
     Compositions are HTML — author them on your machine with the [CLI](/packages/cli):
 
     ```bash Terminal
-    npx @hanzo/frame init my-video
+    npx @hanzo/frames init my-video
     cd my-video
-    npx @hanzo/frame preview
+    npx @hanzo/frames preview
     ```
   </Step>
   <Step title="Drop the bundle into the template">

@@ -22,7 +22,7 @@ import { waitForPreferredSeekTarget } from "../capture/captureCompositionFrame.j
 import type { ProjectLintResult } from "../utils/lintProject.js";
 
 // validateInBrowser lazy-loads the producer localize helpers via loadProducer;
-// mock it so these unit tests never resolve @hanzo/frame-producer's built dist.
+// mock it so these unit tests never resolve @hanzo/frames-producer's built dist.
 vi.mock("../utils/producer.js", () => ({
   loadProducer: vi.fn(async () => ({
     localizeRemoteMediaSources: vi.fn(async (html: string) => ({

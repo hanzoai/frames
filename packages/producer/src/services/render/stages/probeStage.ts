@@ -40,8 +40,8 @@ import {
   initializeSession,
   isTransientBrowserError,
   probeBeginFrameLiveness,
-} from "@hanzo/frame-engine";
-import { fpsToNumber } from "@hanzo/frame-core";
+} from "@hanzo/frames-engine";
+import { fpsToNumber } from "@hanzo/frames-core";
 import type { CompiledComposition } from "../../htmlCompiler.js";
 import {
   discoverMediaFromBrowser,

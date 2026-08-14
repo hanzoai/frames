@@ -10,8 +10,8 @@
 
 import type { TimelineElement } from "../store/playerStore";
 import type { ClipManifestClip } from "./playbackTypes";
-import { resolveCssStackingContextId } from "@hanzo/frame-core/runtime/stacking-context";
-import { readClipTiming } from "@hanzo/frame-core/composition-contract";
+import { resolveCssStackingContextId } from "@hanzo/frames-core/runtime/stacking-context";
+import { readClipTiming } from "@hanzo/frames-core/composition-contract";
 import {
   resolveMediaElement,
   applyMediaMetadataFromElement,

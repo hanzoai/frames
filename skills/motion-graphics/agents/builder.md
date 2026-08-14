@@ -6,7 +6,7 @@ Turn `shot-plan.json` into one renderable Frames composition (`compositions/inde
 
 Default = **compose existing catalog capabilities, not hand-author**:
 
-- `npx @hanzo/frame add <block>` (registry) → customize in place. Most blocks bake content/data into their own script (only a few expose CSS-var params), so reuse = **add + edit**.
+- `npx @hanzo/frames add <block>` (registry) → customize in place. Most blocks bake content/data into their own script (only a few expose CSS-var params), so reuse = **add + edit**.
 - `frames-animation` rules / blueprints / transitions for motion; runtime adapters (GSAP default).
 
 Hand-author only (a) gaps no block/rule covers, (b) the `asset-fusion` affordance binding. The Director named the block(s) + customizations in `shot-plan.json` (`content.block` + `content.customize`); see `catalog-map.md`.

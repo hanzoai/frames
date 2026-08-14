@@ -11,8 +11,8 @@
 
 // Browser-safe subpath — the core/parsers root entries pull Node-only modules
 // and would break browser bundles that include the SDK (e.g. Studio).
-import { parseCompositionVariables } from "@hanzo/frame-core/variables";
-import type { CompositionVariable } from "@hanzo/frame-core/variables";
+import { parseCompositionVariables } from "@hanzo/frames-core/variables";
+import type { CompositionVariable } from "@hanzo/frames-core/variables";
 
 // Exported so the SDK index can re-export it (kept from #2098's surface).
 export type VariableDecl = { id: string; default?: unknown; [key: string]: unknown };

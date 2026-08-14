@@ -23,9 +23,9 @@ bun run format:check   # Check formatting
 ### Running Tests
 
 ```bash
-bun run --filter @hanzo/frame-core test          # Core unit tests (vitest)
-bun run --filter @hanzo/frame-engine test        # Engine unit tests (vitest)
-bun run --filter @hanzo/frame-core test:hyperframe-runtime-ci  # Runtime contract tests
+bun run --filter @hanzo/frames-core test          # Core unit tests (vitest)
+bun run --filter @hanzo/frames-engine test        # Engine unit tests (vitest)
+bun run --filter @hanzo/frames-core test:hyperframe-runtime-ci  # Runtime contract tests
 ```
 
 ### Linting & Formatting
@@ -94,7 +94,7 @@ Blocks don't need `demo.html` — they are already standalone compositions.
 1. Create `registry/<blocks|components>/<name>/registry-item.json` following the [schema](packages/core/schemas/registry-item.json)
 2. Add the item to `registry/registry.json`
 3. For components: include a `demo.html`
-4. Run `npx @hanzo/frame lint` and `npx @hanzo/frame check` on your HTML
+4. Run `npx @hanzo/frames lint` and `npx @hanzo/frames check` on your HTML
 5. Test the install flow: `frames add <name> --dir /tmp/test-project`
 
 ### Auto-generated docs
@@ -124,13 +124,13 @@ The script wipes `docs/catalog/` before regenerating, so deleted items are autom
 
 ## Packages
 
-| Package                 | Description                                 |
-| ----------------------- | ------------------------------------------- |
-| `@hanzo/frame-core`     | Types, HTML generation, runtime, linter     |
-| `@hanzo/frame-engine`   | Seekable page-to-video capture engine       |
-| `@hanzo/frame-producer` | Full rendering pipeline (capture + encode)  |
-| `@hanzo/frame-studio`   | Composition editor UI                       |
-| `@hanzo/frame`          | CLI for creating, previewing, and rendering |
+| Package                  | Description                                 |
+| ------------------------ | ------------------------------------------- |
+| `@hanzo/frames-core`     | Types, HTML generation, runtime, linter     |
+| `@hanzo/frames-engine`   | Seekable page-to-video capture engine       |
+| `@hanzo/frames-producer` | Full rendering pipeline (capture + encode)  |
+| `@hanzo/frames-studio`   | Composition editor UI                       |
+| `@hanzo/frames`          | CLI for creating, previewing, and rendering |
 
 ## Releasing (Maintainers)
 
@@ -164,7 +164,7 @@ bun run set-version 0.2.0-rc.1       # release candidate (--tag rc)
 bun run set-version 0.2.0            # final stable release (--tag latest)
 ```
 
-Consumers install pre-releases with `npm install @hanzo/frame-core@alpha` (or `@beta`, `@rc`). The `latest` tag is never touched by pre-releases, so `npm install @hanzo/frame-core` always gets the last stable version.
+Consumers install pre-releases with `npm install @hanzo/frames-core@alpha` (or `@beta`, `@rc`). The `latest` tag is never touched by pre-releases, so `npm install @hanzo/frames-core` always gets the last stable version.
 
 Pre-releases also create GitHub Releases marked as **pre-release**.
 

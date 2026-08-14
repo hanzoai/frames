@@ -15,8 +15,8 @@
     "types": ["@webgpu/types"],
     "baseUrl": ".",
     "paths": {
-      "@hanzo/frame-producer": ["./src/index.ts"],
-      "@hanzo/frame-producer/distributed": ["./src/distributed.ts"]
+      "@hanzo/frames-producer": ["./src/index.ts"],
+      "@hanzo/frames-producer/distributed": ["./src/distributed.ts"]
     }
   },
   "include": ["src/**/*"],

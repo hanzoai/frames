@@ -10,8 +10,8 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@hanzo/frame-producer": ["../producer/src/index.ts"],
-      "@hanzo/frame-producer/distributed": ["../producer/src/distributed.ts"]
+      "@hanzo/frames-producer": ["../producer/src/index.ts"],
+      "@hanzo/frames-producer/distributed": ["../producer/src/distributed.ts"]
     }
   },
   "include": ["src/**/*"],

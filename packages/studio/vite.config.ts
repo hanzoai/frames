@@ -75,7 +75,7 @@ function devProjectApi(): Plugin {
       } | null = null;
       const getApi = async () => {
         if (!_api) {
-          const mod = await server.ssrLoadModule("@hanzo/frame-studio-server");
+          const mod = await server.ssrLoadModule("@hanzo/frames-studio-server");
           _studioServerModule = mod as typeof _studioServerModule;
           const adapter = createViteAdapter(dataDir, server);
           _api = mod.createStudioApi(adapter);
@@ -189,8 +189,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@hanzo/frame-player": resolve(__dirname, "../player/src/frames-player.ts"),
-      "@hanzo/frame-studio-server/source-mutation": resolve(
+      "@hanzo/frames-player": resolve(__dirname, "../player/src/frames-player.ts"),
+      "@hanzo/frames-studio-server/source-mutation": resolve(
         __dirname,
         "../studio-server/src/helpers/sourceMutation.ts",
       ),
@@ -208,7 +208,7 @@ export default defineConfig({
   },
   ssr: {
     // recast / @babel/parser are CommonJS and call `require("fs")`. They are
-    // reachable only server-side via the Node-only `@hanzo/frame-parsers/gsap-parser`
+    // reachable only server-side via the Node-only `@hanzo/frames-parsers/gsap-parser`
     // subpath (studio-api GSAP mutations + the linter), which the dev server loads
     // through Vite SSR. Externalizing them makes SSR load the native Node modules
     // instead of esbuild-transforming the `require` into a shim that throws

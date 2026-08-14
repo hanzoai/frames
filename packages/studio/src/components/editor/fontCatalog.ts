@@ -115,7 +115,7 @@ export const COMMON_LOCAL_FONT_FAMILIES = [
   "Monaco",
 ] as const;
 
-import { resolveAliasDisplayName } from "@hanzo/frame-core/fonts/aliases";
+import { resolveAliasDisplayName } from "@hanzo/frames-core/fonts/aliases";
 
 /**
  * Resolves the render-time canonical font for a local font family name.

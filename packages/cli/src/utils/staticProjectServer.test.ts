@@ -60,13 +60,13 @@ const mocks = vi.hoisted(() => {
 });
 const FakeProxyTranscodeError = mocks.ProxyTranscodeError;
 
-vi.mock("@hanzo/frame-studio-server/proxy-transcoder", () => ({
+vi.mock("@hanzo/frames-studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
   ProxyTranscodeError: mocks.ProxyTranscodeError,
   ProxyCapacityError: mocks.ProxyCapacityError,
 }));
 
-vi.mock("@hanzo/frame-studio-server/media-codec-map", () => ({
+vi.mock("@hanzo/frames-studio-server/media-codec-map", () => ({
   probeAssetCodec: mocks.probeAssetCodec,
   decideMediaProxyEligibility: mocks.decideMediaProxyEligibility,
   isProxyVariant: (value: string) => value === "h264" || value === "vp8",
@@ -87,7 +87,7 @@ vi.mock("@hanzo/frame-studio-server/media-codec-map", () => ({
 // mocking the media-codec-map subpath can't reach inside it. The fake mirrors
 // the real contract (scan → inject tag) via this file's scan mock so the
 // injection assertions stay meaningful. Mirrors commands/play.test.ts.
-vi.mock("@hanzo/frame-studio-server/media-proxy-preview", () => ({
+vi.mock("@hanzo/frames-studio-server/media-proxy-preview", () => ({
   injectMediaCodecMapIntoHtml: vi.fn(
     async (html: string, projectDir: string, htmlSources: unknown[]) => {
       const map = await mocks.scanProjectMediaCodecMap(projectDir, htmlSources);

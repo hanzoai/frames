@@ -1,4 +1,4 @@
-import { exceedsFreezeCap, MAX_FREEZE_BYTES } from "@hanzo/frame-core/figma";
+import { exceedsFreezeCap, MAX_FREEZE_BYTES } from "@hanzo/frames-core/figma";
 
 /** Fetch a short-lived figma CDN render url into bytes. */
 export async function downloadRender(url: string): Promise<Uint8Array> {

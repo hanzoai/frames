@@ -1,5 +1,5 @@
-import type { CanvasResolution } from "@hanzo/frame-parsers";
-import type { RegistryItem } from "@hanzo/frame-core";
+import type { CanvasResolution } from "@hanzo/frames-parsers";
+import type { RegistryItem } from "@hanzo/frames-core";
 
 /** Resolved info about a single project. */
 export interface ResolvedProject {
@@ -141,7 +141,7 @@ export interface StudioApiAdapter {
      * route normalizes both into `Fps` before invoking the adapter, so
      * adapter implementations only ever see the rational form.
      */
-    fps: import("@hanzo/frame-core").Fps;
+    fps: import("@hanzo/frames-core").Fps;
     quality: string;
     jobId: string;
     /**

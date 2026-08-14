@@ -16,4 +16,4 @@ export {
   parseNumeric,
   parseStartExpression,
   type ReferenceExpression,
-} from "@hanzo/frame-parsers/composition-contract";
+} from "@hanzo/frames-parsers/composition-contract";

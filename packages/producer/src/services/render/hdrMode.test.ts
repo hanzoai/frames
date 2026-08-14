@@ -6,7 +6,7 @@
  */
 
 import { describe, expect, it, vi } from "vitest";
-import type { ExtractionResult, VideoColorSpace } from "@hanzo/frame-engine";
+import type { ExtractionResult, VideoColorSpace } from "@hanzo/frames-engine";
 import { resolveEffectiveHdrMode } from "./hdrMode.js";
 
 function makeLog() {

@@ -66,12 +66,12 @@ vi.mock("./staticProjectServer.js", () => ({
 }));
 
 // `preResolveHostileMediaProxies` reaches these two studio-server helpers via
-vi.mock("@hanzo/frame-studio-server/media-codec-map", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@hanzo/frame-studio-server/media-codec-map")>()),
+vi.mock("@hanzo/frames-studio-server/media-codec-map", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@hanzo/frames-studio-server/media-codec-map")>()),
   scanProjectMediaCodecMap: mocks.scanProjectMediaCodecMap,
   proxyVariantFor: (facts: { hasAlpha?: boolean }) => (facts.hasAlpha ? "vp8" : "h264"),
 }));
-vi.mock("@hanzo/frame-studio-server/proxy-transcoder", () => ({
+vi.mock("@hanzo/frames-studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
 }));
 

@@ -2,7 +2,7 @@ import {
   parseSlideshowManifest,
   resolveSlideshow,
   type ResolvedSlideshow,
-} from "@hanzo/frame-core/slideshow";
+} from "@hanzo/frames-core/slideshow";
 import { SlideshowController, type PlayerPort } from "./SlideshowController";
 import {
   SlideshowChannel,

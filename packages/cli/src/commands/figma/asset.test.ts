@@ -9,7 +9,7 @@ import {
   runAssetImportMany,
   type AssetImportDeps,
 } from "./asset.js";
-import { FigmaClientError, type FigmaClient } from "@hanzo/frame-core/figma";
+import { FigmaClientError, type FigmaClient } from "@hanzo/frames-core/figma";
 
 const dirs: string[] = [];
 function scratch(): string {

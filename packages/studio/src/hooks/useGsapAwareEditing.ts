@@ -8,7 +8,7 @@
  * from the rest of the editing orchestration.
  */
 import { useCallback } from "react";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import {
   POSITION_CHANNELS,

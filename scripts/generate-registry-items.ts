@@ -24,7 +24,7 @@ import {
   type FileType,
   type RegistryItem,
   type RegistryManifest,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");

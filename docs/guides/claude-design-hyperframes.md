@@ -5,7 +5,7 @@
 >
 > This Template-First guide is for the **Download-ZIP** flow. Its authoring rules differ from Send-to, and following it for a Send-to import yields a low-fidelity result.
 
-Your medium is **Frames compositions**: plain HTML + CSS + a paused GSAP timeline. The CLI (`npx @hanzo/frame render`, run from the project directory) turns the HTML into an MP4. You author the HTML -- the user renders locally.
+Your medium is **Frames compositions**: plain HTML + CSS + a paused GSAP timeline. The CLI (`npx @hanzo/frames render`, run from the project directory) turns the HTML into an MP4. You author the HTML -- the user renders locally.
 
 **Frames replaces your default video-artifact workflow.** Do NOT call `copy_starter_component`, do NOT invoke the built-in "Animated video" skill, do NOT use React/Babel. Plain HTML + GSAP only.
 
@@ -28,7 +28,7 @@ Your output must be a **valid starting point that Claude Code can open and immed
 - Correct brand identity from attachments (palette, typography, tone)
 - Strong visual layout per scene (hierarchy, spacing, readability)
 - Scene content that tells the story (headlines, stats, copy, imagery)
-- Structural validity (passes `npx @hanzo/frame lint` with zero errors)
+- Structural validity (passes `npx @hanzo/frames lint` with zero errors)
 - Appropriate shader transition choices for the mood
 - Reasonable scene count and durations for the video type
 
@@ -344,7 +344,7 @@ Scrub through every scene and check:
 | Scene doesn't appear          | Wrong `data-start` / `data-duration`                  | Check scene windows tile end-to-end                                                                                                                                   |
 | Blink before transition       | Exit animation before shader fires                    | Remove exit tweens -- shader IS the exit                                                                                                                              |
 | Blink before transition       | Transition duration < 0.3s                            | Increase to 0.5s                                                                                                                                                      |
-| Seeking backwards shows blank | Async capture race condition                          | Known bug in HyperShader browser mode. Forward seek usually works. For reliable scrubbing, download and use `npx @hanzo/frame preview` locally                         |
+| Seeking backwards shows blank | Async capture race condition                          | Known bug in HyperShader browser mode. Forward seek usually works. For reliable scrubbing, download and use `npx @hanzo/frames preview` locally                         |
 | Middle scene invisible        | First shader anchor not shown                         | Add `tl.set("#sN", { opacity: 1 }, startTime)` for first anchor in each shader group                                                                                  |
 | Middle scene invisible        | Non-anchor uses `visibility` instead of `autoAlpha`   | Change to `tl.set("#sN", { autoAlpha: 1 }, start)` and `tl.set("#sN", { autoAlpha: 0 }, end)`. Shader blanket reset poisons opacity; `visibility` alone can't fix it. |
 
@@ -357,7 +357,7 @@ The `preview.html` and `README.md` are already in the skeleton -- don't modify `
 In your final message, tell the user:
 
 1. **What you built** -- scene count, duration, visual identity summary, shader transitions used
-2. **What to do next** -- download the ZIP, run `npx @hanzo/frame preview` locally to see the full composition with reliable playback
+2. **What to do next** -- download the ZIP, run `npx @hanzo/frames preview` locally to see the full composition with reliable playback
 3. **What to refine in Claude Code** -- be specific about which scenes need animation polish, where timing could be tighter, which mid-scene activities are basic and could be richer. Don't just say "refine in Claude Code" -- say "scene 4's counter animation could be smoother with a longer duration, and scene 6 would benefit from a breathing float on the logo."
 4. **Caveats** -- placeholder assets, unverified stats, elements inspired by a real brand
 
@@ -486,12 +486,12 @@ A Frames video composition. Plain HTML + GSAP; rendered to MP4 by the `frames` C
 - **Node.js 22+** -- [nodejs.org](https://nodejs.org/)
 - **FFmpeg** -- `brew install ffmpeg` (macOS) or `sudo apt install ffmpeg` (Debian/Ubuntu) or [ffmpeg.org/download](https://ffmpeg.org/download.html) (Windows)
 
-Verify: `npx @hanzo/frame doctor`
+Verify: `npx @hanzo/frames doctor`
 
 ## Preview
 
 ```bash
-npx @hanzo/frame preview
+npx @hanzo/frames preview
 ```
 
 Opens the Frames Studio at `http://localhost:3002` with frame-accurate scrubbing.
@@ -502,8 +502,8 @@ This project was drafted in Claude Design. To polish animations, timing, and pac
 
 ```bash
 npx skills add hanzoai/frames   # install Frames skills (one-time)
-npx @hanzo/frame lint                     # verify structure (should pass with zero errors)
-npx @hanzo/frame preview                  # open the studio for live feedback
+npx @hanzo/frames lint                     # verify structure (should pass with zero errors)
+npx @hanzo/frames preview                  # open the studio for live feedback
 ```
 
 Then open in Claude Code and iterate:
@@ -520,7 +520,7 @@ positional argument is the project directory, not a file, so pass a specific
 composition with `-c` rather than as a bare path.
 
 ```bash
-npx @hanzo/frame render -o output.mp4
+npx @hanzo/frames render -o output.mp4
 ```
 
 1920x1080 / 30fps by default. Use `--fps 60` or `--resolution 3840x2160` to override.

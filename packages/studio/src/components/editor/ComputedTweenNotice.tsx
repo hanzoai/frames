@@ -1,4 +1,7 @@
-import { editabilityForProvenance, type GsapProvenance } from "@hanzo/frame-core/gsap-parser-acorn";
+import {
+  editabilityForProvenance,
+  type GsapProvenance,
+} from "@hanzo/frames-core/gsap-parser-acorn";
 
 /**
  * Notice shown for computed tweens: helper/loop tweens offer an "unroll to

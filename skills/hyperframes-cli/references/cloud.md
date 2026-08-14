@@ -4,7 +4,7 @@
 
 ```bash
 export HANZO_API_KEY=...          # from Hanzo KMS
-npx @hanzo/frame cloud render           # zip, upload, render, download
+npx @hanzo/frames cloud render           # zip, upload, render, download
 ```
 
 ## When to use managed cloud, Lambda, Cloud Run, or local
@@ -22,7 +22,7 @@ sign-in, no credential file, and no per-repo `.env` — one token, every surface
 
 ```bash
 export HANZO_API_KEY=...           # from Hanzo KMS; in CI, injected by the pipeline
-npx @hanzo/frame auth status             # which credential is in use, identity, balance
+npx @hanzo/frames auth status             # which credential is in use, identity, balance
                                    #   exit 0 = usable; exit 1 = absent or rejected.
                                    #   Exit 1 is the normal no-credential state
                                    #   (scripts: `auth status || echo offline`), not a
@@ -51,7 +51,7 @@ The direct-upload limit is 200 MB. Frames automatically excludes root-level `ren
 Inspect the exact archive without authenticating, uploading, spending credits, or starting a render:
 
 ```bash
-npx @hanzo/frame cloud render <project> --dry-run --json
+npx @hanzo/frames cloud render <project> --dry-run --json
 ```
 
 The result reports compressed `size_bytes`, `file_count`, the 200 MB limit, and the ten largest included files.
@@ -63,7 +63,7 @@ When a cloud upload reports a size-limit error, agents must use this workflow:
 3. Before excluding anything else, search `src`, `href`, `url()`, `data-composition-src`, JavaScript strings, manifests, and variable-driven paths across every HTML, CSS, and JavaScript entry.
 4. Preserve existing `.framesignore` comments and rules. Add the narrowest verified-unneeded root-relative paths; prefer an exact directory or file over a broad wildcard.
 5. Never ignore `index.html`, the selected composition, mounted sub-compositions, fonts, images, audio, video, scripts, or manifests merely because they are large. Never ignore all of `assets/`.
-6. Rerun dry-run until the archive is below the limit, then run `npx @hanzo/frame check`. Remember that `check` sees the source directory, so it cannot prove a dynamically computed asset path remains in the filtered archive; the reference audit is still required.
+6. Rerun dry-run until the archive is below the limit, then run `npx @hanzo/frames check`. Remember that `check` sees the source directory, so it cannot prove a dynamically computed asset path remains in the filtered archive; the reference audit is still required.
 
 Example:
 
@@ -92,11 +92,11 @@ Rules support comments, globs, and negation. A later rule can override a default
 | `--dry-run`            | off                         | Build and inspect a local project zip without authenticating, uploading, or rendering.                                         |
 
 ```bash
-npx @hanzo/frame cloud render . \
+npx @hanzo/frames cloud render . \
   --composition compositions/intro.html \
   --output ./renders/intro.mp4
 
-npx @hanzo/frame cloud render --quality high --fps 60
+npx @hanzo/frames cloud render --quality high --fps 60
 ```
 
 `--resolution 4k` cannot combine with `--format webm`/`mov`: the 4k supersampling path has no alpha channel. Render 4k as mp4, or render alpha at native resolution.
@@ -106,9 +106,9 @@ npx @hanzo/frame cloud render --quality high --fps 60
 Cloud rendering supports [composition variables](../../frames-core/references/variables-and-media.md#variables): declare `data-composition-variables` on the composition, then fill them at render time.
 
 ```bash
-npx @hanzo/frame cloud render --variables '{"title":"Q4 Recap","theme":"dark"}'
-npx @hanzo/frame cloud render --variables-file ./vars.json
-npx @hanzo/frame cloud render --variables '{"title":"Q4 Recap"}' --strict-variables
+npx @hanzo/frames cloud render --variables '{"title":"Q4 Recap","theme":"dark"}'
+npx @hanzo/frames cloud render --variables-file ./vars.json
+npx @hanzo/frames cloud render --variables '{"title":"Q4 Recap"}' --strict-variables
 ```
 
 For a **local project** the CLI validates `--variables` against the declared schema _before_ uploading. For `--asset-id`/`--url` the schema lives server-side, so mismatches surface as a `frames_project_invalid` API error.
@@ -116,9 +116,9 @@ For a **local project** the CLI validates `--variables` against the declared sch
 **Upload once, re-render many** is the idiomatic template loop: render a local project to get its `asset_id`, then re-submit against that asset with new values (no re-zip, no re-upload).
 
 ```bash
-npx @hanzo/frame cloud render ./card-template                              # note the asset_id printed on upload
-npx @hanzo/frame cloud render --asset-id asst_abc123 --variables '{"name":"Ada"}'
-npx @hanzo/frame cloud render --asset-id asst_abc123 --variables '{"name":"Linus"}'
+npx @hanzo/frames cloud render ./card-template                              # note the asset_id printed on upload
+npx @hanzo/frames cloud render --asset-id asst_abc123 --variables '{"name":"Ada"}'
+npx @hanzo/frames cloud render --asset-id asst_abc123 --variables '{"name":"Linus"}'
 ```
 
 For high-volume personalized batches, both self-managed paths provide JSONL fan-out: AWS Lambda (`lambda.md`) and Google Cloud Run (`cloudrun.md`). The full variables schema (types, declarative bindings, sub-composition overrides, precedence) lives in the `frames-core` skill.
@@ -128,7 +128,7 @@ For high-volume personalized batches, both self-managed paths provide JSONL fan-
 By default the CLI blocks, polls, and downloads. Combine `--no-wait` (submit and exit with just the `render_id`) with `--callback-url` (HTTPS webhook on terminal status) for true fire-and-forget:
 
 ```bash
-npx @hanzo/frame cloud render --callback-url https://example.com/hf-hook --no-wait
+npx @hanzo/frames cloud render --callback-url https://example.com/hf-hook --no-wait
 #    Poll later with: frames cloud get hfr_def456
 ```
 
@@ -143,9 +143,9 @@ npx @hanzo/frame cloud render --callback-url https://example.com/hf-hook --no-wa
 ## Managing renders
 
 ```bash
-npx @hanzo/frame cloud list                 # recent renders (--limit, --token, --all)
-npx @hanzo/frame cloud get hfr_def456       # full detail + short-lived signed video_url
-npx @hanzo/frame cloud delete hfr_def456    # soft-delete (--no-confirm to skip the prompt)
+npx @hanzo/frames cloud list                 # recent renders (--limit, --token, --all)
+npx @hanzo/frames cloud get hfr_def456       # full detail + short-lived signed video_url
+npx @hanzo/frames cloud delete hfr_def456    # soft-delete (--no-confirm to skip the prompt)
 ```
 
 `video_url` and `thumbnail_url` are short-lived presigned URLs, so re-fetch with `cloud get` rather than caching them.
@@ -155,7 +155,7 @@ npx @hanzo/frame cloud delete hfr_def456    # soft-delete (--no-confirm to skip 
 A retry is harmless for reads, but the zip upload is **not** idempotent: a blind retry creates a duplicate asset and meters twice. Pass `--idempotency-key` so retries are safe:
 
 ```bash
-npx @hanzo/frame cloud render . --idempotency-key "$(uuidgen)"
+npx @hanzo/frames cloud render . --idempotency-key "$(uuidgen)"
 ```
 
 The key is forwarded to both upload and submit (the server scopes idempotency per-endpoint, so reusing one value is safe). Use any opaque string in `[A-Za-z0-9_:.-]`, 1–255 chars.

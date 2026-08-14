@@ -11,7 +11,7 @@ import {
   draftFromDeclaration,
   EMPTY_DRAFT,
 } from "./VariablesDeclarationForm.js";
-import type { CompositionVariable } from "@hanzo/frame-core/variables";
+import type { CompositionVariable } from "@hanzo/frames-core/variables";
 
 describe("mergeDeclarationEdit", () => {
   it("preserves unmodeled keys on a same-type edit", () => {

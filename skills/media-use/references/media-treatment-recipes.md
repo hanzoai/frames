@@ -305,7 +305,7 @@ When the narrative benefits from explicit recording-device language, install
 the Registry overlay block:
 
 ```bash
-npx @hanzo/frame add camcorder-hud --no-clipboard
+npx @hanzo/frames add camcorder-hud --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host over the intended media range.
@@ -725,23 +725,23 @@ the six-color **Electric Ink** palette:
 Frames also owns these named ramps. The name is an authoring shortcut;
 persist the listed colors through the existing `palette` array:
 
-| Group       | Palette ID       | Ordered colors                                                   |
-| ----------- | ---------------- | ---------------------------------------------------------------- |
-| Classic     | `noir`           | `#000000`, `#ffffff`                                             |
-| Classic     | `ink-paper`      | `#1a1a2e`, `#f5f5dc`                                             |
-| Classic     | `terminal`       | `#001100`, `#00ff00`                                             |
-| Classic     | `amber-glow`     | `#1a0f00`, `#ffcc00`                                             |
-| Classic     | `handheld-green` | `#0f380f`, `#306230`, `#8bac0f`, `#9bbc0f`                       |
-| Mood        | `golden-hour`    | `#1a1205`, `#4a3510`, `#8b6914`, `#d4a017`, `#fff8dc`            |
-| Mood        | `deep-sea`       | `#0a1628`, `#1a3a5c`, `#2d6187`, `#5ba4c9`, `#a8dce8`            |
-| Mood        | `arctic-night`   | `#0a0a14`, `#1a2a4a`, `#3a5a8a`, `#6a9aca`, `#cae8ff`            |
-| Mood        | `synthwave`      | `#120458`, `#7b2cbf`, `#e040fb`, `#ff6ec7`, `#fff59d`            |
-| Mood        | `vaporwave`      | `#1a0a2e`, `#3d1a5c`, `#ff71ce`, `#01cdfe`, `#fffb96`            |
-| Mood        | `forest`         | `#1a2e1a`, `#2d4a2d`, `#4a7c4a`, `#7ab37a`, `#c8e6c8`            |
-| Mono        | `sepia`          | `#1a1610`, `#3d3020`, `#6b5a40`, `#a89070`, `#e8dcc8`            |
-| Mono        | `blueprint`      | `#001830`, `#003060`, `#0050a0`, `#0080e0`, `#e0f0ff`            |
-| Frames | `warm-print`     | `#17121a`, `#824c50`, `#e09873`, `#f7ddb1`                       |
-| Frames | `electric-ink`   | `#080717`, `#3c185f`, `#7e2278`, `#d9339f`, `#ff6b66`, `#aafae0` |
+| Group   | Palette ID       | Ordered colors                                                   |
+| ------- | ---------------- | ---------------------------------------------------------------- |
+| Classic | `noir`           | `#000000`, `#ffffff`                                             |
+| Classic | `ink-paper`      | `#1a1a2e`, `#f5f5dc`                                             |
+| Classic | `terminal`       | `#001100`, `#00ff00`                                             |
+| Classic | `amber-glow`     | `#1a0f00`, `#ffcc00`                                             |
+| Classic | `handheld-green` | `#0f380f`, `#306230`, `#8bac0f`, `#9bbc0f`                       |
+| Mood    | `golden-hour`    | `#1a1205`, `#4a3510`, `#8b6914`, `#d4a017`, `#fff8dc`            |
+| Mood    | `deep-sea`       | `#0a1628`, `#1a3a5c`, `#2d6187`, `#5ba4c9`, `#a8dce8`            |
+| Mood    | `arctic-night`   | `#0a0a14`, `#1a2a4a`, `#3a5a8a`, `#6a9aca`, `#cae8ff`            |
+| Mood    | `synthwave`      | `#120458`, `#7b2cbf`, `#e040fb`, `#ff6ec7`, `#fff59d`            |
+| Mood    | `vaporwave`      | `#1a0a2e`, `#3d1a5c`, `#ff71ce`, `#01cdfe`, `#fffb96`            |
+| Mood    | `forest`         | `#1a2e1a`, `#2d4a2d`, `#4a7c4a`, `#7ab37a`, `#c8e6c8`            |
+| Mono    | `sepia`          | `#1a1610`, `#3d3020`, `#6b5a40`, `#a89070`, `#e8dcc8`            |
+| Mono    | `blueprint`      | `#001830`, `#003060`, `#0050a0`, `#0080e0`, `#e0f0ff`            |
+| Frames  | `warm-print`     | `#17121a`, `#824c50`, `#e09873`, `#f7ddb1`                       |
+| Frames  | `electric-ink`   | `#080717`, `#3c185f`, `#7e2278`, `#d9339f`, `#ff6b66`, `#aafae0` |
 
 Choose by inspected source and project language, not by palette name alone.
 For example, `terminal` fits device/code language, `warm-print` fits editorial
@@ -804,7 +804,7 @@ texture, generic flash, or film-stock emulation.
 Install the Registry overlay block:
 
 ```bash
-npx @hanzo/frame add organic-light-leak-overlay --no-clipboard
+npx @hanzo/frames add organic-light-leak-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host at the intended beat and keep
@@ -824,9 +824,9 @@ Extract the exact deterministic source frame first, then remove its background:
 
 ```bash
 ffmpeg -ss <seconds> -i <source-video> -frames:v 1 -y .media/generated/freeze-source.png
-npx @hanzo/frame remove-background .media/generated/freeze-source.png \
+npx @hanzo/frames remove-background .media/generated/freeze-source.png \
   -o .media/generated/freeze-cutout.png --json
-npx @hanzo/frame add freeze-frame-dressing --no-clipboard
+npx @hanzo/frames add freeze-frame-dressing --no-clipboard
 ```
 
 Add the transparent result as a direct-root timed media layer and insert the
@@ -876,7 +876,7 @@ authored light/motion layers when they do not obscure required information.
 Install the Registry overlay block:
 
 ```bash
-npx @hanzo/frame add editorial-flash-overlay --no-clipboard
+npx @hanzo/frames add editorial-flash-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host so the block's midpoint lands

@@ -3,7 +3,7 @@
 
 import React, { act, useRef } from "react";
 import { createRoot } from "react-dom/client";
-import { openComposition } from "@hanzo/frame-sdk";
+import { openComposition } from "@hanzo/frames-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { usePlayerStore, type TimelineElement } from "../player";
 import { jsonResponse, requestUrl } from "./fetchStubTestUtils";

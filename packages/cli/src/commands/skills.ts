@@ -494,7 +494,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   if (!result.location) {
     console.log(`  ${c.dim("No Frames skills found in the usual locations.")}`);
-    console.log(`  ${c.accent("Install: npx frames skills")}`);
+    console.log(`  ${c.accent("Install: npx @hanzo/frames skills")}`);
     console.log();
     return;
   }
@@ -550,7 +550,7 @@ function renderCheck(result: SkillsCheckResult): void {
 
   console.log();
   if (result.updateAvailable) {
-    console.log(`  ${c.accent("Update: npx frames skills update")}`);
+    console.log(`  ${c.accent("Update: npx @hanzo/frames skills update")}`);
   } else {
     console.log(`  ${c.success("◇")}  ${c.success("Installed skills are up to date")}`);
   }
@@ -582,7 +582,7 @@ const checkCommand = defineCommand({
     invalidateSkillsCache();
 
     // Exit non-zero when installed skills are stale, so agents and CI can gate:
-    //   frames skills check || npx frames skills update
+    //   frames skills check || npx @hanzo/frames skills update
     if (result.updateAvailable) setCommandExitCode(1);
   },
 });

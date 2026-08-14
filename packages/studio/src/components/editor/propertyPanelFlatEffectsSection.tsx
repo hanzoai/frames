@@ -7,7 +7,7 @@ import {
   type HfColorGradingActiveEffectKey,
   type HfColorGradingEffectKey,
   type NormalizedHfColorGrading,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import { Plus, RotateCcw, X } from "../../icons/SystemIcons";
 import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { FLAT_PREVIEW_GRID, FlatSlider } from "./propertyPanelFlatPrimitives";

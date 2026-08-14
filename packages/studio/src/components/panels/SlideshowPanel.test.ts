@@ -15,7 +15,7 @@ import {
   safeParseManifest,
   makeSlideshowNotesController,
 } from "./SlideshowPanel";
-import type { SlideshowManifest } from "@hanzo/frame-core/slideshow";
+import type { SlideshowManifest } from "@hanzo/frames-core/slideshow";
 
 // ── toggleMainLineSlide ────────────────────────────────────────────────────
 

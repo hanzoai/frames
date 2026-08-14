@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useState, type MutableRefObject } from "react";
-import type { Composition, CompositionVariable } from "@hanzo/frame-sdk";
+import type { Composition, CompositionVariable } from "@hanzo/frames-sdk";
 import {
   useEditVariablesInFile,
   useProjectCompositionVariables,

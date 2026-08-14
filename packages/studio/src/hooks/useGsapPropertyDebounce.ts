@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
-import type { Composition } from "@hanzo/frame-sdk";
-import { parseGsapScriptAcorn } from "@hanzo/frame-core/gsap-parser-acorn";
+import type { Composition } from "@hanzo/frames-sdk";
+import { parseGsapScriptAcorn } from "@hanzo/frames-core/gsap-parser-acorn";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import {
   sdkGsapTweenPersist,

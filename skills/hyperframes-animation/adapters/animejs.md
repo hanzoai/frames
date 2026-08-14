@@ -104,8 +104,8 @@ Use GSAP for complex scene sequencing unless the user specifically asks for Anim
 After editing a composition that uses Anime.js:
 
 ```bash
-npx @hanzo/frame lint
-npx @hanzo/frame check
+npx @hanzo/frames lint
+npx @hanzo/frames check
 ```
 
 ## Credits And References

@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
-import type { MusicBeatAnalysis } from "@hanzo/frame-core/beats";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
+import type { MusicBeatAnalysis } from "@hanzo/frames-core/beats";
 import type { TimelineElement, KeyframeCacheEntry } from "../store/playerStore";
 import type { TimelineKeyframeTarget } from "./timelineKeyframeIdentity";
 import type { TimelineTheme } from "./timelineTheme";

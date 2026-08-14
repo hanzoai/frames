@@ -4,7 +4,7 @@
  * One Lambda function, three roles. Step Functions dispatches by setting
  * `event.Action`; the handler unwraps Map-state envelopes, primes the
  * Lambda environment (Chrome path, ffmpeg path, tmpdir), and forwards to
- * the matching OSS primitive from `@hanzo/frame-producer/distributed`.
+ * the matching OSS primitive from `@hanzo/frames-producer/distributed`.
  *
  * Everything heavy — capture, encode, audio mix — happens inside the OSS
  * primitives. The handler is thin glue: parse event → S3 download → call
@@ -31,7 +31,7 @@ import {
   type PlanV2MaterializationTarget,
   readPlanV2Manifest,
   renderChunk,
-} from "@hanzo/frame-producer/distributed";
+} from "@hanzo/frames-producer/distributed";
 import { resolveChromeExecutablePath } from "./chromium.js";
 import { type DistributedFormat, formatExtension } from "./formatExtension.js";
 import type {

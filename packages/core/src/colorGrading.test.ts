@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { COLOR_GRADING_ADVANCED_LIMITS } from "@hanzo/frame-parsers/color-grading-contract";
+import { COLOR_GRADING_ADVANCED_LIMITS } from "@hanzo/frames-parsers/color-grading-contract";
 import { unitFloatToByte } from "./colorLuts";
 import {
   calculateHfColorGradingSecondaryMask,

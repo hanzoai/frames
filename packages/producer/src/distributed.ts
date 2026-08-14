@@ -1,5 +1,5 @@
 /**
- * `@hanzo/frame-producer/distributed` — the distributed render primitives.
+ * `@hanzo/frames-producer/distributed` — the distributed render primitives.
  *
  * The three activities (`plan` → `renderChunk` × N → `assemble`) are pure
  * functions over local file paths; networking + orchestration live in
@@ -12,7 +12,7 @@
  *   plan,
  *   renderChunk,
  *   assemble,
- * } from "@hanzo/frame-producer/distributed";
+ * } from "@hanzo/frames-producer/distributed";
  *
  * // Controller-side: produce a self-contained planDir + content-addressed planHash.
  * const planResult = await plan(projectDir, config, planDir);

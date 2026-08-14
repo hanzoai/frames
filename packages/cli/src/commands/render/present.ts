@@ -1,6 +1,6 @@
 import { cpus } from "node:os";
 import { readFileSync } from "node:fs";
-import { fpsToFfmpegArg } from "@hanzo/frame-core";
+import { fpsToFfmpegArg } from "@hanzo/frames-core";
 import { c } from "../../ui/colors.js";
 import type { RenderPlan } from "./plan.js";
 
@@ -58,7 +58,7 @@ function presentRenderSummary(plan: RenderPlan): void {
 
 async function warnForSlideshow(plan: RenderPlan): Promise<void> {
   try {
-    const { slideshowIslandRegex } = await import("@hanzo/frame-core/slideshow");
+    const { slideshowIslandRegex } = await import("@hanzo/frames-core/slideshow");
     if (!slideshowIslandRegex("i").test(readFileSync(plan.renderTarget, "utf8"))) return;
     console.log(
       c.warn("⚠") +

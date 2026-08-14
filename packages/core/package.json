@@ -1,5 +1,5 @@
 {
-  "name": "@hanzo/frame-core",
+  "name": "@hanzo/frames-core",
   "version": "0.7.82",
   "description": "",
   "repository": {
@@ -505,9 +505,9 @@
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.5",
-    "@hanzo/frame-lint": "workspace:*",
-    "@hanzo/frame-parsers": "workspace:*",
-    "@hanzo/frame-studio-server": "workspace:*",
+    "@hanzo/frames-lint": "workspace:*",
+    "@hanzo/frames-parsers": "workspace:*",
+    "@hanzo/frames-studio-server": "workspace:*",
     "bpm-detective": "^2.0.5",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8"

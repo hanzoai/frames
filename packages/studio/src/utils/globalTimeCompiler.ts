@@ -1,4 +1,4 @@
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 
 export function absoluteToPercentage(
   time: number,

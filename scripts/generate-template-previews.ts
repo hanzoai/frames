@@ -2,7 +2,7 @@
 /**
  * Generate Template Preview Images + Videos
  *
- * Uses @hanzo/frame-producer to render PNG thumbnails and short MP4 preview
+ * Uses @hanzo/frames-producer to render PNG thumbnails and short MP4 preview
  * videos of each built-in template.
  *
  * Output: docs/images/templates/<id>.png + <id>.mp4
@@ -36,7 +36,7 @@ import {
   closeCaptureSession,
   createRenderJob,
   executeRenderJob,
-} from "@hanzo/frame-producer";
+} from "@hanzo/frames-producer";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(scriptDir, "..");

@@ -10,7 +10,7 @@ import { isSafeVersion } from "./safeVersion.js";
 
 export { isSafeVersion } from "./safeVersion.js";
 
-const NPM_REGISTRY_URL = "https://registry.npmjs.org/frames/latest";
+const NPM_REGISTRY_URL = "https://registry.npmjs.org/@hanzo%2fframes/latest";
 const CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const FETCH_TIMEOUT_MS = 3000;
 
@@ -181,12 +181,12 @@ export function printUpdateNotice(): void {
 
   // Show the command that updates *this* install: the detected package
   // manager's upgrade for owned global installs (npm/bun/pnpm/brew), and the
-  // universal `npx frames@latest` for ephemeral/unknown installs (where a
+  // universal `npx @hanzo/frames@latest` for ephemeral/unknown installs (where a
   // manager command wouldn't apply). detectInstaller() only runs here, after
   // the suppression + update-available gates, so it adds no cost to normal runs.
   const safeLatest = isSafeVersion(meta.latestVersion);
   const managerCommand = safeLatest ? detectInstaller().installCommand(meta.latestVersion) : null;
-  const command = managerCommand ?? "npx frames@latest";
+  const command = managerCommand ?? "npx @hanzo/frames@latest";
 
   process.stderr.write(
     `\n  Update available: ${meta.version} \u2192 ${meta.latestVersion}\n` +
@@ -237,6 +237,6 @@ export function printStalePinNotice(cwd: string = process.cwd()): void {
 
   process.stderr.write(
     `\n  This project pins frames@${stale.join(", ")} (latest ${latest}).\n` +
-      `  Bump it: npx frames@latest upgrade --project\n\n`,
+      `  Bump it: npx @hanzo/frames@latest upgrade --project\n\n`,
   );
 }

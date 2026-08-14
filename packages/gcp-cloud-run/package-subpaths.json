@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-gcp-cloud-run",
+  "package": "@hanzo/frames-gcp-cloud-run",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

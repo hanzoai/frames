@@ -3,18 +3,18 @@
  *
  * The cloud-agnostic config-shape validation (`validateDistributedRenderConfig`,
  * `validateVariablesPayload`, `InvalidConfigError`) lives in
- * `@hanzo/frame-producer/distributed` and is shared with the other adapters.
+ * `@hanzo/frames-producer/distributed` and is shared with the other adapters.
  * This module re-exports those and adds the one piece that is specific to
  * Cloud Workflows: the 512 KiB execution-argument size cap.
  */
 
-import { InvalidConfigError } from "@hanzo/frame-producer/distributed";
+import { InvalidConfigError } from "@hanzo/frames-producer/distributed";
 
 export {
   InvalidConfigError,
   validateDistributedRenderConfig,
   validateVariablesPayload,
-} from "@hanzo/frame-producer/distributed";
+} from "@hanzo/frames-producer/distributed";
 
 /**
  * Hard cap on Cloud Workflows execution arguments — 512 KiB per the Workflows

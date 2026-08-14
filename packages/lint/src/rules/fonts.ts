@@ -1,4 +1,4 @@
-import { FONT_ALIAS_KEYS, resolveAliasDisplayName } from "@hanzo/frame-parsers/composition";
+import { FONT_ALIAS_KEYS, resolveAliasDisplayName } from "@hanzo/frames-parsers/composition";
 import type { LintContext, HyperframeLintFinding } from "../context";
 import { isRegistrySourceFile, isRegistryInstalledFile } from "./composition";
 

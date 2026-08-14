@@ -17,7 +17,7 @@ import { mkdtempSync, rmSync, statSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Storage } from "@google-cloud/storage";
-import { hashProjectDir } from "@hanzo/frame-producer/distributed";
+import { hashProjectDir } from "@hanzo/frames-producer/distributed";
 import { formatGcsUri, tarDirectory, uploadFileToGcs } from "../gcsTransport.js";
 
 /** Options for {@link deploySite}. */

@@ -1,5 +1,5 @@
 {
-  "name": "@hanzo/frame-parsers",
+  "name": "@hanzo/frames-parsers",
   "version": "0.7.82",
   "repository": {
     "type": "git",
@@ -201,7 +201,7 @@
     "recast": "^0.23.11"
   },
   "devDependencies": {
-    "@hanzo/frame-core": "workspace:*",
+    "@hanzo/frames-core": "workspace:*",
     "@types/node": "^25.0.10",
     "tsup": "^8.0.0",
     "tsx": "^4.21.0",

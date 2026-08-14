@@ -13,7 +13,7 @@ paused-GSAP driver.
 
 ## Translation walk-through
 
-| Remotion                                                      | Frames                                                                                             |
+| Remotion                                                      | Frames                                                                                                  |
 | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `<AbsoluteFill style={{ backgroundColor: "#0a0a0a" }}>`       | `<body style="background: #0a0a0a">` + a positioned root div                                            |
 | `useCurrentFrame()`                                           | dropped — HF seeks the timeline                                                                         |
@@ -31,7 +31,7 @@ cd remotion-src && npm install && npm run render
 # Renders to remotion-src/out/baseline.mp4
 
 # Render Frames translation
-cd ../hf-src && npx @hanzo/frame render --output ../hf.mp4
+cd ../hf-src && npx @hanzo/frames render --output ../hf.mp4
 
 # Compare with the eval harness (from skill scripts/)
 ../../../scripts/render_diff.sh ./remotion-src/out/baseline.mp4 ./hf.mp4 ./diff

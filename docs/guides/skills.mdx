@@ -16,7 +16,7 @@ The skills split into three groups:
 <Steps>
   <Step title="Install the core set (default)">
     ```bash
-    npx @hanzo/frame skills update
+    npx @hanzo/frames skills update
     ```
 
     Installs exactly the core set — the `/frames` router, the `frames-*` domain skills, and `media-use` — and the router installs each creation workflow on demand the first time it routes there. Always installs from the repo's current `main`. Works with [Claude Code](https://claude.ai/claude-code), [Cursor](https://cursor.sh), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Codex CLI](https://github.com/openai/codex), [GitHub Copilot CLI](/guides/copilot-cli), and [Google Antigravity](/guides/antigravity).
@@ -26,7 +26,7 @@ The skills split into three groups:
     npx skills add hanzoai/frames --full-depth
     ```
 
-    In a terminal this opens a picker — the core set under the "Core Skills" group, the on-demand creation workflows under "Other", nothing pre-selected. Keep `--full-depth`: it installs the current `main`; without it `skills add` fetches the skills.sh registry blob, which lags `main` by hours. The picker is interactive-only: a non-interactive or agent run without `--skill` installs all 19, so agents should use `npx @hanzo/frame skills update` above.
+    In a terminal this opens a picker — the core set under the "Core Skills" group, the on-demand creation workflows under "Other", nothing pre-selected. Keep `--full-depth`: it installs the current `main`; without it `skills add` fetches the skills.sh registry blob, which lags `main` by hours. The picker is interactive-only: a non-interactive or agent run without `--skill` installs all 19, so agents should use `npx @hanzo/frames skills update` above.
   </Step>
   <Step title="Or install everything at once (skip the picker)">
     ```bash
@@ -55,16 +55,16 @@ The skills split into three groups:
 
 After the first install, skills stay lean and current on their own — nothing re-pulls the full set behind your back:
 
-- **Core set** — the `/frames` router, the `frames-*` domain skills, and `/media-use`. `npx @hanzo/frame init` (which every creation workflow runs when scaffolding) refreshes the core set plus anything else you already have installed. It never _expands_ the install — workflow skills you haven't used are not pulled — and re-running `init` on an up-to-date machine is a no-op. Offline (or rate-limited) it degrades gracefully and never hard-fails.
-- **Workflow skills** (and `/figma`) — install **on demand**, when their workflow is first triggered. The `/frames` router runs `npx @hanzo/frame skills update <workflow>` before entering a workflow, so the one it routes to is guaranteed present.
+- **Core set** — the `/frames` router, the `frames-*` domain skills, and `/media-use`. `npx @hanzo/frames init` (which every creation workflow runs when scaffolding) refreshes the core set plus anything else you already have installed. It never _expands_ the install — workflow skills you haven't used are not pulled — and re-running `init` on an up-to-date machine is a no-op. Offline (or rate-limited) it degrades gracefully and never hard-fails.
+- **Workflow skills** (and `/figma`) — install **on demand**, when their workflow is first triggered. The `/frames` router runs `npx @hanzo/frames skills update <workflow>` before entering a workflow, so the one it routes to is guaranteed present.
 
 Check or refresh manually anytime:
 
 ```bash
-npx @hanzo/frame skills check          # non-zero exit if installed skills are stale or the core set is incomplete
-npx @hanzo/frame skills update         # refresh the core set + everything installed (never expands)
-npx @hanzo/frame skills update <name>  # also install a specific workflow / domain skill on demand
-npx @hanzo/frame skills                # install the full set explicitly
+npx @hanzo/frames skills check          # non-zero exit if installed skills are stale or the core set is incomplete
+npx @hanzo/frames skills update         # refresh the core set + everything installed (never expands)
+npx @hanzo/frames skills update <name>  # also install a specific workflow / domain skill on demand
+npx @hanzo/frames skills                # install the full set explicitly
 ```
 
 `skills check` reports workflow skills you haven't installed as _available on demand_, not as a failure.

@@ -45,7 +45,7 @@
  */
 
 import { parseHTML } from "linkedom";
-import type { ExtractedFrames, VideoElement } from "@hanzo/frame-engine";
+import type { ExtractedFrames, VideoElement } from "@hanzo/frames-engine";
 
 export interface VideoFrameCoverageReport {
   videoId: string;

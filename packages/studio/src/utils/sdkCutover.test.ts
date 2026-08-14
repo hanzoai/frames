@@ -11,8 +11,8 @@ import {
   persistSdkSerialize,
 } from "./sdkCutover";
 // fallow-ignore-file code-duplication
-import { openComposition } from "@hanzo/frame-sdk";
-import { createMemoryAdapter } from "@hanzo/frame-sdk/adapters/memory";
+import { openComposition } from "@hanzo/frames-sdk";
+import { createMemoryAdapter } from "@hanzo/frames-sdk/adapters/memory";
 import type { PatchOperation } from "./sourcePatcher";
 import type { MutableRefObject } from "react";
 

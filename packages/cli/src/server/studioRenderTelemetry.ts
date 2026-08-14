@@ -7,9 +7,9 @@
 // ---------------------------------------------------------------------------
 
 import { freemem } from "node:os";
-import type { Fps } from "@hanzo/frame-core";
-import { fpsToNumber } from "@hanzo/frame-core";
-import type { RenderJob, RenderPerfSummary } from "@hanzo/frame-producer";
+import type { Fps } from "@hanzo/frames-core";
+import { fpsToNumber } from "@hanzo/frames-core";
+import type { RenderJob, RenderPerfSummary } from "@hanzo/frames-producer";
 import { trackRenderComplete, trackRenderError } from "../telemetry/events.js";
 import {
   renderJobObservabilityTelemetryPayload,

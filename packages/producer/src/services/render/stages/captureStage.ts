@@ -52,7 +52,7 @@ import {
   getCapturePerfSummary,
   initializeSession,
   prepareCaptureSessionForReuse,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import type { FileServerHandle } from "../../fileServer.js";
 import type { ProducerLogger } from "../../../logger.js";
 import {

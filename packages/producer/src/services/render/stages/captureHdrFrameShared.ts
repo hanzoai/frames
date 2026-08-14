@@ -20,7 +20,7 @@ import {
   decodePng,
   queryElementStacking,
   removeDomLayerMask,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import type { ProducerLogger } from "../../../logger.js";
 import {
   type HdrCompositeContext,

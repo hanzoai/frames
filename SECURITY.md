@@ -23,4 +23,4 @@ We will acknowledge receipt within 48 hours and aim to provide a fix or mitigati
 
 ## Scope
 
-This policy applies to the `@hanzo/frame` packages and the code in this repository.
+This policy applies to the `@hanzo/frames` packages and the code in this repository.

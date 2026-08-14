@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";
 import { shouldUseSdkCutover } from "../utils/sdkCutover";
 import type { PatchOperation } from "../utils/sourcePatcher";
-import type { Composition } from "@hanzo/frame-sdk";
+import type { Composition } from "@hanzo/frames-sdk";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import type { UseDomEditSessionParams } from "./useDomEditSession";
 

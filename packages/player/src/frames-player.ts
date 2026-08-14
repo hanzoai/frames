@@ -18,7 +18,7 @@ import { createShaderLoader } from "./shader-loader-element.js";
 import { ShaderLoaderState } from "./shader-loader-state.js";
 import { PLAYER_STYLES } from "./styles.js";
 import { type DirectTimelineAdapter } from "./timeline-adapters.js";
-import { runtimeProtocolMetadata } from "@hanzo/frame-core/runtime/protocol";
+import { runtimeProtocolMetadata } from "@hanzo/frames-core/runtime/protocol";
 
 // Playback-rate bounds mirror the runtime clamp in
 // packages/core/src/runtime/init.ts (applyPlaybackRate) and media.ts so the

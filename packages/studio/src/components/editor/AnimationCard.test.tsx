@@ -2,7 +2,7 @@
 
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AnimationCard } from "./AnimationCard";
 import { EASE_PRESETS } from "./easePresetLibrary";

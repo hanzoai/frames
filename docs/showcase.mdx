@@ -209,7 +209,7 @@ Videos is the deeper teardown.
 | A product UI reveal | [Timeline editor launch](https://github.com/hanzoai/frames-launches/tree/main/timeline-launch) | Shows mockups, interface closeups, and feature storytelling. |
 | A texture or title-card system | [Texture launch](https://github.com/hanzoai/frames-launches/tree/main/texture-launch-video) | Shows expressive text treatment and shader-backed motion. |
 | An effects-heavy launch reel | [VFX combined](https://github.com/hanzoai/frames-launches/tree/main/vfx-combined) | Shows Three.js, generated media, and HTML-in-canvas in one render. |
-| A starter project | [Examples](/examples) | Scaffold working templates with `npx @hanzo/frame init --example <name>`. |
+| A starter project | [Examples](/examples) | Scaffold working templates with `npx @hanzo/frames init --example <name>`. |
 | A reusable motion part | [Catalog](/catalog/blocks/data-chart) | Add blocks and components to an existing composition. |
 
 ## Run One Locally
@@ -224,8 +224,8 @@ git lfs install
 git clone https://github.com/hanzoai/frames-launches.git
 cd frames-launches/website-to-frames
 
-npx @hanzo/frame preview
-npx @hanzo/frame render
+npx @hanzo/frames preview
+npx @hanzo/frames render
 ```
 
 To skip pulling every launch asset up front, clone first and pull only the
@@ -237,7 +237,7 @@ cd frames-launches
 git lfs pull --include="website-to-frames/**"
 cd website-to-frames
 
-npx @hanzo/frame preview
+npx @hanzo/frames preview
 ```
 
 The launch projects include source HTML, sub-compositions, assets, rendered
@@ -248,7 +248,7 @@ outputs, and production notes such as `STORYBOARD.md`, `DESIGN.md`, and
 
 <CardGroup cols={2}>
   <Card title="Starter Examples" icon="layer-group" href="/examples">
-    Scaffold remixable templates with `npx @hanzo/frame init --example`.
+    Scaffold remixable templates with `npx @hanzo/frames init --example`.
   </Card>
   <Card title="Community Playground" icon="play" href="https://www.frames.hanzo.ai/">
     Open shared projects, preview videos, and publish your own.

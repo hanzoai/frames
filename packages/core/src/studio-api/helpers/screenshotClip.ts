@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-studio-server/screenshot-clip */
-export * from "@hanzo/frame-studio-server/screenshot-clip";
+/** @deprecated Import from @hanzo/frames-studio-server/screenshot-clip */
+export * from "@hanzo/frames-studio-server/screenshot-clip";

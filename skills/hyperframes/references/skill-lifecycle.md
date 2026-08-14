@@ -5,22 +5,22 @@ Read this reference when installing or updating skills, diagnosing unexpected wo
 Frames installs the core set eagerly and workflow skills lazily.
 
 - **Core set:** `/frames`, the `frames-*` domain skills, and `/media-use`.
-- **Workflow skills:** installed when routing selects them through `npx @hanzo/frame skills update <workflow-name>`.
+- **Workflow skills:** installed when routing selects them through `npx @hanzo/frames skills update <workflow-name>`.
 
 ## What `init` does
 
-`npx @hanzo/frame init` checks GitHub and refreshes the core set plus other skills already installed. It does not install workflows that have never been used. A current install is a no-op. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
+`npx @hanzo/frames init` checks GitHub and refreshes the core set plus other skills already installed. It does not install workflows that have never been used. A current install is a no-op. Offline or rate-limited checks degrade gracefully and do not fail project scaffolding.
 
 The `--skip-skills` CLI flag is temporarily ignored. CI and tests may opt out with `FRAMES_SKIP_SKILLS=1`.
 
 ## Diagnose and update
 
 ```bash
-npx @hanzo/frame skills check
-npx @hanzo/frame skills check --json
-npx @hanzo/frame skills update
-npx @hanzo/frame skills update <workflow-name>
-npx @hanzo/frame skills
+npx @hanzo/frames skills check
+npx @hanzo/frames skills check --json
+npx @hanzo/frames skills update
+npx @hanzo/frames skills update <workflow-name>
+npx @hanzo/frames skills
 ```
 
 - `skills check` exits non-zero when an installed skill is stale or the core set is incomplete. Workflows available on demand but not installed are not failures.

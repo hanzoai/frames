@@ -3,7 +3,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { parseHTML } from "linkedom";
 import AdmZip from "adm-zip";
 import ignore, { type Ignore } from "ignore";
-import { CSS_URL_RE, isNonRelativeUrl, isPathInside } from "@hanzo/frame-core";
+import { CSS_URL_RE, isNonRelativeUrl, isPathInside } from "@hanzo/frames-core";
 import { apiBaseUrl, credential, headers as authHeadersFor } from "../api.js";
 import { writeProjectLink } from "./projectLink.js";
 

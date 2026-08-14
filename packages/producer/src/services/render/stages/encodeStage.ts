@@ -39,8 +39,8 @@ import {
   runFfmpeg,
   type EngineConfig,
   type EncodeResult,
-} from "@hanzo/frame-engine";
-import type { Fps } from "@hanzo/frame-core";
+} from "@hanzo/frames-engine";
+import type { Fps } from "@hanzo/frames-core";
 import type { ProducerLogger } from "../../../logger.js";
 import { formatExportFrameName } from "../../../utils/paths.js";
 import type { ProgressCallback, RenderJob } from "../../renderOrchestrator.js";

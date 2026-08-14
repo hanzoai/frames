@@ -5,7 +5,7 @@ import { delimiter, join, resolve } from "node:path";
 /**
  * Shared FFmpeg/FFprobe binary resolution for every package that shells out
  * to them (engine, cli, lint, studio-server). Node-only: import via the
- * `@hanzo/frame-parsers/ff-binaries` subpath, never from a browser bundle.
+ * `@hanzo/frames-parsers/ff-binaries` subpath, never from a browser bundle.
  */
 
 export const FFMPEG_PATH_ENV = "FRAMES_FFMPEG_PATH";

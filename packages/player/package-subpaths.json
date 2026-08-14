@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-player",
+  "package": "@hanzo/frames-player",
   "subpaths": {
     ".": {
       "source": "./dist/frames-player.js",

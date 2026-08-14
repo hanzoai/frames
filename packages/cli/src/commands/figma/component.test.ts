@@ -4,7 +4,7 @@ import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { runComponentImport } from "./component.js";
-import { FigmaClientError, appendBinding, type FigmaClient } from "@hanzo/frame-core/figma";
+import { FigmaClientError, appendBinding, type FigmaClient } from "@hanzo/frames-core/figma";
 
 let dir = "";
 beforeEach(() => {

@@ -5,8 +5,8 @@ import {
   rewriteAssetPaths,
   rewriteCssAssetUrls,
   rewriteInlineStyleAssetUrls,
-} from "@hanzo/frame-core";
-import { stripEmbeddedRuntimeScripts } from "@hanzo/frame-core/compiler";
+} from "@hanzo/frames-core";
+import { stripEmbeddedRuntimeScripts } from "@hanzo/frames-core/compiler";
 
 /**
  * Detect whether `html` is a full document (has `<html>`, `<head>`, or

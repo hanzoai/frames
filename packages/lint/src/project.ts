@@ -1,8 +1,8 @@
 export { shouldBlockRender } from "./shouldBlockRender.js";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, extname, join, relative, resolve } from "node:path";
-import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
-import { checkSubCompositionUsability } from "@hanzo/frame-parsers/sub-composition-validity";
+import { rewriteAssetPath } from "@hanzo/frames-parsers/asset-paths";
+import { checkSubCompositionUsability } from "@hanzo/frames-parsers/sub-composition-validity";
 import { parseHTML } from "linkedom";
 import {
   cleanAssetUrl,
@@ -11,11 +11,11 @@ import {
   maskNonScannableRanges,
   resolveExistingLocalAsset,
   resolveLocalAssetCandidates,
-} from "@hanzo/frame-parsers/asset-resolution";
+} from "@hanzo/frames-parsers/asset-resolution";
 import { collectLocalVideoCandidates, lintHevcPreviewCodec } from "./hevcPreviewLint.js";
 import { lintHyperframeHtml } from "./hyperframeLinter.js";
 import type { HyperframeLintFinding, HyperframeLintResult } from "./types.js";
-import type { ParsableDocumentLike } from "@hanzo/frame-parsers/sub-composition-validity";
+import type { ParsableDocumentLike } from "@hanzo/frames-parsers/sub-composition-validity";
 
 /** Adapts linkedom's `parseHTML` to the `checkSubCompositionUsability` contract. */
 function parseSubCompHtml(html: string): ParsableDocumentLike {

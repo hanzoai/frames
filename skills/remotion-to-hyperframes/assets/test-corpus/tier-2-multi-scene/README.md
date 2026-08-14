@@ -18,7 +18,7 @@ If a translation passes T2, the skill correctly handles `<Sequence>` boundaries,
 
 ## Translation walk-through
 
-| Remotion                                                            | Frames                                                                                              |
+| Remotion                                                            | Frames                                                                                                   |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `<Sequence from={0} durationInFrames={60}>`                         | `<div data-start="0" data-duration="2" data-track-index="0">`                                            |
 | `spring({frame, fps, config: {damping:12, stiffness:100, mass:1}})` | `gsap.to(target, { scale: 1, duration: 0.7, ease: "back.out(1.4)" })`                                    |
@@ -40,7 +40,7 @@ right time. Remotion does this implicitly by virtue of `<Sequence>`'s durationIn
 cd remotion-src && npm install && npm run render
 
 # 3. Render Frames translation
-cd ../hf-src && npx @hanzo/frame render --output ../hf.mp4
+cd ../hf-src && npx @hanzo/frames render --output ../hf.mp4
 
 # 4. Compare
 ../../../scripts/render_diff.sh ./remotion-src/out/baseline.mp4 ./hf.mp4 ./diff

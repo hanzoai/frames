@@ -16,7 +16,7 @@
  *     verbatim on the respective `success: false` results.
  */
 
-import { applyFaststart, muxVideoWithAudio } from "@hanzo/frame-engine";
+import { applyFaststart, muxVideoWithAudio } from "@hanzo/frames-engine";
 import { extname } from "node:path";
 import type { ProgressCallback, RenderJob } from "../../renderOrchestrator.js";
 import { padOrTrimAudioToVideoFrameCount } from "../audioPadTrim.js";

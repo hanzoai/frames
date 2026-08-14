@@ -6,7 +6,7 @@ import { decodeUrlPathVariants } from "./composition.js";
  * Shared local-asset resolution helpers for every package that maps
  * composition asset URLs to files on disk (lint project rules, the HEVC
  * preview check, studio-server's media codec scan). Import via the
- * `@hanzo/frame-parsers/asset-resolution` subpath.
+ * `@hanzo/frames-parsers/asset-resolution` subpath.
  */
 
 export function isRemoteOrInlineUrl(url: string): boolean {

@@ -16,7 +16,7 @@
  */
 
 import { join } from "node:path";
-import { processCompositionAudio, type AudioProcessingFailure } from "@hanzo/frame-engine";
+import { processCompositionAudio, type AudioProcessingFailure } from "@hanzo/frames-engine";
 import type { CompositionMetadata } from "../shared.js";
 
 export interface AudioStageInput {

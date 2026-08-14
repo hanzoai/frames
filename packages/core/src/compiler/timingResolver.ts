@@ -3,7 +3,7 @@
  *
  * resolveTimings() is the single intended implementation of word-anchored
  * elastic timing, designed to be the one code path that BOTH the preview
- * (session layer in @hanzo/frame-sdk) and render (timingCompiler.ts +
+ * (session layer in @hanzo/frames-sdk) and render (timingCompiler.ts +
  * htmlBundler) sides call so they cannot drift apart.
  *
  * NOT YET WIRED: neither path consumes it yet — the anchor-producing inputs

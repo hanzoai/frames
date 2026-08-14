@@ -4,7 +4,7 @@
  * when blocks/components need it for the `add` command.
  */
 
-import type { ItemType, RegistryItem, RegistryManifestEntry } from "@hanzo/frame-core";
+import type { ItemType, RegistryItem, RegistryManifestEntry } from "@hanzo/frames-core";
 import { fetchItemManifest, fetchRegistryManifest, DEFAULT_REGISTRY_URL } from "./remote.js";
 
 export interface ResolveOptions {

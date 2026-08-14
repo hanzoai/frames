@@ -36,10 +36,10 @@ import {
   findUnsafeMutationValues,
   type UnsafeMutationValue,
 } from "../helpers/finiteMutation.js";
-import type { GsapAnimation } from "@hanzo/frame-parsers";
-import { classifyPropertyGroup } from "@hanzo/frame-parsers/gsap-constants";
-import { parseGsapScriptAcorn } from "@hanzo/frame-parsers/gsap-parser-acorn";
-import { unrollComputedTimeline } from "@hanzo/frame-parsers";
+import type { GsapAnimation } from "@hanzo/frames-parsers";
+import { classifyPropertyGroup } from "@hanzo/frames-parsers/gsap-constants";
+import { parseGsapScriptAcorn } from "@hanzo/frames-parsers/gsap-parser-acorn";
+import { unrollComputedTimeline } from "@hanzo/frames-parsers";
 import {
   updateAnimationInScript,
   addAnimationToScript,
@@ -67,7 +67,7 @@ import {
   scalePositionsInScript,
   dedupePositionWritesInScript,
   syncPositionHoldsBeforeKeyframes,
-} from "@hanzo/frame-parsers/gsap-writer-acorn";
+} from "@hanzo/frames-parsers/gsap-writer-acorn";
 import {
   removeElementFromHtml,
   patchElementInHtml,
@@ -98,7 +98,7 @@ import { resolveGsapWriter } from "./gsapMutationCapabilities.js";
  * for the recast write path (the default until the migration gate graduates).
  */
 async function loadGsapParser() {
-  return import("@hanzo/frame-parsers/gsap-parser-recast");
+  return import("@hanzo/frames-parsers/gsap-parser-recast");
 }
 
 // ── Shared helpers ──────────────────────────────────────────────────────────
@@ -1152,7 +1152,7 @@ async function prepareGsapMutationScript(
   let block = extractGsapScriptBlock(html);
   if (!block && (firstMutation.type === "add" || firstMutation.type === "add-with-keyframes")) {
     const compId = html.match(/data-composition-id="([^"]+)"/)?.[1] ?? "main";
-    const { GSAP_CDN } = await import("@hanzo/frame-core");
+    const { GSAP_CDN } = await import("@hanzo/frames-core");
     const bootstrap = [
       `<script src="${GSAP_CDN}"></script>`,
       "<script>",

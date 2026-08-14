@@ -627,7 +627,7 @@ export async function captureMotionPathShot(
 
   const { ensureBrowser } = await import("../browser/manager.js");
   const { serveStaticProjectHtml } = await import("../utils/staticProjectServer.js");
-  const { bundleToSingleHtml } = await import("@hanzo/frame-core/compiler");
+  const { bundleToSingleHtml } = await import("@hanzo/frames-core/compiler");
 
   const html = await bundleToSingleHtml(projectDir, { entryFile: opts.entryFile });
   const server = await serveStaticProjectHtml(

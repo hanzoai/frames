@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import { usePlayerStore } from "../player";
 import { computeCurrentPercentage } from "./gsapDragCommit";

@@ -3,7 +3,7 @@
  * Shared by the overlay and its diagnostics (kept here to avoid a circular
  * import between the two).
  */
-import type { GsapAnimation } from "@hanzo/frame-parsers/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-parsers/gsap-parser";
 import type { DomEditSelection } from "./domEditing";
 import { writeTargetSelector } from "../../hooks/gsapShared";
 

@@ -139,8 +139,8 @@ export function parseFpsWithDefault(input: string | number | undefined): FpsPars
 /** Video orientation / aspect ratio. */
 export type Orientation = "16:9" | "9:16";
 
-// ── Re-exports from @hanzo/frame-parsers (moved in refactor) ─────────────────
-// @deprecated — import from @hanzo/frame-parsers directly
+// ── Re-exports from @hanzo/frames-parsers (moved in refactor) ─────────────────
+// @deprecated — import from @hanzo/frames-parsers directly
 
 export type {
   Asset,
@@ -173,7 +173,7 @@ export type {
   ElementKeyframes,
   StageZoom,
   StageZoomKeyframe,
-} from "@hanzo/frame-parsers";
+} from "@hanzo/frames-parsers";
 
 export {
   CANVAS_DIMENSIONS,
@@ -190,8 +190,8 @@ export {
   isTextElement,
   isMediaElement,
   isCompositionElement,
-} from "@hanzo/frame-parsers";
+} from "@hanzo/frames-parsers";
 export type {
   OutputResolutionCompatibility,
   OutputResolutionIssueKind,
-} from "@hanzo/frame-parsers";
+} from "@hanzo/frames-parsers";

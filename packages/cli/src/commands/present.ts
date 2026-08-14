@@ -79,7 +79,7 @@ export default defineCommand({
     const slideshowPath = resolveSlideshowPath();
     if (!playerPath || !slideshowPath) {
       clack.log.error(
-        "@hanzo/frame-player not found. Run `bun run --cwd packages/player build` first.",
+        "@hanzo/frames-player not found. Run `bun run --cwd packages/player build` first.",
       );
       setCommandExitCode(1);
       return;
@@ -88,7 +88,7 @@ export default defineCommand({
     // The deck must carry a slideshow island; the presenter view is meaningless
     // without one. Extract it here so we can inline it into the wrapper page.
     const indexHtml = readFileSync(project.indexPath, "utf-8");
-    const { slideshowIslandRegex } = await import("@hanzo/frame-core/slideshow");
+    const { slideshowIslandRegex } = await import("@hanzo/frames-core/slideshow");
     const islandMatch = slideshowIslandRegex("i").exec(indexHtml);
     if (!islandMatch?.[1]) {
       clack.log.error(
@@ -113,7 +113,7 @@ export default defineCommand({
 
     const { Hono } = await import("hono");
     const { createAdaptorServer } = await import("@hono/node-server");
-    const { isSafePath } = await import("@hanzo/frame-core/studio-api");
+    const { isSafePath } = await import("@hanzo/frames-core/studio-api");
 
     const app = new Hono();
 

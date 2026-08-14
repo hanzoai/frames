@@ -30,7 +30,7 @@ Storyboards (`STORYBOARD.md`), design notes (`DESIGN.md`), and handoff docs (`HA
 
 These aren't toy examples. They're the same compositions we ship in public launch videos, structured the way real production work is structured:
 
-- **Multi-composition projects.** Most launches are 4-8 sub-compositions wired into one root timeline — useful when your `npx @hanzo/frame init --example` starter outgrows a single file.
+- **Multi-composition projects.** Most launches are 4-8 sub-compositions wired into one root timeline — useful when your `npx @hanzo/frames init --example` starter outgrows a single file.
 - **Real adapter mix.** GSAP timelines, Lottie animations, custom shaders, Three.js scenes, and CSS keyframes all coexisting in one render. See how the team [boots multiple adapters](/guides/gsap-animation) inside a single composition.
 - **Production-grade timing.** Voiceover + per-beat SFX + underscore mixed against frame-accurate motion. The storyboards describe the timing decisions; the source shows them executed.
 - **No proprietary plugins.** Everything renders with the same `frames render` you have locally — there's no internal-only branch of the engine.
@@ -59,7 +59,7 @@ git lfs pull --include="frames-launch/assets/*"
 
 <CardGroup cols={2}>
   <Card title="Examples" icon="layer-group" href="/examples">
-    Starter templates — what `npx @hanzo/frame init --example` gives you.
+    Starter templates — what `npx @hanzo/frames init --example` gives you.
   </Card>
   <Card title="Compositions" icon="diagram-project" href="/concepts/compositions">
     The composition data model these launches build on.

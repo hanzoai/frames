@@ -1,5 +1,5 @@
-import { evaluateWiggleEase, parseWiggleEase } from "@hanzo/frame-core/wiggle-ease";
-import { evaluateSpringEase, parseSpringBounce } from "@hanzo/frame-core/spring-ease";
+import { evaluateWiggleEase, parseWiggleEase } from "@hanzo/frames-core/wiggle-ease";
+import { evaluateSpringEase, parseSpringBounce } from "@hanzo/frames-core/spring-ease";
 import { resolveEaseCurveTuple } from "./gsapAnimationConstants";
 
 export function sampledPath(

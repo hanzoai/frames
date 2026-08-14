@@ -52,7 +52,7 @@ describe("detectInstaller", () => {
 
   it("classifies npx _npx cache path as skip", async () => {
     const info = await detectWith(
-      "/Users/me/.npm/_npx/abc123/node_modules/frames/dist/cli.js",
+      "/Users/me/.npm/_npx/abc123/node_modules/@hanzo/frames/dist/cli.js",
     );
     expect(info.kind).toBe("skip");
     expect(info.reason.toLowerCase()).toContain("ephemeral");
@@ -72,40 +72,40 @@ describe("detectInstaller", () => {
 
   it("detects bun global install", async () => {
     const info = await detectWith(
-      "/Users/me/.bun/install/global/node_modules/frames/dist/cli.js",
+      "/Users/me/.bun/install/global/node_modules/@hanzo/frames/dist/cli.js",
     );
     expect(info.kind).toBe("bun");
-    expect(info.installCommand("0.4.4")).toBe("bun add -g frames@0.4.4");
+    expect(info.installCommand("0.4.4")).toBe("bun add -g @hanzo/frames@0.4.4");
   });
 
   it("detects pnpm global install (Library/pnpm path)", async () => {
     const info = await detectWith(
-      "/Users/me/Library/pnpm/global/5/node_modules/frames/dist/cli.js",
+      "/Users/me/Library/pnpm/global/5/node_modules/@hanzo/frames/dist/cli.js",
     );
     expect(info.kind).toBe("pnpm");
-    expect(info.installCommand("0.4.4")).toBe("pnpm add -g frames@0.4.4");
+    expect(info.installCommand("0.4.4")).toBe("pnpm add -g @hanzo/frames@0.4.4");
   });
 
   it("treats pnpm project-local installs as unknown layouts", async () => {
     const info = await detectWith(
-      "/path/to/project/node_modules/.pnpm/frames@0.4.3/node_modules/frames/dist/cli.js",
+      "/path/to/project/node_modules/.pnpm/@hanzo+frames@0.4.3/node_modules/@hanzo/frames/dist/cli.js",
     );
     expect(info.kind).toBe("skip");
     expect(info.installCommand("0.4.4")).toBeNull();
   });
 
   it("detects npm global install", async () => {
-    const info = await detectWith("/usr/local/lib/node_modules/frames/dist/cli.js");
+    const info = await detectWith("/usr/local/lib/node_modules/@hanzo/frames/dist/cli.js");
     expect(info.kind).toBe("npm");
-    expect(info.installCommand("0.4.4")).toBe("npm install -g frames@0.4.4");
+    expect(info.installCommand("0.4.4")).toBe("npm install -g @hanzo/frames@0.4.4");
   });
 
   it("detects npm global install on Windows", async () => {
     const info = await detectWith(
-      "C:\\Users\\me\\AppData\\Roaming\\npm\\node_modules\\frames\\dist\\cli.js",
+      "C:\\Users\\me\\AppData\\Roaming\\npm\\node_modules\\@hanzo\\frames\\dist\\cli.js",
     );
     expect(info.kind).toBe("npm");
-    expect(info.installCommand("0.4.4")).toBe("npm install -g frames@0.4.4");
+    expect(info.installCommand("0.4.4")).toBe("npm install -g @hanzo/frames@0.4.4");
   });
 
   it("returns skip when the entry cannot be resolved", async () => {
@@ -130,18 +130,18 @@ describe("installInvocation", () => {
   it("returns the npm global argv for kind npm", () => {
     expect(installInvocation("npm", "1.2.3")).toEqual({
       bin: "npm",
-      args: ["install", "-g", "frames@1.2.3"],
+      args: ["install", "-g", "@hanzo/frames@1.2.3"],
     });
   });
 
   it("returns bun/pnpm add -g argv for those managers", () => {
     expect(installInvocation("bun", "1.2.3")).toEqual({
       bin: "bun",
-      args: ["add", "-g", "frames@1.2.3"],
+      args: ["add", "-g", "@hanzo/frames@1.2.3"],
     });
     expect(installInvocation("pnpm", "1.2.3")).toEqual({
       bin: "pnpm",
-      args: ["add", "-g", "frames@1.2.3"],
+      args: ["add", "-g", "@hanzo/frames@1.2.3"],
     });
   });
 

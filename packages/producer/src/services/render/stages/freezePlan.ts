@@ -13,7 +13,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
-import type { Fps } from "@hanzo/frame-core";
+import type { Fps } from "@hanzo/frames-core";
 import { CURRENT_PLAN_PROTOCOL } from "../../distributed/planProtocol.js";
 import {
   canonicalJsonStringify,

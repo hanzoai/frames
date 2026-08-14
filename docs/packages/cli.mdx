@@ -6,9 +6,9 @@ description: "Create, preview, and render HTML video compositions from the comma
 The `frames` CLI is the primary way to work with Hyperframes. It handles project creation, live preview, rendering, linting, and diagnostics — all from your terminal.
 
 ```bash
-npm install -g frames
+npm install -g @hanzo/frames
 # or use directly with npx
-npx @hanzo/frame <command>
+npx @hanzo/frames <command>
 ```
 
 ## When to Use
@@ -50,18 +50,18 @@ Interactivity is command-specific. For example, `init` uses prompts on TTY by de
   <Tab title="Agent mode (default)">
     ```bash
     # Fully non-interactive — all inputs from flags
-    npx @hanzo/frame init my-video --example blank --video video.mp4
-    npx @hanzo/frame render --output output.mp4 --fps 30 --quality standard
-    npx @hanzo/frame upgrade --check --json
+    npx @hanzo/frames init my-video --example blank --video video.mp4
+    npx @hanzo/frames render --output output.mp4 --fps 30 --quality standard
+    npx @hanzo/frames upgrade --check --json
     ```
   </Tab>
   <Tab title="Human mode">
     ```bash
     # Command-specific interactive flow
-    npx @hanzo/frame init my-video
+    npx @hanzo/frames init my-video
 
     # Interactive picker supported by catalog
-    npx @hanzo/frame catalog --human-friendly
+    npx @hanzo/frames catalog --human-friendly
     ```
   </Tab>
 </Tabs>
@@ -90,7 +90,7 @@ The CLI checks npm for newer versions in the background (cached 24 hours). If an
 
 ```
   Update available: 0.1.4 → 0.1.5
-  Run: npx @hanzo/frame@latest
+  Run: npx @hanzo/frames@latest
 ```
 
 This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDATE_CHECK=1` is set.
@@ -101,11 +101,11 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
   <Step title="Create a project">
     Scaffold a new composition from an example:
     ```bash
-    npx @hanzo/frame init --example warm-grain
+    npx @hanzo/frames init --example warm-grain
     ```
     You will be prompted for a project name, or pass it as an argument:
     ```bash
-    npx @hanzo/frame init my-video --example warm-grain
+    npx @hanzo/frames init my-video --example warm-grain
     ```
     See [Examples](/examples) for all available examples.
   </Step>
@@ -113,14 +113,14 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
     Start the development server with live hot reload:
     ```bash
     cd my-video
-    npx @hanzo/frame preview
+    npx @hanzo/frames preview
     ```
     The Hyperframes Studio opens in your browser. Edit `index.html` and the preview updates instantly.
   </Step>
   <Step title="Lint your composition">
     Check for structural issues before rendering:
     ```bash
-    npx @hanzo/frame lint
+    npx @hanzo/frames lint
     ```
     ```
     ◆  Linting my-project/index.html
@@ -131,15 +131,15 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
   <Step title="Render to MP4">
     Produce the final video:
     ```bash
-    npx @hanzo/frame render --output output.mp4
+    npx @hanzo/frames render --output output.mp4
     ```
     Render a specific composition instead of `index.html`:
     ```bash
-    npx @hanzo/frame render -c compositions/intro.html -o intro.mp4
+    npx @hanzo/frames render -c compositions/intro.html -o intro.mp4
     ```
     For deterministic output, add `--docker`:
     ```bash
-    npx @hanzo/frame render --docker --output output.mp4
+    npx @hanzo/frames render --docker --output output.mp4
     ```
   </Step>
 </Steps>
@@ -154,13 +154,13 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Agent mode (default) — --example is required
-    npx @hanzo/frame init my-video --example blank --video video.mp4
+    npx @hanzo/frames init my-video --example blank --video video.mp4
 
     # Include Tailwind CSS browser-runtime support
-    npx @hanzo/frame init my-video --example blank --tailwind
+    npx @hanzo/frames init my-video --example blank --tailwind
 
     # Human mode — interactive prompts on TTY by default
-    npx @hanzo/frame init my-video
+    npx @hanzo/frames init my-video
     ```
 
     | Flag | Description |
@@ -197,16 +197,16 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Add a block (sub-composition scene)
-    npx @hanzo/frame add claude-code-window
+    npx @hanzo/frames add claude-code-window
 
     # Add a component (effect / snippet)
-    npx @hanzo/frame add shader-wipe
+    npx @hanzo/frames add shader-wipe
 
     # Target a different project dir
-    npx @hanzo/frame add shader-wipe --dir ./my-video
+    npx @hanzo/frames add shader-wipe --dir ./my-video
 
     # Headless / CI (skip clipboard; also: --json for a machine-readable result)
-    npx @hanzo/frame add shader-wipe --no-clipboard --json
+    npx @hanzo/frames add shader-wipe --no-clipboard --json
     ```
 
     | Flag | Description |
@@ -228,17 +228,17 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # List everything (default: table output)
-    npx @hanzo/frame catalog
+    npx @hanzo/frames catalog
 
     # Filter by type or tag
-    npx @hanzo/frame catalog --type block
-    npx @hanzo/frame catalog --type block --tag social
+    npx @hanzo/frames catalog --type block
+    npx @hanzo/frames catalog --type block --tag social
 
     # Machine-readable JSON
-    npx @hanzo/frame catalog --json
+    npx @hanzo/frames catalog --json
 
     # Interactive picker — select to install
-    npx @hanzo/frame catalog --human-friendly
+    npx @hanzo/frames catalog --human-friendly
     ```
 
     | Flag | Description |
@@ -255,7 +255,7 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
     List all compositions in the current project:
 
     ```bash
-    npx @hanzo/frame compositions
+    npx @hanzo/frames compositions
     ```
 
     | Flag | Description |
@@ -270,16 +270,16 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Transcribe audio/video with local whisper.cpp
-    npx @hanzo/frame transcribe audio.mp3
-    npx @hanzo/frame transcribe video.mp4 --model medium.en --language en
+    npx @hanzo/frames transcribe audio.mp3
+    npx @hanzo/frames transcribe video.mp4 --model medium.en --language en
 
     # Import existing transcripts from other tools
-    npx @hanzo/frame transcribe subtitles.srt
-    npx @hanzo/frame transcribe captions.vtt
-    npx @hanzo/frame transcribe openai-response.json
+    npx @hanzo/frames transcribe subtitles.srt
+    npx @hanzo/frames transcribe captions.vtt
+    npx @hanzo/frames transcribe openai-response.json
 
     # Export caption sidecars from transcript.json
-    npx @hanzo/frame transcribe transcript.json --to srt
+    npx @hanzo/frames transcribe transcript.json --to srt
     ```
 
     | Flag | Description |
@@ -318,28 +318,28 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Generate speech from text
-    npx @hanzo/frame tts "Welcome to Frames"
+    npx @hanzo/frames tts "Welcome to Frames"
 
     # Choose a voice
-    npx @hanzo/frame tts "Hello world" --voice am_adam
+    npx @hanzo/frames tts "Hello world" --voice am_adam
 
     # Save to a specific file
-    npx @hanzo/frame tts "Intro" --voice bf_emma --output narration.wav
+    npx @hanzo/frames tts "Intro" --voice bf_emma --output narration.wav
 
     # Adjust speech speed
-    npx @hanzo/frame tts "Slow and clear" --speed 0.8
+    npx @hanzo/frames tts "Slow and clear" --speed 0.8
 
     # Generate Spanish speech (lang auto-detected from the `e` voice prefix)
-    npx @hanzo/frame tts "La reunión empieza a las nueve" --voice ef_dora --output es.wav
+    npx @hanzo/frames tts "La reunión empieza a las nueve" --voice ef_dora --output es.wav
 
     # Override the phonemizer (read English text with a French voice)
-    npx @hanzo/frame tts "Bonjour le monde" --voice af_heart --lang fr-fr
+    npx @hanzo/frames tts "Bonjour le monde" --voice af_heart --lang fr-fr
 
     # Read text from a file
-    npx @hanzo/frame tts script.txt
+    npx @hanzo/frames tts script.txt
 
     # List available voices
-    npx @hanzo/frame tts --list
+    npx @hanzo/frames tts --list
     ```
 
     | Flag | Description |
@@ -365,23 +365,23 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Default: VP9-with-alpha WebM (HTML5-native, ~1 MB / 4s @ 1080p)
-    npx @hanzo/frame remove-background avatar.mp4 -o transparent.webm
+    npx @hanzo/frames remove-background avatar.mp4 -o transparent.webm
 
     # ProRes 4444 .mov for editing round-trip
-    npx @hanzo/frame remove-background avatar.mp4 -o transparent.mov
+    npx @hanzo/frames remove-background avatar.mp4 -o transparent.mov
 
     # Single image → transparent PNG
-    npx @hanzo/frame remove-background portrait.jpg -o cutout.png
+    npx @hanzo/frames remove-background portrait.jpg -o cutout.png
 
     # Layer separation: cutout AND inverse-alpha background plate in one pass
-    npx @hanzo/frame remove-background avatar.mp4 \
+    npx @hanzo/frames remove-background avatar.mp4 \
       -o subject.webm --background-output plate.webm
 
     # Force CPU on a machine that has CoreML or CUDA
-    npx @hanzo/frame remove-background avatar.mp4 -o transparent.webm --device cpu
+    npx @hanzo/frames remove-background avatar.mp4 -o transparent.webm --device cpu
 
     # Inspect detected providers without rendering
-    npx @hanzo/frame remove-background --info
+    npx @hanzo/frames remove-background --info
     ```
 
     | Flag | Description |
@@ -416,9 +416,9 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Capture a website — extract screenshots, design tokens, fonts, assets, and animations for video production:
 
     ```bash
-    npx @hanzo/frame capture https://stripe.com
-    npx @hanzo/frame capture https://linear.app -o linear-capture
-    npx @hanzo/frame capture https://example.com --json
+    npx @hanzo/frames capture https://stripe.com
+    npx @hanzo/frames capture https://linear.app -o linear-capture
+    npx @hanzo/frames capture https://example.com --json
     ```
 
     ```
@@ -451,8 +451,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Start a live preview server with hot reload:
 
     ```bash
-    npx @hanzo/frame preview [dir]
-    npx @hanzo/frame preview --port 4567
+    npx @hanzo/frames preview [dir]
+    npx @hanzo/frames preview --port 4567
     ```
 
     | Flag | Description |
@@ -476,8 +476,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Upload the project and get back a stable `frames.hanzo.ai` URL:
 
     ```bash
-    npx @hanzo/frame publish [dir]
-    npx @hanzo/frame publish --yes
+    npx @hanzo/frames publish [dir]
+    npx @hanzo/frames publish --yes
     ```
 
     | Flag | Description |
@@ -495,9 +495,9 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Check a composition for common issues:
 
     ```bash
-    npx @hanzo/frame lint [dir]
-    npx @hanzo/frame lint [dir] --verbose   # include info-level findings
-    npx @hanzo/frame lint [dir] --json      # machine-readable JSON output
+    npx @hanzo/frames lint [dir]
+    npx @hanzo/frames lint [dir] --verbose   # include info-level findings
+    npx @hanzo/frames lint [dir] --json      # machine-readable JSON output
     ```
     ```
     ◆  Linting my-project/index.html
@@ -527,11 +527,11 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     The browser verification gate: everything the old `validate` → `inspect` → `snapshot` loop did, in **one** command with one browser session:
 
     ```bash
-    npx @hanzo/frame check [dir]
-    npx @hanzo/frame check [dir] --json         # {ok, lint, runtime, layout, motion, contrast, snapshots}
-    npx @hanzo/frame check [dir] --snapshots    # annotated overview frames + per-finding crops
-    npx @hanzo/frame check [dir] --at 1.5,4,7.25
-    npx @hanzo/frame check [dir] --strict       # exit non-zero on warnings too
+    npx @hanzo/frames check [dir]
+    npx @hanzo/frames check [dir] --json         # {ok, lint, runtime, layout, motion, contrast, snapshots}
+    npx @hanzo/frames check [dir] --snapshots    # annotated overview frames + per-finding crops
+    npx @hanzo/frames check [dir] --at 1.5,4,7.25
+    npx @hanzo/frames check [dir] --strict       # exit non-zero on warnings too
     ```
 
     `check` runs the linter first (browser skipped entirely on lint errors), then loads the bundled composition once and sweeps one seek grid running every audit per sample: runtime console errors and failed requests, layout defects (overflow, clipping, held overlaps, occlusion, coordinate-frame drift), `*.motion.json` sidecar assertions, and WCAG AA contrast.
@@ -557,8 +557,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Detect the beats in a composition's music track and write them to a beat file the Studio uses to draw beat guides on the timeline:
 
     ```bash
-    npx @hanzo/frame beats [dir]
-    npx @hanzo/frame beats [dir] --json   # machine-readable JSON output
+    npx @hanzo/frames beats [dir]
+    npx @hanzo/frames beats [dir] --json   # machine-readable JSON output
     ```
 
     The command finds the music track (an `<audio>` element with `data-timeline-role="music"`, or an id like `music`/`bgm`/`soundtrack`), runs the **same** detection the Studio uses inside a headless Chrome (identical decode + BPM analysis), and writes `beats/<audio-path>.json`:
@@ -577,7 +577,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     |------|-------------|
     | `--json` | Output `{ ok, file, count, bpm }` as JSON |
 
-    Requires a local Chrome (the same one used by `render`; run `npx @hanzo/frame browser ensure` if missing). Detection runs the **same** algorithm the Studio uses; results are near-identical (a different headless-Chrome audio sample rate can shift beat times by a frame or two).
+    Requires a local Chrome (the same one used by `render`; run `npx @hanzo/frames browser ensure` if missing). Detection runs the **same** algorithm the Studio uses; results are near-identical (a different headless-Chrome audio sample rate can shift beat times by a frame or two).
 
     ### `inspect`
 
@@ -586,10 +586,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Inspect rendered visual layout across the composition timeline:
 
     ```bash
-    npx @hanzo/frame inspect [dir]
-    npx @hanzo/frame inspect [dir] --json
-    npx @hanzo/frame inspect [dir] --samples 15
-    npx @hanzo/frame inspect [dir] --at 1.5,4,7.25
+    npx @hanzo/frames inspect [dir]
+    npx @hanzo/frames inspect [dir] --json
+    npx @hanzo/frames inspect [dir] --samples 15
+    npx @hanzo/frames inspect [dir] --at 1.5,4,7.25
     ```
 
     ```
@@ -619,7 +619,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     `layout` remains available as a compatibility alias for the same visual inspection pass:
 
     ```bash
-    npx @hanzo/frame layout [dir] --json
+    npx @hanzo/frames layout [dir] --json
     ```
 
     #### Motion verification
@@ -652,8 +652,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Capture key frames from a composition as PNG screenshots — verify visual output without a full render:
 
     ```bash
-    npx @hanzo/frame snapshot my-project --at 2.9,10.4,18.7
-    npx @hanzo/frame snapshot my-project --frames 10
+    npx @hanzo/frames snapshot my-project --at 2.9,10.4,18.7
+    npx @hanzo/frames snapshot my-project --frames 10
     ```
 
     ```
@@ -680,22 +680,22 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Local mode (fast iteration)
-    npx @hanzo/frame render --output output.mp4
+    npx @hanzo/frames render --output output.mp4
 
     # Docker mode (deterministic output)
-    npx @hanzo/frame render --docker --output output.mp4
+    npx @hanzo/frames render --docker --output output.mp4
 
     # WebM with transparency (for overlays, captions, lower thirds)
-    npx @hanzo/frame render --format webm --output overlay.webm
+    npx @hanzo/frames render --format webm --output overlay.webm
 
     # With options
-    npx @hanzo/frame render --output output.mp4 --fps 60 --quality high
+    npx @hanzo/frames render --output output.mp4 --fps 60 --quality high
 
     # Opt out of local browser GPU capture
-    npx @hanzo/frame render --no-browser-gpu --output cpu-browser.mp4
+    npx @hanzo/frames render --no-browser-gpu --output cpu-browser.mp4
 
     # Add hardware FFmpeg encoding
-    npx @hanzo/frame render --gpu --output gpu.mp4
+    npx @hanzo/frames render --gpu --output gpu.mp4
     ```
 
     | Flag | Values | Default | Description |
@@ -754,13 +754,13 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Render with declared defaults (preview also uses the defaults)
-    npx @hanzo/frame render --output default.mp4
+    npx @hanzo/frames render --output default.mp4
 
     # Override at render time — missing keys fall through to declared defaults
-    npx @hanzo/frame render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
+    npx @hanzo/frames render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
 
     # Pass values from a JSON file
-    npx @hanzo/frame render --variables-file ./vars.json --output out.mp4
+    npx @hanzo/frames render --variables-file ./vars.json --output out.mp4
     ```
 
     `getVariables()` returns the merged result of declared defaults and any `--variables` overrides, so the same composition runs unchanged in dev preview and in production renders.
@@ -771,7 +771,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Render a caption overlay with transparent background
-    npx @hanzo/frame render --format webm --output captions.webm
+    npx @hanzo/frames render --format webm --output captions.webm
 
     # Overlay on another video with FFmpeg
     ffmpeg -c:v libvpx-vp9 -i captions.webm -i background.mp4 \
@@ -789,7 +789,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Find optimal render settings for your system:
 
     ```bash
-    npx @hanzo/frame benchmark [dir]
+    npx @hanzo/frames benchmark [dir]
     ```
 
     | Flag | Values | Default | Description |
@@ -807,17 +807,17 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash Terminal
     # Concise capability index, then one focused contract
-    npx @hanzo/frame media-treatment --capabilities --json
-    npx @hanzo/frame media-treatment --capability grading --json
+    npx @hanzo/frames media-treatment --capabilities --json
+    npx @hanzo/frames media-treatment --capability grading --json
 
     # Analyze and update one selected media element
-    npx @hanzo/frame media-treatment \
+    npx @hanzo/frames media-treatment \
       --project . \
       --file compositions/scene.html \
       --selector '#hero' \
       --analyze \
       --json
-    npx @hanzo/frame media-treatment \
+    npx @hanzo/frames media-treatment \
       --project . \
       --file compositions/scene.html \
       --selector '#hero' \
@@ -852,7 +852,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Check your environment for required dependencies:
 
     ```bash
-    npx @hanzo/frame doctor
+    npx @hanzo/frames doctor
     ```
     ```
     frames doctor
@@ -887,7 +887,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Display project metadata:
 
     ```bash
-    npx @hanzo/frame info [dir]
+    npx @hanzo/frames info [dir]
     ```
 
     | Flag | Description |
@@ -901,10 +901,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Check for updates and show upgrade instructions:
 
     ```bash
-    npx @hanzo/frame upgrade
-    npx @hanzo/frame upgrade --check         # check and exit (no prompt)
-    npx @hanzo/frame upgrade --check --json  # machine-readable for agents
-    npx @hanzo/frame upgrade --yes           # show upgrade commands without prompting
+    npx @hanzo/frames upgrade
+    npx @hanzo/frames upgrade --check         # check and exit (no prompt)
+    npx @hanzo/frames upgrade --check --json  # machine-readable for agents
+    npx @hanzo/frames upgrade --yes           # show upgrade commands without prompting
     ```
 
     | Flag | Description |
@@ -930,23 +930,23 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Find or download Chrome for rendering
-    npx @hanzo/frame browser ensure
+    npx @hanzo/frames browser ensure
 
     # Print the browser executable path (for scripting)
-    npx @hanzo/frame browser path
+    npx @hanzo/frames browser path
 
     # Remove cached Chrome download
-    npx @hanzo/frame browser clear
+    npx @hanzo/frames browser clear
     ```
 
-    The `path` subcommand outputs only the path, useful in scripts: `$(npx @hanzo/frame browser path)`.
+    The `path` subcommand outputs only the path, useful in scripts: `$(npx @hanzo/frames browser path)`.
 
     ### `docs`
 
     View inline documentation in the terminal:
 
     ```bash
-    npx @hanzo/frame docs [topic]
+    npx @hanzo/frames docs [topic]
     ```
 
     Available topics: `data-attributes`, `examples`, `rendering`, `gsap`, `troubleshooting`, `compositions`. Run without a topic to see the full list.
@@ -957,13 +957,13 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Quick rating (0 = not likely, 10 = extremely likely)
-    npx @hanzo/frame feedback --rating 10
+    npx @hanzo/frames feedback --rating 10
 
     # Rating with optional details
-    npx @hanzo/frame feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
+    npx @hanzo/frames feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
 
     # Also file a pre-filled GitHub issue with a published minimal repro (opt-in, consented)
-    npx @hanzo/frame feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
+    npx @hanzo/frames feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
     ```
 
     | Flag | Description |
@@ -985,9 +985,9 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Manage anonymous usage telemetry:
 
     ```bash
-    npx @hanzo/frame telemetry enable
-    npx @hanzo/frame telemetry disable
-    npx @hanzo/frame telemetry status
+    npx @hanzo/frames telemetry enable
+    npx @hanzo/frames telemetry disable
+    npx @hanzo/frames telemetry status
     ```
 
     Telemetry collects command names, render performance, render checkpoint/error names, aggregate browser diagnostic counts, browser initialization duration and tween count, aggregate video extraction workload counts (such as extracted frame count and VFR preflight count), example choices, and system info — including a coarse environment fingerprint (OS, kernel string, CPU/memory shape, sandbox runtime such as gVisor or Docker, and the *name* of a coding agent driving the CLI when one is detected, e.g. `claude_code` / `codex` / `cursor`). The agent name is derived from the existence of well-known environment variables; their values are never read. Telemetry redacts local paths and URL query strings from render error/checkpoint messages and does **not** collect project names, video content, or environment variable values. It collects no personally identifiable information: usage is keyed to the install id in `~/.frames/config.json` and nothing else — no account, no credential, no email. Disable all telemetry with `FRAMES_NO_TELEMETRY=1` or the command above.
@@ -1000,12 +1000,12 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Install to all default targets (Claude Code, Gemini CLI, Codex CLI)
-    npx @hanzo/frame skills
+    npx @hanzo/frames skills
 
     # Install to specific tools
-    npx @hanzo/frame skills --claude
-    npx @hanzo/frame skills --cursor
-    npx @hanzo/frame skills --claude --gemini
+    npx @hanzo/frames skills --claude
+    npx @hanzo/frames skills --cursor
+    npx @hanzo/frames skills --claude --gemini
     ```
 
     | Flag | Description |

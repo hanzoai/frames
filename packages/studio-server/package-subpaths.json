@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-studio-server",
+  "package": "@hanzo/frames-studio-server",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {

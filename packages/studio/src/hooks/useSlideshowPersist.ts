@@ -1,6 +1,6 @@
 import { useCallback, type MutableRefObject } from "react";
-import type { Composition } from "@hanzo/frame-sdk";
-import type { SlideshowManifest } from "@hanzo/frame-core/slideshow";
+import type { Composition } from "@hanzo/frames-sdk";
+import type { SlideshowManifest } from "@hanzo/frames-core/slideshow";
 import type { EditHistoryKind } from "../utils/editHistory";
 import type { PublishSdkSession } from "../utils/sdkCutover";
 import { persistSlideshowManifest } from "../utils/setSlideshowManifest";

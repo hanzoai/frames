@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-lint",
+  "package": "@hanzo/frames-lint",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {

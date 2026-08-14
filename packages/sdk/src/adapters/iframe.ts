@@ -35,7 +35,7 @@ import {
   applyPositionEditToElement,
   composeTranslate,
   readCurrentTranslate,
-} from "@hanzo/frame-core/runtime/position-edits";
+} from "@hanzo/frames-core/runtime/position-edits";
 import type { PreviewAdapter, ElementAtPointResult, DraftProps } from "./types.js";
 import type { EditOp, Composition } from "../types.js";
 import { applyPatchesToDocument, applyOverrideSet } from "../engine/apply-patches.js";

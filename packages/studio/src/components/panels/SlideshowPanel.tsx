@@ -15,8 +15,8 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { parseSlideshowManifest } from "@hanzo/frame-core/slideshow";
-import type { SlideshowManifest, SlideHotspot } from "@hanzo/frame-core/slideshow";
+import { parseSlideshowManifest } from "@hanzo/frames-core/slideshow";
+import type { SlideshowManifest, SlideHotspot } from "@hanzo/frames-core/slideshow";
 import { usePlayerStore } from "../../player";
 import { useDomEditSelectionContext } from "../../contexts/DomEditContext";
 import { useFileManagerContext } from "../../contexts/FileManagerContext";

@@ -1,4 +1,4 @@
-import { type HdrTransfer, convertTransfer } from "@hanzo/frame-engine";
+import { type HdrTransfer, convertTransfer } from "@hanzo/frames-engine";
 
 export interface HdrImageTransferCache {
   getConverted(

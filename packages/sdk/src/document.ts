@@ -1,5 +1,5 @@
 /**
- * SDK document model — adaptation layer on top of @hanzo/frame-core.
+ * SDK document model — adaptation layer on top of @hanzo/frames-core.
  *
  * F6 decision: SDK builds ON core, no parser duplication.
  * - ensureHfIds (from core) is the parse entry point: all construction starts here.
@@ -9,8 +9,8 @@
  */
 
 import { parseHTML } from "linkedom";
-import { ensureHfIds, isCompositionTemplate } from "@hanzo/frame-parsers/hf-ids";
-import { parseGsapScriptAcornForWrite } from "@hanzo/frame-core/gsap-parser-acorn";
+import { ensureHfIds, isCompositionTemplate } from "@hanzo/frames-parsers/hf-ids";
+import { parseGsapScriptAcornForWrite } from "@hanzo/frames-core/gsap-parser-acorn";
 import {
   findRoot,
   getElementStyles,

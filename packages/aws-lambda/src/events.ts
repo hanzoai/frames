@@ -19,9 +19,9 @@
 import type {
   DistributedFormat,
   SerializableDistributedRenderConfig,
-} from "@hanzo/frame-producer/distributed";
+} from "@hanzo/frames-producer/distributed";
 
-export type { SerializableDistributedRenderConfig } from "@hanzo/frame-producer/distributed";
+export type { SerializableDistributedRenderConfig } from "@hanzo/frames-producer/distributed";
 
 /** Discriminator for the three roles the one Lambda image fulfills. */
 export type LambdaAction = "plan" | "renderChunk" | "assemble";

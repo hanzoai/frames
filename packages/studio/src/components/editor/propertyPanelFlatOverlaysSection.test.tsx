@@ -2,7 +2,7 @@
 
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
-import type { RegistryItem } from "@hanzo/frame-core/registry";
+import type { RegistryItem } from "@hanzo/frames-core/registry";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   deriveMediaOverlayPlacement,

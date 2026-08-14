@@ -1,4 +1,4 @@
-import { parseHTMLContent } from "@hanzo/frame-core/compiler";
+import { parseHTMLContent } from "@hanzo/frames-core/compiler";
 
 function getSingleMeaningfulChild(container: Element): Element | null {
   let child: Element | null = null;

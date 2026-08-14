@@ -7,7 +7,7 @@
  */
 import React, { act } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { usePlayerStore } from "../player/store/playerStore";
 import { resolveSelectorElementIds } from "./gsapShared";

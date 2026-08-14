@@ -1,4 +1,4 @@
-import { COLOR_GRADING_MAX_CURVE_POINTS } from "@hanzo/frame-parsers/color-grading-contract";
+import { COLOR_GRADING_MAX_CURVE_POINTS } from "@hanzo/frames-parsers/color-grading-contract";
 
 export type HfColorCurvePoint = readonly [input: number, output: number];
 export type HfHueCurvePoint = readonly [hueDegrees: number, delta: number];

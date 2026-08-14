@@ -9,7 +9,7 @@ import {
   HF_COLOR_GRADING_PALETTES,
   getHfColorGradingCapabilities,
   normalizeHfColorGrading,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import {
   activeColorGradingEffectCount,
   FlatEffectsAccessory,

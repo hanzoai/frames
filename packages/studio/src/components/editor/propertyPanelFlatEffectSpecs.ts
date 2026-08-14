@@ -4,7 +4,7 @@ import {
   type HfColorGradingActiveEffectKey,
   type HfColorGradingEffectKey,
   type HfColorGradingPresetId,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 
 type SliderControl = {
   kind: "slider";

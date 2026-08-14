@@ -89,7 +89,7 @@ The default policy doc emitted by `frames lambda policies user/role` uses `Resou
 
 1. **Inventory** the compositions you want to migrate. Filter out anything that needs HDR — that stays on your current framework for now. webm renders distributed via closed-GOP VP9 + concat-copy (see the webm section above).
 2. **Translate** each composition to plain HTML. The `[Concepts](/concepts)` page covers the data-attribute conventions; installing the skills (`npx skills add hanzoai/frames`) makes Claude / Cursor / Codex aware of them too — start at `/frames`, which routes to `/frames-core` for the composition contract.
-3. **Wire** the new composition into your build pipeline alongside the old one. Frames doesn't need an external bundler — you can `npx @hanzo/frame preview` against the HTML directly.
+3. **Wire** the new composition into your build pipeline alongside the old one. Frames doesn't need an external bundler — you can `npx @hanzo/frames preview` against the HTML directly.
 4. **Deploy** in a separate AWS account or with a `--stack-name=frames-staging` first. Run a real render with `--wait`; verify the output bytes.
 5. **Add the policy** to your CI. `frames lambda policies user > infra/iam/frames.json` then `frames lambda policies validate infra/iam/frames.json` on every PR.
 6. **Cut over** by pointing your existing automation at the new render endpoint. Keep the old deployment alive until you've verified rolling renders for a release cycle, then `frames lambda destroy` the staging stack and decommission the previous one.

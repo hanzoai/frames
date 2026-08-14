@@ -5,7 +5,7 @@ import {
   parseSlideshowManifest,
   resolveSlideshow,
   isSceneLikeCompositionId,
-} from "@hanzo/frame-parsers/slideshow";
+} from "@hanzo/frames-parsers/slideshow";
 
 type Scene = { id: string; start: number; duration: number };
 

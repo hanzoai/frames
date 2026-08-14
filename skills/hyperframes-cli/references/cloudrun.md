@@ -11,11 +11,11 @@ Use `frames cloudrun` only when the user explicitly wants self-managed Google Cl
 ## Lifecycle
 
 ```bash
-npx @hanzo/frame cloudrun deploy --project <gcp-project> --region us-central1
-npx @hanzo/frame cloudrun sites create ./project
-npx @hanzo/frame cloudrun render ./project --width 1920 --height 1080 --wait
-npx @hanzo/frame cloudrun progress <execution-name>
-npx @hanzo/frame cloudrun destroy --project <gcp-project>
+npx @hanzo/frames cloudrun deploy --project <gcp-project> --region us-central1
+npx @hanzo/frames cloudrun sites create ./project
+npx @hanzo/frames cloudrun render ./project --width 1920 --height 1080 --wait
+npx @hanzo/frames cloudrun progress <execution-name>
+npx @hanzo/frames cloudrun destroy --project <gcp-project>
 ```
 
 `deploy` enables the required Google APIs, builds or accepts a container image, applies the bundled Terraform module, and stores the resulting coordinates in `~/.frames/cloudrun-state.json`. Use deploy flags such as `--image`, `--repo`, `--cpu`, `--memory`, `--max-instances`, and `--timeout` only when the infrastructure needs those overrides.
@@ -27,7 +27,7 @@ Common render flags are `--fps 24|30|60`, `--quality draft|standard|high`, `--co
 For a variable-driven single render:
 
 ```bash
-npx @hanzo/frame cloudrun render ./template \
+npx @hanzo/frames cloudrun render ./template \
   --width 1920 --height 1080 \
   --variables-file ./alice.json \
   --strict-variables \
@@ -39,7 +39,7 @@ Use exactly one of `--variables` and `--variables-file`. Read [`variables-and-me
 ## JSONL batches
 
 ```bash
-npx @hanzo/frame cloudrun render-batch ./template \
+npx @hanzo/frames cloudrun render-batch ./template \
   --batch ./users.jsonl \
   --width 1920 --height 1080 \
   --max-concurrent 10 \

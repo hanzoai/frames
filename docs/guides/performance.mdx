@@ -66,7 +66,7 @@ Don't guess — measure. Chrome DevTools has everything you need.
     Start the preview server and open it in Chrome:
 
     ```bash Terminal
-    npx @hanzo/frame preview
+    npx @hanzo/frames preview
     ```
   </Step>
   <Step title="Open DevTools → Performance">
@@ -96,7 +96,7 @@ Once you know which category dominates, you know what to change.
 Some compositions are legitimately too expensive for real-time playback. If you've reduced what you can and preview still stutters, render-to-mp4 and watch the output is a fine workflow — render is still accurate.
 
 ```bash Terminal
-npx @hanzo/frame render --quality draft --output preview.mp4
+npx @hanzo/frames render --quality draft --output preview.mp4
 ```
 
 Draft quality renders fast and is visually close to the final render for everything except encoder-level detail.
@@ -110,13 +110,13 @@ Frames sets `-cpu-used 4` for VP9 by default. On a devbox check using an 8s 1280
 Tune per deployment with:
 
 ```bash Terminal
-PRODUCER_VP9_CPU_USED=2 npx @hanzo/frame render --format webm --output overlay.webm
+PRODUCER_VP9_CPU_USED=2 npx @hanzo/frames render --format webm --output overlay.webm
 ```
 
 For one-off local renders, pass the same value directly:
 
 ```bash Terminal
-npx @hanzo/frame render --format webm --vp9-cpu-used 2 --output overlay.webm
+npx @hanzo/frames render --format webm --vp9-cpu-used 2 --output overlay.webm
 ```
 
 Valid values are integers from `-8` to `8`; Frames clamps out-of-range values before passing them to FFmpeg.

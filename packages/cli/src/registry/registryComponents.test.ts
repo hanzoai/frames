@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { lintHyperframeHtml } from "@hanzo/frame-lint";
+import { lintHyperframeHtml } from "@hanzo/frames-lint";
 import { describe, expect, it } from "vitest";
 
 const componentsDir = resolve(

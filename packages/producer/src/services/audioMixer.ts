@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hanzo/frame-engine.
+ * Re-exported from @hanzo/frames-engine.
  * @see engine/src/services/audioMixer.ts for implementation.
  */
 export {
@@ -8,4 +8,4 @@ export {
   type AudioElement,
   type AudioTrack,
   type MixResult,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";

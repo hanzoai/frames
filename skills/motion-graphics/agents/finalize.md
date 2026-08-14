@@ -8,9 +8,9 @@ Perform snapshot QA and one in-place repair pass. Dispatch only when Step 5 `lin
 
 ## Flow
 
-1. **Snapshots** — run `npx @hanzo/frame snapshot --at <proof-times>` and inspect overflow, off-canvas content, text collisions, empty frames, wrong content, and unreadable motion.
+1. **Snapshots** — run `npx @hanzo/frames snapshot --at <proof-times>` and inspect overflow, off-canvas content, text collisions, empty frames, wrong content, and unreadable motion.
 2. **One in-place repair pass** — edit `compositions/index.html` for the visible issues. Never change a fixed `data-duration`; timing is set upstream.
-3. **Recheck** — rerun `npx @hanzo/frame lint`, `npx @hanzo/frame check`, and the affected snapshots. Return the result to the orchestrator without rendering.
+3. **Recheck** — rerun `npx @hanzo/frames lint`, `npx @hanzo/frames check`, and the affected snapshots. Return the result to the orchestrator without rendering.
 
 ## STOP / escalate
 

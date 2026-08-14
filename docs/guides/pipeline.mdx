@@ -61,7 +61,7 @@ Capture artifacts stay in `capture/` so they're cleanly separated from the build
 When the video is grounded in an existing source (a website, a brand site, a competitor reference), start with capture. Hyperframes ships a built-in capture command for websites:
 
 ```bash
-npx @hanzo/frame capture https://example.com -o my-video/capture
+npx @hanzo/frames capture https://example.com -o my-video/capture
 ```
 
 This extracts screenshots at every scroll depth, pixel-sampled color palettes, the CSS font stack (and downloaded woff2 files), images and SVGs with semantic names, Lottie animations, and detected animations on the page. Optional [Gemini vision enrichment](/guides/website-to-video#enriching-captures-with-gemini-vision) adds AI-powered descriptions of every captured asset.
@@ -131,8 +131,8 @@ The storyboard typically opens with a global-direction block: format, voiceover 
 Generate the TTS narration, then transcribe it for word-level timestamps. Those timestamps are the source of truth for every beat duration downstream.
 
 ```bash
-npx @hanzo/frame tts SCRIPT.md --voice af_nova --output narration.wav
-npx @hanzo/frame transcribe narration.wav
+npx @hanzo/frames tts SCRIPT.md --voice af_nova --output narration.wav
+npx @hanzo/frames transcribe narration.wav
 ```
 
 | File             | What it contains |
@@ -164,17 +164,17 @@ After each composition is built, run a self-review for layout, asset placement, 
 Three checks before delivery:
 
 ```bash
-npx @hanzo/frame lint                              # static HTML structure checks
-npx @hanzo/frame check                             # one browser session: runtime errors, layout, motion, contrast
-npx @hanzo/frame snapshot my-video --at 2.9,10.4   # PNGs at beat midpoints
+npx @hanzo/frames lint                              # static HTML structure checks
+npx @hanzo/frames check                             # one browser session: runtime errors, layout, motion, contrast
+npx @hanzo/frames snapshot my-video --at 2.9,10.4   # PNGs at beat midpoints
 ```
 
 `lint` catches missing attributes, timeline registration issues, tween conflicts, and CSS-transform vs. GSAP conflicts. `validate` loads each composition in headless Chrome and surfaces runtime JS errors, missing assets, and failed network requests. `snapshot` captures frames at specific timestamps so you can _see_ your output without a full render.
 
-The pipeline delivers the localhost Studio URL as the handoff. Your AI agent runs `npx @hanzo/frame preview` and shares the project URL. Rendering to MP4 is on-demand:
+The pipeline delivers the localhost Studio URL as the handoff. Your AI agent runs `npx @hanzo/frames preview` and shares the project URL. Rendering to MP4 is on-demand:
 
 ```bash
-npx @hanzo/frame render --output my-video.mp4
+npx @hanzo/frames render --output my-video.mp4
 ```
 
 For personalized or catalog outputs, render the same validated composition with `--batch rows.json --output "renders/{name}.mp4"` and use the generated `manifest.json` as the delivery checklist.
@@ -186,7 +186,7 @@ For personalized or catalog outputs, render the same validated composition with 
 The pipeline is built around named artifacts on disk so you can re-enter anywhere without re-running everything:
 
 - To rework the creative plan, edit `STORYBOARD.md`: change a beat's mood, swap an asset, retime the entrance, then ask the agent to rebuild just that beat.
-- For surgical tweaks, open a composition file directly (e.g. `compositions/beat-3-proof.html`) and adjust animations, colors, or layout. `npx @hanzo/frame preview` shows changes live.
+- For surgical tweaks, open a composition file directly (e.g. `compositions/beat-3-proof.html`) and adjust animations, colors, or layout. `npx @hanzo/frames preview` shows changes live.
 - To rebuild one beat from scratch, prompt the agent: _"Rebuild beat 2 with more energy. Use the product screenshot as full-bleed background."_ It reads `STORYBOARD.md`, `DESIGN.md`, and the transcript, then regenerates just that file.
 - To swap the voice without redoing Step 3, re-run TTS against `narration.txt`, which already has the pronunciation substitutions baked in.
 

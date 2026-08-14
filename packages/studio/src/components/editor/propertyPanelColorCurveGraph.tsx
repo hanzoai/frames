@@ -9,7 +9,7 @@ import {
   type HfHueCurvePoint,
   type NormalizedHfColorGradingCurves,
   type NormalizedHfColorGradingHueCurves,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import { clampNumber } from "../../utils/studioHelpers";
 
 const GRAPH_SIZE = 160;

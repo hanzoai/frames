@@ -1,5 +1,5 @@
 /**
- * Re-exported from @hanzo/frame-engine.
+ * Re-exported from @hanzo/frames-engine.
  * @see engine/src/services/frameCapture.ts for implementation.
  */
 export {
@@ -18,4 +18,4 @@ export {
   type CapturePerfSummary,
   type CaptureSession,
   type BeforeCaptureHook,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";

@@ -1,6 +1,6 @@
 # Templates
 
-Built-in templates available via `npx frames init --example <name>`.
+Built-in templates available via `npx @hanzo/frames init --example <name>`.
 
 ## blank
 

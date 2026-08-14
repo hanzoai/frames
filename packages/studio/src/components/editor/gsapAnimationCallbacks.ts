@@ -1,4 +1,4 @@
-import type { ArcPathSegment } from "@hanzo/frame-parsers/gsap-parser";
+import type { ArcPathSegment } from "@hanzo/frames-parsers/gsap-parser";
 import { usePlayerStore } from "../../player";
 import type { AnimationKeyframeTarget } from "../../hooks/gsapTweenSynth";
 

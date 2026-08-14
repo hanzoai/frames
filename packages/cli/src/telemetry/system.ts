@@ -1,7 +1,7 @@
 import { cpus, freemem, platform, release } from "node:os";
 import { existsSync, readFileSync, statfsSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { getSystemTotalMb } from "@hanzo/frame-engine";
+import { getSystemTotalMb } from "@hanzo/frames-engine";
 import {
   detectAgentRuntime,
   detectAgentHints,

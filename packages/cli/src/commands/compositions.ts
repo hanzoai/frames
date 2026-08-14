@@ -1,5 +1,5 @@
 import { defineCommand } from "citty";
-import { parseNumeric, parseStartExpression } from "@hanzo/frame-core";
+import { parseNumeric, parseStartExpression } from "@hanzo/frames-core";
 import type { Example } from "./_examples.js";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";

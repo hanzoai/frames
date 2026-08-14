@@ -839,8 +839,8 @@ export function init(config: HyperShaderConfig): GsapTimeline {
     }
   }
 
-  // Locally redeclared (not imported) because @hanzo/frame-shader-transitions
-  // ships as a standalone CDN bundle and must not depend on @hanzo/frame-engine.
+  // Locally redeclared (not imported) because @hanzo/frames-shader-transitions
+  // ships as a standalone CDN bundle and must not depend on @hanzo/frames-engine.
   // Keep this in sync with HfTransitionMeta in packages/engine/src/types.ts.
   interface HfTransitionMeta {
     time: number;

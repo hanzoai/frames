@@ -1,4 +1,4 @@
-# @hanzo/frame-aws-lambda
+# @hanzo/frames-aws-lambda
 
 AWS Lambda adapter for Frames distributed rendering. Ships three
 things together:
@@ -28,9 +28,9 @@ smoke flow; the SDK + CDK are the supported public surface for adopters.
 ┌──────────────────────────────────────────────────────────────────┐
 │ One Lambda function (this package's `dist/handler.zip`)          │
 │   handler.mjs                                                    │
-│     ├─ Action="plan"        → @hanzo/frame-producer/distributed  │
-│     ├─ Action="renderChunk" → @hanzo/frame-producer/distributed  │
-│     └─ Action="assemble"    → @hanzo/frame-producer/distributed  │
+│     ├─ Action="plan"        → @hanzo/frames-producer/distributed  │
+│     ├─ Action="renderChunk" → @hanzo/frames-producer/distributed  │
+│     └─ Action="assemble"    → @hanzo/frames-producer/distributed  │
 │   bin/ffmpeg                — ffmpeg-static                      │
 │   node_modules/@sparticuz/chromium/ — Lambda-optimised Chromium  │
 └──────────────────────────────────────────────────────────────────┘
@@ -136,7 +136,7 @@ After deploying the stack (via the SAM template, CDK construct below, or
 your own CFN of choice), drive renders from Node:
 
 ```ts
-import { deploySite, getRenderProgress, renderToLambda } from "@hanzo/frame-aws-lambda";
+import { deploySite, getRenderProgress, renderToLambda } from "@hanzo/frames-aws-lambda";
 
 // One-time upload per project version.
 const site = await deploySite({
@@ -184,7 +184,7 @@ transfer.
 
 ```ts
 import { App, Stack } from "aws-cdk-lib";
-import { HyperframesRenderStack } from "@hanzo/frame-aws-lambda/cdk";
+import { HyperframesRenderStack } from "@hanzo/frames-aws-lambda/cdk";
 
 const app = new App();
 const stack = new Stack(app, "MyApp");
@@ -201,7 +201,7 @@ new CfnOutput(stack, "StateMachineArn", { value: render.stateMachine.stateMachin
 
 `aws-cdk-lib` and `constructs` are **optional peer dependencies**: SDK-only
 consumers don't pull them at runtime. The construct itself imports from
-`@hanzo/frame-aws-lambda/cdk`.
+`@hanzo/frames-aws-lambda/cdk`.
 
 ## What's still ahead
 

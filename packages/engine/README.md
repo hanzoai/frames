@@ -1,4 +1,4 @@
-# @hanzo/frame-engine
+# @hanzo/frames-engine
 
 Seekable web-page-to-video rendering engine built on Puppeteer and FFmpeg.
 
@@ -7,7 +7,7 @@ Framework-agnostic: works with GSAP, Lottie, Three.js, CSS animations, or any we
 ## Install
 
 ```bash
-npm install @hanzo/frame-engine
+npm install @hanzo/frames-engine
 ```
 
 **Requirements:** Node.js >= 22, Chrome/Chromium (auto-downloaded by Puppeteer), FFmpeg
@@ -39,7 +39,7 @@ import {
   initializeSession,
   captureFrame,
   closeCaptureSession,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 
 // 1. Launch browser
 const browserLease = await acquireBrowser({ captureMode: "beginFrame" });
@@ -64,7 +64,7 @@ await closeCaptureSession(session);
 await browserLease.release();
 ```
 
-Most users should use `@hanzo/frame-producer` or the `frames` CLI instead of calling the engine directly.
+Most users should use `@hanzo/frames-producer` or the `frames` CLI instead of calling the engine directly.
 
 ## Documentation
 
@@ -72,6 +72,6 @@ Full documentation: [frames.hanzo.ai/packages/engine](https://frames.hanzo.ai/pa
 
 ## Related packages
 
-- [`@hanzo/frame-core`](../core) — types, parsers, frame adapters
-- [`@hanzo/frame-producer`](../producer) — high-level render pipeline built on this engine
+- [`@hanzo/frames-core`](../core) — types, parsers, frame adapters
+- [`@hanzo/frames-producer`](../producer) — high-level render pipeline built on this engine
 - [`frames`](../cli) — CLI

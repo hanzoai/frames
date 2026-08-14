@@ -36,7 +36,7 @@ import {
   symlinkSync,
   unlinkSync,
 } from "node:fs";
-import { parseStoryboard, STORYBOARD_FILENAME } from "@hanzo/frame-core/storyboard";
+import { parseStoryboard, STORYBOARD_FILENAME } from "@hanzo/frames-core/storyboard";
 import { resolve, dirname, basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
@@ -45,7 +45,7 @@ import { c } from "../ui/colors.js";
 import { isDevMode } from "../utils/env.js";
 import { normalizeErrorMessage as errorMessage } from "../utils/errorMessage.js";
 import { buildNpxCommand } from "../utils/npxCommand.js";
-import type { StudioSelectionSnapshot } from "@hanzo/frame-studio-server";
+import type { StudioSelectionSnapshot } from "@hanzo/frames-studio-server";
 import {
   openBrowser,
   parseRemoteDebuggingPort,
@@ -357,7 +357,7 @@ export default defineCommand({
       });
     }
 
-    // If @hanzo/frame-studio is installed locally, use Vite for full HMR
+    // If @hanzo/frames-studio is installed locally, use Vite for full HMR
     if (hasLocalStudio(dir)) {
       if (args.background) {
         clack.log.error("--background currently supports the embedded preview server only");
@@ -531,7 +531,7 @@ async function printCurrentSelection(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx frames preview",
+      "No running Studio preview found for this project. Start one with: npx @hanzo/frames preview",
       json,
     );
     return;
@@ -648,7 +648,7 @@ async function printCurrentContext(
   if (!server) {
     printSelectionFailure(
       "preview-not-running",
-      "No running Studio preview found for this project. Start one with: npx frames preview",
+      "No running Studio preview found for this project. Start one with: npx @hanzo/frames preview",
       options.json,
     );
     return;
@@ -962,12 +962,12 @@ async function runDevMode(dir: string, options?: StudioLaunchOptions): Promise<v
 }
 
 /**
- * Check if @hanzo/frame-studio is installed locally in the project's node_modules.
+ * Check if @hanzo/frames-studio is installed locally in the project's node_modules.
  */
 function hasLocalStudio(dir: string): boolean {
   try {
     const req = createRequire(join(dir, "package.json"));
-    req.resolve("@hanzo/frame-studio/package.json");
+    req.resolve("@hanzo/frames-studio/package.json");
     return true;
   } catch {
     return false;
@@ -975,12 +975,12 @@ function hasLocalStudio(dir: string): boolean {
 }
 
 /**
- * Local studio mode: spawn Vite using a locally installed @hanzo/frame-studio.
+ * Local studio mode: spawn Vite using a locally installed @hanzo/frames-studio.
  * Provides full Vite HMR and the complete studio experience.
  */
 async function runLocalStudioMode(dir: string, options?: StudioLaunchOptions): Promise<void> {
   const req = createRequire(join(dir, "package.json"));
-  const studioPkgPath = dirname(req.resolve("@hanzo/frame-studio/package.json"));
+  const studioPkgPath = dirname(req.resolve("@hanzo/frames-studio/package.json"));
   const pName = options?.projectName ?? basename(dir);
 
   // Symlink project into studio's data directory
@@ -1131,7 +1131,7 @@ async function runEmbeddedMode(
       // Kill ffmpeg first (sync, fast), then drain browsers (async, slower).
       const cleanup = async () => {
         const { closeThumbnailBrowser } = await import("../server/studioServer.js");
-        const { drainBrowserPool, killTrackedProcesses } = await import("@hanzo/frame-engine");
+        const { drainBrowserPool, killTrackedProcesses } = await import("@hanzo/frames-engine");
         killTrackedProcesses();
         await closeThumbnailBrowser().catch(() => {});
         await drainBrowserPool().catch(() => {});
@@ -1149,7 +1149,7 @@ async function runEmbeddedMode(
     // Last-resort cleanup for crash paths (unhandled exceptions/rejections)
     // that bypass the signal handlers. Eagerly resolve the sync killer so
     // the 'exit' handler (which is synchronous) can call it directly.
-    import("@hanzo/frame-engine")
+    import("@hanzo/frames-engine")
       .then(({ killTrackedProcesses }) => {
         process.once("exit", () => {
           if (!shuttingDown) killTrackedProcesses();

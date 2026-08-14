@@ -1,4 +1,4 @@
-import { cloneCaptureWarnings } from "@hanzo/frame-engine";
+import { cloneCaptureWarnings } from "@hanzo/frames-engine";
 import type { ProducerLogger } from "../../logger.js";
 import type { ProgressCallback, RenderJob } from "../renderOrchestrator.js";
 import { updateJobStatus } from "./shared.js";

@@ -28,25 +28,25 @@ describe("packed manifest verifier", () => {
   });
 
   it("keeps every browser package live even when it declares sideEffects false", () => {
-    const consumer = renderBrowserConsumer(["@hanzo/frame-parsers", "@hanzo/frame-lint/browser"]);
+    const consumer = renderBrowserConsumer(["@hanzo/frames-parsers", "@hanzo/frames-lint/browser"]);
 
-    assert.match(consumer, /import \* as packedBrowserModule0 from "@hanzo\/frame-parsers";/);
-    assert.match(consumer, /import \* as packedBrowserModule1 from "@hanzo\/frame-lint\/browser";/);
+    assert.match(consumer, /import \* as packedBrowserModule0 from "@hanzo\/frames-parsers";/);
+    assert.match(consumer, /import \* as packedBrowserModule1 from "@hanzo\/frames-lint\/browser";/);
     assert.match(consumer, /packedBrowserModules\.map\(\(module\) => Object\.keys\(module\)\)/);
-    assert.doesNotMatch(consumer, /import "@hanzo\/frame-parsers"/);
+    assert.doesNotMatch(consumer, /import "@hanzo\/frames-parsers"/);
   });
 
   it("derives consumer specifiers from the packed export map", () => {
-    assert.equal(packageExportSpecifier("@hanzo/frame-sdk", "."), "@hanzo/frame-sdk");
+    assert.equal(packageExportSpecifier("@hanzo/frames-sdk", "."), "@hanzo/frames-sdk");
     assert.equal(
-      packageExportSpecifier("@hanzo/frame-sdk", "./adapters/fs"),
-      "@hanzo/frame-sdk/adapters/fs",
+      packageExportSpecifier("@hanzo/frames-sdk", "./adapters/fs"),
+      "@hanzo/frames-sdk/adapters/fs",
     );
     assert.deepEqual(
       listPackedExportContracts([
         {
           packedPackage: {
-            name: "@hanzo/frame-example",
+            name: "@hanzo/frames-example",
             exports: {
               ".": { import: "./dist/index.js", types: "./dist/index.d.ts" },
               "./runtime": "./dist/runtime.js",
@@ -56,12 +56,12 @@ describe("packed manifest verifier", () => {
       ]),
       [
         {
-          specifier: "@hanzo/frame-example",
+          specifier: "@hanzo/frames-example",
           typechecked: true,
           environments: ["browser", "node"],
         },
         {
-          specifier: "@hanzo/frame-example/runtime",
+          specifier: "@hanzo/frames-example/runtime",
           typechecked: false,
           environments: ["browser", "node"],
         },
@@ -74,7 +74,7 @@ describe("packed manifest verifier", () => {
       listPackedExportContracts([
         {
           packedPackage: {
-            name: "@hanzo/frame-example",
+            name: "@hanzo/frames-example",
             exports: { ".": { import: "./dist/index.js", types: "./dist/index.d.ts" } },
           },
           descriptor: {
@@ -86,7 +86,7 @@ describe("packed manifest verifier", () => {
       ]),
       [
         {
-          specifier: "@hanzo/frame-example",
+          specifier: "@hanzo/frames-example",
           typechecked: true,
           environments: ["browser"],
         },

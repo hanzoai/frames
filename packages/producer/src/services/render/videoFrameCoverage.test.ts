@@ -1,6 +1,6 @@
 // fallow-ignore-file code-duplication
 
-import type { ExtractedFrames, VideoElement, VideoMetadata } from "@hanzo/frame-engine";
+import type { ExtractedFrames, VideoElement, VideoMetadata } from "@hanzo/frames-engine";
 import { describe, expect, it } from "vitest";
 import {
   assertVideoFrameCoverage,

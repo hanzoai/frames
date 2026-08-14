@@ -24,13 +24,13 @@ import {
   CANVAS_DIMENSIONS,
   checkOutputResolutionCompatibility,
   type CanvasResolution,
-} from "@hanzo/frame-core";
+} from "@hanzo/frames-core";
 import type {
   AudioElement,
   ExtractedFrames,
   ImageElement,
   VideoElement,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import type { CompiledComposition } from "../htmlCompiler.js";
 import { defaultLogger, type ProducerLogger } from "../../logger.js";
 import { isPathInside } from "../../utils/paths.js";

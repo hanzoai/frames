@@ -56,7 +56,7 @@ function orbitStageSource(): string {
 }
 
 /** Maximum time a single-frame FFmpeg extract is allowed to run. Mirrors the
- * default applied by `@hanzo/frame-engine`'s `runFfmpeg` so a pathological
+ * default applied by `@hanzo/frames-engine`'s `runFfmpeg` so a pathological
  * clip (corrupt media, stalled network mount, codec edge case) cannot wedge
  * `frames snapshot` indefinitely. */
 const FFMPEG_EXTRACT_TIMEOUT_MS = 30_000;
@@ -366,7 +366,7 @@ async function captureSnapshots(
       let syncVideoFrameVisibility: SyncVisibilityFn | null = null;
       let extractMediaMetadata: ExtractMediaMetadataFn | null = null;
       try {
-        const engine = (await import("@hanzo/frame-engine")) as {
+        const engine = (await import("@hanzo/frames-engine")) as {
           injectVideoFramesBatch: InjectFn;
           syncVideoFrameVisibility: SyncVisibilityFn;
           extractMediaMetadata: ExtractMediaMetadataFn;
@@ -380,7 +380,7 @@ async function captureSnapshots(
         // programmatic currentTime writes). Say so instead of silently
         // shipping black frames (two wild Windows reports).
         console.warn(
-          `   ${c.warn("⚠")} @hanzo/frame-engine unavailable — <video> elements will appear black in snapshots. Verify media via a draft render's extracted frames instead.`,
+          `   ${c.warn("⚠")} @hanzo/frames-engine unavailable — <video> elements will appear black in snapshots. Verify media via a draft render's extracted frames instead.`,
         );
       }
       const alphaDecoderCache = new Map<string, Promise<boolean>>();

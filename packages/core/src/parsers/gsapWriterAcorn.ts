@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-parsers/gsap-writer-acorn */
-export * from "@hanzo/frame-parsers/gsap-writer-acorn";
+/** @deprecated Import from @hanzo/frames-parsers/gsap-writer-acorn */
+export * from "@hanzo/frames-parsers/gsap-writer-acorn";

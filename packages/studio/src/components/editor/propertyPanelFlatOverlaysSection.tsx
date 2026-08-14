@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { RegistryItem } from "@hanzo/frame-core/registry";
+import type { RegistryItem } from "@hanzo/frames-core/registry";
 import { useBlockCatalog } from "../../hooks/useBlockCatalog";
 import { Film, Plus } from "../../icons/SystemIcons";
 import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";

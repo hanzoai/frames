@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-core/gsap-parser";
 import { usePlayerStore } from "../store/playerStore";
 import { STUDIO_KEYFRAMES_ENABLED } from "../../components/editor/manualEditingAvailability";
 import { useStudioShellContextOptional } from "../../contexts/StudioContext";

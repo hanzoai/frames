@@ -5,10 +5,10 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@hanzo/frame-producer": ["../producer/src/index.ts"],
-      "@hanzo/frame-producer/distributed": ["../producer/src/distributed.ts"],
-      "@hanzo/frame-aws-lambda/sdk": ["../aws-lambda/src/sdk/index.ts"],
-      "@hanzo/frame-gcp-cloud-run/sdk": ["../gcp-cloud-run/src/sdk/index.ts"]
+      "@hanzo/frames-producer": ["../producer/src/index.ts"],
+      "@hanzo/frames-producer/distributed": ["../producer/src/distributed.ts"],
+      "@hanzo/frames-aws-lambda/sdk": ["../aws-lambda/src/sdk/index.ts"],
+      "@hanzo/frames-gcp-cloud-run/sdk": ["../gcp-cloud-run/src/sdk/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

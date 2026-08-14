@@ -46,7 +46,7 @@ Determinism baseline:
 ## Build
 
 ```bash
-bun run --filter @hanzo/frame-core build:frames-runtime
+bun run --filter @hanzo/frames-core build:frames-runtime
 ```
 
 ## Security Expectations

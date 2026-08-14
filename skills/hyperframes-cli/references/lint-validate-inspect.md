@@ -15,10 +15,10 @@ When the composition is animation-driven, run the checks before you reach for `p
 ## lint
 
 ```bash
-npx @hanzo/frame lint                  # current directory
-npx @hanzo/frame lint ./my-project     # specific project
-npx @hanzo/frame lint --verbose        # info-level findings
-npx @hanzo/frame lint --json           # machine-readable
+npx @hanzo/frames lint                  # current directory
+npx @hanzo/frames lint ./my-project     # specific project
+npx @hanzo/frames lint --verbose        # info-level findings
+npx @hanzo/frames lint --json           # machine-readable
 ```
 
 Lints `index.html` and all files in `compositions/`. Reports errors (must fix), warnings (should fix), and info (with `--verbose`). Catches missing `data-composition-id`, overlapping tracks on the same `data-track-index`, unregistered timelines, and GSAP/CSS transform conflicts.
@@ -28,17 +28,17 @@ Lints `index.html` and all files in `compositions/`. Reports errors (must fix), 
 ## check
 
 ```bash
-npx @hanzo/frame check                    # current directory: the full browser gate
-npx @hanzo/frame check ./my-project       # specific project
-npx @hanzo/frame check --json             # agent-readable envelope {ok, lint, runtime, layout, motion, contrast, snapshots}
-npx @hanzo/frame check --snapshots        # also write overview frames (annotated) + per-finding crops
-npx @hanzo/frame check --samples 15       # denser timeline sweep (default 9)
-npx @hanzo/frame check --at 1.5,4,7.25    # explicit hero-frame timestamps
-npx @hanzo/frame check --at-transitions   # also sample every tween start/end boundary
-npx @hanzo/frame check --tolerance 4      # allowed overflow px before reporting (default 2)
-npx @hanzo/frame check --timeout 5000     # ms for the initial settle (default 3000)
-npx @hanzo/frame check --no-contrast      # skip the WCAG audit while iterating
-npx @hanzo/frame check --strict           # exit non-zero on warnings too (default: only errors)
+npx @hanzo/frames check                    # current directory: the full browser gate
+npx @hanzo/frames check ./my-project       # specific project
+npx @hanzo/frames check --json             # agent-readable envelope {ok, lint, runtime, layout, motion, contrast, snapshots}
+npx @hanzo/frames check --snapshots        # also write overview frames (annotated) + per-finding crops
+npx @hanzo/frames check --samples 15       # denser timeline sweep (default 9)
+npx @hanzo/frames check --at 1.5,4,7.25    # explicit hero-frame timestamps
+npx @hanzo/frames check --at-transitions   # also sample every tween start/end boundary
+npx @hanzo/frames check --tolerance 4      # allowed overflow px before reporting (default 2)
+npx @hanzo/frames check --timeout 5000     # ms for the initial settle (default 3000)
+npx @hanzo/frames check --no-contrast      # skip the WCAG audit while iterating
+npx @hanzo/frames check --strict           # exit non-zero on warnings too (default: only errors)
 ```
 
 One command, one Chrome boot. `check` runs the linter first and skips the browser entirely when lint reports errors. Then it loads the bundled composition once, wires runtime listeners before navigation, and sweeps one seek grid running every audit per sample:
@@ -63,8 +63,8 @@ Every finding carries a selector, the element's `data-*` identity, the compositi
 **Opt-in pipeline gates** (used by orchestrators; off by default):
 
 ```bash
-npx @hanzo/frame check --caption-zone "x0=0;y0=.82;x1=1;y1=1;severity=error;seek=.25,1"
-npx @hanzo/frame check --frame-check     # media (img/svg/video/canvas) out-of-frame detection
+npx @hanzo/frames check --caption-zone "x0=0;y0=.82;x1=1;y1=1;severity=error;seek=.25,1"
+npx @hanzo/frames check --frame-check     # media (img/svg/video/canvas) out-of-frame detection
 ```
 
 `--caption-zone` takes fractional band geometry (`x0/y0/x1/y1` required, 0-1 fractions of the composition's own canvas, portrait included) with optional `severity` and comma-separated `seek` fractions; it flags content whose center sits inside the band. Waive intentional lower-third copy with `data-layout-allow-caption-zone` on the element or its nearest wrapper (see Escape hatches). `--frame-check` reports media elements breaching the canvas beyond `max(120px, 6% of the min canvas dimension)`.
@@ -101,9 +101,9 @@ Drop a `*.motion.json` sidecar next to the composition (matching the html basena
 ## snapshot
 
 ```bash
-npx @hanzo/frame snapshot                       # 5 key frames as PNG
-npx @hanzo/frame snapshot ./my-project          # specific project
-npx @hanzo/frame snapshot --frames 10           # evenly-spaced N frames
+npx @hanzo/frames snapshot                       # 5 key frames as PNG
+npx @hanzo/frames snapshot ./my-project          # specific project
+npx @hanzo/frames snapshot --frames 10           # evenly-spaced N frames
 ```
 
 Captures still PNGs from the composition for visual diffing, thumbnails, or attaching to a PR. Faster than rendering a video when you only need a few hero frames. Output lands in the project's snapshots directory. Not deprecated: it remains the standalone capture utility, while `check --snapshots` covers the gate's needs (overview frames annotated with labeled finding boxes, plus `finding-NN-<code>.png` crops for every error finding with a bbox).
@@ -113,11 +113,11 @@ Captures still PNGs from the composition for visual diffing, thumbnails, or atta
 `frames check --snapshots` already writes a `finding-NN-<code>.png` crop for every error finding that carries a bbox, but the same zoom is available standalone once you know what to look at:
 
 ```bash
-npx @hanzo/frame check --snapshots               # reports a finding, e.g. content_overlap on "#cta"
-npx @hanzo/frame snapshot --zoom "#cta"           # crop the element to verify the defect, at 3x density
-npx @hanzo/frame snapshot --zoom "100,50,400,300" --zoom-scale 2   # or an exact pixel region
+npx @hanzo/frames check --snapshots               # reports a finding, e.g. content_overlap on "#cta"
+npx @hanzo/frames snapshot --zoom "#cta"           # crop the element to verify the defect, at 3x density
+npx @hanzo/frames snapshot --zoom "100,50,400,300" --zoom-scale 2   # or an exact pixel region
 # fix the composition HTML, then re-check:
-npx @hanzo/frame check
+npx @hanzo/frames check
 ```
 
 `--zoom` takes a CSS selector or an exact `x,y,w,h` pixel region and always produces a real high-density crop (a raised `deviceScaleFactor`, never CSS zoom or a viewport resize), so the composition's layout — and its render determinism — is untouched. A selector matching nothing is a loud error, not a silent full-frame fallback, and a frame where the target has no visible box (collapsed or animated off-canvas) is skipped with a note instead of written as a sliver.

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
-import type { RegistryItem, RegistryManifest } from "@hanzo/frame-core";
+import type { RegistryItem, RegistryManifest } from "@hanzo/frames-core";
 import {
   listRegistryItems,
   loadAllItems,

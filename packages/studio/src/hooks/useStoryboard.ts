@@ -3,7 +3,7 @@ import type {
   StoryboardFrame,
   StoryboardGlobals,
   StoryboardWarning,
-} from "@hanzo/frame-core/storyboard";
+} from "@hanzo/frames-core/storyboard";
 import { buildProjectApiPath } from "../utils/projectRouting";
 
 /** A frame as returned by the API: parsed frame + disk-resolution info. */

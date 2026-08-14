@@ -203,7 +203,7 @@ function generateTextureAgentUsage(
     `Use the ${manifest.title} catalog component.`,
     "",
     "1. From the project root, run:",
-    `   npx frames add ${manifest.name}`,
+    `   npx @hanzo/frames add ${manifest.name}`,
     "2. That command creates this installed snippet:",
     `   ${installedSnippet}`,
     "3. Open that file and paste the real <style> block",
@@ -222,7 +222,7 @@ function generateTextureAgentUsage(
     "   </div>",
     "```",
     "",
-    `After install, the snippet lives at \`${installedSnippet}\` inside the project where you ran \`npx frames add ${manifest.name}\`. The part to paste is the real \`<style>\` element near the bottom of that file; the texture PNGs install to \`assets/${manifest.name}/masks/\` and are referenced by project-root URLs in that CSS.`,
+    `After install, the snippet lives at \`${installedSnippet}\` inside the project where you ran \`npx @hanzo/frames add ${manifest.name}\`. The part to paste is the real \`<style>\` element near the bottom of that file; the texture PNGs install to \`assets/${manifest.name}/masks/\` and are referenced by project-root URLs in that CSS.`,
     "",
     `Swap \`${firstClass}\` for the class shown on any texture card below. The base class \`hf-texture-text\` is always required.`,
     "",
@@ -316,7 +316,7 @@ function yamlString(value: string): string {
 function generateItemMdx(kind: ItemKind, manifest: RegistryItem): string {
   const tags = manifest.tags ?? [];
   const tagBadges = tags.map((t) => `\`${t}\``).join(" ");
-  const installCmd = `npx frames add ${manifest.name}`;
+  const installCmd = `npx @hanzo/frames add ${manifest.name}`;
   const source = manifest as RegistryItem & SourceMetadata;
   const textureGroups = textureGroupsFor(manifest);
 

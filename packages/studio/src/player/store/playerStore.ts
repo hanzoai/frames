@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { MusicBeatAnalysis } from "@hanzo/frame-core/beats";
+import type { MusicBeatAnalysis } from "@hanzo/frames-core/beats";
 import type { BeatEditState } from "../../utils/beatEditing";
 import type { ClipManifestClip } from "../lib/playbackTypes";
 import { readStudioUiPreferences, writeStudioUiPreferences } from "../../utils/studioUiPreferences";

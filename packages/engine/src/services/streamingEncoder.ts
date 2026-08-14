@@ -34,7 +34,7 @@ import { getFfmpegBinary } from "../utils/ffmpegBinaries.js";
 import { getHdrEncoderColorParams } from "../utils/hdr.js";
 import { withEvenDimensionPad } from "../utils/evenDimensions.js";
 import { DEFAULT_CONFIG, type EngineConfig } from "../config.js";
-import { fpsToFfmpegArg, type Fps } from "@hanzo/frame-core";
+import { fpsToFfmpegArg, type Fps } from "@hanzo/frames-core";
 import { appendVp9CpuUsedArg } from "./vp9Options.js";
 
 // Re-export EncoderOptions so callers can reference the type via this module.
@@ -135,7 +135,7 @@ export function createFrameReorderBuffer(startFrame: number, endFrame: number): 
 // ---------------------------------------------------------------------------
 
 export interface StreamingEncoderOptions {
-  /** Frame rate as an exact rational; see `Fps` in @hanzo/frame-core. */
+  /** Frame rate as an exact rational; see `Fps` in @hanzo/frames-core. */
   fps: Fps;
   width: number;
   height: number;

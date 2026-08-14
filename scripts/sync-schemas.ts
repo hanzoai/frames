@@ -2,7 +2,7 @@
 /**
  * Mirror JSON Schemas from `packages/core/schemas/` into `docs/schema/` so
  * Mintlify serves them at `https://frames.hanzo.ai/schema/*`. The core
- * copies stay authoritative — they're exported from `@hanzo/frame-core` for
+ * copies stay authoritative — they're exported from `@hanzo/frames-core` for
  * npm consumers — and this script is the single contract that prevents the
  * docs mirror from drifting.
  *

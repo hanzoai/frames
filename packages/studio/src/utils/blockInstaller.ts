@@ -1,4 +1,4 @@
-import type { RegistryItem } from "@hanzo/frame-core/registry";
+import type { RegistryItem } from "@hanzo/frames-core/registry";
 import type { TimelineElement } from "../player";
 import {
   insertTimelineAssetIntoSource,

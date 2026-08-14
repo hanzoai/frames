@@ -5,7 +5,7 @@ const LIB_DIR =
   process.env.FRAMES_MEDIA_USE_SFX_DIR ||
   join(import.meta.dirname, "..", "..", "audio", "assets", "sfx");
 
-export const BUNDLED_SFX_RECOVERY_COMMAND = "npx @hanzo/frame skills update media-use";
+export const BUNDLED_SFX_RECOVERY_COMMAND = "npx @hanzo/frames skills update media-use";
 
 export class BundledSfxAssetsError extends Error {
   constructor(health) {

@@ -26,7 +26,7 @@ const browserConsoleBuffer = ["[FrameCapture:ERROR] page.goto failed"];
 const closeCaptureSession = mock(async () => {});
 class DrawElementVerificationError extends Error {}
 
-mock.module("@hanzo/frame-engine", () => ({
+mock.module("@hanzo/frames-engine", () => ({
   calculateOptimalWorkers: () => 1,
   convertTransfer: () => {},
   captureFrame: async () => {},
@@ -111,7 +111,7 @@ mock.module("@hanzo/frame-engine", () => ({
   writeCapturedFrame: async () => {},
 }));
 
-mock.module("@hanzo/frame-core", () => ({
+mock.module("@hanzo/frames-core", () => ({
   CANVAS_DIMENSIONS: {},
   checkOutputResolutionCompatibility: () => ({ ok: true }),
   fpsToNumber: () => 30,
@@ -415,7 +415,7 @@ describe("runCaptureStage", () => {
     failInitializeSession = false;
     failPrepareCaptureSessionForReuse = true;
     closeCaptureSession.mockClear();
-    const { createCaptureSession } = await import("@hanzo/frame-engine");
+    const { createCaptureSession } = await import("@hanzo/frames-engine");
     const { runCaptureStage } = await import("./captureStage.js");
     const cfg = { forceScreenshot: false, ffmpegStreamingTimeout: 3_600_000 };
     const probeSession = await createCaptureSession(

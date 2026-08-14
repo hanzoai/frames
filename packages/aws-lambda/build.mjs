@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @hanzo/frame-aws-lambda (public OSS package).
+ * Build script for @hanzo/frames-aws-lambda (public OSS package).
  *
  * Bundles each subpath barrel via esbuild → dist/, then emits .d.ts via tsc.
  *
@@ -33,8 +33,8 @@ const sharedOpts = {
   external: [
     "@aws-sdk/client-s3",
     "@aws-sdk/client-sfn",
-    "@hanzo/frame-producer",
-    "@hanzo/frame-producer/distributed",
+    "@hanzo/frames-producer",
+    "@hanzo/frames-producer/distributed",
     "@sparticuz/chromium",
     "aws-cdk-lib",
     "constructs",
@@ -53,7 +53,7 @@ await Promise.all([
 ]);
 
 // esbuild doesn't emit .d.ts. tsc does, with a build-only tsconfig that
-// drops the workspace `paths` overrides so `@hanzo/frame-producer` resolves
+// drops the workspace `paths` overrides so `@hanzo/frames-producer` resolves
 // through node_modules to the sibling package's already-built `dist/`
 // types instead of pulling its full source tree into emit (which would
 // violate rootDir).

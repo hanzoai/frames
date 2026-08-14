@@ -30,7 +30,7 @@ import {
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { createFrameLookupTable, type ExtractedFrames } from "@hanzo/frame-engine";
+import { createFrameLookupTable, type ExtractedFrames } from "@hanzo/frames-engine";
 import { recomputePlanHashFromPlanDir, type ChunkSliceJson } from "../render/stages/freezePlan.js";
 import { canonicalJsonStringify, sha256Hex } from "../render/stages/planHash.js";
 import { type DistributedRenderConfig, plan } from "./plan.js";

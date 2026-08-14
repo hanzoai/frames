@@ -3,7 +3,7 @@ name: pr-to-video
 description: "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video — changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear → /frames."
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update pr-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frames skills update pr-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **media-use**: Before sourcing audio/images/logos, call `/media-use` to resolve BGM/SFX/images from the shared catalog and brand logos from their official sources. Run `--adopt` first to register existing assets. See `/media-use` skill.
 
@@ -42,7 +42,7 @@ The capability preflight runs before fetch, story work, audio, or frame dispatch
 
 Initialize only if `$PROJECT_DIR/frames.json` is missing. Its basename comes from the PR, such as `acme-sdk-pr-1842`; never use the workspace name or a timestamp.
 
-`npx @hanzo/frame init "$PROJECT_DIR" --non-interactive --example=blank --skill=pr-to-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
+`npx @hanzo/frames init "$PROJECT_DIR" --non-interactive --example=blank --skill=pr-to-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 Every relative-path command below runs with `$PROJECT_DIR` as its working directory. Examples without an explicit subshell mean `(cd "$PROJECT_DIR" && …)`; never change the caller repository's working tree.
 
@@ -173,7 +173,7 @@ Duration sync is mechanical: real voice duration wins; silent frames keep estima
 
 **Pre-install the registry blocks** named across `STORYBOARD.md` once, before dispatch, so parallel workers don't race on the registry:
 
-`for b in <each registry block named in the storyboard>; do npx @hanzo/frame add "$b"; done`
+`for b in <each registry block named in the storyboard>; do npx @hanzo/frames add "$b"; done`
 
 Before dispatch, read `../frames-core/references/subagent-dispatch.md`. Build bounded packets and the worker role payload:
 
@@ -211,11 +211,11 @@ Inject transitions, run checks, pause for review, then render.
 
 `node <SKILL_DIR>/scripts/transitions.mjs verify --storyboard ./STORYBOARD.md --index ./index.html`
 
-`npx @hanzo/frame lint`
+`npx @hanzo/frames lint`
 
-`npx @hanzo/frame check`
+`npx @hanzo/frames check`
 
-`npx @hanzo/frame snapshot --at <frame-midpoints>`
+`npx @hanzo/frames snapshot --at <frame-midpoints>`
 
 `snapshot` stitches the captured frames into one contact sheet (`snapshots/contact-sheet.jpg`). Glance at it; if nothing is obviously broken, move on — don't linger here.
 
@@ -225,15 +225,15 @@ If a command fails, surface stderr and stop — don't pile on recovery commands.
 
 After checks pass, pause for user review — the review loop's final look (`../frames-core/references/review-loop.md` § 4): one question, on the Studio that has been open since Step 3 — render now, or what changes? (Autonomous: the one kept question, preview first or render — open the preview with the command below on a yes.) Then deliver the MP4 with the contact sheet and the frame ids so revisions can target a single frame.
 
-Preview: `npx @hanzo/frame preview "$PROJECT_DIR" --background`
+Preview: `npx @hanzo/frames preview "$PROJECT_DIR" --background`
 
 Render only after user approval (autonomous mode: after the preview-or-render question):
 
-`npx @hanzo/frame render --skill=pr-to-video --quality high --output renders/video.mp4`
+`npx @hanzo/frames render --skill=pr-to-video --quality high --output renders/video.mp4`
 
 Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks.
 
-After the user is done reviewing (or after render when no more live edits are expected), stop only this project's background server: `npx @hanzo/frame preview "$PROJECT_DIR" --stop`. Never tear it down while waiting for review.
+After the user is done reviewing (or after render when no more live edits are expected), stop only this project's background server: `npx @hanzo/frames preview "$PROJECT_DIR" --stop`. Never tear it down while waiting for review.
 
 **Gate:** `lint` and `check` passed and the snapshots were inspected before render; user approved at the review pause (autonomous: checks passed and the delivery includes the contact sheet); `renders/video.mp4` exists. Final reply states the MP4 path and final duration.
 
@@ -245,25 +245,25 @@ After the user is done reviewing (or after render when no more live edits are ex
 
 **PR deltas vs a captured-asset workflow:** no Step 1 capture (the `gh` CLI ingests the PR into a synthetic `capture/extracted/` package — `tokens.json` + `visible-text.txt` + `people.json`); the only real assets are the contributors' `assets/<login>.png` avatars (the credits close); no `asset-descriptions.md`, no asset-staging step. Code beats are rendered by the `code-*` registry blocks on code-editorial's navy Code Surface; the style is always **code-editorial**.
 
-**Background scripts:** the workflow ships these under `scripts/`: `fetch-pr` (PR → `capture/pr.json` + `diff.patch` via `gh`; large-PR-safe, no scratch), `ingest` (→ synthetic capture package; offline), and `fetch-people-avatars` (contributor avatars → `assets/`); plus the shared engine — `build-frame` (adopt + brand-remix a preset into `frame.md` + caption skin), `audio` (TTS, BGM, SFX, duration sync), `captions`, `transitions` (inject + verify), and `assemble-index`. Everything else is the `frames` CLI. Code blocks install via `npx @hanzo/frame add <name>`.
+**Background scripts:** the workflow ships these under `scripts/`: `fetch-pr` (PR → `capture/pr.json` + `diff.patch` via `gh`; large-PR-safe, no scratch), `ingest` (→ synthetic capture package; offline), and `fetch-people-avatars` (contributor avatars → `assets/`); plus the shared engine — `build-frame` (adopt + brand-remix a preset into `frame.md` + caption skin), `audio` (TTS, BGM, SFX, duration sync), `captions`, `transitions` (inject + verify), and `assemble-index`. Everything else is the `frames` CLI. Code blocks install via `npx @hanzo/frames add <name>`.
 
 The reusable, domain-agnostic shot shapes live in `../frames-animation/blueprints/` (indexed by `../frames-animation/blueprints-index.md`); the `code-*` registry blocks are the code-beat vocabulary (`references/code-vocabulary.md`).
 
-| Read                                                                                                                                                        | When                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `[../frames-core/references/brief-contract.md](../frames-core/references/brief-contract.md)`                                                      | Gate types, mode derivation from `BRIEF.md`, field semantics.                  |
-| `[../frames-creative/references/story-spine.md](../frames-creative/references/story-spine.md)`                                                    | Step 3: story doctrine — hook language, value-before-evidence, proposal shape. |
-| `[references/story-design.md](references/story-design.md)`                                                                                                  | Step 3: plan the PR explanation.                                               |
-| `[../frames-animation/blueprints-index.md](../frames-animation/blueprints-index.md)`                                                              | Step 3: role→blueprint menu. Step 4: pick the shot shape.                      |
-| `[../frames-core/references/storyboard-format.md](../frames-core/references/storyboard-format.md)`                                                | Step 3: write `STORYBOARD.md`.                                                 |
-| `[../frames-core/references/script-format.md](../frames-core/references/script-format.md)`                                                        | Step 3: write `SCRIPT.md`.                                                     |
-| `[../media-use/audio/references/tts.md](../media-use/audio/references/tts.md)`                                                                              | Step 3.1: choose or understand TTS providers.                                  |
-| `[references/visual-design.md](references/visual-design.md)`                                                                                                | Step 4: write the frame's shot sequence (+ Layout vocabulary).                 |
-| `[references/code-vocabulary.md](references/code-vocabulary.md)`                                                                                            | Step 4 + 5: pick + fill the `code-*` block for a code beat.                    |
-| `[references/motion-language.md](references/motion-language.md)`                                                                                            | Step 4: the motion vocabulary + the motion doctrine.                           |
-| `[references/cut-catalog.md](references/cut-catalog.md)`                                                                                                    | Step 4-5: the cut catalog (worker builds within-frame seams).                  |
+| Read                                                                                                                                    | When                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `[../frames-core/references/brief-contract.md](../frames-core/references/brief-contract.md)`                                            | Gate types, mode derivation from `BRIEF.md`, field semantics.                  |
+| `[../frames-creative/references/story-spine.md](../frames-creative/references/story-spine.md)`                                          | Step 3: story doctrine — hook language, value-before-evidence, proposal shape. |
+| `[references/story-design.md](references/story-design.md)`                                                                              | Step 3: plan the PR explanation.                                               |
+| `[../frames-animation/blueprints-index.md](../frames-animation/blueprints-index.md)`                                                    | Step 3: role→blueprint menu. Step 4: pick the shot shape.                      |
+| `[../frames-core/references/storyboard-format.md](../frames-core/references/storyboard-format.md)`                                      | Step 3: write `STORYBOARD.md`.                                                 |
+| `[../frames-core/references/script-format.md](../frames-core/references/script-format.md)`                                              | Step 3: write `SCRIPT.md`.                                                     |
+| `[../media-use/audio/references/tts.md](../media-use/audio/references/tts.md)`                                                          | Step 3.1: choose or understand TTS providers.                                  |
+| `[references/visual-design.md](references/visual-design.md)`                                                                            | Step 4: write the frame's shot sequence (+ Layout vocabulary).                 |
+| `[references/code-vocabulary.md](references/code-vocabulary.md)`                                                                        | Step 4 + 5: pick + fill the `code-*` block for a code beat.                    |
+| `[references/motion-language.md](references/motion-language.md)`                                                                        | Step 4: the motion vocabulary + the motion doctrine.                           |
+| `[references/cut-catalog.md](references/cut-catalog.md)`                                                                                | Step 4-5: the cut catalog (worker builds within-frame seams).                  |
 | `[../frames-animation/rules-index.md](../frames-animation/rules-index.md)` + `[../frames-animation/rules/](../frames-animation/rules/)` | Step 5: local rule recipe bodies for the cited motions.                        |
-| `[../frames-core/references/frame-worker-core.md](../frames-core/references/frame-worker-core.md)`                                                | Step 5: the shared worker contract (packet builder prepends it to the delta).  |
-| `[sub-agents/frame-worker.md](sub-agents/frame-worker.md)`                                                                                                  | Step 5: the workflow's frame-worker delta.                                     |
-| `[../frames-core/references/subagent-dispatch.md](../frames-core/references/subagent-dispatch.md)`                                                | Step 5: dispatch sub-agents safely.                                            |
-| `[../frames-creative/frame-presets/code-editorial/FRAME.md](../frames-creative/frame-presets/code-editorial/FRAME.md)`                            | Step 2: the code-editorial preset (fixed style).                               |
+| `[../frames-core/references/frame-worker-core.md](../frames-core/references/frame-worker-core.md)`                                      | Step 5: the shared worker contract (packet builder prepends it to the delta).  |
+| `[sub-agents/frame-worker.md](sub-agents/frame-worker.md)`                                                                              | Step 5: the workflow's frame-worker delta.                                     |
+| `[../frames-core/references/subagent-dispatch.md](../frames-core/references/subagent-dispatch.md)`                                      | Step 5: dispatch sub-agents safely.                                            |
+| `[../frames-creative/frame-presets/code-editorial/FRAME.md](../frames-creative/frame-presets/code-editorial/FRAME.md)`                  | Step 2: the code-editorial preset (fixed style).                               |

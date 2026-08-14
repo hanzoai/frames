@@ -1,5 +1,5 @@
 import type { MutableRefObject, RefObject } from "react";
-import type { Composition } from "@hanzo/frame-sdk";
+import type { Composition } from "@hanzo/frames-sdk";
 import type { TimelineElement } from "../player";
 import type { EditHistoryKind } from "../utils/editHistory";
 import type { PublishSdkSession } from "../utils/sdkCutover";

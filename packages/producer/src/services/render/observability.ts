@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { redactTelemetryString } from "@hanzo/frame-core";
+import { redactTelemetryString } from "@hanzo/frames-core";
 import type { ProducerLogger } from "../../logger.js";
 import { normalizeErrorMessage } from "../../utils/errorMessage.js";
 

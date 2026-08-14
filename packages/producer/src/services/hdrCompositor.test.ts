@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { ElementStackingInfo } from "@hanzo/frame-engine";
+import type { ElementStackingInfo } from "@hanzo/frames-engine";
 import { selectDomLayerShowIds } from "./hdrCompositor.js";
 
 function makeEl(id: string, overrides?: Partial<ElementStackingInfo>): ElementStackingInfo {

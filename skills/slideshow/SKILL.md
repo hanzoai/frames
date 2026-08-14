@@ -9,7 +9,7 @@ description: >
   Unclear → /frames.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frames skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **figma source**: If the deck's content or storyboard comes from a figma.com URL, run `/figma` first — asset export, brand tokens, and storyboard reconstruction if the source is a strip of scene frames — then build from its output. Don't drive Figma via raw MCP tools directly: that skips SVG sanitization, `.media/manifest.jsonl` provenance, and brand-token `var()` binding, so a later brand change can't propagate without a full re-import.
 
@@ -515,7 +515,7 @@ Validate the direct-open path before handoff. If `file://` browser restrictions 
 For a completed slideshow deck, the primary user-facing next step is presenter mode, not Studio. Run or provide:
 
 ```bash
-npx @hanzo/frame present <project-dir>
+npx @hanzo/frames present <project-dir>
 ```
 
 Studio/`preview` is useful for editing a composition, but it is not a clear final destination for a slideshow user. If you create a `package.json` for a slideshow project where the raw composition lives in `composition/`, make the default runnable script start presenter mode:
@@ -523,8 +523,8 @@ Studio/`preview` is useful for editing a composition, but it is not a clear fina
 ```json
 {
   "scripts": {
-    "dev": "npx @hanzo/frame present ./composition",
-    "studio": "npx @hanzo/frame preview ./composition"
+    "dev": "npx @hanzo/frames present ./composition",
+    "studio": "npx @hanzo/frames preview ./composition"
   }
 }
 ```
@@ -538,13 +538,13 @@ At handoff, include the local presenter URL printed by the command and the minim
 After authoring or editing a slideshow composition, run:
 
 ```bash
-npx @hanzo/frame lint
+npx @hanzo/frames lint
 ```
 
 Then run runtime validation:
 
 ```bash
-npx @hanzo/frame check
+npx @hanzo/frames check
 ```
 
 Treat lint errors and validation `StaticGuard` contract messages as blockers even if a command exits successfully. Fix the file and rerun until lint reports `0 error(s)` and validation reports no runtime errors.

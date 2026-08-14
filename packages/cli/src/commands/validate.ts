@@ -136,7 +136,7 @@ export function raceMediaReady(
  */
 export async function auditClipDurations(
   page: import("puppeteer-core").Page,
-  analyzeClipMediaFit: typeof import("@hanzo/frame-engine").analyzeClipMediaFit,
+  analyzeClipMediaFit: typeof import("@hanzo/frames-engine").analyzeClipMediaFit,
   extraWaitMs: number,
 ): Promise<ConsoleEntry[]> {
   // fallow-ignore-next-line complexity
@@ -377,7 +377,7 @@ async function validateInBrowser(
   opts: { timeout?: number; contrast?: boolean },
 ): Promise<{ errors: ConsoleEntry[]; warnings: ConsoleEntry[]; contrast?: ContrastEntry[] }> {
   const projectDir = project.dir;
-  const { bundleToSingleHtml } = await import("@hanzo/frame-core/compiler");
+  const { bundleToSingleHtml } = await import("@hanzo/frames-core/compiler");
   const { ensureBrowser } = await import("../browser/manager.js");
   const { serveStaticProjectHtml } = await import("../utils/staticProjectServer.js");
   const { lintProject } = await import("../utils/lintProject.js");
@@ -417,7 +417,7 @@ async function validateInBrowser(
   try {
     const browser = await ensureBrowser();
     const puppeteer = await import("puppeteer-core");
-    const { buildChromeArgs, analyzeClipMediaFit } = await import("@hanzo/frame-engine");
+    const { buildChromeArgs, analyzeClipMediaFit } = await import("@hanzo/frames-engine");
     const chromeBrowser = await puppeteer.default.launch({
       headless: true,
       executablePath: browser.executablePath,

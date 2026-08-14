@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, useId } from "react";
-import type { SlideRef, SlideHotspot, SlideSequence } from "@hanzo/frame-core/slideshow";
+import type { SlideRef, SlideHotspot, SlideSequence } from "@hanzo/frames-core/slideshow";
 import type { DomEditSelection } from "../editor/domEditing";
 import type { SceneInfo } from "./slideshowPanelHelpers";
 import { generateId } from "../../utils/generateId";

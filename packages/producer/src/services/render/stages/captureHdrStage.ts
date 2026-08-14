@@ -50,8 +50,8 @@ import {
   initTransparentBackground,
   initializeSession,
   spawnStreamingEncoder,
-} from "@hanzo/frame-engine";
-import { fpsToNumber } from "@hanzo/frame-core";
+} from "@hanzo/frames-engine";
+import { fpsToNumber } from "@hanzo/frames-core";
 import type { FileServerHandle } from "../../fileServer.js";
 import type { ProducerLogger } from "../../../logger.js";
 import { createHdrImageTransferCache } from "../../hdrImageTransferCache.js";

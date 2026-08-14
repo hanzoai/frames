@@ -111,7 +111,7 @@ frames render -o preview.mp4
 frames snapshot --at "1.0,3.0,5.0,7.0"
 
 # Publish to frames.hanzo.ai for review
-npx @hanzo/frame publish
+npx @hanzo/frames publish
 ```
 
 **Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
@@ -139,7 +139,7 @@ npx oxfmt registry/{kind}/{name}/*.html
 npx tsx scripts/generate-catalog-pages.ts
 
 # 5. Publish to frames.hanzo.ai so reviewers can preview
-npx @hanzo/frame publish
+npx @hanzo/frames publish
 
 # 6. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
@@ -161,6 +161,6 @@ gh pr create --title "feat(registry): {name}" --body "preview: {frames.hanzo.ai-
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx @hanzo/frame publish` run (claim your project URL)
+- [ ] `npx @hanzo/frames publish` run (claim your project URL)
 - [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

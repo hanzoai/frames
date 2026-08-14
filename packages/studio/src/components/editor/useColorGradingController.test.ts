@@ -3,7 +3,7 @@
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { normalizeHfColorGrading } from "@hanzo/frame-core/color-grading";
+import { normalizeHfColorGrading } from "@hanzo/frames-core/color-grading";
 import { useColorGradingController } from "./useColorGradingController";
 import type { DomEditSelection } from "./domEditing";
 

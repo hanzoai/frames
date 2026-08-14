@@ -270,13 +270,13 @@ Pass variable values at render time with `--variables` or `--variables-file`. Th
 
 ```bash Terminal
 # Inline JSON
-npx @hanzo/frame render --variables '{"title":"Q4 Report","color":"#1d4ed8"}' --output q4.mp4
+npx @hanzo/frames render --variables '{"title":"Q4 Report","color":"#1d4ed8"}' --output q4.mp4
 
 # JSON file
-npx @hanzo/frame render --variables-file ./vars.json --output out.mp4
+npx @hanzo/frames render --variables-file ./vars.json --output out.mp4
 
 # Fail on undeclared or mistyped variables
-npx @hanzo/frame render --variables '{"title":"Q4 Report"}' --strict-variables --output out.mp4
+npx @hanzo/frames render --variables '{"title":"Q4 Report"}' --strict-variables --output out.mp4
 ```
 
 `--strict-variables` turns variable warnings into errors. Any variable in `--variables` that is not declared in `data-composition-variables`, or whose value does not match the declared type, causes the render to exit non-zero. Useful in CI pipelines where an undeclared variable key likely indicates a typo or a schema mismatch.
@@ -297,7 +297,7 @@ Use `--batch` when the same composition should render once per data row:
 ```
 
 ```bash Terminal
-npx @hanzo/frame render --batch rows.json --output "renders/{name}.mp4" --strict-variables
+npx @hanzo/frames render --batch rows.json --output "renders/{name}.mp4" --strict-variables
 ```
 
 Each row is treated like a `--variables` object and merged over the composition defaults. Output paths support `{key}` placeholders from the row plus `{index}`. Hyperframes validates missing placeholders, output collisions, and `--strict-variables` issues before the first row starts rendering, then writes `manifest.json` next to the outputs with one status row per render.
@@ -321,7 +321,7 @@ A missing key at any layer falls through to the next lower layer. If no layer pr
 The linter checks variable declarations statically:
 
 ```bash Terminal
-npx @hanzo/frame lint
+npx @hanzo/frames lint
 ```
 
 It catches malformed JSON, missing required fields (`id`, `type`, `label`, `default`), and type mismatches between `type` and the `default` value. Fix lint errors before rendering — they indicate the runtime will be unable to resolve variables correctly.

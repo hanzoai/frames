@@ -5,7 +5,7 @@ import {
   STUDIO_HEIGHT_PROP,
   STUDIO_MANUAL_EDIT_GESTURE_ATTR,
 } from "./draftMarkers.js";
-import { readClipTiming } from "@hanzo/frame-core/composition-contract";
+import { readClipTiming } from "@hanzo/frames-core/composition-contract";
 
 export type DraftPayload =
   | { type: "move"; hfId: string; dx: number; dy: number }

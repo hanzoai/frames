@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import type { GsapAnimation } from "@hanzo/frame-parsers/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frames-parsers/gsap-parser";
 import { editableAnimationId } from "./motionPathSelection";
 import {
   commitNode,

@@ -3,7 +3,7 @@ name: frames-handoff
 description: |
   Produce a Frames-valid HTML composition — paused GSAP timeline, data
   attributes, scene structure — that any AI coding agent can immediately
-  refine with `npx @hanzo/frame lint` and `npx @hanzo/frame preview`. Use when
+  refine with `npx @hanzo/frames lint` and `npx @hanzo/frames preview`. Use when
   the brief mentions "video", "reel", "motion graphic", "title card",
   "animated explainer", or pairs Open Design with Frames for export.
 triggers:
@@ -38,7 +38,7 @@ od:
 
 This skill teaches Open Design to emit a **valid first draft** of a
 [Frames](https://github.com/hanzoai/frames) composition — plain
-HTML + CSS + a paused GSAP timeline. The CLI (`npx @hanzo/frame render`, run
+HTML + CSS + a paused GSAP timeline. The CLI (`npx @hanzo/frames render`, run
 from the project directory) turns the HTML into an MP4. You author the HTML;
 the user runs the render locally.
 
@@ -67,8 +67,8 @@ The user's workflow:
    mid-scene activity, pick shader transitions for 2–3 key moments
 2. **Save to disk** — Open Design writes the project into
    `.od/projects/<id>/` (real `cwd`, agent-ready)
-3. **Any AI coding agent** (Claude Code, Codex, Cursor, …) — `npx @hanzo/frame
-   lint`, `npx @hanzo/frame preview`, then iterate timing, eases, shader
+3. **Any AI coding agent** (Claude Code, Codex, Cursor, …) — `npx @hanzo/frames
+   lint`, `npx @hanzo/frames preview`, then iterate timing, eases, shader
    choices, pacing
 
 Your output must be a **valid starting point a coding agent can open and
@@ -81,7 +81,7 @@ refine immediately** — no structural fixes needed.
 - Strong visual layout per scene (hierarchy, spacing, readability at video
   size — 60px+ headlines, 20px+ body)
 - Scene content that tells the story (headlines, stats, copy, imagery)
-- Structural validity (passes `npx @hanzo/frame lint` with zero errors)
+- Structural validity (passes `npx @hanzo/frames lint` with zero errors)
 - Appropriate shader choices for the mood (use the catalog at
   [frames.hanzo.ai/catalog](https://frames.hanzo.ai/catalog))
 - Reasonable scene count and durations for the video type
@@ -376,9 +376,9 @@ Save both files into the project's `cwd` (Open Design has already set this
 to `.od/projects/<id>/`). The agent can immediately run:
 
 ```bash
-npx @hanzo/frame lint        # should pass with zero errors
-npx @hanzo/frame preview     # opens the studio
-npx @hanzo/frame render      # writes MP4
+npx @hanzo/frames lint        # should pass with zero errors
+npx @hanzo/frames preview     # opens the studio
+npx @hanzo/frames render      # writes MP4
 ```
 
 ---

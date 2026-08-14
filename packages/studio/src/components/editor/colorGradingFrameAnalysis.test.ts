@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   normalizeHfColorGrading,
   type HfColorGradingSecondary,
-} from "@hanzo/frame-core/color-grading";
+} from "@hanzo/frames-core/color-grading";
 import {
   analyzeColorGradingFrame,
   buildColorGradingSecondaryMatte,

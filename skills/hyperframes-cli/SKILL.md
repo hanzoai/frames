@@ -11,27 +11,27 @@ description: >
 
 # Frames CLI
 
-Run commands as `npx @hanzo/frame ...` unless project instructions provide a wrapper. Obey the wrapper when present. The CLI requires Node.js 22 or newer and FFmpeg.
+Run commands as `npx @hanzo/frames ...` unless project instructions provide a wrapper. Obey the wrapper when present. The CLI requires Node.js 22 or newer and FFmpeg.
 
 ## Development loop
 
-1. **Scaffold:** `npx @hanzo/frame init <project>` or capture a site. In non-TTY mode, pass `--non-interactive --example=<name>`.
+1. **Scaffold:** `npx @hanzo/frames init <project>` or capture a site. In non-TTY mode, pass `--non-interactive --example=<name>`.
 2. **Author:** write the composition using `/frames-core`.
-3. **Get fast feedback while editing:** run `npx @hanzo/frame lint` after the first HTML pass and after structural changes.
-4. **Run the final gate:** run `npx @hanzo/frame check`; it reruns lint before opening the browser. Do not prepend a redundant standalone lint invocation. Add `--snapshots` for annotated overview frames and finding crops.
+3. **Get fast feedback while editing:** run `npx @hanzo/frames lint` after the first HTML pass and after structural changes.
+4. **Run the final gate:** run `npx @hanzo/frames check`; it reruns lint before opening the browser. Do not prepend a redundant standalone lint invocation. Add `--snapshots` for annotated overview frames and finding crops.
 5. **Inspect sub-compositions:** when `index.html` mounts `data-composition-src`, capture midpoint snapshots and inspect each mounted scene.
-6. **Open the final Studio preview:** run `npx @hanzo/frame preview`, hand the timeline project URL to the user, and ask whether to revise or render.
+6. **Open the final Studio preview:** run `npx @hanzo/frames preview`, hand the timeline project URL to the user, and ask whether to revise or render.
 7. **Render only after approval:** use draft quality for iteration and high quality for delivery.
 8. **Verify the output:** confirm the file exists, is non-empty, and has a plausible duration.
 
 ```bash
 # Fast iteration check; repeat while authoring as needed.
-npx @hanzo/frame lint
+npx @hanzo/frames lint
 
 # Required final gate; includes lint.
-npx @hanzo/frame check
-npx @hanzo/frame preview
-npx @hanzo/frame render --quality high --output out.mp4
+npx @hanzo/frames check
+npx @hanzo/frames preview
+npx @hanzo/frames render --quality high --output out.mp4
 test -s out.mp4
 ffprobe -v error -show_format out.mp4
 ```
@@ -54,7 +54,7 @@ The early board is not approval of the final video. Rendering always requires th
 Static audits cannot catch every mount failure. When the project uses sub-compositions, capture at least one visible midpoint for each host slot:
 
 ```bash
-npx @hanzo/frame snapshot --at <t1>,<t2>,<t3>
+npx @hanzo/frames snapshot --at <t1>,<t2>,<t3>
 ```
 
 Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timeline-registration timeouts as render-blocking mount defects. See `frames-core/references/sub-compositions.md` for the corresponding fixes.
@@ -65,7 +65,7 @@ Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timel
 - `doctor --json` always exits zero. Gate on its payload:
 
   ```bash
-  npx @hanzo/frame doctor --json | jq -e '.ok' >/dev/null
+  npx @hanzo/frames doctor --json | jq -e '.ok' >/dev/null
   ```
 
 - Non-TTY mode is automatic. `init` requires `--example` there; use `--non-interactive` to force deterministic behavior on a TTY.
@@ -80,22 +80,22 @@ Treat tiny unstyled content, canvas-sized icons, missing hero elements, or timel
 When the user refers to “this element” or the current selection, query Studio instead of guessing:
 
 ```bash
-npx @hanzo/frame preview --context --json --context-fields selection
+npx @hanzo/frames preview --context --json --context-fields selection
 ```
 
 Use `selection.target.hfId` when available, otherwise its selector and source file. If the result reports `no-selection`, ask the user to click the element and rerun. Request only the context slices you need; use `--context-detail full` only for computed styles or editable text metadata. Full behavior and failure codes live in `references/preview-render.md`.
 
 ## Render choices
 
-| Need                                     | Command                                                                       |
-| ---------------------------------------- | ----------------------------------------------------------------------------- |
-| Fast local iteration                     | `npx @hanzo/frame render --quality draft`                                      |
-| Final local delivery                     | `npx @hanzo/frame render --quality high --output out.mp4`                      |
-| Reproducible container render            | `npx @hanzo/frame render --docker --strict --output out.mp4`                   |
-| Local variable-driven batch render       | `npx @hanzo/frame render --batch rows.json --output "renders/{name}.mp4"`      |
-| Hosted zero-infrastructure render        | `npx @hanzo/frame cloud render`                                                |
-| Self-managed distributed AWS render      | `npx @hanzo/frame lambda render <project> --width 1920 --height 1080 --wait`   |
-| Self-managed distributed GCP render      | `npx @hanzo/frame cloudrun render <project> --width 1920 --height 1080 --wait` |
+| Need                                | Command                                                                         |
+| ----------------------------------- | ------------------------------------------------------------------------------- |
+| Fast local iteration                | `npx @hanzo/frames render --quality draft`                                      |
+| Final local delivery                | `npx @hanzo/frames render --quality high --output out.mp4`                      |
+| Reproducible container render       | `npx @hanzo/frames render --docker --strict --output out.mp4`                   |
+| Local variable-driven batch render  | `npx @hanzo/frames render --batch rows.json --output "renders/{name}.mp4"`      |
+| Hosted zero-infrastructure render   | `npx @hanzo/frames cloud render`                                                |
+| Self-managed distributed AWS render | `npx @hanzo/frames lambda render <project> --width 1920 --height 1080 --wait`   |
+| Self-managed distributed GCP render | `npx @hanzo/frames cloudrun render <project> --width 1920 --height 1080 --wait` |
 
 Skill attribution is automatic — the examples above need no `--skill`. A project scaffolded by a workflow (`frames init --skill=<workflow>`) records its owning skill in `frames.json`, and every later render inherits it on anonymous telemetry: re-renders, `npm run render`, and `--batch` alike. Pass `--skill=<slug>` explicitly only to stamp a project that was not created through a workflow (its first render then persists it).
 
@@ -104,7 +104,7 @@ Use cloud rendering when the user wants hosted rendering without local Chrome, F
 After verifying a successful render, send one feedback report unless telemetry is disabled or the user opted out:
 
 ```bash
-npx @hanzo/frame feedback --rating <0-10> --comment "<specific result or friction>"
+npx @hanzo/frames feedback --rating <0-10> --comment "<specific result or friction>"
 ```
 
 Keep clean-run feedback concise. For any bug or friction, capture a **reproduction packet** before submitting; do not send only a symptom summary. Include the rerunnable command (relative to the project directory — feedback is submitted to a public channel, so do **not** paste absolute paths, home-directory prefixes, or user/machine identifiers), expected versus actual behavior, exact error (also strip absolute paths from stack traces — keep basename + line, drop the leading directory), whether output completed/fell back/failed, workaround, and repro-project status. For a rating ≤ 7 that describes a visual defect (black frame, flicker, corrupt output, wrong frame, blank output, other visual anomaly), also include a `COMPOSITION_STRUCTURE:` block — a privacy-preserving structural anatomy (element census + attribute presence + timeline shape) so maintainers can pattern-match against known bug families without the composition ZIP. Agents auto-fill this via the composition-census helper; the human user does not fill it by hand. If the issue did not reproduce again, say so and still include the last failing command and logs. Use `--file-issue` only with consent: it publishes a minimal reproduction to a public URL. The required packet format and privacy warning live in `references/preview-render.md`.
@@ -131,9 +131,9 @@ For composition variables, also read `/frames-core` → `references/variables-an
 The specialized commands are deliberately documented by their owning workflows:
 
 ```bash
-npx @hanzo/frame present <project-dir> --port 3004 --no-open
-npx @hanzo/frame beats <project-dir> --json
-npx @hanzo/frame keyframes <project-dir> --json
+npx @hanzo/frames present <project-dir> --port 3004 --no-open
+npx @hanzo/frames beats <project-dir> --json
+npx @hanzo/frames keyframes <project-dir> --json
 ```
 
 `present` serves a navigable deck with presenter and audience synchronization. `beats` is the standalone Studio beat-grid utility defined in `references/beats.md`. `keyframes` surfaces seek-safe animation and motion-path diagnostics.

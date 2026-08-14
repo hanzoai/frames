@@ -1,17 +1,17 @@
-# @hanzo/frame
+# @hanzo/frames
 
 CLI for creating, previewing, and rendering HTML video compositions.
 
 ## Install
 
 ```bash
-npm install -g @hanzo/frame
+npm install -g @hanzo/frames
 ```
 
 Or use directly with npx:
 
 ```bash
-npx @hanzo/frame <command>
+npx @hanzo/frames <command>
 ```
 
 Both install the `frames` command.
@@ -25,7 +25,7 @@ Both install the `frames` command.
 Scaffold a new Hyperframes project from a template:
 
 ```bash
-npx frames init my-video
+npx @hanzo/frames init my-video
 cd my-video
 ```
 
@@ -34,10 +34,10 @@ cd my-video
 Start the live preview studio in your browser:
 
 ```bash
-npx frames preview
+npx @hanzo/frames preview
 # Studio running at http://localhost:3002
 
-npx frames preview --port 4567
+npx @hanzo/frames preview --port 4567
 ```
 
 ### `render`
@@ -47,8 +47,8 @@ argument is the project directory (not a file), so render the project's
 `index.html` directly, or point at a specific composition file with `-c`:
 
 ```bash
-npx frames render -o output.mp4
-npx frames render -c ./my-composition.html -o output.mp4
+npx @hanzo/frames render -o output.mp4
+npx @hanzo/frames render -c ./my-composition.html -o output.mp4
 ```
 
 ### `lint`
@@ -56,9 +56,9 @@ npx frames render -c ./my-composition.html -o output.mp4
 Validate your Hyperframes HTML:
 
 ```bash
-npx frames lint ./my-composition
-npx frames lint ./my-composition --json      # JSON output for CI/tooling
-npx frames lint ./my-composition --verbose   # Include info-level findings
+npx @hanzo/frames lint ./my-composition
+npx @hanzo/frames lint ./my-composition --json      # JSON output for CI/tooling
+npx @hanzo/frames lint ./my-composition --verbose   # Include info-level findings
 ```
 
 By default only errors and warnings are shown. Use `--verbose` to also display informational findings (e.g., external script dependency notices). Use `--json` for machine-readable output with `errorCount`, `warningCount`, `infoCount`, and a `findings` array.
@@ -68,7 +68,7 @@ By default only errors and warnings are shown. Use `--verbose` to also display i
 List compositions found in the current project:
 
 ```bash
-npx frames compositions
+npx @hanzo/frames compositions
 ```
 
 ### `benchmark`
@@ -76,7 +76,7 @@ npx frames compositions
 Run rendering benchmarks:
 
 ```bash
-npx frames benchmark ./my-composition.html
+npx @hanzo/frames benchmark ./my-composition.html
 ```
 
 ### `doctor`
@@ -84,7 +84,7 @@ npx frames benchmark ./my-composition.html
 Check your environment for required dependencies (Chrome, FFmpeg, Node.js):
 
 ```bash
-npx frames doctor
+npx @hanzo/frames doctor
 ```
 
 ### `browser`
@@ -92,7 +92,7 @@ npx frames doctor
 Manage the bundled Chrome/Chromium installation:
 
 ```bash
-npx frames browser
+npx @hanzo/frames browser
 ```
 
 ### `info`
@@ -100,7 +100,7 @@ npx frames browser
 Print version and environment info:
 
 ```bash
-npx frames info
+npx @hanzo/frames info
 ```
 
 ### `docs`
@@ -108,7 +108,7 @@ npx frames info
 Open the documentation in your browser:
 
 ```bash
-npx frames docs
+npx @hanzo/frames docs
 ```
 
 ### `upgrade`
@@ -116,8 +116,8 @@ npx frames docs
 Check for updates and show upgrade instructions:
 
 ```bash
-npx frames upgrade
-npx frames upgrade --check --json  # machine-readable for agents
+npx @hanzo/frames upgrade
+npx @hanzo/frames upgrade --check --json  # machine-readable for agents
 ```
 
 ## Documentation
@@ -126,7 +126,7 @@ Full documentation: [frames.hanzo.ai/packages/cli](https://frames.hanzo.ai/packa
 
 ## Related packages
 
-- [`@hanzo/frame-core`](../core) — types, parsers, frame adapters
-- [`@hanzo/frame-engine`](../engine) — rendering engine
-- [`@hanzo/frame-producer`](../producer) — render pipeline
-- [`@hanzo/frame-studio`](../studio) — composition editor UI
+- [`@hanzo/frames-core`](../core) — types, parsers, frame adapters
+- [`@hanzo/frames-engine`](../engine) — rendering engine
+- [`@hanzo/frames-producer`](../producer) — render pipeline
+- [`@hanzo/frames-studio`](../studio) — composition editor UI

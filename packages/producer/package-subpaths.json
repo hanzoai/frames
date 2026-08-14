@@ -1,5 +1,5 @@
 {
-  "package": "@hanzo/frame-producer",
+  "package": "@hanzo/frames-producer",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

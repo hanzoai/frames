@@ -10,7 +10,7 @@ Hyperframes includes starter examples to help you scaffold compositions quickly.
 </Note>
 
 ```bash Terminal
-npx @hanzo/frame init my-video --example <name>
+npx @hanzo/frames init my-video --example <name>
 ```
 
 ## Landscape Templates
@@ -59,7 +59,7 @@ npx @hanzo/frame init my-video --example <name>
   Looking for a minimal starting point? Use **blank** — it gives you an empty composition with just the scaffolding, no visual design.
 
   ```bash Terminal
-  npx @hanzo/frame init my-video --example blank
+  npx @hanzo/frames init my-video --example blank
   ```
 </Tip>
 
@@ -221,7 +221,7 @@ npx @hanzo/frame init my-video --example <name>
 ## Passing a Source Video
 
 ```bash Terminal
-npx @hanzo/frame init my-video --example warm-grain --video ./my-clip.mp4
+npx @hanzo/frames init my-video --example warm-grain --video ./my-clip.mp4
 ```
 
 The CLI will probe the video for duration, resolution, and codec. If the video uses an incompatible codec, it will be automatically transcoded to H.264 MP4 if FFmpeg is available.
@@ -253,7 +253,7 @@ Any directory with an `index.html` can serve as an example. Your custom example 
 After creating a custom example, validate it with the [linter](/packages/cli#lint):
 
 ```bash Terminal
-npx @hanzo/frame lint
+npx @hanzo/frames lint
 ```
 
 ## Next Steps

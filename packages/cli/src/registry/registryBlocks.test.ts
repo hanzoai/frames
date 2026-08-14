@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { bundleToSingleHtml } from "@hanzo/frame-core/compiler";
+import { bundleToSingleHtml } from "@hanzo/frames-core/compiler";
 import { parseHTML } from "linkedom";
 import { describe, expect, it } from "vitest";
 

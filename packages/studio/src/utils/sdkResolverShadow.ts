@@ -15,8 +15,8 @@
  * Telemetry-only — never writes to disk, never affects the user-visible edit.
  */
 
-import { openComposition } from "@hanzo/frame-sdk";
-import type { Composition, JsonPatchOp } from "@hanzo/frame-sdk";
+import { openComposition } from "@hanzo/frames-sdk";
+import type { Composition, JsonPatchOp } from "@hanzo/frames-sdk";
 import type { PatchOperation } from "./sourcePatcher";
 import { STUDIO_SDK_RESOLVER_SHADOW_ENABLED } from "../components/editor/manualEditingAvailability";
 import { patchOpsToSdkEditOps } from "./sdkOpMapping";

@@ -135,7 +135,7 @@ scaffold.
 1. `bun run --cwd packages/cli frames check` (or the installed
    `frames` CLI from the repo-local `skills/frames-cli/` skill) —
    0 errors (contrast: dim text ≥ .66 alpha). Do NOT reach for
-   `npx @hanzo/frame@latest`; the tracked repo-local CLI is the source of
+   `npx @hanzo/frames@latest`; the tracked repo-local CLI is the source of
    truth for the composition contract this skill produces against.
 2. `seam-gate.mjs verify` — 0 fail.
 3. Restart the preview server (it caches the bundle), spot-check 3-4 beats

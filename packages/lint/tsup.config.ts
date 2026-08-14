@@ -16,7 +16,7 @@ export default defineConfig([
   {
     // Browser-safe subset. platform: "browser" makes the build FAIL if any
     // node:* builtin sneaks into the rule engine — a compile-time guarantee
-    // that @hanzo/frame-lint/browser stays client-side runnable.
+    // that @hanzo/frames-lint/browser stays client-side runnable.
     entry: { browser: "src/browser.ts" },
     format: ["esm"],
     outDir: "dist",

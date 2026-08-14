@@ -1,4 +1,4 @@
-import type { RegistryItem } from "@hanzo/frame-core";
+import type { RegistryItem } from "@hanzo/frames-core";
 import { compareVersions } from "compare-versions";
 import { VERSION } from "../version.js";
 
@@ -38,7 +38,7 @@ export function checkRegistryItemCompatibility(
     warnings,
     error:
       `Registry item "${item.name}" requires frames >= ${minCliVersion} ` +
-      `(current: ${currentCliVersion}). Run \`npx frames@latest add ${item.name}\` ` +
+      `(current: ${currentCliVersion}). Run \`npx @hanzo/frames@latest add ${item.name}\` ` +
       "or upgrade your installed frames CLI.",
   };
 }

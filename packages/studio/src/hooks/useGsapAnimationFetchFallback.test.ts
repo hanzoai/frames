@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GsapAnimation, ParsedGsap } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation, ParsedGsap } from "@hanzo/frames-core/gsap-parser";
 import { selectElementAnimationsOrRetry } from "./useGsapAnimationFetchFallback";
 
 const anim = (targetSelector: string): GsapAnimation =>

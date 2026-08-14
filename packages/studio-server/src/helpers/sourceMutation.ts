@@ -1,9 +1,9 @@
 import { parseHTML } from "linkedom";
 import postcss from "postcss";
 import selectorParser from "postcss-selector-parser";
-import { isAllowedHtmlAttribute, isSafeAttributeValue } from "@hanzo/frame-core/html-attr-safety";
-import { ensureHfIds } from "@hanzo/frame-parsers/hf-ids";
-import { readClipTiming, writeClipTiming } from "@hanzo/frame-core/composition-contract";
+import { isAllowedHtmlAttribute, isSafeAttributeValue } from "@hanzo/frames-core/html-attr-safety";
+import { ensureHfIds } from "@hanzo/frames-parsers/hf-ids";
+import { readClipTiming, writeClipTiming } from "@hanzo/frames-core/composition-contract";
 import { parseStyleDecls, patchStyleAttrString } from "./sourceStyleMutation.js";
 
 export interface SourceMutationTarget {

@@ -12,7 +12,7 @@ import {
 } from "./playback-state.js";
 import type { ShaderLoaderState } from "./shader-loader-state.js";
 import type { ShaderTransitionState } from "./shader-options.js";
-import { inspectRuntimeProtocol } from "@hanzo/frame-core/runtime/protocol";
+import { inspectRuntimeProtocol } from "@hanzo/frames-core/runtime/protocol";
 
 type SceneRecord = { id: string; start: number; duration: number };
 

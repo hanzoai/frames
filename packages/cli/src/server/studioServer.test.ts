@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadHyperframeRuntimeSource } from "@hanzo/frame-core";
+import { loadHyperframeRuntimeSource } from "@hanzo/frames-core";
 import { loadRuntimeSource } from "./runtimeSource.js";
 import { createStudioServer, type StudioServer } from "./studioServer.js";
 

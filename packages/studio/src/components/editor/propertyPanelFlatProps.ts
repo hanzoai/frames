@@ -1,4 +1,4 @@
-import type { resolveEditingSections } from "@hanzo/frame-core/editing";
+import type { resolveEditingSections } from "@hanzo/frames-core/editing";
 import type { DomEditSelection } from "./domEditing";
 import type { PropertyPanelProps } from "./propertyPanelHelpers";
 import type { FlatLayoutSection } from "./propertyPanelFlatLayoutSection";

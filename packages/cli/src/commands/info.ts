@@ -7,7 +7,7 @@ export const examples: Example[] = [
   ["Output as JSON", "frames info --json"],
 ];
 import { join } from "node:path";
-import { parseHtml, CANVAS_DIMENSIONS } from "@hanzo/frame-core";
+import { parseHtml, CANVAS_DIMENSIONS } from "@hanzo/frames-core";
 import { c } from "../ui/colors.js";
 import { formatBytes, label } from "../ui/format.js";
 import { ensureDOMParser } from "../utils/dom.js";

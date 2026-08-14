@@ -41,7 +41,7 @@
  * (project convention clamps z ≥ 0).
  */
 
-import { COLOR_GRADING_SOURCE_HIDDEN_ATTR } from "@hanzo/frame-core/color-grading";
+import { COLOR_GRADING_SOURCE_HIDDEN_ATTR } from "@hanzo/frames-core/color-grading";
 import { readLayerRevealPriorZ } from "../../player/lib/timelineElementHelpers";
 
 export type ZOrderAction = "bring-forward" | "send-backward" | "bring-to-front" | "send-to-back";

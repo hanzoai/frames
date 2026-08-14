@@ -5,7 +5,7 @@
  * and verifies that window.__frames.fitTextFontSize produces
  * correct results with real canvas measureText.
  *
- * Requires: puppeteer (dep of @hanzo/frame-engine)
+ * Requires: puppeteer (dep of @hanzo/frames-engine)
  * Run: cd packages/engine && npx tsx scripts/test-fitTextFontSize-browser.ts
  */
 

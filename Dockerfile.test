@@ -108,11 +108,11 @@ COPY packages/studio-server/ packages/studio-server/
 COPY packages/core/ packages/core/
 
 # Build workspace packages so "node" export conditions resolve to built dist
-RUN bun run --filter '@hanzo/{frame-parsers,frame-lint,frame-studio-server}' build \
+RUN bun run --filter '@hanzo/{frames-parsers,frames-lint,frames-studio-server}' build \
     && bun run --cwd packages/core build
 
 # Build core runtime artifacts (needed by renderer)
-RUN bun run --filter @hanzo/frame-core build:frames-runtime:modular
+RUN bun run --filter @hanzo/frames-core build:frames-runtime:modular
 
 # Nothing above reads these, so they land after the core build to keep it cached.
 COPY packages/engine/ packages/engine/

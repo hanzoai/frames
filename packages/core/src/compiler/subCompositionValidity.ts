@@ -1,2 +1,2 @@
-/** @deprecated Import from @hanzo/frame-parsers/sub-composition-validity */
-export * from "@hanzo/frame-parsers/sub-composition-validity";
+/** @deprecated Import from @hanzo/frames-parsers/sub-composition-validity */
+export * from "@hanzo/frames-parsers/sub-composition-validity";

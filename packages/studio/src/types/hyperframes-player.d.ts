@@ -1,1 +1,1 @@
-declare module "@hanzo/frame-player";
+declare module "@hanzo/frames-player";

@@ -12,7 +12,7 @@
 
 import type { TimelineElement } from "../store/playerStore";
 import type { IframeWindow } from "./playbackTypes";
-import { readClipTiming } from "@hanzo/frame-core/composition-contract";
+import { readClipTiming } from "@hanzo/frames-core/composition-contract";
 import {
   getTimelineElementSelector,
   getTimelineElementSourceFile,

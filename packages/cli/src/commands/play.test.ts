@@ -75,19 +75,19 @@ const mediaMocks = vi.hoisted(() => ({
   },
 }));
 
-vi.mock("@hanzo/frame-studio-server/proxy-transcoder", () => ({
+vi.mock("@hanzo/frames-studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
   ProxyTranscodeError: mocks.ProxyTranscodeError,
   ProxyCapacityError: mocks.ProxyCapacityError,
 }));
-vi.mock("@hanzo/frame-studio-server/media-codec-map", () => mediaMocks);
+vi.mock("@hanzo/frames-studio-server/media-codec-map", () => mediaMocks);
 
 // The shared injection helper ships as a self-contained dist bundle (its copy
 // of scanProjectMediaCodecMap is inlined), so it must be mocked wholesale —
 // mocking the media-codec-map subpath can't reach inside it. The fake mirrors
 // the real contract (scan → inject tag) via this file's scan mock so the
 // existing injection assertions stay meaningful.
-vi.mock("@hanzo/frame-studio-server/media-proxy-preview", () => ({
+vi.mock("@hanzo/frames-studio-server/media-proxy-preview", () => ({
   injectMediaCodecMapIntoHtml: vi.fn(
     async (html: string, projectDir: string, htmlSources: unknown[]) => {
       const map = await mocks.scanProjectMediaCodecMap(projectDir, htmlSources);

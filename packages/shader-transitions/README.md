@@ -1,23 +1,23 @@
-# @hanzo/frame-shader-transitions
+# @hanzo/frames-shader-transitions
 
 WebGL shader transitions for Frames compositions. Renders GPU-accelerated scene-to-scene transitions using fragment shaders, driven by GSAP timelines.
 
 ## Install
 
 ```bash
-npm install @hanzo/frame-shader-transitions
+npm install @hanzo/frames-shader-transitions
 ```
 
 Or load directly via CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hanzo/frame-shader-transitions/dist/index.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hanzo/frames-shader-transitions/dist/index.global.js"></script>
 ```
 
 ## Usage
 
 ```typescript
-import { init } from "@hanzo/frame-shader-transitions";
+import { init } from "@hanzo/frames-shader-transitions";
 
 const tl = init({
   bgColor: "#0a0a0a",
@@ -107,7 +107,7 @@ Browser previews store captured transition snapshots in IndexedDB using a key de
 Array of all available shader name strings, useful for validation or building UIs.
 
 ```typescript
-import { SHADER_NAMES } from "@hanzo/frame-shader-transitions";
+import { SHADER_NAMES } from "@hanzo/frames-shader-transitions";
 // ["domain-warp", "ridged-burn", "whip-pan", ...]
 ```
 
@@ -123,8 +123,8 @@ All formats include source maps. TypeScript definitions included.
 
 ## Related packages
 
-- [`@hanzo/frame-core`](../core) -- types, parsers, runtime
-- [`@hanzo/frame-engine`](../engine) -- rendering engine
+- [`@hanzo/frames-core`](../core) -- types, parsers, runtime
+- [`@hanzo/frames-engine`](../engine) -- rendering engine
 - [`frames`](../cli) -- CLI
 
 ## License

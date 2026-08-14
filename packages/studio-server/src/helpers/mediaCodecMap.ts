@@ -1,12 +1,12 @@
 import { existsSync, statSync } from "node:fs";
 import { relative, resolve, sep } from "node:path";
-import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
+import { rewriteAssetPath } from "@hanzo/frames-parsers/asset-paths";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   maskNonScannableRanges,
   resolveLocalAssetCandidates,
-} from "@hanzo/frame-parsers/asset-resolution";
+} from "@hanzo/frames-parsers/asset-resolution";
 import { pixelFormatHasAlpha, probeMediaMetadata, type FfprobeRunner } from "./mediaMetadata.js";
 
 /**
@@ -184,7 +184,7 @@ export interface HtmlSourceLike {
 }
 
 // --- <video src> collection: shared primitives live in
-// @hanzo/frame-parsers/asset-resolution; the <video>-specific regex and the
+// @hanzo/frames-parsers/asset-resolution; the <video>-specific regex and the
 // pinned key derivation stay here.
 const VIDEO_SRC_RE = /<video\b[^>]*\bsrc\s*=\s*["']([^"']+)["'][^>]*>/gi;
 

@@ -1,5 +1,5 @@
 {
-  "name": "@hanzo/frame-sdk-playground",
+  "name": "@hanzo/frames-sdk-playground",
   "version": "0.6.106",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@hanzo/frame-core": "workspace:*",
-    "@hanzo/frame-sdk": "workspace:*",
+    "@hanzo/frames-core": "workspace:*",
+    "@hanzo/frames-sdk": "workspace:*",
     "gsap": "^3.15.0"
   },
   "devDependencies": {

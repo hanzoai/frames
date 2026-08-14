@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { resolve, join } from "node:path";
-import { lintHyperframeHtml, type HyperframeLintResult } from "@hanzo/frame-lint";
+import { lintHyperframeHtml, type HyperframeLintResult } from "@hanzo/frames-lint";
 
 export interface PreparedHyperframeLintInput {
   entryFile: string;

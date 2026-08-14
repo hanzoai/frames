@@ -6,9 +6,9 @@
  * looks like vs a png-sequence.
  */
 
-import type { DistributedFormat } from "@hanzo/frame-producer/distributed";
+import type { DistributedFormat } from "@hanzo/frames-producer/distributed";
 
-export type { DistributedFormat } from "@hanzo/frame-producer/distributed";
+export type { DistributedFormat } from "@hanzo/frames-producer/distributed";
 
 // Closed-enum lookup table. TS enforces exhaustiveness via the
 // `Record<DistributedFormat, string>` annotation — adding a format to

@@ -1,7 +1,7 @@
 /**
  * Embedded studio server for `frames preview` outside the monorepo.
  *
- * Uses the shared studio API module from @hanzo/frame-core/studio-api,
+ * Uses the shared studio API module from @hanzo/frames-core/studio-api,
  * providing a CLI-specific adapter for single-project, in-process rendering.
  */
 
@@ -30,11 +30,11 @@ import {
   type ResolvedProject,
   type RenderJobState,
   type BackgroundRemovalRender,
-} from "@hanzo/frame-studio-server";
+} from "@hanzo/frames-studio-server";
 import { resolveAutoProxy } from "../utils/projectConfig.js";
-import { getElementScreenshotClip } from "@hanzo/frame-studio-server/screenshot-clip";
-import type { ScreenshotClip } from "@hanzo/frame-studio-server/screenshot-clip";
-import type { RenderJob } from "@hanzo/frame-producer";
+import { getElementScreenshotClip } from "@hanzo/frames-studio-server/screenshot-clip";
+import type { ScreenshotClip } from "@hanzo/frames-studio-server/screenshot-clip";
+import type { RenderJob } from "@hanzo/frames-producer";
 
 const STUDIO_MANUAL_EDITS_PATH = ".frames/studio-manual-edits.json";
 const REMOTE_GIF_IMG_SRC_RE =
@@ -43,7 +43,7 @@ const REMOTE_GIF_IMG_SRC_RE =
 async function loadStudioProducer() {
   return isDevMode()
     ? await import("../../../producer/src/index.js")
-    : await import("@hanzo/frame-producer");
+    : await import("@hanzo/frames-producer");
 }
 
 // ── Path resolution ─────────────────────────────────────────────────────────
@@ -168,9 +168,9 @@ async function downloadRemoteGifImageSources(
 // Uses the engine's browser pool so the thumbnail browser and render workers
 // share a single Chrome process instead of running two independent ones.
 
-let _thumbnailBrowserLease: import("@hanzo/frame-engine").BrowserLease | null = null;
+let _thumbnailBrowserLease: import("@hanzo/frames-engine").BrowserLease | null = null;
 let _thumbnailBrowserInitializing: Promise<
-  import("@hanzo/frame-engine").BrowserLease | null
+  import("@hanzo/frames-engine").BrowserLease | null
 > | null = null;
 
 async function getThumbnailBrowser(): Promise<import("puppeteer-core").Browser | null> {
@@ -182,7 +182,7 @@ async function getThumbnailBrowser(): Promise<import("puppeteer-core").Browser |
   _thumbnailBrowserInitializing = (async () => {
     try {
       const { ensureBrowser } = await import("../browser/manager.js");
-      const { acquireBrowser, buildChromeArgs } = await import("@hanzo/frame-engine");
+      const { acquireBrowser, buildChromeArgs } = await import("@hanzo/frames-engine");
 
       try {
         const b = await ensureBrowser({ preferManagedChrome: true });
@@ -327,7 +327,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
 
     async bundle(dir: string): Promise<string | null> {
       try {
-        const { bundleToSingleHtml } = await import("@hanzo/frame-core/compiler");
+        const { bundleToSingleHtml } = await import("@hanzo/frames-core/compiler");
         // Studio dev server: ask the bundler for an empty `src=""` placeholder so
         // we can point it at our hot-reloadable local runtime endpoint. Inlining
         // ~150 KB of runtime body on every preview render would defeat browser
@@ -373,7 +373,7 @@ export function createStudioServer(options: StudioServerOptions): StudioServer {
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const { lintHyperframeHtml } = await import("@hanzo/frame-lint");
+      const { lintHyperframeHtml } = await import("@hanzo/frames-lint");
       return await lintHyperframeHtml(html, opts);
     },
 

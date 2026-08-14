@@ -9,7 +9,7 @@
  * batches style changes naturally). One SDK op is emitted per non-style op.
  */
 
-import type { EditOp } from "@hanzo/frame-sdk";
+import type { EditOp } from "@hanzo/frames-sdk";
 import type { PatchOperation } from "./sourcePatcher";
 
 export function patchOpsToSdkEditOps(hfId: string, ops: PatchOperation[]): EditOp[] {

@@ -4,7 +4,7 @@ import {
   createFrameLookupTable,
   readWebGlVendorInfoFromCanvas,
   resolveConfig,
-} from "@hanzo/frame-engine";
+} from "@hanzo/frames-engine";
 import {
   beginFrameSessionNeedsScreenshotFallback,
   createChunkVideoFrameInjectorFactory,

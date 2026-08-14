@@ -8,26 +8,26 @@ import {
 } from "./check-dockerfile-workspaces.mjs";
 
 const workspaces = [
-  workspace("core", "@hanzo/frame-core", {
-    "@hanzo/frame-lint": "workspace:*",
-    "@hanzo/frame-studio-server": "workspace:*",
+  workspace("core", "@hanzo/frames-core", {
+    "@hanzo/frames-lint": "workspace:*",
+    "@hanzo/frames-studio-server": "workspace:*",
   }),
-  workspace("engine", "@hanzo/frame-engine", {
-    "@hanzo/frame-core": "workspace:*",
-    "@hanzo/frame-parsers": "workspace:*",
+  workspace("engine", "@hanzo/frames-engine", {
+    "@hanzo/frames-core": "workspace:*",
+    "@hanzo/frames-parsers": "workspace:*",
   }),
-  workspace("gcp-cloud-run", "@hanzo/frame-gcp-cloud-run", {
-    "@hanzo/frame-producer": "workspace:*",
+  workspace("gcp-cloud-run", "@hanzo/frames-gcp-cloud-run", {
+    "@hanzo/frames-producer": "workspace:*",
   }),
-  workspace("lint", "@hanzo/frame-lint", { "@hanzo/frame-parsers": "workspace:*" }),
-  workspace("parsers", "@hanzo/frame-parsers"),
-  workspace("producer", "@hanzo/frame-producer", {
-    "@hanzo/frame-core": "workspace:*",
-    "@hanzo/frame-engine": "workspace:*",
+  workspace("lint", "@hanzo/frames-lint", { "@hanzo/frames-parsers": "workspace:*" }),
+  workspace("parsers", "@hanzo/frames-parsers"),
+  workspace("producer", "@hanzo/frames-producer", {
+    "@hanzo/frames-core": "workspace:*",
+    "@hanzo/frames-engine": "workspace:*",
   }),
-  workspace("sdk", "@hanzo/frame-sdk"),
-  workspace("studio-server", "@hanzo/frame-studio-server", {
-    "@hanzo/frame-core": "workspace:*",
+  workspace("sdk", "@hanzo/frames-sdk"),
+  workspace("studio-server", "@hanzo/frames-studio-server", {
+    "@hanzo/frames-core": "workspace:*",
   }),
 ];
 const runtimeDirectories = [

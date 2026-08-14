@@ -121,7 +121,7 @@ function skillsNoticeText(meta: SkillsUpdateMeta): string | null {
   const total = meta.outdated + meta.missing + meta.removed;
   if (total < 1) return null;
   const noun = total === 1 ? "skill" : "skills";
-  return `\n  ${total} Frames ${noun} out of date or missing.\n  Run: npx frames skills update\n\n`;
+  return `\n  ${total} Frames ${noun} out of date or missing.\n  Run: npx @hanzo/frames skills update\n\n`;
 }
 
 /**

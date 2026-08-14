@@ -24,8 +24,8 @@ import {
   decideMediaProxyEligibility,
   proxyVariantFor,
   scanProjectMediaCodecMap,
-} from "@hanzo/frame-studio-server/media-codec-map";
-import { resolveProxy } from "@hanzo/frame-studio-server/proxy-transcoder";
+} from "@hanzo/frames-studio-server/media-codec-map";
+import { resolveProxy } from "@hanzo/frames-studio-server/proxy-transcoder";
 import { rectToBbox } from "./checkTypes.js";
 import type {
   AnchoredLayoutIssue,
@@ -179,7 +179,7 @@ export async function runBrowserCheck(
     // slot silently shortens the slot at render time — invisible to lint (no
     // intrinsic durations statically) and to the runtime listeners (nothing
     // errors). The session is already open, so this is one extra evaluate.
-    const { analyzeClipMediaFit } = await import("@hanzo/frame-engine");
+    const { analyzeClipMediaFit } = await import("@hanzo/frames-engine");
     for (const entry of await auditClipDurations(page, analyzeClipMediaFit, options.timeout)) {
       drafts.push({ code: "clip_media_fit", severity: entry.level, message: entry.text, time: 0 });
     }

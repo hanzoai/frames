@@ -37,14 +37,14 @@ Give your AI agent a URL and a creative direction. It captures the site, extract
   </Step>
   <Step title="Preview">
     ```bash
-    npx @hanzo/frame preview
+    npx @hanzo/frames preview
     ```
 
     Opens the video in your browser. Edits reload automatically.
   </Step>
   <Step title="Render to MP4">
     ```bash
-    npx @hanzo/frame render --output my-video.mp4
+    npx @hanzo/frames render --output my-video.mp4
     ```
 
     ```
@@ -55,7 +55,7 @@ Give your AI agent a URL and a creative direction. It captures the site, extract
 </Steps>
 
 <Note>
-  You don't need to run `npx @hanzo/frame capture` manually — the skill instructs the agent to capture as the first step. The capture command is documented [below](#capture-command) for advanced use.
+  You don't need to run `npx @hanzo/frames capture` manually — the skill instructs the agent to capture as the first step. The capture command is documented [below](#capture-command) for advanced use.
 </Note>
 
 ## How the Pipeline Works
@@ -136,7 +136,7 @@ A typical capture with 40 images costs about **$0.04** on the paid tier.
 The skill runs capture automatically, but you can run it directly for pre-caching, debugging, or using the data outside of video production.
 
 ```bash
-npx @hanzo/frame capture https://stripe.com
+npx @hanzo/frames capture https://stripe.com
 ```
 
 ```
@@ -174,7 +174,7 @@ npx @hanzo/frame capture https://stripe.com
 Capture key frames from a built video as PNGs — verify compositions without a full render:
 
 ```bash
-npx @hanzo/frame snapshot my-project --at 2.9,10.4,18.7
+npx @hanzo/frames snapshot my-project --at 2.9,10.4,18.7
 ```
 
 | Flag | Default | Description |
@@ -200,7 +200,7 @@ See the [pipeline guide](/guides/pipeline#iterating) for more re-entry patterns.
     Increase the timeout for sites with Cloudflare or heavy client-side rendering:
 
     ```bash
-    npx @hanzo/frame capture https://example.com --timeout 180000
+    npx @hanzo/frames capture https://example.com --timeout 180000
     ```
   </Accordion>
   <Accordion title="Few assets captured">

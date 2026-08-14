@@ -16,9 +16,5 @@
       "target": "compositions/transitions-radial.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-radial.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-radial.png"
-  }
+  ]
 }

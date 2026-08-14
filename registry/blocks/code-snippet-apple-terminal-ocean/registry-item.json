@@ -16,9 +16,5 @@
       "target": "compositions/code-snippet-apple-terminal-ocean.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/code-snippet-apple-terminal-ocean.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/code-snippet-apple-terminal-ocean.png"
-  }
+  ]
 }

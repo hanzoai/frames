@@ -1,14 +1,14 @@
 {
   "$schema": "https://cursor.com/schemas/cursor-plugin/plugin.json",
   "name": "frames",
-  "displayName": "Frames by HeyGen",
+  "displayName": "Frames by Hanzo",
   "description": "Write HTML, render video. Compositions, Tailwind v4 styles, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for Frames.",
   "version": "0.7.81",
   "author": {
-    "name": "HeyGen",
-    "email": "frames@heygen.com"
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai"
   },
-  "publisher": "HeyGen",
+  "publisher": "Hanzo AI",
   "homepage": "https://frames.hanzo.ai",
   "repository": "https://github.com/hanzoai/frames",
   "license": "Apache-2.0",

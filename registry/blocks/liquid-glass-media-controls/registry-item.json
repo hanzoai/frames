@@ -22,9 +22,5 @@
       "target": "compositions/lib/liquid-glass.iife.js",
       "type": "registry:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/liquid-glass-media-controls.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/liquid-glass-media-controls.png"
-  }
+  ]
 }

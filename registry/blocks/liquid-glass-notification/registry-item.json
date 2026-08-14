@@ -27,9 +27,5 @@
       "target": "compositions/assets/frames-logo-dark.svg",
       "type": "registry:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/liquid-glass-notification.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/liquid-glass-notification.png"
-  }
+  ]
 }

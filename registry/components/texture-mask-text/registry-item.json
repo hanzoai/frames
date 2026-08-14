@@ -439,8 +439,5 @@
       "target": "assets/texture-mask-text/masks/fabric-080.png",
       "type": "frames:asset"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/components/texture-mask-text.png"
-  }
+  ]
 }

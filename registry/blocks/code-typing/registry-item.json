@@ -16,9 +16,5 @@
       "target": "compositions/code-typing.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/code-typing.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/code-typing.png"
-  }
+  ]
 }

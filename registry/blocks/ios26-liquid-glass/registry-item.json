@@ -166,9 +166,5 @@
       "target": "assets/icons/music.jpg",
       "type": "frames:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/ios26-liquid-glass.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/ios26-liquid-glass.png"
-  }
+  ]
 }

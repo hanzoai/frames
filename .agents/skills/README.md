@@ -10,13 +10,13 @@ separate namespaces, on purpose:
   (weekly changelog videos, doctrine-heavy authoring flows). Codex CLI's
   project-local skill dir.
 - `skills/` — **marketplace-distributable**, installed into other
-  projects via `npx frames skills` or `npx skills add
+  projects via `npx @hanzo/frame skills` or `npx skills add
 hanzoai/frames`.
 
 ## Weekly changelog video
 
 The `changelog-video` skill turns a weekly changelog markdown into a
-~45–60s branded 1080×1080 MP4 (motion-doctrine layout, Annie VO,
+~45–60s branded 1080×1080 MP4 (motion-doctrine layout, one narrator,
 seam-gated cuts, caption rail). It ships pre-configured — fonts,
 background pattern, house BGM, lexicon, and the align-captions script
 all live inside `changelog-video/`. Its five dependency skills
@@ -35,11 +35,10 @@ Weekly usage:
 3. Accept, and the agent produces `weekly-changelog-<range>.mp4` gated
    by `frames check` (0 errors) + `seam-gate verify` (0 fail/warn).
 
-TTS uses the tracked `skills/frames-media/scripts/heygen-tts.mjs`
-(no extra install needed). Runtime dependencies you need on PATH:
+VO comes from `frames tts` and its word timings from `frames transcribe`,
+both local models. Runtime dependencies you need on PATH:
 
 - Node ≥ 22
-- HeyGen CLI ≥ 0.3.0, authenticated via `heygen auth login --oauth`
 - `ffmpeg` (for VO wav conversion + frame QA)
 - A headless Chrome for Frames rendering (`frames doctor`
   will point out the exact ask if it's missing)

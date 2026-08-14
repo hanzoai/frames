@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-neon-glow.html",
       "type": "frames:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/registry/components/caption-neon-glow/preview.mp4?v=1779051416",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/components/caption-neon-glow.png"
-  }
+  ]
 }

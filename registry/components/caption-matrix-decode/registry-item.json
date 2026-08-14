@@ -11,9 +11,5 @@
       "target": "compositions/components/caption-matrix-decode.html",
       "type": "frames:snippet"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/registry/components/caption-matrix-decode/preview-v2.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/components/caption-matrix-decode.png"
-  }
+  ]
 }

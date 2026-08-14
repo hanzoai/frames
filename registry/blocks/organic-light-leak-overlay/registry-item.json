@@ -16,9 +16,5 @@
       "target": "compositions/organic-light-leak-overlay.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/organic-light-leak-overlay.png",
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/organic-light-leak-overlay.mp4"
-  }
+  ]
 }

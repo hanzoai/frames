@@ -24,9 +24,5 @@
       "target": "compositions/camcorder-hud.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/camcorder-hud.png",
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/camcorder-hud.mp4"
-  }
+  ]
 }

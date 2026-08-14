@@ -16,9 +16,5 @@
       "target": "compositions/transitions-3d.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-3d.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/transitions-3d.png"
-  }
+  ]
 }

@@ -37,9 +37,5 @@
       "target": "models/frames-desktop.png",
       "type": "asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/vfx-iphone-device.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/vfx-iphone-device.png"
-  }
+  ]
 }

@@ -1,11 +1,11 @@
-# Contributing to Hyperframes
+# Contributing to Frames
 
-Thanks for your interest in contributing to Hyperframes! This guide will help you get started.
+Thanks for your interest in contributing to Frames! This guide will help you get started.
 
 ## Getting Started
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/frames.git`
+2. Clone your fork: `git clone https://git.hanzo.ai/YOUR_USERNAME/frames.git`
 3. Install dependencies: `bun install`
 4. Create a branch: `git checkout -b my-feature`
 
@@ -94,7 +94,7 @@ Blocks don't need `demo.html` — they are already standalone compositions.
 1. Create `registry/<blocks|components>/<name>/registry-item.json` following the [schema](packages/core/schemas/registry-item.json)
 2. Add the item to `registry/registry.json`
 3. For components: include a `demo.html`
-4. Run `npx frames lint` and `npx frames validate` on your HTML
+4. Run `npx @hanzo/frame lint` and `npx @hanzo/frame check` on your HTML
 5. Test the install flow: `frames add <name> --dir /tmp/test-project`
 
 ### Auto-generated docs
@@ -124,8 +124,8 @@ The script wipes `docs/catalog/` before regenerating, so deleted items are autom
 
 ## Packages
 
-| Package                 | Description                                 |
-| ----------------------- | ------------------------------------------- |
+| Package            | Description                                 |
+| ------------------ | ------------------------------------------- |
 | `@frames/core`     | Types, HTML generation, runtime, linter     |
 | `@frames/engine`   | Seekable page-to-video capture engine       |
 | `@frames/producer` | Full rendering pipeline (capture + encode)  |
@@ -178,7 +178,7 @@ bun run set-version 0.2.0 --no-tag   # updates package.json files only
 
 ## Reporting Issues
 
-- Use [GitHub Issues](https://github.com/hanzoai/frames/issues) for bug reports and feature requests
+- Use [Issues](https://git.hanzo.ai/hanzoai/frames/issues) for bug reports and feature requests
 - Search existing issues before creating a new one
 - Include reproduction steps for bugs
 
@@ -192,7 +192,7 @@ We welcome contributions that use AI tools (GitHub Copilot, Claude, ChatGPT, etc
 
 ## Governance
 
-Hyperframes uses a **BDFL (Benevolent Dictator for Life)** governance model. The core maintainers at HeyGen have final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
+Frames uses a **BDFL (Benevolent Dictator for Life)** governance model. The core maintainers at Hanzo AI have final say on the project's direction, API design, and what gets merged. This keeps the project focused and moving fast.
 
 Community input is valued and encouraged — open issues, propose RFCs, and discuss in PRs. But final decisions rest with the maintainers.
 

@@ -1,6 +1,6 @@
 # Documentation Guidelines
 
-Standards for writing and maintaining Hyperframes documentation. Based on patterns from Remotion, Stripe, Tailwind CSS, and Astro.
+Standards for writing and maintaining Frames documentation. Based on patterns from Remotion, Stripe, Tailwind CSS, and Astro.
 
 ## Core Principles
 
@@ -90,7 +90,7 @@ window.__timelines["my-video"] = tl;
 After CLI commands, show what the user should see:
 
 ```bash
-npx frames preview
+npx @hanzo/frame preview
 # ✓ Server running at http://localhost:3000
 # ✓ Watching for changes...
 ```

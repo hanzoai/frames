@@ -6,33 +6,33 @@ track 1; the master timeline `tl` (MUST be named `tl` — seam-stamp emits
 `window.__timelines["main"]`. See `examples/master-skeleton.html` for the
 verbatim scaffold.
 
-## Brand tokens (HeyGen for Developers)
+## Brand tokens
 
 ```css
 @font-face {
-  font-family: "ABC Solar Display";
-  font-weight: 700;
-  src: url(assets/fonts/ABCSolarDisplay-Bold.woff2) format("woff2");
-}
-@font-face {
-  font-family: "TT Norms Pro";
+  font-family: "Inter";
   font-weight: 400;
-  src: url(assets/fonts/TT_Norms_Pro_Normal.woff2) format("woff2");
+  src: url(assets/fonts/Inter-400.woff2) format("woff2");
 }
 @font-face {
-  font-family: "TT Norms Pro";
+  font-family: "Inter";
   font-weight: 500;
-  src: url(assets/fonts/TT_Norms_Pro_Medium.woff2) format("woff2");
+  src: url(assets/fonts/Inter-500.woff2) format("woff2");
 }
 @font-face {
-  font-family: "TT Norms Pro";
+  font-family: "Inter";
   font-weight: 700;
-  src: url(assets/fonts/TT_Norms_Pro_Bold.woff2) format("woff2");
+  src: url(assets/fonts/Inter-700.woff2) format("woff2");
 }
 @font-face {
-  font-family: "TT Norms Mono";
+  font-family: "Inter";
+  font-weight: 800;
+  src: url(assets/fonts/Inter-800.woff2) format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
   font-weight: 400;
-  src: url(assets/fonts/tt_norms_pro_mono_regular-webfont.woff2) format("woff2");
+  src: url(assets/fonts/JetBrainsMono-400.woff2) format("woff2");
 }
 /* ink #f5f6f4 · ink2 rgba(245,246,244,.72) · dim rgba(245,246,244,.66) —
    NOT .45: the contrast gate fails small text under 4.5:1 over the glass.
@@ -45,8 +45,8 @@ Copy fonts from `<SKILL_DIR>/assets/fonts/` into the project's
 Glass card: chip-bg fill, 1px glass-line border, radius 22,
 `box-shadow: 0 24px 60px rgba(0,0,0,.5)`. NO backdrop-filter. Chips: mono
 18-22px, radius 12, 1px rgba(255,255,255,.14) border on rgba(255,255,255,.05).
-Display type: ABC Solar Display 700. Body: TT Norms Pro. Everything
-code/UI-label: TT Norms Mono. Safe margins x/y ∈ [76, 1004].
+Display type: Inter 800. Body: Inter. Everything
+code/UI-label: JetBrains Mono. Safe margins x/y ∈ [76, 1004].
 
 ## Animated background (the house pattern)
 
@@ -70,8 +70,8 @@ otherwise) and must stay flat 2D (no 3D ancestors).
 - Chrome (untimed, z 6): kicker chip top-left `FRAMES WEEKLY · <RANGE>`,
   progress dots top-right (one per theme; `tl.set` backgroundColor at each
   cut — active #f5f6f4, done .45; never tl.call for state).
-- Title (≤2s): mono kicker date, ABC Solar h1 ~104px, green rule sweep.
-- Theme scene: sec-chip `0N · THEME NAME` (top 128) + ABC Solar headline
+- Title (≤2s): mono kicker date, Inter 800 h1 ~104px, green rule sweep.
+- Theme scene: sec-chip `0N · THEME NAME` (top 128) + Inter 800 headline
   ~54px (top 186) + the mock (from the visualization registry) filling
   y ∈ [288, 944].
 - Outro (≤3.5s): kicker FULL DIGEST, "See what shipped." ~96px, green rule,
@@ -90,7 +90,7 @@ otherwise) and must stay flat 2D (no 3D ancestors).
   COMPOSED at local t=0 — the wrapper flies it in. Internal reveals start
   ≥0.4s after the cut and end ≥0.45s before the next cut (stamped exits
   begin at cut −0.34s).
-- Every internal beat lands on a VO word from `vo-words.json`. Name each
+- Every internal beat lands on a VO word from `transcript.json`. Name each
   scene's sustained-motion route in the plan (sequenced UI life for mocks,
   staged reveals for checklists). One green moment per scene.
 - Init states via `gsap.set(...)` at build time; animation via sequential

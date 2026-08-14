@@ -11,8 +11,5 @@
       "target": "compositions/components/parallax-unzoom.html",
       "type": "frames:snippet"
     }
-  ],
-  "preview": {
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/components/parallax-unzoom.png"
-  }
+  ]
 }

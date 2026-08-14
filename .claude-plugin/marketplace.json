@@ -1,8 +1,8 @@
 {
   "name": "frames",
   "owner": {
-    "name": "HeyGen",
-    "email": "frames@heygen.com",
+    "name": "Hanzo AI",
+    "email": "dev@hanzo.ai",
     "url": "https://frames.hanzo.ai"
   },
   "plugins": [
@@ -26,7 +26,7 @@
     {
       "name": "frames",
       "source": "./",
-      "description": "All Frames skills in one static bundle. Most setups want `core-skills` instead \u2014 the router installs creation workflows on demand. Frames by HeyGen. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for Frames.",
+      "description": "All Frames skills in one static bundle. Most setups want `core-skills` instead \u2014 the router installs creation workflows on demand. Frames by Hanzo. Write HTML, render video. Compositions, GSAP and runtime adapter animations, captions, voiceovers, audio-reactive visuals, and website capture for Frames.",
       "homepage": "https://frames.hanzo.ai",
       "license": "Apache-2.0"
     }

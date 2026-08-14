@@ -6,9 +6,9 @@ body:
     attributes:
       value: |
         Thanks for taking the time to report a bug! Before filing, please:
-        - Search [existing issues](https://github.com/hanzoai/frames/issues) to avoid duplicates
+        - Search [existing issues](https://git.hanzo.ai/hanzoai/frames/issues) to avoid duplicates
         - Make sure the issue reproduces without custom extensions or plugins
-        - Test on the latest version (`npx frames upgrade`)
+        - Test on the latest version (`npx @hanzo/frame upgrade`)
 
   - type: textarea
     id: description
@@ -25,7 +25,7 @@ body:
       description: |
         A link to a **public** GitHub repository with a minimal reproduction of the issue.
 
-        Start from a clean project with `npx frames init repro --non-interactive --example blank`, make only the changes needed to demonstrate the bug, push to a public repo, and paste the link here.
+        Start from a clean project with `npx @hanzo/frame init repro --non-interactive --example blank`, make only the changes needed to demonstrate the bug, push to a public repo, and paste the link here.
 
         **Issues without a minimal reproduction may be closed.** A reproduction helps us diagnose and fix your issue faster — often in hours instead of days.
       placeholder: "https://github.com/username/my-frames-repro"
@@ -39,7 +39,7 @@ body:
       description: Step-by-step instructions using the linked reproduction.
       placeholder: |
         1. Clone the repo above
-        2. Run `npx frames render`
+        2. Run `npx @hanzo/frame render`
         3. See error...
     validations:
       required: true
@@ -64,7 +64,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Run `npx frames doctor` and paste the output here.
+      description: Run `npx @hanzo/frame doctor` and paste the output here.
       render: shell
       placeholder: |
         ✓ Version          0.x.x (latest)

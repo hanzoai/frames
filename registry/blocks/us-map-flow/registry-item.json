@@ -16,9 +16,5 @@
       "target": "compositions/us-map-flow.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/us-map-flow.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/us-map-flow.png"
-  }
+  ]
 }

@@ -2,11 +2,11 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in Hyperframes, please report it responsibly.
+If you discover a security vulnerability in Frames, please report it responsibly.
 
-**Do not open a public GitHub issue for security vulnerabilities.**
+**Do not open a public issue for security vulnerabilities.**
 
-Instead, open a [GitHub Security Advisory](https://github.com/hanzoai/frames/security/advisories/new) with:
+Instead, mail <security@hanzo.ai> with:
 
 - A description of the vulnerability
 - Steps to reproduce

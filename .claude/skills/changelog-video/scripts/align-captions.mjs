@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 // align-captions.mjs — map SPOKEN-layer word timestamps back onto DISPLAY tokens.
 //
-//   node align-captions.mjs --tokens script-tokens.json --words vo-words.json \
+//   node align-captions.mjs --tokens script-tokens.json --words transcript.json \
 //        --out captions.json [--tail 0.6]
 //
 // tokens: { lines: [{ id, tokens: [ "word" | {display, spoken} ] }] }
-// words:  [ { text, start, end } ] — timestamps of the spoken text (heygen-tts --words)
+// words:  [ { text, start, end } ] — timestamps of the spoken text (frames transcribe)
 // out:    { lines: [{ id, end, w: [[display, start], ...] }] } — caption-rail input
 //
 // Each display token consumes the spoken words of its `spoken` form (one display
@@ -62,7 +62,7 @@ let mismatches = 0;
 const outLines = [];
 
 // Greedily consume stream words from `from` whose concatenated norm builds the
-// token's full spoken norm ("hey-jen" may arrive as one word or several; "C L I"
+// token's full spoken norm ("hahn-zoh" may arrive as one word or several; "C L I"
 // as three). Returns { start, next } or null.
 function consume(from, spokenNorm) {
   let acc = "",

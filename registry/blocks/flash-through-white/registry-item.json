@@ -16,9 +16,5 @@
       "target": "compositions/flash-through-white.html",
       "type": "frames:composition"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/flash-through-white.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/flash-through-white.png"
-  }
+  ]
 }

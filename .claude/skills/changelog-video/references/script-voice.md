@@ -14,7 +14,7 @@ a VO saying "juh-son" ("JSON" read literally) are both build failures.
 - Numbers with meaning stay ("fifteen releases"); commit hashes, PR numbers,
   and version micro-detail are never spoken.
 - Open with the week + the marquee, close with the digest pointer
-  ("See everything at frames dot heygen dot com").
+  ("See everything at frames dot hanzo dot A I").
 - **Teach the simple command.** When a feature has a one-line invocation (a
   slash command, a CLI one-liner), the script says it verbatim ("start your
   prompt with /figma…") and the mock shows it being typed — the command is
@@ -42,9 +42,9 @@ a VO saying "juh-son" ("JSON" read literally) are both build failures.
 - Build `vo-spoken.txt` by joining every token's spoken form with spaces,
   lines joined into sentences/paragraphs as punctuated.
 
-## Phonetics rules (ElevenLabs-style best practices, plain-text)
+## Phonetics rules (plain text)
 
-HeyGen TTS takes plain text (no SSML), so pronunciation is controlled by
+The TTS takes plain text (no SSML), so pronunciation is controlled by
 spelling, hyphens, and spacing:
 
 1. **Initialisms** (each letter said): space or hyphen the letters —
@@ -62,7 +62,7 @@ spelling, hyphens, and spacing:
 4. **Versions/numbers**: expand — `v0.7.36 → "version zero point seven
 point thirty-six"` (usually: don't speak versions at all),
    `1080×1080 → "ten-eighty by ten-eighty"`.
-5. **URLs**: `frames.hanzo.ai → "frames dot hey-jen dot com"`.
+5. **URLs**: `frames.hanzo.ai → "frames dot hahn-zoh dot A I"`.
 6. **Filenames/extensions**: `.mp4 → "dot em pee four"` — or rephrase so the
    extension isn't spoken.
 7. **Emphasis/pauses**: commas and em-dashes, never caps. Ellipses are
@@ -76,7 +76,7 @@ before accepting.
 
 ## Alignment (spoken timestamps → display captions)
 
-`heygen-tts.mjs --words` returns word timestamps of the SPOKEN text.
+`frames transcribe` returns word timestamps of the SPOKEN text.
 `scripts/align-captions.mjs` walks the spoken stream against the token lines
 (one display token may cover several spoken words — "C L I" is three) and
 emits `captions.json`:
@@ -105,7 +105,7 @@ transcript) before the captions are trusted.
 ## Caption rail (rendering)
 
 Per `captions-overlay`: a quiet OVERLAY, never a reserved band. One line,
-bottom-center (top: 990px, height: 52px on 1080-square), TT Norms Pro 500 32px,
+bottom-center (top: 990px, height: 52px on 1080-square), Inter 500 32px,
 ink .94, soft dark text-shadow, words fading in (0.12s) on their timestamps,
 phrase swaps as sets. Keep critical small text out of the bottom ~100px
 center span; everything else may run under the rail.

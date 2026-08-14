@@ -17,13 +17,9 @@
       "type": "frames:composition"
     },
     {
-      "path": "assets/avatar.jpg",
-      "target": "assets/avatar.jpg",
+      "path": "assets/avatar.png",
+      "target": "assets/avatar.png",
       "type": "frames:asset"
     }
-  ],
-  "preview": {
-    "video": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/yt-lower-third.mp4",
-    "poster": "https://static.heygen.ai/frames-oss/docs/images/catalog/blocks/yt-lower-third.png"
-  }
+  ]
 }

@@ -10,7 +10,7 @@
  *   - It plumbs S3 download/upload calls in the correct order.
  *
  * The real OSS primitives are NOT exercised here — they live in
- * `@frames/producer/distributed` and have their own coverage in
+ * `@hanzo/frame-producer/distributed` and have their own coverage in
  * `packages/producer`. The Lambda handler is thin glue; this file pins
  * the glue's contract.
  */
@@ -29,7 +29,7 @@ import {
   type PlanV2ArtifactPublisher,
   type PlanV2Manifest,
   publishPlanV2FromV1,
-} from "@frames/producer/distributed";
+} from "@hanzo/frame-producer/distributed";
 import { recomputePlanHashFromPlanDir } from "../../producer/src/services/render/stages/freezePlan.js";
 import type { AssembleEvent, LambdaEvent, PlanEvent, RenderChunkEvent } from "./events.js";
 import { handler, unwrapEvent } from "./handler.js";
@@ -221,11 +221,11 @@ describe("handler dispatch", () => {
     const result = await handler(event, {
       s3: s3 as unknown as import("@aws-sdk/client-s3").S3Client,
       primitives: {
-        plan: planMock as unknown as typeof import("@frames/producer/distributed").plan,
+        plan: planMock as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
         renderChunk:
-          renderChunkMock as unknown as typeof import("@frames/producer/distributed").renderChunk,
+          renderChunkMock as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
         assemble:
-          assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+          assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
       },
       tmpRoot,
       skipChromeResolution: true,
@@ -279,13 +279,13 @@ describe("handler dispatch", () => {
             primitives: {
               plan: mock(async () => {
                 throw terminal;
-              }) as unknown as typeof import("@frames/producer/distributed").plan,
+              }) as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
               renderChunk: mock(async () => {
                 throw new Error("unused");
-              }) as unknown as typeof import("@frames/producer/distributed").renderChunk,
+              }) as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
               assemble: mock(async () => {
                 throw new Error("unused");
-              }) as unknown as typeof import("@frames/producer/distributed").assemble,
+              }) as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
             },
             tmpRoot,
             skipChromeResolution: true,
@@ -346,11 +346,11 @@ describe("handler dispatch", () => {
       await handler(event, {
         s3: s3 as unknown as import("@aws-sdk/client-s3").S3Client,
         primitives: {
-          plan: planMock as unknown as typeof import("@frames/producer/distributed").plan,
+          plan: planMock as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
           renderChunk:
-            renderChunkMock as unknown as typeof import("@frames/producer/distributed").renderChunk,
+            renderChunkMock as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
           assemble:
-            assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+            assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
         },
         tmpRoot,
       });
@@ -416,11 +416,11 @@ describe("handler dispatch", () => {
     const result = await handler(event, {
       s3: s3 as unknown as import("@aws-sdk/client-s3").S3Client,
       primitives: {
-        plan: planMock as unknown as typeof import("@frames/producer/distributed").plan,
+        plan: planMock as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
         renderChunk:
-          renderChunkMock as unknown as typeof import("@frames/producer/distributed").renderChunk,
+          renderChunkMock as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
         assemble:
-          assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+          assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
       },
       tmpRoot,
       skipChromeResolution: true,
@@ -467,11 +467,11 @@ describe("handler dispatch", () => {
       await handler(event, {
         s3: s3 as unknown as import("@aws-sdk/client-s3").S3Client,
         primitives: {
-          plan: planMock as unknown as typeof import("@frames/producer/distributed").plan,
+          plan: planMock as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
           renderChunk:
-            renderChunkMock as unknown as typeof import("@frames/producer/distributed").renderChunk,
+            renderChunkMock as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
           assemble:
-            assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+            assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
         },
         tmpRoot,
         skipChromeResolution: true,
@@ -523,12 +523,12 @@ describe("handler dispatch", () => {
       primitives: {
         plan: mock(async () => {
           throw new Error("should not be called");
-        }) as unknown as typeof import("@frames/producer/distributed").plan,
+        }) as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
         renderChunk: mock(async () => {
           throw new Error("should not be called");
-        }) as unknown as typeof import("@frames/producer/distributed").renderChunk,
+        }) as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
         assemble:
-          assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+          assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
       },
       tmpRoot,
       skipChromeResolution: true,
@@ -599,13 +599,13 @@ describe("handler dispatch", () => {
       primitives: {
         plan: mock(async () => {
           throw new Error("v1 plan should not be called");
-        }) as unknown as typeof import("@frames/producer/distributed").plan,
+        }) as unknown as typeof import("@hanzo/frame-producer/distributed").plan,
         planV2WithPublisher:
-          planV2WithPublisherMock as unknown as typeof import("@frames/producer/distributed").planV2WithPublisher,
+          planV2WithPublisherMock as unknown as typeof import("@hanzo/frame-producer/distributed").planV2WithPublisher,
         renderChunk:
-          renderChunkMock as unknown as typeof import("@frames/producer/distributed").renderChunk,
+          renderChunkMock as unknown as typeof import("@hanzo/frame-producer/distributed").renderChunk,
         assemble:
-          assembleMock as unknown as typeof import("@frames/producer/distributed").assemble,
+          assembleMock as unknown as typeof import("@hanzo/frame-producer/distributed").assemble,
       },
       tmpRoot,
       skipChromeResolution: true,

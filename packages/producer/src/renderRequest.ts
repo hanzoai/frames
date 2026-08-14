@@ -4,8 +4,8 @@ import {
   validateEngineConfigSnapshot,
   type EngineConfig,
   type VideoFrameFormat,
-} from "@frames/engine";
-import { VALID_CANVAS_RESOLUTIONS, type CanvasResolution, type Fps } from "@frames/core";
+} from "@hanzo/frame-engine";
+import { VALID_CANVAS_RESOLUTIONS, type CanvasResolution, type Fps } from "@hanzo/frame-core";
 import type { ProducerLogger } from "./logger.js";
 import type { RenderConfig } from "./services/renderOrchestrator.js";
 import type { DistributedRenderConfig } from "./services/distributed/plan.js";

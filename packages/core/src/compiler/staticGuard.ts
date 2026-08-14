@@ -1,4 +1,4 @@
-import { lintHyperframeHtml } from "@frames/lint";
+import { lintHyperframeHtml } from "@hanzo/frame-lint";
 
 export type HyperframeStaticFailureReason =
   | "missing_composition_id"

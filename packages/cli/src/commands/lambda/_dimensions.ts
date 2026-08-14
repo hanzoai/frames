@@ -8,7 +8,7 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import type { CanvasResolution } from "@frames/core";
+import type { CanvasResolution } from "@hanzo/frame-core";
 import { c } from "../../ui/colors.js";
 import { findCompositionDimensions } from "../../utils/compositionViewport.js";
 

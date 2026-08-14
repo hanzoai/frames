@@ -3,9 +3,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { parseHTML } from "linkedom";
 import AdmZip from "adm-zip";
 import ignore, { type Ignore } from "ignore";
-import { CSS_URL_RE, isNonRelativeUrl, isPathInside } from "@frames/core";
-import { buildAuthHeaders } from "../auth/client.js";
-import { tryResolveCredential } from "../auth/index.js";
+import { CSS_URL_RE, isNonRelativeUrl, isPathInside } from "@hanzo/frame-core";
+import { apiBaseUrl, credential, headers as authHeadersFor } from "../api.js";
 import { writeProjectLink } from "./projectLink.js";
 
 const IGNORED_DIRS = new Set([".git", "node_modules", "dist", ".next", "coverage"]);
@@ -401,7 +400,7 @@ export function localizeExternalAssets(
  * Walk the project dir, read every non-ignored file, and localize external
  * (out-of-project) asset references. Returns the in-memory archive file map —
  * the seam `publish.ts` hooks a proxy-baking transform into (U6) between this
- * and `zipPublishFileMap` below. `cloud render` never sees this seam: it
+ * and `zipPublishFileMap` below. The feedback repro publish never sees this seam: it
  * keeps calling `createPublishArchive` directly.
  */
 export function buildPublishFileMap(projectDir: string): Map<string, Buffer> {
@@ -438,22 +437,12 @@ export function zipPublishFileMap(fileContents: Map<string, Buffer>): PublishArc
 }
 
 /**
- * Thin composition of `buildPublishFileMap` + `zipPublishFileMap` — signature
- * and behavior UNCHANGED from before the U6 split. `cloud render` composes the
- * same two functions without an intermediate transform and must stay
- * byte-identical (never see baked proxies); only `publish.ts` inserts a baking
- * transform between them.
+ * Thin composition of `buildPublishFileMap` + `zipPublishFileMap`. Callers that
+ * take this path must stay byte-identical (never see baked proxies); only
+ * `publish.ts` inserts a baking transform between the two halves.
  */
 export function createPublishArchive(projectDir: string): PublishArchiveResult {
   return zipPublishFileMap(buildPublishFileMap(projectDir));
-}
-
-export function getPublishApiBaseUrl(): string {
-  return (
-    process.env["FRAMES_PUBLISHED_PROJECTS_API_URL"] ||
-    process.env["HEYGEN_API_URL"] ||
-    "https://api2.heygen.com"
-  ).replace(/\/$/, "");
 }
 
 function archiveArrayBuffer(archive: PublishArchiveResult): ArrayBuffer {
@@ -463,7 +452,7 @@ function archiveArrayBuffer(archive: PublishArchiveResult): ArrayBuffer {
 }
 
 async function publishProjectArchiveDirect(
-  apiBaseUrl: string,
+  base: string,
   title: string,
   archive: PublishArchiveResult,
   isPublic: boolean,
@@ -478,12 +467,9 @@ async function publishProjectArchiveDirect(
     "file",
     new File([archiveArrayBuffer(archive)], `${title}.zip`, { type: PUBLISH_CONTENT_TYPE }),
   );
-  const headers: Record<string, string> = {
-    ...authHeaders,
-    heygen_route: "canary",
-  };
+  const headers: Record<string, string> = { ...authHeaders };
 
-  const response = await fetch(`${apiBaseUrl}/v1/frames/projects/publish`, {
+  const response = await fetch(`${base}/v1/frames/projects/publish`, {
     method: "POST",
     body,
     headers,
@@ -518,7 +504,7 @@ async function uploadArchiveToPresignedUrl(
 }
 
 async function publishProjectArchiveStaged(
-  apiBaseUrl: string,
+  base: string,
   title: string,
   archive: PublishArchiveResult,
   isPublic: boolean,
@@ -526,7 +512,7 @@ async function publishProjectArchiveStaged(
   projectId: string | undefined,
 ): Promise<PublishedProjectResponse | null> {
   const fileName = `${title}.zip`;
-  const uploadResponse = await fetch(`${apiBaseUrl}/v1/frames/projects/publish/upload`, {
+  const uploadResponse = await fetch(`${base}/v1/frames/projects/publish/upload`, {
     method: "POST",
     body: JSON.stringify({
       file_name: fileName,
@@ -536,7 +522,6 @@ async function publishProjectArchiveStaged(
     headers: {
       ...authHeaders,
       "content-type": "application/json",
-      heygen_route: "canary",
     },
     signal: AbortSignal.timeout(PUBLISH_METADATA_TIMEOUT_MS),
   });
@@ -553,7 +538,7 @@ async function publishProjectArchiveStaged(
 
   await uploadArchiveToPresignedUrl(stagedUpload, archive);
 
-  const completeResponse = await fetch(`${apiBaseUrl}/v1/frames/projects/publish/complete`, {
+  const completeResponse = await fetch(`${base}/v1/frames/projects/publish/complete`, {
     method: "POST",
     body: JSON.stringify({
       upload_key: stagedUpload.uploadKey,
@@ -565,7 +550,6 @@ async function publishProjectArchiveStaged(
     headers: {
       ...authHeaders,
       "content-type": "application/json",
-      heygen_route: "canary",
     },
     signal: AbortSignal.timeout(uploadTimeoutMs(archive.buffer.byteLength)),
   });
@@ -602,35 +586,28 @@ export async function publishProjectArchive(
   const isPublic = opts.public === true;
   const title = basename(projectDir);
   const archive = opts.archive ?? createPublishArchive(projectDir);
-  const apiBaseUrl = getPublishApiBaseUrl();
-  const credential = await tryResolveCredential();
-  const authHeaders = credential ? buildAuthHeaders(credential) : {};
+  const base = apiBaseUrl();
+  const cred = await credential();
+  const authHeaders = cred ? authHeadersFor(cred) : {};
   // A stable id / team space only mean something to an authenticated owner — the server
   // ignores them otherwise, and anonymous publishes always mint a fresh project.
-  const projectId = credential ? opts.projectId : undefined;
-  const spaceId = credential ? opts.spaceId : undefined;
+  const projectId = cred ? opts.projectId : undefined;
+  const spaceId = cred ? opts.spaceId : undefined;
   // X-Space-Id rides with the auth headers on the metadata requests only (never the
   // presigned S3 PUT), so the server resolves the shared team space instead of the personal one.
   const metadataHeaders = spaceId ? { ...authHeaders, "x-space-id": spaceId } : authHeaders;
   const result =
     (await publishProjectArchiveStaged(
-      apiBaseUrl,
+      base,
       title,
       archive,
       isPublic,
       metadataHeaders,
       projectId,
     )) ??
-    (await publishProjectArchiveDirect(
-      apiBaseUrl,
-      title,
-      archive,
-      isPublic,
-      metadataHeaders,
-      projectId,
-    ));
+    (await publishProjectArchiveDirect(base, title, archive, isPublic, metadataHeaders, projectId));
   // Remember the server's id + url so the next publish of this directory updates in place.
-  if (credential) {
+  if (cred) {
     writeProjectLink(projectDir, { projectId: result.projectId, url: result.url });
   }
   return result;

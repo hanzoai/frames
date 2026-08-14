@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { loadHyperframeRuntimeSource } from "@frames/core";
+import { loadHyperframeRuntimeSource } from "@hanzo/frame-core";
 import { loadRuntimeSource } from "./runtimeSource.js";
 import { createStudioServer, type StudioServer } from "./studioServer.js";
 
@@ -30,10 +30,7 @@ describe("createStudioServer autoProxy plumbing", () => {
 
   it("frames.json media.autoProxy=false flows through to the adapter", () => {
     const projectDir = tmpProject();
-    writeFileSync(
-      join(projectDir, "frames.json"),
-      JSON.stringify({ media: { autoProxy: false } }),
-    );
+    writeFileSync(join(projectDir, "frames.json"), JSON.stringify({ media: { autoProxy: false } }));
 
     server = createStudioServer({ projectDir });
 
@@ -47,10 +44,7 @@ describe("createStudioServer autoProxy plumbing", () => {
 
   it("an explicit option (the preview command's resolved --proxy flag) wins over config", () => {
     const projectDir = tmpProject();
-    writeFileSync(
-      join(projectDir, "frames.json"),
-      JSON.stringify({ media: { autoProxy: false } }),
-    );
+    writeFileSync(join(projectDir, "frames.json"), JSON.stringify({ media: { autoProxy: false } }));
 
     server = createStudioServer({ projectDir, autoProxy: true });
 

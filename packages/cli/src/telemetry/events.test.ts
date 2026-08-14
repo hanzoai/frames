@@ -18,8 +18,7 @@ vi.mock("./system.js", async () => ({
   getPowerState: () => getPowerState(),
 }));
 
-// identifyUser reads the install anonymousId; pin it so the $identify alias is
-// deterministic and the test never touches disk.
+// Pin the install anonymousId so the test never touches disk.
 vi.mock("./config.js", () => ({
   readConfig: () => ({ anonymousId: "anon-test-123", telemetryEnabled: true }),
 }));
@@ -36,10 +35,6 @@ const {
   trackFigmaImport,
   trackRenderFeedback,
   trackRenderPreflightRejected,
-  trackAuthLoginStarted,
-  trackAuthLoginCompleted,
-  trackAuthLoginFailed,
-  identifyUser,
 } = await import("./events.js");
 
 describe("command telemetry events", () => {
@@ -636,85 +631,6 @@ describe("trackFigmaImport", () => {
       "figma_import",
       expect.objectContaining({ phase: "tokens", tokens_mode: "styles", entry_count: 0 }),
     );
-  });
-});
-
-describe("auth login telemetry events", () => {
-  beforeEach(() => {
-    trackEvent.mockClear();
-  });
-
-  it("emits auth_login_started tagged with the method", () => {
-    trackAuthLoginStarted("oauth");
-    expect(trackEvent).toHaveBeenCalledWith("auth_login_started", { method: "oauth" }, undefined);
-  });
-
-  it("emits auth_login_completed tagged with the method", () => {
-    trackAuthLoginCompleted("api_key");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_completed",
-      { method: "api_key" },
-      undefined,
-    );
-  });
-
-  it("emits auth_login_failed with the method and a low-cardinality reason", () => {
-    trackAuthLoginFailed("oauth", "flow_error");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_failed",
-      { method: "oauth", reason: "flow_error" },
-      undefined,
-    );
-  });
-
-  it("distinguishes a timed-out browser flow from a real error", () => {
-    trackAuthLoginFailed("oauth", "flow_timeout");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_failed",
-      { method: "oauth", reason: "flow_timeout" },
-      undefined,
-    );
-  });
-
-  it("records an aborted prompt / stdin timeout as its own reason", () => {
-    trackAuthLoginFailed("api_key", "aborted");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_failed",
-      { method: "api_key", reason: "aborted" },
-      undefined,
-    );
-  });
-
-  it("carries only method + reason — never a key, token, or free text", () => {
-    trackAuthLoginFailed("api_key", "rejected");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_failed",
-      { method: "api_key", reason: "rejected" },
-      undefined,
-    );
-  });
-
-  it("forwards an explicit distinctId to trackEvent for user-level attribution", () => {
-    trackAuthLoginCompleted("oauth", "alice@example.com");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "auth_login_completed",
-      { method: "oauth" },
-      "alice@example.com",
-    );
-  });
-
-  it("identifyUser emits a $identify alias linking the anon install to the identity", () => {
-    identifyUser("alice@example.com");
-    expect(trackEvent).toHaveBeenCalledWith(
-      "$identify",
-      { $anon_distinct_id: "anon-test-123" },
-      "alice@example.com",
-    );
-  });
-
-  it("identifyUser is a no-op when there is no identity to attach", () => {
-    identifyUser("");
-    expect(trackEvent).not.toHaveBeenCalled();
   });
 });
 

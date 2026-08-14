@@ -1,5 +1,5 @@
 // ── Composition data types ───────────────────────────────────────────────────
-// Moved from @frames/core/core.types in the parsers extraction refactor.
+// Moved from @hanzo/frame-core/core.types in the parsers extraction refactor.
 // These are the types produced and consumed by the parser pipeline.
 
 export interface Asset {
@@ -59,7 +59,7 @@ const RESOLUTION_ALIASES: Record<string, CanvasResolution> = {
  * error deep inside the render pipeline. Consumers that know the composition's
  * dimensions can consult this set to decide whether to auto-adapt the preset's
  * orientation instead — see `adaptAspectAgnosticResolution` in the compile
- * stage (`@frames/producer`) and `suggestMatchingPreset` here.
+ * stage (`@hanzo/frame-producer`) and `suggestMatchingPreset` here.
  *
  * Orientation-suffixed aliases (`1080p-portrait`, `4k-square`, …) are absent
  * on purpose: the user *did* pick an orientation, and honoring it is important
@@ -99,7 +99,7 @@ export function normalizeResolutionFlag(input: string | undefined): CanvasResolu
  * Consumers pair this signal with the composition's dimensions (in a
  * follow-up pass after HTML parse) to pick the right preset via
  * `suggestMatchingPreset` — see `adaptAspectAgnosticResolution` in the
- * compile stage (`@frames/producer`) for the canonical remap.
+ * compile stage (`@hanzo/frame-producer`) for the canonical remap.
  */
 export function isAspectAgnosticResolutionAlias(input: string | undefined): boolean {
   if (!input) return false;

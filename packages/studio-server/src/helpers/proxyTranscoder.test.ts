@@ -70,7 +70,7 @@ afterEach(() => {
   for (const dir of tempDirs.splice(0)) rmSync(dir, { recursive: true, force: true });
   vi.resetModules();
   vi.doUnmock("node:child_process");
-  vi.doUnmock("@frames/parsers/ff-binaries");
+  vi.doUnmock("@hanzo/frame-parsers/ff-binaries");
   delete process.env.FRAMES_PROXY_MAX_CONCURRENCY;
   delete process.env.FRAMES_PROXY_MAX_QUEUE;
 });
@@ -85,7 +85,7 @@ async function loadModule(
     const mocked = { spawn };
     return { ...mocked, default: mocked };
   });
-  vi.doMock("@frames/parsers/ff-binaries", () => ({
+  vi.doMock("@hanzo/frame-parsers/ff-binaries", () => ({
     findFfBinary: () => ffmpegPath,
   }));
   vi.doMock("./mediaMetadata.js", () => ({

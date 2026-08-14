@@ -2,7 +2,7 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { RegistryItem, RegistryManifest } from "@frames/core";
+import type { RegistryItem, RegistryManifest } from "@hanzo/frame-core";
 import { AddError, buildSnippet, remapTarget, runAdd } from "./add.js";
 
 // ── Fixtures ────────────────────────────────────────────────────────────────

@@ -7,18 +7,18 @@ import {
   isPathInside,
   normalizeHfColorGrading,
   serializeHfColorGrading,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 import {
   isColorGradingVariableRef,
   validateColorGradingContract,
-} from "@frames/parsers/color-grading-contract";
+} from "@hanzo/frame-parsers/color-grading-contract";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   resolveExistingLocalAsset,
-} from "@frames/parsers/asset-resolution";
-import { rewriteAssetPath } from "@frames/parsers/asset-paths";
-import { patchElementInHtml } from "@frames/studio-server/source-mutation";
+} from "@hanzo/frame-parsers/asset-resolution";
+import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
+import { patchElementInHtml } from "@hanzo/frame-studio-server/source-mutation";
 import { defineCommand } from "citty";
 import { parseHTML } from "linkedom";
 import type { Example } from "./_examples.js";
@@ -303,10 +303,7 @@ export const examples: Example[] = [
     "Discover the complete treatment surface without loading every control",
     `frames media-treatment --capabilities --json`,
   ],
-  [
-    "Inspect one relevant effect in detail",
-    `frames media-treatment --capability kuwahara --json`,
-  ],
+  ["Inspect one relevant effect in detail", `frames media-treatment --capability kuwahara --json`],
   [
     "Inspect the exhaustive machine-readable catalog",
     `frames media-treatment --capabilities --all --json`,

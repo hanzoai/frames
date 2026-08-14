@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { parseGsapScript } from "@frames/core/gsap-parser";
-import { addAnimationWithKeyframesToScript } from "@frames/parsers/gsap-writer-acorn";
+import { parseGsapScript } from "@hanzo/frame-core/gsap-parser";
+import { addAnimationWithKeyframesToScript } from "@hanzo/frame-parsers/gsap-writer-acorn";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { buildStableSelector, getSelectorIndex } from "../components/editor/domEditingDom";
 import { resolveSelectorElementIds, tweenTargetsElement, writeTargetSelector } from "./gsapShared";

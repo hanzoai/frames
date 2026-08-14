@@ -2,4 +2,4 @@
  * Compatibility export for server consumers. The edit-protocol constants are
  * owned by core's dependency-free browser contract.
  */
-export * from "@frames/core/editing/draft-markers";
+export * from "@hanzo/frame-core/editing/draft-markers";

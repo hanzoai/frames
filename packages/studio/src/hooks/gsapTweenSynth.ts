@@ -2,7 +2,7 @@ import type {
   GsapAnimation,
   GsapKeyframesData,
   SourcedGsapPercentageKeyframe,
-} from "@frames/core/gsap-parser";
+} from "@hanzo/frame-core/gsap-parser";
 import { PROPERTY_DEFAULTS } from "./gsapShared";
 
 /**

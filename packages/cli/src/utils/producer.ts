@@ -1,7 +1,7 @@
 /**
- * Dynamically load the producer module. tsup inlines @frames/producer
+ * Dynamically load the producer module. tsup inlines @hanzo/frame-producer
  * via noExternal so this resolves in the published bundle.
  */
 export async function loadProducer() {
-  return await import("@frames/producer");
+  return await import("@hanzo/frame-producer");
 }

@@ -39,10 +39,7 @@ export const examples: Example[] = [
     "Override composition variables (parametrized render)",
     'frames render --variables \'{"title":"Q4 Report","theme":"dark"}\' --output q4.mp4',
   ],
-  [
-    "Variables from a JSON file",
-    "frames render --variables-file ./vars.json --output out.mp4",
-  ],
+  ["Variables from a JSON file", "frames render --variables-file ./vars.json --output out.mp4"],
   [
     "Batch render one output per variables row",
     'frames render --batch rows.json --output "renders/{name}.mp4"',
@@ -85,8 +82,8 @@ import {
   runPostRenderStep,
   runPostRenderStepAsync,
 } from "../utils/render-success-state.js";
-import type { ProducerLogger, RenderJob } from "@frames/producer";
-import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@frames/engine";
+import type { ProducerLogger, RenderJob } from "@hanzo/frame-producer";
+import { EXTRACT_CACHE_DIR_DISABLED_ALIASES, type VideoFrameFormat } from "@hanzo/frame-engine";
 import {
   checkOutputResolutionCompatibility,
   suggestMatchingPreset,
@@ -94,7 +91,7 @@ import {
   type CanvasResolution,
   type OutputResolutionIssueKind,
   type Fps,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 
 export default defineCommand({
   meta: {

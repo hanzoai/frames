@@ -10,7 +10,7 @@ const ARTIFACT_NAMES = ["hyperframe-runtime.js", "hyperframe.runtime.iife.js"];
  * Three resolution strategies, in priority order:
  *
  *   1. esbuild from source (dev only — gated on entry.ts existence)
- *   2. Inlined constant    (production — baked into @frames/core at build time)
+ *   2. Inlined constant    (production — baked into @hanzo/frame-core at build time)
  *   3. Pre-built artifact  (fallback — reads IIFE file from dist/)
  */
 export async function loadRuntimeSource(): Promise<string | null> {
@@ -39,7 +39,7 @@ const ENTRY_TS = resolve(__dirname, "..", "..", "..", "core", "src", "runtime", 
 async function buildFromSource(): Promise<string | null> {
   if (!existsSync(ENTRY_TS)) return null;
   try {
-    const mod = await import("@frames/core");
+    const mod = await import("@hanzo/frame-core");
     if (typeof mod.loadHyperframeRuntimeSource === "function") {
       const source = mod.loadHyperframeRuntimeSource();
       if (source) return source;
@@ -54,7 +54,7 @@ async function buildFromSource(): Promise<string | null> {
 
 async function getInlinedRuntime(): Promise<string | null> {
   try {
-    const mod = await import("@frames/core");
+    const mod = await import("@hanzo/frame-core");
     if (typeof mod.getHyperframeRuntimeScript === "function") {
       return mod.getHyperframeRuntimeScript() ?? null;
     }
@@ -83,7 +83,7 @@ function readFromCoreDistDir(): string | null {
 }
 
 function readFromNodeModules(): string | null {
-  const subPaths = ["node_modules/frames/dist", "node_modules/@frames/core/dist"];
+  const subPaths = ["node_modules/frames/dist", "node_modules/@hanzo/frame-core/dist"];
   let dir = __dirname;
   for (;;) {
     for (const sub of subPaths) {

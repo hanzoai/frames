@@ -40,14 +40,14 @@ const mocks = vi.hoisted(() => {
 });
 const FakeProxyTranscodeError = mocks.ProxyTranscodeError;
 
-vi.mock("@frames/studio-server/proxy-transcoder", () => ({
+vi.mock("@hanzo/frame-studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
   ProxyTranscodeError: mocks.ProxyTranscodeError,
   waitForProxy: mocks.waitForProxy,
   TRANSCODE_TIMEOUT_MS: 15 * 60 * 1000,
 }));
 
-vi.mock("@frames/studio-server/media-codec-map", () => ({
+vi.mock("@hanzo/frame-studio-server/media-codec-map", () => ({
   scanProjectMediaCodecMap: mocks.scanProjectMediaCodecMap,
   proxyVariantFor: (facts: { hasAlpha?: boolean }) => (facts.hasAlpha ? "vp8" : "h264"),
 }));

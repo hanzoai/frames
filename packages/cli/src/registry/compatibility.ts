@@ -1,4 +1,4 @@
-import type { RegistryItem } from "@frames/core";
+import type { RegistryItem } from "@hanzo/frame-core";
 import { compareVersions } from "compare-versions";
 import { VERSION } from "../version.js";
 

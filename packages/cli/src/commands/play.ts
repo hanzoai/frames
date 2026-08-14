@@ -42,14 +42,14 @@ import {
   resolveProxy,
   ProxyCapacityError,
   ProxyTranscodeError,
-} from "@frames/studio-server/proxy-transcoder";
+} from "@hanzo/frame-studio-server/proxy-transcoder";
 import {
   decideMediaProxyEligibility,
   isProxyVariantRequest,
   probeAssetCodec,
   resolveProxyVariantRequest,
   PROXY_VARIANT_CONFIG,
-} from "@frames/studio-server/media-codec-map";
+} from "@hanzo/frame-studio-server/media-codec-map";
 
 export default defineCommand({
   meta: { name: "play", description: "Play a composition in a lightweight browser player" },
@@ -126,7 +126,7 @@ export default defineCommand({
     const playerPath = resolvePlayerPath();
     if (!playerPath) {
       clack.log.error(
-        "@frames/player not found. Run `bun run --cwd packages/player build` first.",
+        "@hanzo/frame-player not found. Run `bun run --cwd packages/player build` first.",
       );
       setCommandExitCode(1);
       return;
@@ -208,7 +208,7 @@ export async function registerCompositionRoute(
   project: ProjectDir,
   autoProxy: boolean,
 ): Promise<void> {
-  const { isSafePath } = await import("@frames/core/studio-api");
+  const { isSafePath } = await import("@hanzo/frame-core/studio-api");
 
   // fallow-ignore-next-line complexity
   app.get("/composition/*", async (ctx) => {

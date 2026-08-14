@@ -1,6 +1,6 @@
 {
-  "name": "@frames/studio",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-studio",
+  "version": "0.7.82",
   "description": "",
   "repository": {
     "type": "git",
@@ -64,11 +64,11 @@
     "@codemirror/state": "^6.6.0",
     "@codemirror/theme-one-dark": "^6.1.2",
     "@codemirror/view": "6.40.0",
-    "@frames/core": "workspace:*",
-    "@frames/parsers": "workspace:*",
-    "@frames/player": "workspace:*",
-    "@frames/sdk": "workspace:*",
-    "@frames/studio-server": "workspace:*",
+    "@hanzo/frame-core": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
+    "@hanzo/frame-player": "workspace:*",
+    "@hanzo/frame-sdk": "workspace:*",
+    "@hanzo/frame-studio-server": "workspace:*",
     "@phosphor-icons/react": "^2.1.10",
     "bpm-detective": "^2.0.5",
     "dompurify": "^3.2.4",
@@ -77,7 +77,7 @@
     "mediabunny": "^1.45.3"
   },
   "devDependencies": {
-    "@frames/producer": "workspace:*",
+    "@hanzo/frame-producer": "workspace:*",
     "@types/react": "19",
     "@types/react-dom": "19",
     "@vitejs/plugin-react": "^4.0.0",

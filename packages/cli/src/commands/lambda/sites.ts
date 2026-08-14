@@ -13,13 +13,13 @@ import { resolve as resolvePath } from "node:path";
 import { c } from "../../ui/colors.js";
 import { DEFAULT_STACK_NAME, requireStack } from "./state.js";
 
-// `@frames/aws-lambda` is a workspace devDependency in `packages/cli`
+// `@hanzo/frame-aws-lambda` is a workspace devDependency in `packages/cli`
 // so the published CLI install stays small for users who don't deploy to
 // Lambda. The lambda subverbs dynamic-import it on call. The dispatcher in
 // `commands/lambda.ts` checks the import resolves before any subverb runs
 // and prints a friendly install hint on `ERR_MODULE_NOT_FOUND`.
-async function loadSDK(): Promise<typeof import("@frames/aws-lambda/sdk")> {
-  return import("@frames/aws-lambda/sdk");
+async function loadSDK(): Promise<typeof import("@hanzo/frame-aws-lambda/sdk")> {
+  return import("@hanzo/frame-aws-lambda/sdk");
 }
 
 export interface SitesCreateArgs {

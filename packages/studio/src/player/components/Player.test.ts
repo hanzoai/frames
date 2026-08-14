@@ -10,7 +10,7 @@ import {
   shouldShowCompositionLoadingOverlay,
 } from "./Player";
 
-vi.mock("@frames/player", () => ({}));
+vi.mock("@hanzo/frame-player", () => ({}));
 
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 

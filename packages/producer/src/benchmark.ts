@@ -36,7 +36,7 @@ import {
   executeRenderJob,
   type RenderPerfSummary,
 } from "./services/renderOrchestrator.js";
-import { parseFps } from "@frames/core";
+import { parseFps } from "@hanzo/frame-core";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const testsDir = resolve(scriptDir, "../tests");
@@ -47,7 +47,7 @@ interface TestMeta {
   tags?: string[];
   // Same on-disk shape as the regression harness — JSON `number` (integer
   // fps) or JSON `string` ("30000/1001"). Normalized to Fps when loaded.
-  renderConfig: { fps: import("@frames/core").Fps };
+  renderConfig: { fps: import("@hanzo/frame-core").Fps };
 }
 
 interface BenchmarkRun {

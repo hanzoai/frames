@@ -19,8 +19,8 @@ import {
   type BackgroundRemovalRender,
   createBackgroundRemovalJob,
   createProjectSignature,
-} from "@frames/studio-server";
-import type { RegistryItem } from "@frames/core/registry";
+} from "@hanzo/frame-studio-server";
+import type { RegistryItem } from "@hanzo/frame-core/registry";
 import { createRetryingModuleLoader, ensureProducerDist } from "./vite.producer";
 import { createStudioDevRenderBodyScripts } from "./vite.studioMotion";
 import { generateThumbnail, findSystemChrome } from "./vite.browser";
@@ -73,7 +73,7 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
   const getBundler = async () => {
     if (!_bundler) {
       try {
-        const mod = await server.ssrLoadModule("@frames/core/compiler");
+        const mod = await server.ssrLoadModule("@hanzo/frame-core/compiler");
         _bundler = (dir, options) => mod.bundleToSingleHtml(dir, options);
       } catch (err) {
         console.warn("[Studio] Failed to load compiler, previews will use raw HTML:", err);
@@ -92,10 +92,10 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
         });
         if (built) {
           console.warn(
-            "[Studio] @frames/producer dist missing; building producer package for local renders...",
+            "[Studio] @hanzo/frame-producer dist missing; building producer package for local renders...",
           );
         }
-        const producerPkg = "@frames/producer";
+        const producerPkg = "@hanzo/frame-producer";
         return await import(/* @vite-ignore */ producerPkg);
       });
     }
@@ -206,7 +206,7 @@ export function createViteAdapter(dataDir: string, server: ViteDevServer): Studi
     },
 
     async lint(html: string, opts?: { filePath?: string }) {
-      const mod = await server.ssrLoadModule("@frames/core/lint");
+      const mod = await server.ssrLoadModule("@hanzo/frame-core/lint");
       return await mod.lintHyperframeHtml(html, opts);
     },
 

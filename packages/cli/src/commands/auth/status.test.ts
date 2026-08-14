@@ -16,10 +16,9 @@ function joined(ctx: UnconfiguredContext, engines?: OfflineEngineLine[]): string
 describe("buildUnconfiguredLines — interactive (TTY / agent-driven)", () => {
   const text = joined(INTERACTIVE);
 
-  it("makes browser OAuth the frames path", () => {
-    expect(text).toContain("frames auth login");
-    expect(text).toMatch(/browser oauth/i);
-    expect(text).toMatch(/sign in or sign up/i);
+  it("sends the user to the Hanzo CLI for sign-in", () => {
+    expect(text).toContain("hanzo login");
+    expect(text).toMatch(/iam device flow/i);
   });
 
   it("never steers users toward a per-repo .env", () => {
@@ -35,14 +34,13 @@ describe("buildUnconfiguredLines — interactive (TTY / agent-driven)", () => {
     expect(text).toMatch(/free, offline/i);
   });
 
-  it("shows only zero-install `npx frames` paths, not the separately-installed heygen CLI", () => {
-    expect(text).not.toMatch(/heygen auth login/);
-    expect(text).toContain("npx frames auth login");
-    expect(text).toContain("npx frames auth login --api-key");
+  it("never asks the CLI itself to log the user in", () => {
+    expect(text).not.toMatch(/frames auth login/);
   });
 
-  it("offers the --api-key path as a secondary option", () => {
-    expect(text).toContain("frames auth login --api-key");
+  it("names the KMS-delivered key as the unattended path", () => {
+    expect(text).toContain("HANZO_API_KEY");
+    expect(text).toMatch(/hanzo kms/i);
   });
 });
 
@@ -55,8 +53,8 @@ describe("buildUnconfiguredLines — non-interactive (CI / piped)", () => {
     expect(text).not.toMatch(/opens your browser/i);
   });
 
-  it("points at HEYGEN_API_KEY and the local fallback", () => {
-    expect(text).toContain("HEYGEN_API_KEY");
+  it("points at HANZO_API_KEY and the local fallback", () => {
+    expect(text).toContain("HANZO_API_KEY");
     expect(text).toMatch(/local engines/i);
   });
 });
@@ -98,13 +96,13 @@ describe("buildUnconfiguredLines — offline engine readiness", () => {
 });
 
 describe("buildUnconfiguredJson", () => {
-  it("recommends auth login and reports the local fallback", () => {
+  it("recommends hanzo login and reports the local fallback", () => {
     for (const ctx of [INTERACTIVE, NON_INTERACTIVE]) {
       const payload = buildUnconfiguredJson(ctx);
       expect(payload).toMatchObject({
         configured: false,
         interactive: ctx.interactive,
-        recommended_action: "npx frames auth login",
+        recommended_action: "hanzo login",
         fallback: "local",
       });
     }

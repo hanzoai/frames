@@ -7,8 +7,9 @@
 import { getAnonymousId, hasShownNotice, isOptedOut, markNoticeShown } from "./config";
 import { getBrowserSystemMeta } from "./system";
 
-// Write-only PostHog project key, safe to embed in client code.
-const POSTHOG_API_KEY = "phc_zjjbX0PnWxERXrMHhkEJWj9A9BhGVLRReICgsfTMmpx";
+// No analytics project is configured, so `isApiKeyConfigured()` is false and
+// nothing leaves the browser.
+const POSTHOG_API_KEY = "";
 const POSTHOG_HOST = "https://us.i.posthog.com";
 const FLUSH_INTERVAL_MS = 1_000;
 
@@ -33,7 +34,7 @@ function isApiKeyConfigured(): boolean {
 }
 
 // VITE_FRAMES_NO_TELEMETRY mirrors the CLI's FRAMES_NO_TELEMETRY=1
-// opt-out so HeyGen's own dev/CI builds can suppress telemetry from the studio
+// opt-out so dev/CI builds can suppress telemetry from the studio
 // bundle the same way. Vite injects it at build time. Match the CLI's
 // affirmative privacy-control spellings.
 // `import.meta.env` may be undefined in non-Vite bundlers (Next.js Turbopack).

@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(import.meta.dirname, "../..");
-const ENTRY_PACKAGE = "@frames/gcp-cloud-run";
-const PRODUCER_PACKAGE = "@frames/producer";
+const ENTRY_PACKAGE = "@hanzo/frame-gcp-cloud-run";
+const PRODUCER_PACKAGE = "@hanzo/frame-producer";
 const RUNTIME_DEPENDENCY_FIELDS = ["dependencies", "optionalDependencies", "peerDependencies"];
 
 export function readWorkspacePackages(root = ROOT) {
@@ -56,17 +56,26 @@ function fullBuildPositions(dockerfile) {
   }, new Map());
 }
 
+/**
+ * Workspace packages are named `@hanzo/frame-<directory>`; the CLI is the
+ * plain `@hanzo/frame`, which lives in `packages/cli`.
+ */
+function directoryOf(name) {
+  const suffix = name.trim().replace(/^frame-?/, "");
+  return suffix === "" ? "cli" : suffix;
+}
+
 function buildEntries(instruction, instructionPosition) {
   const cwdEntries = [
     ...instruction.matchAll(/bun run --cwd packages\/([a-z0-9-]+) build(?=\s|&&|$)/g),
   ].map((match) => [match[1], instructionPosition + match.index]);
   const filterEntries = [
     ...instruction.matchAll(
-      /bun run --filter\s+['"]?@frames\/(\{[^}]+\}|[a-z0-9-]+)['"]?\s+build(?=\s|&&|$)/g,
+      /bun run --filter\s+['"]?@hanzo\/(\{[^}]+\}|[a-z0-9-]+)['"]?\s+build(?=\s|&&|$)/g,
     ),
   ].flatMap((match) => {
-    const directories = match[1].startsWith("{") ? match[1].slice(1, -1).split(",") : [match[1]];
-    return directories.map((directory) => [directory.trim(), instructionPosition + match.index]);
+    const names = match[1].startsWith("{") ? match[1].slice(1, -1).split(",") : [match[1]];
+    return names.map((name) => [directoryOf(name), instructionPosition + match.index]);
   });
   return [...cwdEntries, ...filterEntries];
 }

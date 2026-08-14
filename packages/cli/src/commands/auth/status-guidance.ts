@@ -19,14 +19,14 @@ export interface OfflineEngineLine {
   capability: "voice" | "music";
   /** Engine label, e.g. "Kokoro" / "MusicGen". */
   label: string;
-  /** Deps installed (local) or key present (cloud) — usable right now. */
+  /** Deps installed (local) or credential present (hosted) — usable right now. */
   ready: boolean;
   /** How to make it ready, shown when `ready` is false. */
   setupHint?: string;
 }
 
-/** The recommended first step; sign-in and sign-up are the same OAuth flow. */
-const RECOMMENDED_ACTION = "npx frames auth login";
+/** The recommended first step. Hanzo IAM issues the credential, not this CLI. */
+const RECOMMENDED_ACTION = "hanzo login";
 
 /**
  * Render the "what offline will use" block from probed engine readiness.
@@ -56,13 +56,11 @@ function offlineEngineLines(engines?: OfflineEngineLine[]): string[] {
 }
 
 /**
- * Human guidance for an unconfigured machine — registration-first.
- * Both paths use `npx frames` (zero-install via npm): browser OAuth
- * (sign-in / sign-up) and `--api-key` both write `~/.heygen`. The separate
- * `heygen` CLI shares that file but needs its own install (no `npx heygen`),
- * so it's left to the docs — not dangled here as a command a fresh machine
- * can't run. Names the local fallback so "no key" never reads as a failure,
- * and never steers users toward a per-repo `.env`. Mirrors the
+ * Human guidance for an unconfigured machine — sign-in first. `hanzo login`
+ * runs the IAM device flow and writes `~/.hanzo/credentials.json`, which this
+ * CLI reads; a platform key from Hanzo KMS in `HANZO_API_KEY` is the
+ * unattended equivalent. Names the local fallback so "no key" never reads as
+ * a failure, and never steers users toward a per-repo `.env`. Mirrors the
  * media-use skill's Preflight section.
  */
 export function buildUnconfiguredLines(
@@ -71,20 +69,20 @@ export function buildUnconfiguredLines(
 ): string[] {
   if (!ctx.interactive) {
     return [
-      c.warn("Not signed in to HeyGen (non-interactive)."),
+      c.warn("No Hanzo credential (non-interactive)."),
       c.dim(
-        "Set HEYGEN_API_KEY to use HeyGen, or workflows fall back to local engines (Kokoro voice · MusicGen music).",
+        "Set HANZO_API_KEY from Hanzo KMS to use hosted speech, or workflows fall back to local engines (Kokoro voice · MusicGen music).",
       ),
     ];
   }
   return [
-    c.warn("Not signed in to HeyGen — voice & music will use local engines (free, offline)."),
+    c.warn("No Hanzo credential — voice & music will use local engines (free, offline)."),
     "",
-    "Sign in or sign up (browser OAuth, writes ~/.heygen — no per-repo .env):",
-    `  ${c.accent("npx frames auth login")}            ${c.dim("# browser sign-in / sign-up")}`,
+    "Sign in with the Hanzo CLI (IAM device flow, writes ~/.hanzo — no per-repo .env):",
+    `  ${c.accent("hanzo login")}       ${c.dim("# opens hanzo.id, then stores the token")}`,
     "",
-    "Or paste an existing HeyGen API key (get one at app.heygen.com/settings/api):",
-    `  ${c.accent("npx frames auth login --api-key")}  ${c.dim("# paste at the prompt")}`,
+    "Unattended runs read a platform key delivered from Hanzo KMS:",
+    `  ${c.accent("HANZO_API_KEY")}     ${c.dim("# exported by the environment, never committed")}`,
     "",
     ...offlineEngineLines(engines),
   ];

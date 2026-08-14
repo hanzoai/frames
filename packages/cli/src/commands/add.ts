@@ -13,7 +13,7 @@ export const examples: Example[] = [
 
 import { existsSync } from "node:fs";
 import { resolve, relative } from "node:path";
-import { ITEM_TYPE_DIRS, type RegistryItem } from "@frames/core";
+import { ITEM_TYPE_DIRS, type RegistryItem } from "@hanzo/frame-core";
 import { c } from "../ui/colors.js";
 import { installItem, resolveItemsByTag } from "../registry/index.js";
 import { resolveItemWithDependencies } from "../registry/resolver.js";

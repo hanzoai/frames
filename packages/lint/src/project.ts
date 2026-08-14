@@ -1,8 +1,8 @@
 export { shouldBlockRender } from "./shouldBlockRender.js";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, extname, join, relative, resolve } from "node:path";
-import { rewriteAssetPath } from "@frames/parsers/asset-paths";
-import { checkSubCompositionUsability } from "@frames/parsers/sub-composition-validity";
+import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
+import { checkSubCompositionUsability } from "@hanzo/frame-parsers/sub-composition-validity";
 import { parseHTML } from "linkedom";
 import {
   cleanAssetUrl,
@@ -11,11 +11,11 @@ import {
   maskNonScannableRanges,
   resolveExistingLocalAsset,
   resolveLocalAssetCandidates,
-} from "@frames/parsers/asset-resolution";
+} from "@hanzo/frame-parsers/asset-resolution";
 import { collectLocalVideoCandidates, lintHevcPreviewCodec } from "./hevcPreviewLint.js";
 import { lintHyperframeHtml } from "./hyperframeLinter.js";
 import type { HyperframeLintFinding, HyperframeLintResult } from "./types.js";
-import type { ParsableDocumentLike } from "@frames/parsers/sub-composition-validity";
+import type { ParsableDocumentLike } from "@hanzo/frame-parsers/sub-composition-validity";
 
 /** Adapts linkedom's `parseHTML` to the `checkSubCompositionUsability` contract. */
 function parseSubCompHtml(html: string): ParsableDocumentLike {
@@ -353,7 +353,7 @@ function lintMissingLocalAsset(
       fixHint:
         unique.length === 1
           ? `Add "${unique[0]}" to the project directory, or update the src attribute to point to an existing file. ` +
-            "Common cause: captured asset filenames are unreliable (heygen-logo.svg often contains Google, nvidia-logo.svg may contain Autodesk, etc.). " +
+            "Common cause: captured asset filenames are unreliable (acme-logo.svg often contains Google, nvidia-logo.svg may contain Autodesk, etc.). " +
             "Open the contact sheets and verify the file actually exists at this path before referencing it."
           : "Add the missing files to the project directory, or update the src attributes to point to existing files. " +
             "Captured asset filenames are unreliable — verify against capture/contact-sheets/ and capture/extracted/asset-descriptions.md.",

@@ -1,4 +1,4 @@
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { absoluteToPercentageForAnimation, findTweenAtTime } from "../utils/globalTimeCompiler";
 import { PROPERTY_DEFAULTS, selectorFromSelection, writeTargetSelector } from "./gsapShared";

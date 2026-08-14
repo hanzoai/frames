@@ -1,4 +1,4 @@
-import { COLOR_GRADING_SOURCE_HIDDEN_ATTR } from "@frames/core/color-grading";
+import { COLOR_GRADING_SOURCE_HIDDEN_ATTR } from "@hanzo/frame-core/color-grading";
 import { applyAuthoredInlineOpacity, readStampedAuthoredOpacity } from "./authoredOpacity";
 
 type IframeWindow = Window & {

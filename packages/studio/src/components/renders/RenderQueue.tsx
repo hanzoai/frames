@@ -53,7 +53,7 @@ const SCALE_LABEL: Record<RenderScale, string> = {
   "4k": "4K",
 };
 
-// Mirrors `CANVAS_DIMENSIONS` in @frames/core. Studio can't import from
+// Mirrors `CANVAS_DIMENSIONS` in @hanzo/frame-core. Studio can't import from
 // the core barrel (it transitively pulls in node:fs) and the values are stable.
 const CANVAS_DIMENSIONS: Record<ResolutionPreset, CompositionDimensions> = {
   landscape: { width: 1920, height: 1080 },

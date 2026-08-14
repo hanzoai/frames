@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { usePlayerStore } from "../player/store/playerStore";
 import { resolveBeatSourceTrack } from "../utils/timelineInspector";
-import { analyzeMusicFromUrl } from "@frames/core/beats";
+import { analyzeMusicFromUrl } from "@hanzo/frame-core/beats";
 import { useFileManagerContextOptional } from "../contexts/FileManagerContext";
 import { mergeUserBeats } from "../utils/beatEditing";
 import {
@@ -9,7 +9,7 @@ import {
   beatFilePathForSrc,
   serializeBeats,
   parseBeats,
-} from "@frames/core/beats";
+} from "@hanzo/frame-core/beats";
 
 // Module-level cache so the same URL isn't re-decoded/analyzed on re-mount.
 // Capped so decoded PCM buffers don't accumulate unbounded across a session.

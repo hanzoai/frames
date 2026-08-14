@@ -3,7 +3,7 @@
  * No React, no side-effects — fully unit-testable.
  */
 
-import type { SlideshowManifest, SlideRef, SlideHotspot } from "@frames/core/slideshow";
+import type { SlideshowManifest, SlideRef, SlideHotspot } from "@hanzo/frame-core/slideshow";
 
 // ── Scene shape used by the panel UI ──────────────────────────────────────
 

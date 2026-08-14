@@ -8,7 +8,7 @@ import {
   PlanV2IntegrityError,
   type PlanV2ArtifactPublisher,
   type PlanV2PublishBlob,
-} from "@frames/producer/distributed";
+} from "@hanzo/frame-producer/distributed";
 import { parseGcsUri, uploadContentAddressedFileToGcs } from "./gcsTransport.js";
 
 export interface GcsPlanV2ArtifactPublisherOptions {

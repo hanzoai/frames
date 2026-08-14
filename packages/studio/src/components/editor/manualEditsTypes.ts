@@ -5,7 +5,7 @@ export {
   STUDIO_WIDTH_PROP,
   STUDIO_HEIGHT_PROP,
   STUDIO_MANUAL_EDIT_GESTURE_ATTR,
-} from "@frames/core/editing/draft-markers";
+} from "@hanzo/frame-core/editing/draft-markers";
 export const STUDIO_ROTATION_PROP = "--hf-studio-rotation";
 
 /* ── Internal DOM attribute names ─────────────────────────────────── */

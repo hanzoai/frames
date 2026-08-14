@@ -28,8 +28,8 @@ import type {
   DistributedFormat,
   SerializableDistributedRenderConfig,
   SiteHandle,
-} from "@frames/aws-lambda/sdk";
-import type { CanvasResolution } from "@frames/core";
+} from "@hanzo/frame-aws-lambda/sdk";
+import type { CanvasResolution } from "@hanzo/frame-core";
 import { c } from "../../ui/colors.js";
 import { errorBox } from "../../ui/format.js";
 import {
@@ -43,8 +43,8 @@ import { requireStack } from "./state.js";
 
 // Dynamic-import the SDK so tsup keeps it out of the static-import head of
 // the CLI bundle. See sites.ts loadSDK() for the full rationale.
-async function loadSDK(): Promise<typeof import("@frames/aws-lambda/sdk")> {
-  return import("@frames/aws-lambda/sdk");
+async function loadSDK(): Promise<typeof import("@hanzo/frame-aws-lambda/sdk")> {
+  return import("@hanzo/frame-aws-lambda/sdk");
 }
 
 /** Arguments accepted by `frames lambda render-batch`. */

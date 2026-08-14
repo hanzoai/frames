@@ -7,7 +7,7 @@
 import { describe, it, expect } from "vitest";
 import { openComposition } from "./session.js";
 import { variableDeclPath, pathToKey, keyToPath } from "./engine/patches.js";
-import type { CompositionVariable } from "@frames/core/variables";
+import type { CompositionVariable } from "@hanzo/frame-core/variables";
 
 const TITLE_DECL: CompositionVariable = {
   id: "title",

@@ -4,7 +4,7 @@
 
 import { usePlayerStore, type TimelineElement } from "../player/store/playerStore";
 import { isMusicTrack } from "./timelineInspector";
-import { strengthAtTime, type MusicBeatAnalysis } from "@frames/core/beats";
+import { strengthAtTime, type MusicBeatAnalysis } from "@hanzo/frame-core/beats";
 import {
   addUserBeat,
   removeUserBeat,

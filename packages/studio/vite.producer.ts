@@ -23,7 +23,7 @@ export function ensureProducerDist(opts: {
   }
 
   const exec = opts.execFileSyncImpl ?? execFileSync;
-  exec("bun", ["run", "--filter", "@frames/producer", "build"], {
+  exec("bun", ["run", "--filter", "@hanzo/frame-producer", "build"], {
     cwd: resolveWorkspaceRoot(opts.studioDir),
     stdio: "pipe",
     env: opts.env,

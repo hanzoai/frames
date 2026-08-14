@@ -3,7 +3,7 @@ import {
   resolveEditingAffordances,
   resolveEditingSections,
   type EditableElementFacts,
-} from "@frames/core/editing";
+} from "@hanzo/frame-core/editing";
 import { groupScopedLayerRoots, resolveGroupCapture } from "./domEditingGroups";
 import type {
   DomEditCapabilities,

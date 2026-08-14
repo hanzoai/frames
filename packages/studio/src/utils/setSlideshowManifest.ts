@@ -16,13 +16,13 @@
  * can call persistSlideshowManifest on a fresh composition.
  */
 
-import type { SlideshowManifest } from "@frames/core/slideshow";
+import type { SlideshowManifest } from "@hanzo/frame-core/slideshow";
 import {
   SLIDESHOW_ISLAND_TYPE,
   SLIDESHOW_MANIFEST_VERSION,
   parseSlideshowManifest,
   slideshowIslandRegex,
-} from "@frames/core/slideshow";
+} from "@hanzo/frame-core/slideshow";
 import type { CutoverDeps } from "./sdkCutover";
 import { persistSdkSerialize } from "./sdkCutover";
 

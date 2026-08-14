@@ -5,7 +5,7 @@ import { join } from "node:path";
 
 const root = join(import.meta.dirname, "..");
 const { version } = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
-const expected = `@frames/core@${version}/dist/hyperframe.runtime.iife.js`;
+const expected = `@hanzo/frame-core@${version}/dist/hyperframe.runtime.iife.js`;
 const bundles = [
   "dist/frames-player.js",
   "dist/frames-player.cjs",
@@ -17,9 +17,9 @@ for (const bundle of bundles) {
   if (!source.includes(expected)) {
     throw new Error(`${bundle} does not pin the injected runtime to ${version}`);
   }
-  if (source.includes("@frames/core/dist/hyperframe.runtime.iife.js")) {
+  if (source.includes("@hanzo/frame-core/dist/hyperframe.runtime.iife.js")) {
     throw new Error(`${bundle} still contains an unversioned runtime URL`);
   }
 }
 
-console.log(`Verified Player runtime injection is pinned to @frames/core@${version}.`);
+console.log(`Verified Player runtime injection is pinned to @hanzo/frame-core@${version}.`);

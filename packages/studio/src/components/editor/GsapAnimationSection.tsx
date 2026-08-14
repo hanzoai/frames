@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import { Film } from "../../icons/SystemIcons";
 import { Section } from "./propertyPanelPrimitives";
 import { AnimationCard } from "./AnimationCard";

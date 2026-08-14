@@ -60,8 +60,9 @@ if (rootVersionRequested) {
 }
 
 // ── Load .env from CWD ─────────────────────────────────────────────────────
-// Agents run from the project directory where .env holds API keys (Gemini,
-// HeyGen, ElevenLabs). Load it automatically so they don't need `source .env`.
+// Agents run from the project directory where .env holds tool settings. Load
+// it automatically so they don't need `source .env`. Credentials belong in
+// Hanzo KMS, delivered through the environment — never committed to a project.
 try {
   const { readFileSync } = await import("node:fs");
   const { resolve } = await import("node:path");
@@ -159,7 +160,6 @@ const commandLoaders = {
   capture: () => import("./commands/capture.js").then((m) => m.default),
   lambda: () => import("./commands/lambda.js").then((m) => m.default),
   cloudrun: () => import("./commands/cloudrun.js").then((m) => m.default),
-  cloud: () => import("./commands/cloud.js").then((m) => m.default),
   auth: () => import("./commands/auth.js").then((m) => m.default),
   figma: () => import("./commands/figma.js").then((m) => m.default),
 };

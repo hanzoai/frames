@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { isHfColorGradingActive } from "@frames/core/color-grading";
+import { isHfColorGradingActive } from "@hanzo/frame-core/color-grading";
 import { useTrackDesignInput } from "../../contexts/DesignPanelInputContext";
 import { Compare, RotateCcw } from "../../icons/SystemIcons";
 import type { ColorGradingControllerState } from "./useColorGradingController";

@@ -1,6 +1,6 @@
 {
-  "name": "@frames/parsers",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-parsers",
+  "version": "0.7.82",
   "repository": {
     "type": "git",
     "url": "https://github.com/hanzoai/frames",
@@ -201,7 +201,7 @@
     "recast": "^0.23.11"
   },
   "devDependencies": {
-    "@frames/core": "workspace:*",
+    "@hanzo/frame-core": "workspace:*",
     "@types/node": "^25.0.10",
     "tsup": "^8.0.0",
     "tsx": "^4.21.0",

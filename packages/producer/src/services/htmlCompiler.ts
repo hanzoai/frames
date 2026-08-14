@@ -23,7 +23,7 @@ import {
   isNonRelativeUrl,
   type ResolvedDuration,
   type UnresolvedElement,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 import {
   assignBundledRuntimeCompositionIds,
   type BundledHostCompositionIdentity,
@@ -33,11 +33,11 @@ import {
   emitRootCompositionVariableStyles,
   readDeclaredDefaults,
   parseHostVariableValues,
-} from "@frames/core/compiler";
+} from "@hanzo/frame-core/compiler";
 import {
   checkSubCompositionUsability,
   type ParsableDocumentLike,
-} from "@frames/parsers/sub-composition-validity";
+} from "@hanzo/frame-parsers/sub-composition-validity";
 import { extractMediaMetadata, extractAudioMetadata } from "../utils/ffprobe.js";
 import { isPathInside, toExternalAssetKey } from "../utils/paths.js";
 import {
@@ -49,7 +49,7 @@ import {
   type AudioElement,
   type AudioVolumeKeyframe,
   analyzeKeyframeIntervals,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import { assertPublicHttpsUrl, downloadToTemp, isHttpUrl } from "../utils/urlDownloader.js";
 import type { Page } from "puppeteer-core";
 import {
@@ -57,8 +57,8 @@ import {
   normalizeSystemFontPrimaryFamilies,
 } from "./deterministicFonts.js";
 import { prepareAnimatedGifInputs } from "./animatedGifPrep.js";
-import { createStudioPositionSeekReapplyScript } from "@frames/studio-server/manual-edits-render-script";
-import { getPositionEditsRenderScript } from "@frames/core/runtime/position-edits-render";
+import { createStudioPositionSeekReapplyScript } from "@hanzo/frame-studio-server/manual-edits-render-script";
+import { getPositionEditsRenderScript } from "@hanzo/frame-core/runtime/position-edits-render";
 import { defaultLogger, type ProducerLogger } from "../logger.js";
 
 export interface CompiledComposition {
@@ -881,7 +881,7 @@ function coalesceHeadStylesAndBodyScripts(html: string): string {
 
 /**
  * Inline sub-composition HTML into the main document using the shared
- * inlining logic from @frames/core. This wrapper handles the
+ * inlining logic from @hanzo/frame-core. This wrapper handles the
  * producer-specific concerns: parsing HTML via linkedom, resolving
  * compositions from the pre-compiled map or disk, and setting explicit
  * pixel dimensions on host elements for headless rendering.

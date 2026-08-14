@@ -3,7 +3,7 @@ import {
   getHfColorGradingCapabilities,
   type HfColorGradingWheelKey,
   type NormalizedHfColorGradingWheels,
-} from "@frames/core/color-grading";
+} from "@hanzo/frame-core/color-grading";
 import { RotateCcw } from "../../icons/SystemIcons";
 import { clampNumber } from "../../utils/studioHelpers";
 import { GradingNumberField } from "./propertyPanelGradingNumberField";

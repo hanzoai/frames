@@ -45,7 +45,7 @@
  */
 
 import { parseHTML } from "linkedom";
-import type { ExtractedFrames, VideoElement } from "@frames/engine";
+import type { ExtractedFrames, VideoElement } from "@hanzo/frame-engine";
 
 export interface VideoFrameCoverageReport {
   videoId: string;
@@ -94,8 +94,7 @@ export function isVideoFrameCoverageError(err: unknown): err is VideoFrameCovera
   return (
     typeof err === "object" &&
     err !== null &&
-    (err as { framesVideoFrameCoverageError?: unknown }).framesVideoFrameCoverageError ===
-      true
+    (err as { framesVideoFrameCoverageError?: unknown }).framesVideoFrameCoverageError === true
   );
 }
 

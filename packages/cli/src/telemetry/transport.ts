@@ -2,9 +2,10 @@ import { spawn } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { readConfig } from "./config.js";
 
-// This is a public project API key — safe to embed in client-side code.
-// It only allows writing events, not reading data.
-export const POSTHOG_API_KEY = "phc_zjjbX0PnWxERXrMHhkEJWj9A9BhGVLRReICgsfTMmpx";
+// No analytics project is configured, so no events leave the machine:
+// `telemetryRuntimeOverride()` reads an unset key as a telemetry-disabled
+// build and every surface (status, first-run notice, enqueue) follows it.
+export const POSTHOG_API_KEY = "";
 const POSTHOG_HOST = "https://us.i.posthog.com";
 const FLUSH_TIMEOUT_MS = 5_000;
 

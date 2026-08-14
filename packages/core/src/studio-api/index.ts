@@ -1,2 +1,2 @@
-/** @deprecated Import from @frames/studio-server */
-export * from "@frames/studio-server";
+/** @deprecated Import from @hanzo/frame-studio-server */
+export * from "@hanzo/frame-studio-server";

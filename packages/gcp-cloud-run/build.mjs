@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @frames/gcp-cloud-run (public OSS package).
+ * Build script for @hanzo/frame-gcp-cloud-run (public OSS package).
  *
  * Bundles each subpath barrel via esbuild → dist/, then emits .d.ts via tsc.
  *
@@ -35,8 +35,8 @@ const sharedOpts = {
     "@google-cloud/storage",
     "@google-cloud/workflows",
     "@hono/node-server",
-    "@frames/producer",
-    "@frames/producer/distributed",
+    "@hanzo/frame-producer",
+    "@hanzo/frame-producer/distributed",
     "hono",
     "puppeteer-core",
     "tar",
@@ -51,7 +51,7 @@ await Promise.all([
 ]);
 
 // esbuild doesn't emit .d.ts. tsc does, with a build-only tsconfig that
-// drops the workspace `paths` overrides so `@frames/producer` resolves
+// drops the workspace `paths` overrides so `@hanzo/frame-producer` resolves
 // through node_modules to the sibling package's already-built `dist/`
 // types instead of pulling its full source tree into emit (which would
 // violate rootDir).

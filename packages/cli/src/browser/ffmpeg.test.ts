@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 // Lookup mechanics (PATH scan, common-dir fallback, Windows shim preference)
-// are covered by @frames/parsers ffBinaries.test.ts. These tests pin the
+// are covered by @hanzo/frame-parsers ffBinaries.test.ts. These tests pin the
 // CLI wrapper's contract: a configured-but-missing override means "not found"
 // so callers surface the install hint instead of a spawn error.
 describe("findFFmpeg / findFFprobe", () => {

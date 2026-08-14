@@ -1,7 +1,7 @@
 import {
   analyzeMediaGrade,
   type MediaTreatmentAnalysis,
-} from "@frames/core/media-grade-analyzer";
+} from "@hanzo/frame-core/media-grade-analyzer";
 import { findFFmpeg, findFFprobe, getFFmpegInstallHint } from "../browser/ffmpeg.js";
 
 interface CliMediaTreatmentAnalysis extends Omit<MediaTreatmentAnalysis, "adjust"> {

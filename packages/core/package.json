@@ -1,6 +1,6 @@
 {
-  "name": "@frames/core",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-core",
+  "version": "0.7.82",
   "description": "",
   "repository": {
     "type": "git",
@@ -505,9 +505,9 @@
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.5",
-    "@frames/lint": "workspace:*",
-    "@frames/parsers": "workspace:*",
-    "@frames/studio-server": "workspace:*",
+    "@hanzo/frame-lint": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
+    "@hanzo/frame-studio-server": "workspace:*",
     "bpm-detective": "^2.0.5",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8"

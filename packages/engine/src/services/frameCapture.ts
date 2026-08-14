@@ -11,7 +11,7 @@
 import { type Browser, type Page, type Viewport, type ConsoleMessage } from "puppeteer-core";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
-import { quantizeTimeToFrame, fpsToNumber } from "@frames/core";
+import { quantizeTimeToFrame, fpsToNumber } from "@hanzo/frame-core";
 
 // ── Extracted modules ───────────────────────────────────────────────────────
 import {
@@ -1140,10 +1140,10 @@ async function constructCaptureSession(
   // wrappers around named functions. Empirically, this happens with:
   //   - tsx (its esbuild loader runs with keepNames=true), used by the
   //     producer's parity-harness, ad-hoc dev scripts, and the
-  //     `bun run --filter @frames/engine test` Vitest path.
+  //     `bun run --filter @hanzo/frame-engine test` Vitest path.
   //   - any tsup/esbuild build that explicitly enables keepNames.
   //
-  // The HeyGen CLI (`packages/cli`) bundles this engine via tsup with
+  // The CLI (`packages/cli`) bundles this engine via tsup with
   // keepNames left at its default (false) — verified by grepping
   // `packages/cli/dist/cli.js`, where `__name(...)` call sites are absent.
   // Bun's TS loader also does not currently inject `__name`. Even so,

@@ -10,8 +10,8 @@
  * cache and the lanes.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { parseGsapScript } from "@frames/core/gsap-parser";
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import { parseGsapScript } from "@hanzo/frame-core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { buildStableSelector, getSelectorIndex } from "../components/editor/domEditingDom";
 import { resolveSelectorElementIds } from "./gsapShared";

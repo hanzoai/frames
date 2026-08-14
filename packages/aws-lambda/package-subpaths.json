@@ -1,5 +1,5 @@
 {
-  "package": "@frames/aws-lambda",
+  "package": "@hanzo/frame-aws-lambda",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

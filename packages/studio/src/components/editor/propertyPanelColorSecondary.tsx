@@ -3,7 +3,7 @@ import {
   getHfColorGradingCapabilities,
   normalizeHfColorGrading,
   type NormalizedHfColorGradingSecondary,
-} from "@frames/core/color-grading";
+} from "@hanzo/frame-core/color-grading";
 import { Eyedropper, Plus, Trash } from "../../icons/SystemIcons";
 import { FlatSlider } from "./propertyPanelFlatPrimitives";
 import { FlatToggle } from "./propertyPanelFlatToggle";

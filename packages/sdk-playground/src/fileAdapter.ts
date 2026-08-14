@@ -1,4 +1,4 @@
-import type { PersistAdapter, PersistErrorEvent, PersistVersionEntry } from "@frames/sdk";
+import type { PersistAdapter, PersistErrorEvent, PersistVersionEntry } from "@hanzo/frame-sdk";
 
 const API = "/api/composition";
 

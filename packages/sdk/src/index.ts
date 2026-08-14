@@ -23,7 +23,7 @@ export type {
 export { ORIGIN_APPLY_PATCHES, ORIGIN_LOCAL } from "./types.js";
 
 // Variable schema types — re-exported so SDK consumers (Studio, embedders)
-// can type declarations without a direct @frames/core dependency.
+// can type declarations without a direct @hanzo/frame-core dependency.
 export type {
   CompositionVariable,
   CompositionVariableType,
@@ -37,7 +37,7 @@ export type {
   ImageVariable,
   VariableValidationIssue,
   VariableUsageScan,
-} from "@frames/core/variables";
+} from "@hanzo/frame-core/variables";
 export type { VariableUsageReport } from "./types.js";
 
 export { UnsupportedOpError } from "./engine/mutate.js";
@@ -59,7 +59,7 @@ export type { PersistQueueModule, PersistQueueOptions } from "./persist-queue.js
 
 export type { PersistAdapter, PreviewAdapter, PersistVersionEntry } from "./adapters/types.js";
 
-// Concrete adapter factories (browser-safe — Node-only fs adapter: @frames/sdk/adapters/fs).
+// Concrete adapter factories (browser-safe — Node-only fs adapter: @hanzo/frame-sdk/adapters/fs).
 export { createMemoryAdapter } from "./adapters/memory.js";
 export { createHeadlessAdapter } from "./adapters/headless.js";
 export { createIframePreviewAdapter, resolveNearestHfElement } from "./adapters/iframe.js";

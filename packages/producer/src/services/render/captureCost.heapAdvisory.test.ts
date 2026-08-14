@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { WorkerSizing } from "@frames/engine";
+import type { WorkerSizing } from "@hanzo/frame-engine";
 import { buildHeapAdvisoryWarning } from "./captureCost.js";
 
 function sizing(overrides: Partial<WorkerSizing>): WorkerSizing {

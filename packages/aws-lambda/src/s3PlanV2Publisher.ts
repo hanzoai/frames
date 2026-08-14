@@ -7,7 +7,7 @@ import {
   PlanV2IntegrityError,
   type PlanV2ArtifactPublisher,
   type PlanV2PublishBlob,
-} from "@frames/producer/distributed";
+} from "@hanzo/frame-producer/distributed";
 import { parseS3Uri, uploadContentAddressedFileToS3 } from "./s3Transport.js";
 
 export interface S3PlanV2ArtifactPublisherOptions {

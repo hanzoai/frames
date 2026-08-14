@@ -2,7 +2,7 @@ import {
   type BlockCategory,
   BLOCK_CATEGORIES,
   resolveBlockCategory,
-} from "@frames/core/registry";
+} from "@hanzo/frame-core/registry";
 
 export type { BlockCategory };
 export { BLOCK_CATEGORIES, resolveBlockCategory };

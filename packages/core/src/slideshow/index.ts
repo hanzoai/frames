@@ -1,2 +1,2 @@
-// Moved to @frames/parsers/slideshow. Re-exported here for back-compat.
-export * from "@frames/parsers/slideshow";
+// Moved to @hanzo/frame-parsers/slideshow. Re-exported here for back-compat.
+export * from "@hanzo/frame-parsers/slideshow";

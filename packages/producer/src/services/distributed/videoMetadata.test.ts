@@ -3,7 +3,7 @@ import {
   createFrameLookupTable,
   type ExtractedFrames,
   type VideoElement,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import {
   buildPlanVideosJson,
   parsePlanVideosJson,

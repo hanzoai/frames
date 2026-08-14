@@ -1,6 +1,6 @@
 {
-  "name": "@frames/lint",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-lint",
+  "version": "0.7.82",
   "repository": {
     "type": "git",
     "url": "https://github.com/hanzoai/frames",
@@ -53,7 +53,7 @@
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
-    "@frames/parsers": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
     "htmlparser2": "^10.1.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8",

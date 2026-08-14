@@ -47,8 +47,8 @@ import {
   isHdrColorSpace,
   resolveProjectRelativeSrc,
   runVideoExtractionWithRetry,
-} from "@frames/engine";
-import { fpsToNumber } from "@frames/core";
+} from "@hanzo/frame-engine";
+import { fpsToNumber } from "@hanzo/frame-core";
 import {
   collectVideoMetadataHints,
   collectVideoReadinessSkipIds,

@@ -15,7 +15,7 @@ import {
 } from "../utils/publishProject.js";
 import { bakeMediaProxies } from "../utils/publishProxyBake.js";
 import { resolveAutoProxy } from "../utils/projectConfig.js";
-import { tryResolveCredential } from "../auth/index.js";
+import { credential } from "../api.js";
 import {
   ensureProjectId,
   readProjectLink,
@@ -122,11 +122,11 @@ export default defineCommand({
     // --update / --space only take effect for an authenticated owner. Fail loudly rather
     // than silently minting a fresh URL — the exact failure mode this feature removes.
     if (updateTarget || spaceOverride) {
-      const credential = await tryResolveCredential();
-      if (!credential) {
+      const cred = await credential();
+      if (!cred) {
         console.log();
         console.log(
-          `  ${c.error(`${updateTarget ? "--update" : "--space"} requires authentication. Run 'frames auth login' first.`)}`,
+          `  ${c.error(`${updateTarget ? "--update" : "--space"} requires a credential. Run 'hanzo login' first.`)}`,
         );
         console.log();
         setCommandExitCode(1);
@@ -233,16 +233,14 @@ export default defineCommand({
           console.log(
             `  ${c.error(`Your login looks expired or invalid, so ${updateTarget ? "--update" : "--space"} was ignored and a NEW url was created above.`)}`,
           );
-          console.log(
-            `  ${c.dim("Run 'frames auth login' again, then re-publish to update in place.")}`,
-          );
+          console.log(`  ${c.dim("Run 'hanzo login' again, then re-publish to update in place.")}`);
         } else {
           console.log(
             `  ${c.dim("Open the URL on frames.hanzo.ai to claim the project and continue editing.")}`,
           );
           console.log();
           console.log(
-            `  ${c.dim("Tip: run 'frames auth login' first for a stable link you can re-publish to.")}`,
+            `  ${c.dim("Tip: run 'hanzo login' first for a stable link you can re-publish to.")}`,
           );
         }
         console.log();

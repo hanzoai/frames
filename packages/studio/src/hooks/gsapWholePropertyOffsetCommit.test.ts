@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import type { GsapDragCommitCallbacks } from "./gsapDragCommit";
 import { commitWholePropertyOffset } from "./gsapWholePropertyOffsetCommit";

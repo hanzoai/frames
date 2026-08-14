@@ -136,9 +136,7 @@ describe("registry types", () => {
     });
 
     it("registry-item.json has the expected $id", () => {
-      expect(registryItemSchema.$id).toBe(
-        "https://frames.hanzo.ai/schema/registry-item.json",
-      );
+      expect(registryItemSchema.$id).toBe("https://frames.hanzo.ai/schema/registry-item.json");
     });
   });
 
@@ -218,8 +216,8 @@ describe("registry types", () => {
         type: "frames:component",
         title: "Shader Wipe",
         description: "d",
-        author: "heygen",
-        authorUrl: "https://example.com/heygen",
+        author: "hanzo",
+        authorUrl: "https://example.com/hanzo",
         sourcePrompt: "Create a shader wipe.",
         license: "Apache-2.0",
         minCliVersion: "0.4.0",
@@ -232,8 +230,8 @@ describe("registry types", () => {
           },
         ],
       };
-      expect(item.author).toBe("heygen");
-      expect(item.authorUrl).toBe("https://example.com/heygen");
+      expect(item.author).toBe("hanzo");
+      expect(item.authorUrl).toBe("https://example.com/hanzo");
       expect(item.sourcePrompt).toBe("Create a shader wipe.");
     });
   });

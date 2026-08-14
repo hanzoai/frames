@@ -5,7 +5,7 @@
  * and only surfacing on the chunk worker.
  */
 
-import { BROWSER_GPU_NOT_SOFTWARE } from "@frames/engine";
+import { BROWSER_GPU_NOT_SOFTWARE } from "@hanzo/frame-engine";
 import {
   collectFontFamilyCustomProperties,
   GENERIC_FAMILIES,
@@ -18,7 +18,7 @@ import {
  * Step Functions / Temporal retry policies can match it without a
  * cross-package import.
  */
-export { BROWSER_GPU_NOT_SOFTWARE } from "@frames/engine";
+export { BROWSER_GPU_NOT_SOFTWARE } from "@hanzo/frame-engine";
 
 /**
  * Re-export the shared font-family parser. The plan-time validator and the

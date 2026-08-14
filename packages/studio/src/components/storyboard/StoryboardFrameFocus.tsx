@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { setFrameVoiceover } from "@frames/core/storyboard";
+import { setFrameVoiceover } from "@hanzo/frame-core/storyboard";
 import type { StoryboardFrameView } from "../../hooks/useStoryboard";
 import { useFileManagerContext } from "../../contexts/FileManagerContext";
 import { useViewMode } from "../../contexts/ViewModeContext";

@@ -1,2 +1,2 @@
-/** @deprecated Import from @frames/studio-server/finite-mutation */
-export * from "@frames/studio-server/finite-mutation";
+/** @deprecated Import from @hanzo/frame-studio-server/finite-mutation */
+export * from "@hanzo/frame-studio-server/finite-mutation";

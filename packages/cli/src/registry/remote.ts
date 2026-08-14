@@ -9,7 +9,7 @@
  *   <base>/<type-dir>/<name>/registry-item.json
  *   <base>/<type-dir>/<name>/<file.path>    → individual files referenced by the item
  *
- * `<type-dir>` comes from ITEM_TYPE_DIRS in @frames/core.
+ * `<type-dir>` comes from ITEM_TYPE_DIRS in @hanzo/frame-core.
  */
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -21,7 +21,7 @@ import {
   type ItemType,
   type RegistryItem,
   type RegistryManifest,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 
 export const DEFAULT_REGISTRY_URL =
   "https://raw.githubusercontent.com/hanzoai/frames/main/registry";

@@ -1,5 +1,5 @@
 {
-  "package": "@frames/sdk",
+  "package": "@hanzo/frame-sdk",
   "subpaths": {
     ".": {
       "source": "./src/index.ts",

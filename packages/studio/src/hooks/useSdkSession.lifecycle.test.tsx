@@ -5,11 +5,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const openComposition = vi.fn();
 
-vi.mock("@frames/sdk", () => ({
+vi.mock("@hanzo/frame-sdk", () => ({
   openComposition: (...args: unknown[]) => openComposition(...args),
 }));
 
-import type { Composition } from "@frames/sdk";
+import type { Composition } from "@hanzo/frame-sdk";
 import { useSdkSession, type SdkSessionHandle } from "./useSdkSession";
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;

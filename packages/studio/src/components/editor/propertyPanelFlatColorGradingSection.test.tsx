@@ -10,7 +10,7 @@ import {
 import {
   normalizeHfColorGrading,
   type NormalizedHfColorGrading,
-} from "@frames/core/color-grading";
+} from "@hanzo/frame-core/color-grading";
 
 (globalThis as unknown as { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 

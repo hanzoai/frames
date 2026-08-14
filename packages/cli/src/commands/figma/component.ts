@@ -17,7 +17,7 @@ import {
   type FigmaClient,
   type NodeToHtmlResult,
   type RasterizeRequest,
-} from "@frames/core/figma";
+} from "@hanzo/frame-core/figma";
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 

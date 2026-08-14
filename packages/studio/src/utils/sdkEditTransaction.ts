@@ -1,5 +1,5 @@
 import type { MutableRefObject } from "react";
-import { openComposition, type Composition } from "@frames/sdk";
+import { openComposition, type Composition } from "@hanzo/frame-sdk";
 import type { EditHistoryKind } from "./editHistory";
 import { hashContent, markSelfWrite } from "../hooks/sdkSelfWriteRegistry";
 import { trackStudioEvent } from "./studioTelemetry";

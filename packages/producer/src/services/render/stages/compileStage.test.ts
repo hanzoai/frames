@@ -21,8 +21,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import type { EngineConfig } from "@frames/engine";
-import type { CanvasResolution } from "@frames/core";
+import type { EngineConfig } from "@hanzo/frame-engine";
+import type { CanvasResolution } from "@hanzo/frame-core";
 import {
   runCompileStage,
   type CompileStageInput,

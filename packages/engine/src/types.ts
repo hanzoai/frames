@@ -1,10 +1,10 @@
 /**
- * @frames/engine — Protocol Types
+ * @hanzo/frame-engine — Protocol Types
  *
  * The engine's page contract. Any web page that wants to be rendered
  * as video must expose `window.__hf` implementing the HfProtocol interface.
  */
-import type { Fps } from "@frames/core";
+import type { Fps } from "@hanzo/frame-core";
 
 /**
  * Outcome of waiting for a sub-composition's GSAP timelines to register.
@@ -65,7 +65,7 @@ export interface HfMediaElement {
 /**
  * Metadata for a shader transition between two scenes.
  *
- * Compositions using @frames/shader-transitions populate
+ * Compositions using @hanzo/frame-shader-transitions populate
  * `window.__hf.transitions` with one entry per transition so the
  * producer can pre-compute scene ranges, capture per-scene buffers,
  * and apply the transition in HDR-aware compositing.
@@ -103,7 +103,7 @@ export interface HfProtocol {
   seek(time: number): void;
   /** Optional: media elements the engine should handle */
   media?: HfMediaElement[];
-  /** Optional: shader transition metadata, populated by @frames/shader-transitions */
+  /** Optional: shader transition metadata, populated by @hanzo/frame-shader-transitions */
   transitions?: HfTransitionMeta[];
 }
 

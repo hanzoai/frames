@@ -1,18 +1,20 @@
-# frames
+# @hanzo/frame
 
 CLI for creating, previewing, and rendering HTML video compositions.
 
 ## Install
 
 ```bash
-npm install -g frames
+npm install -g @hanzo/frame
 ```
 
 Or use directly with npx:
 
 ```bash
-npx frames <command>
+npx @hanzo/frame <command>
 ```
+
+Both install the `frames` command.
 
 **Requirements:** Node.js >= 22, FFmpeg
 
@@ -124,7 +126,7 @@ Full documentation: [frames.hanzo.ai/packages/cli](https://frames.hanzo.ai/packa
 
 ## Related packages
 
-- [`@frames/core`](../core) — types, parsers, frame adapters
-- [`@frames/engine`](../engine) — rendering engine
-- [`@frames/producer`](../producer) — render pipeline
-- [`@frames/studio`](../studio) — composition editor UI
+- [`@hanzo/frame-core`](../core) — types, parsers, frame adapters
+- [`@hanzo/frame-engine`](../engine) — rendering engine
+- [`@hanzo/frame-producer`](../producer) — render pipeline
+- [`@hanzo/frame-studio`](../studio) — composition editor UI

@@ -52,11 +52,11 @@ import {
   patchRemove,
 } from "./patches.js";
 import { upsertCssRule } from "./cssWriter.js";
-import { mintHfId, EXCLUDED_TAGS } from "@frames/core/hf-ids";
-import { EDIT_BASE_X_ATTR, EDIT_BASE_Y_ATTR } from "@frames/core/runtime/position-edits";
-import { readClipTiming, writeClipTiming } from "@frames/core/composition-contract";
-import { parseGsapScriptAcornForWrite } from "@frames/core/gsap-parser-acorn";
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import { mintHfId, EXCLUDED_TAGS } from "@hanzo/frame-core/hf-ids";
+import { EDIT_BASE_X_ATTR, EDIT_BASE_Y_ATTR } from "@hanzo/frame-core/runtime/position-edits";
+import { readClipTiming, writeClipTiming } from "@hanzo/frame-core/composition-contract";
+import { parseGsapScriptAcornForWrite } from "@hanzo/frame-core/gsap-parser-acorn";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import {
   addAnimationToScript,
   addAnimationWithKeyframesToScript,
@@ -77,7 +77,7 @@ import {
   updateArcSegmentInScript,
   removeArcPathFromScript,
   unrollDynamicAnimations,
-} from "@frames/core/gsap-writer-acorn";
+} from "@hanzo/frame-core/gsap-writer-acorn";
 import { deriveKeyframeBackfillDefaults } from "./keyframeBackfill.js";
 import {
   readVariableDefault,
@@ -89,13 +89,13 @@ import {
 import {
   isCompositionVariable,
   isScalarVariableValue as isScalar,
-} from "@frames/core/variables";
-import type { CompositionVariable } from "@frames/core/variables";
+} from "@hanzo/frame-core/variables";
+import type { CompositionVariable } from "@hanzo/frame-core/variables";
 import {
   URI_BEARING_ATTRS,
   DANGEROUS_URI_SCHEMES,
   DANGEROUS_DATA_URI,
-} from "@frames/core/html-attr-safety";
+} from "@hanzo/frame-core/html-attr-safety";
 
 export interface MutationResult {
   forward: JsonPatchOp[];

@@ -1,6 +1,6 @@
 {
-  "name": "@frames/engine",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-engine",
+  "version": "0.7.82",
   "description": "Seekable web page to video rendering engine (Puppeteer + FFmpeg)",
   "repository": {
     "type": "git",
@@ -58,9 +58,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hanzo/frame-core": "workspace:^",
+    "@hanzo/frame-parsers": "workspace:^",
     "@hono/node-server": "^2.0.5",
-    "@frames/core": "workspace:^",
-    "@frames/parsers": "workspace:^",
     "hono": "^4.6.0",
     "linkedom": "^0.18.12",
     "puppeteer": "^25.2.1",

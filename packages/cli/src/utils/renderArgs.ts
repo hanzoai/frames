@@ -12,7 +12,7 @@ import { failUsage } from "./commandResult.js";
 
 import { readFileSync, type Stats } from "node:fs";
 import { resolve, sep } from "node:path";
-import { parseFps } from "@frames/core";
+import { parseFps } from "@hanzo/frame-core";
 import { errorBox } from "../ui/format.js";
 import { readCompositionFps } from "./compositionFps.js";
 

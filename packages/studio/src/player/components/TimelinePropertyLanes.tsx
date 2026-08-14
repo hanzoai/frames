@@ -3,7 +3,7 @@ import {
   classifyPropertyGroup,
   type GsapAnimation,
   type PropertyGroupName,
-} from "@frames/core/gsap-parser";
+} from "@hanzo/frame-core/gsap-parser";
 import { toClipKeyframes } from "../../hooks/gsapShared";
 import { synthesizeFlatTweenKeyframes } from "../../hooks/gsapTweenSynth";
 import { TimelineDiamondLane, type TimelineDiamondKeyframe } from "./TimelineClipDiamonds";

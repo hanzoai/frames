@@ -1,6 +1,6 @@
 {
-  "name": "@frames/sdk",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-sdk",
+  "version": "0.7.82",
   "description": "Headless, framework-neutral Frames composition editing engine",
   "repository": {
     "type": "git",
@@ -75,8 +75,8 @@
     "typecheck:examples": "tsc --noEmit -p tsconfig.check.json"
   },
   "dependencies": {
-    "@frames/core": "workspace:*",
-    "@frames/parsers": "workspace:*",
+    "@hanzo/frame-core": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
     "linkedom": "^0.18.12"
   },
   "devDependencies": {

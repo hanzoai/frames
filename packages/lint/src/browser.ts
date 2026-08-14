@@ -1,5 +1,5 @@
 /**
- * Browser-safe entry for @frames/lint.
+ * Browser-safe entry for @hanzo/frame-lint.
  *
  * Exposes the composition rule engine — HTML-string in, findings out — with
  * **zero Node.js dependencies**: no `node:fs`, no filesystem, no server. This
@@ -7,7 +7,7 @@
  * client-side, before any network call.
  *
  * The Node-only project layer (`lintProject`, which walks a directory) is NOT
- * exported here — import it from the main `@frames/lint` entry in Node.
+ * exported here — import it from the main `@hanzo/frame-lint` entry in Node.
  */
 export type {
   HyperframeLintSeverity,

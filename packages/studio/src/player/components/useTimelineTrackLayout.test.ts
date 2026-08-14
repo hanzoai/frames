@@ -2,7 +2,7 @@
 
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import { afterEach, describe, expect, it } from "vitest";
 import { usePlayerStore, type TimelineElement } from "../store/playerStore";
 import { LANE_H, TRACK_H } from "./timelineLayout";

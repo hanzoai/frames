@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { MutableRefObject } from "react";
-import { openComposition } from "@frames/sdk";
-import type { Composition } from "@frames/sdk";
+import { openComposition } from "@hanzo/frame-sdk";
+import type { Composition } from "@hanzo/frame-sdk";
 import { readStudioFileChangePath } from "../components/editor/manualEdits";
 import { isSelfWriteEcho } from "./sdkSelfWriteRegistry";
 import { trackStudioEvent } from "../utils/studioTelemetry";

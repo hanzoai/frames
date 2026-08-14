@@ -1,5 +1,5 @@
 /**
- * Re-exported from @frames/engine.
+ * Re-exported from @hanzo/frame-engine.
  * @see engine/src/services/chunkEncoder.ts for implementation.
  */
 export {
@@ -13,4 +13,4 @@ export {
   type EncodeResult,
   type MuxResult,
   type GpuEncoder,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";

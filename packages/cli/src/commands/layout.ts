@@ -50,10 +50,7 @@ export const examples: Example[] = [
   ["Inspect a specific project", "frames layout ./my-video"],
   ["Output agent-readable JSON", "frames layout --json"],
   ["Use explicit hero-frame timestamps", "frames layout --at 1.5,4.0,7.25"],
-  [
-    "Also sample at tween boundaries to catch transient overlaps",
-    "frames layout --at-transitions",
-  ],
+  ["Also sample at tween boundaries to catch transient overlaps", "frames layout --at-transitions"],
   [
     "Verify motion intent (add a *.motion.json sidecar next to the composition)",
     "frames layout --json",
@@ -163,7 +160,7 @@ async function collectTweenBoundaries(page: import("puppeteer-core").Page): Prom
 async function bundleProjectHtml(projectDir: string): Promise<string> {
   // `bundleToSingleHtml` now inlines the runtime IIFE by default, so the
   // previous post-bundle runtime substitution is no longer needed.
-  const { bundleToSingleHtml } = await import("@frames/core/compiler");
+  const { bundleToSingleHtml } = await import("@hanzo/frame-core/compiler");
   return bundleToSingleHtml(projectDir);
 }
 
@@ -202,7 +199,7 @@ async function runLayoutAudit(
 ): Promise<LayoutAuditResult> {
   const { ensureBrowser } = await import("../browser/manager.js");
   const puppeteer = await import("puppeteer-core");
-  const { buildChromeArgs } = await import("@frames/engine");
+  const { buildChromeArgs } = await import("@hanzo/frame-engine");
   const html = await bundleProjectHtml(projectDir);
   const server = await serveStaticProjectHtml(
     projectDir,

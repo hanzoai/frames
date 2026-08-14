@@ -1,14 +1,14 @@
 import { createServer, type ServerResponse } from "node:http";
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
-import { getMimeType } from "@frames/core/studio-api";
+import { getMimeType } from "@hanzo/frame-core/studio-api";
 import { resolveAutoProxy } from "./projectConfig.js";
 import { injectMediaCodecMap } from "./compositionServer.js";
 import {
   resolveProxy,
   ProxyCapacityError,
   ProxyTranscodeError,
-} from "@frames/studio-server/proxy-transcoder";
+} from "@hanzo/frame-studio-server/proxy-transcoder";
 import {
   decideMediaProxyEligibility,
   isProxyVariantRequest,
@@ -16,7 +16,7 @@ import {
   resolveProxyVariantRequest,
   PROXY_VARIANT_CONFIG,
   type ProxyVariantRequest,
-} from "@frames/studio-server/media-codec-map";
+} from "@hanzo/frame-studio-server/media-codec-map";
 
 export interface StaticProjectServer {
   url: string;

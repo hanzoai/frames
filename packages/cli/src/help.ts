@@ -71,7 +71,6 @@ const GROUPS: Group[] = [
   {
     title: "Deploy",
     commands: [
-      ["cloud", "Render compositions on HeyGen's cloud (no local Chrome/ffmpeg)"],
       ["lambda", "Deploy and drive distributed renders on AWS Lambda"],
       ["cloudrun", "Deploy and drive distributed renders on Google Cloud Run"],
     ],
@@ -90,7 +89,7 @@ const GROUPS: Group[] = [
   },
   {
     title: "Account",
-    commands: [["auth", "Sign in to HeyGen and manage credentials"]],
+    commands: [["auth", "Show the credential used for api.hanzo.ai"]],
   },
   {
     title: "Settings",
@@ -119,8 +118,8 @@ const ROOT_EXAMPLES: Example[] = [
 // Each command file exports `examples: Example[]`. This function dynamically
 // imports them so examples live next to the command they document.
 //
-// For nested subverbs (e.g. `cloud render`), try the parent-scoped path
-// first (`commands/cloud/render.js`) so we don't collide with the
+// For nested subverbs (e.g. `lambda render`), try the parent-scoped path
+// first (`commands/lambda/render.js`) so we don't collide with the
 // top-level command of the same name (`commands/render.js`).
 // fallow-ignore-next-line complexity
 async function loadExamples(name: string, parentName?: string): Promise<Example[] | undefined> {

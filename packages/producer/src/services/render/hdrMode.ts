@@ -9,8 +9,8 @@
  * formats can carry an HDR signal.
  */
 
-import { analyzeCompositionHdr } from "@frames/engine";
-import type { ExtractionResult, HdrTransfer, VideoColorSpace } from "@frames/engine";
+import { analyzeCompositionHdr } from "@hanzo/frame-engine";
+import type { ExtractionResult, HdrTransfer, VideoColorSpace } from "@hanzo/frame-engine";
 import type { ProducerLogger } from "../../logger.js";
 import type { RenderConfig } from "../renderOrchestrator.js";
 

@@ -1,5 +1,5 @@
 /**
- * Re-exported from @frames/engine.
+ * Re-exported from @hanzo/frame-engine.
  * @see engine/src/utils/ffprobe.ts for implementation.
  */
 export {
@@ -8,4 +8,4 @@ export {
   extractAudioMetadata,
   type VideoMetadata,
   type AudioMetadata,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";

@@ -4,7 +4,7 @@ import type {
   CompositionVariable,
   VariableUsageReport,
   VariableValidationIssue,
-} from "@frames/sdk";
+} from "@hanzo/frame-sdk";
 import type { EditHistoryKind } from "../../utils/editHistory";
 import type { PublishSdkSession } from "../../utils/sdkCutover";
 import { useStudioPlaybackContext, useStudioShellContext } from "../../contexts/StudioContext";
@@ -24,7 +24,7 @@ import {
 import { PreviewValueControl } from "./VariablesValueControls";
 import { copyTextToClipboard } from "../../utils/clipboard";
 import { resolveMasterCompositionPath } from "../../utils/studioUrlState";
-import { isScalarVariableValue as isScalar } from "@frames/core/variables";
+import { isScalarVariableValue as isScalar } from "@hanzo/frame-core/variables";
 
 /** POSIX single-quote escaping so the copied command survives quotes in values. */
 function shellSingleQuote(value: string): string {

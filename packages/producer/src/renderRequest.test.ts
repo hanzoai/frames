@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from "vitest";
-import { DEFAULT_CONFIG, resolveConfig } from "@frames/engine";
+import { DEFAULT_CONFIG, resolveConfig } from "@hanzo/frame-engine";
 import {
   createRenderRequest,
   distributedConfigFromRequest,

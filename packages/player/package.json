@@ -1,6 +1,6 @@
 {
-  "name": "@frames/player",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-player",
+  "version": "0.7.82",
   "description": "Embeddable web component for Frames compositions",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     "perf": "bun run tests/perf/index.ts"
   },
   "dependencies": {
-    "@frames/core": "workspace:*"
+    "@hanzo/frame-core": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "^1.1.0",

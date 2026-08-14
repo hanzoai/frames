@@ -2,7 +2,7 @@ import {
   inspectRuntimeProtocol,
   runtimeProtocolMetadata,
   type RuntimeProtocolInspection,
-} from "@frames/core/runtime/protocol";
+} from "@hanzo/frame-core/runtime/protocol";
 
 export type RuntimeControlMessage = {
   source: "hf-parent";

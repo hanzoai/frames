@@ -3,7 +3,7 @@
  * and the SDK session so the binding-detection and id logic can be unit-tested.
  */
 
-import type { CompositionVariable } from "@frames/sdk";
+import type { CompositionVariable } from "@hanzo/frame-sdk";
 import type { BindAction } from "../components/panels/VariablesBindElement";
 
 export type PromoteChannel = { kind: "text" } | { kind: "src" } | { kind: "style"; prop: string };

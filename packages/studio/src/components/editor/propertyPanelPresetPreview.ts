@@ -1,4 +1,4 @@
-import type { NormalizedHfColorGrading } from "@frames/core/color-grading";
+import type { NormalizedHfColorGrading } from "@hanzo/frame-core/color-grading";
 import type { ColorGradingPreviewOptions } from "./useColorGradingController";
 
 export function presetPreviewHandlers({

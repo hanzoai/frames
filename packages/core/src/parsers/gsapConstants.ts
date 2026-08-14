@@ -1,2 +1,2 @@
-/** @deprecated Import from @frames/parsers/gsap-constants */
-export * from "@frames/parsers/gsap-constants";
+/** @deprecated Import from @hanzo/frame-parsers/gsap-constants */
+export * from "@hanzo/frame-parsers/gsap-constants";

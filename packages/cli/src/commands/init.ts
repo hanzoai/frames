@@ -54,7 +54,7 @@ import {
   CANVAS_DIMENSIONS,
   normalizeResolutionFlag,
   type CanvasResolution,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 
 interface VideoMeta {
   durationSeconds: number;
@@ -957,9 +957,7 @@ export default defineCommand({
       );
       console.log();
       console.log(`  ${c.accent("3.")} Try a starter prompt:`);
-      console.log(
-        `     ${c.dim('"Using /frames, create a 15-second intro about [your topic]"')}`,
-      );
+      console.log(`     ${c.dim('"Using /frames, create a 15-second intro about [your topic]"')}`);
       console.log(`     ${c.dim("More patterns: frames.hanzo.ai/guides/prompting")}`);
       console.log();
       console.log(`  ${c.accent("4.")} Preview in the browser:`);

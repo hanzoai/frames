@@ -6,7 +6,7 @@ import {
   bundleToSingleHtml,
   extractCompiledHtmlParityContract,
   injectScriptsIntoHtml,
-} from "@frames/core/compiler";
+} from "@hanzo/frame-core/compiler";
 import { compileForRender } from "./htmlCompiler.js";
 import { getVerifiedHyperframeRuntimeSource } from "./hyperframeRuntimeLoader.js";
 

@@ -3,41 +3,37 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { getPublishApiBaseUrl, publishProjectArchive } from "./publishProject.js";
+import { apiUrl } from "../api.js";
+import { publishProjectArchive } from "./publishProject.js";
 
-// End-to-end round-trip against a LIVE experiment-framework instance. The unit tests mock
-// the DAO, so only this test proves the real behavior: publish -> edit -> re-publish returns
-// the SAME URL with updated content.
+// End-to-end round-trip against a LIVE API. The unit tests mock the transport, so only
+// this test proves the real behavior: publish -> edit -> re-publish returns the SAME URL
+// with updated content.
 //
-// It is skipped unless FRAMES_E2E_API_URL is set, and it requires the runner to be
-// authenticated first (`frames auth login`, or a HEYGEN credential the auth store can
-// resolve) — stable URLs are an owner-only capability. Run it manually or in a nightly job
-// against canary/staging with a test account:
+// It is skipped unless FRAMES_E2E_API_URL is set, and it requires the runner to hold a
+// credential (`hanzo login`, or HANZO_API_KEY from Hanzo KMS) — stable URLs are an
+// owner-only capability. Run it manually or in a nightly job with a test account:
 //
-//   FRAMES_E2E_API_URL=https://api2.heygen.com \
+//   FRAMES_E2E_API_URL=https://api.hanzo.ai \
 //     bunx vitest run src/utils/publishProject.e2e.test.ts
 const E2E_API_URL = process.env["FRAMES_E2E_API_URL"];
 const describeE2E = E2E_API_URL ? describe : describe.skip;
 
 describeE2E("publish stable-URL round trip (live server)", () => {
-  const priorPublishBase = process.env["FRAMES_PUBLISHED_PROJECTS_API_URL"];
+  const priorApiUrl = process.env["HANZO_API_URL"];
 
   beforeAll(() => {
     // Point the publish client at the E2E target for the duration of this suite.
-    process.env["FRAMES_PUBLISHED_PROJECTS_API_URL"] = E2E_API_URL;
+    process.env["HANZO_API_URL"] = E2E_API_URL;
   });
 
   afterAll(() => {
-    if (priorPublishBase === undefined)
-      delete process.env["FRAMES_PUBLISHED_PROJECTS_API_URL"];
-    else process.env["FRAMES_PUBLISHED_PROJECTS_API_URL"] = priorPublishBase;
+    if (priorApiUrl === undefined) delete process.env["HANZO_API_URL"];
+    else process.env["HANZO_API_URL"] = priorApiUrl;
   });
 
   async function fetchPublicProject(projectId: string): Promise<Record<string, unknown>> {
-    const response = await fetch(
-      `${getPublishApiBaseUrl()}/v1/frames/projects/${projectId}/public`,
-      { headers: { heygen_route: "canary" } },
-    );
+    const response = await fetch(apiUrl(`/v1/frames/projects/${projectId}/public`));
     expect(response.ok).toBe(true);
     const payload = (await response.json()) as { data: Record<string, unknown> };
     return payload.data;

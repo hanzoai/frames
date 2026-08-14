@@ -1,5 +1,5 @@
 {
-  "package": "@frames/parsers",
+  "package": "@hanzo/frame-parsers",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {

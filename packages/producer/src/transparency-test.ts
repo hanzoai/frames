@@ -12,7 +12,7 @@
  * This is intentionally NOT wired into `regression-harness.ts` — the harness
  * compares each fixture against a golden MP4, but transparency requires a
  * different validation strategy (pixel inspection of the alpha channel). Run
- * this script via `bun run --filter @frames/producer test:transparency`
+ * this script via `bun run --filter @hanzo/frame-producer test:transparency`
  * or directly via `tsx src/transparency-test.ts` from this package.
  */
 
@@ -22,7 +22,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { decodePng, runFfmpeg } from "@frames/engine";
+import { decodePng, runFfmpeg } from "@hanzo/frame-engine";
 import { createRenderJob, executeRenderJob } from "./services/renderOrchestrator.js";
 
 const moduleDir = dirname(fileURLToPath(import.meta.url));
@@ -31,7 +31,7 @@ const FIXTURE_SRC = join(FIXTURE_DIR, "src");
 
 const WIDTH = 200;
 const HEIGHT = 200;
-const FPS: import("@frames/core").Fps = { num: 30, den: 1 };
+const FPS: import("@hanzo/frame-core").Fps = { num: 30, den: 1 };
 const TRANSPARENT_X = 10; // expected fully transparent
 const TRANSPARENT_Y = 10;
 const OPAQUE_X = 100; // inside the 50–150 red card

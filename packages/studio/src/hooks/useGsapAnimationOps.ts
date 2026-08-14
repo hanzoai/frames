@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import type { Composition } from "@frames/sdk";
+import type { Composition } from "@hanzo/frame-sdk";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import { roundTo3 } from "../utils/rounding";
 import {

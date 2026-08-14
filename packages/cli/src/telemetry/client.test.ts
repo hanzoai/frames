@@ -1,20 +1,13 @@
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
-// CI exports FRAMES_NO_TELEMETRY=1 (and users may set DO_NOT_TRACK), which
-// makes shouldTrack() short-circuit — and it caches that decision for the module's
-// lifetime. Clear both BEFORE the module under test is imported / first tracks.
-vi.stubEnv("FRAMES_NO_TELEMETRY", "");
-vi.stubEnv("DO_NOT_TRACK", "");
+// The delivery layer is tested directly: `enqueue` is what `trackEvent` calls
+// once the CLI-facing policy in client.ts has said yes, so exercising it here
+// keeps these assertions about queue reliability and nothing else.
 
-// Pin config so the queue never touches disk and telemetry is enabled.
+// Pin config so the queue never touches disk.
 vi.mock("./config.js", () => ({
   readConfig: () => ({ anonymousId: "anon-test-123", telemetryEnabled: true }),
   writeConfig: () => {},
-}));
-
-// shouldTrack() short-circuits in dev mode — force production behavior.
-vi.mock("../utils/env.js", () => ({
-  isDevMode: () => false,
 }));
 
 // Intercept the exit-time child process so flushSync delivery is assertable.
@@ -23,7 +16,7 @@ vi.mock("node:child_process", () => ({
   spawn: (...args: unknown[]) => spawnMock(...(args as [])),
 }));
 
-const { trackEvent, flush, flushSync } = await import("./client.js");
+const { enqueue, flush, flushSync } = await import("./transport.js");
 
 type Batch = { uuid: string; event: string }[];
 
@@ -49,7 +42,7 @@ describe("telemetry queue delivery", () => {
     const fetchMock = vi.fn(() => Promise.resolve(new Response("")));
     vi.stubGlobal("fetch", fetchMock);
 
-    trackEvent("render_complete", { quality: "draft" });
+    enqueue("render_complete", { quality: "draft" });
     await flush();
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -67,7 +60,7 @@ describe("telemetry queue delivery", () => {
     const failing = vi.fn(() => Promise.reject(new Error("network down")));
     vi.stubGlobal("fetch", failing);
 
-    trackEvent("render_complete", { quality: "draft" });
+    enqueue("render_complete", { quality: "draft" });
     await flush();
     expect(failing).toHaveBeenCalledTimes(1);
 
@@ -92,9 +85,9 @@ describe("telemetry queue delivery", () => {
     const gated = vi.fn(() => new Promise<Response>((res) => (resolveFetch = res)));
     vi.stubGlobal("fetch", gated);
 
-    trackEvent("render_complete", { quality: "draft" });
+    enqueue("render_complete", { quality: "draft" });
     const inFlight = flush();
-    trackEvent("cli_command_result", { command: "render" });
+    enqueue("cli_command_result", { command: "render" });
     resolveFetch(new Response(""));
     await inFlight;
 
@@ -109,7 +102,7 @@ describe("telemetry queue delivery", () => {
 
   it("flushSync hands the queue to a detached child that carries the payload", async () => {
     spawnMock.mockClear();
-    trackEvent("render_complete", { quality: "draft" });
+    enqueue("render_complete", { quality: "draft" });
     flushSync();
 
     // The child was spawned detached with the batch inlined into its -e script.

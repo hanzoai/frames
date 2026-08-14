@@ -2,7 +2,7 @@
  * Helpers for reading/writing the GSAP keyframe cache in the player store.
  * Extracted from useGsapScriptCommits to keep file sizes under the 600-line limit.
  */
-import type { GsapAnimation } from "@frames/core/gsap-parser";
+import type { GsapAnimation } from "@hanzo/frame-core/gsap-parser";
 import { usePlayerStore, type KeyframeCacheEntry } from "../player/store/playerStore";
 import { resolveClipTimingBasis, resolveSelectorElementIds, toClipKeyframes } from "./gsapShared";
 import {

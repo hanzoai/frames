@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { HfColorCurvePoint, HfHueCurvePoint } from "@frames/core/color-grading";
+import type { HfColorCurvePoint, HfHueCurvePoint } from "@hanzo/frame-core/color-grading";
 import { RotateCcw } from "../../icons/SystemIcons";
 import {
   CurveGraph,

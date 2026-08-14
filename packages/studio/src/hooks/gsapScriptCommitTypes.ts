@@ -1,5 +1,5 @@
-import type { ParsedGsap } from "@frames/core/gsap-parser";
-import type { Composition } from "@frames/sdk";
+import type { ParsedGsap } from "@hanzo/frame-core/gsap-parser";
+import type { Composition } from "@hanzo/frame-sdk";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import type { EditHistoryKind } from "../utils/editHistory";
 import type { PublishSdkSession } from "../utils/sdkCutover";

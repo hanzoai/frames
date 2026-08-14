@@ -12,7 +12,7 @@ import { failCommand } from "../../utils/commandResult.js";
  * NO_TOKEN → later success is onboarding conversion.
  */
 
-import { FigmaClientError } from "@frames/core/figma";
+import { FigmaClientError } from "@hanzo/frame-core/figma";
 import { errorBox } from "../../ui/format.js";
 
 export async function withFigmaErrors(command: string, fn: () => Promise<void>): Promise<void> {

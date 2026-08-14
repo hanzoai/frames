@@ -38,9 +38,8 @@
  *   endpoint returns the same shape the main-thread `/health` always returned
  *   so existing observability keeps working.
  *
- * The main thread still serves `/health` on the main port (9847) for
- * backwards compatibility; k8s probe config in `heygen-com/app` can migrate
- * to the worker port at its own pace.
+ * The main thread still serves `/health` on the main port (9847), so k8s probe
+ * config can migrate to the worker port at its own pace.
  */
 
 import { Worker } from "node:worker_threads";

@@ -1,6 +1,6 @@
 import type { LintContext, HyperframeLintFinding } from "../context";
 import { readAttr, readDecodedAttr, truncateSnippet, isMediaTag } from "../utils";
-import { validateColorGradingContract } from "@frames/parsers/color-grading-contract";
+import { validateColorGradingContract } from "@hanzo/frame-parsers/color-grading-contract";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

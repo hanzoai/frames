@@ -1,8 +1,8 @@
 import { execFileSync } from "node:child_process";
-import { findFfBinary } from "@frames/parsers/ff-binaries";
+import { findFfBinary } from "@hanzo/frame-parsers/ff-binaries";
 import { detectLinuxDistro, ffmpegInstallCommand } from "./linuxDeps.js";
 
-export { FFMPEG_PATH_ENV, FFPROBE_PATH_ENV } from "@frames/parsers/ff-binaries";
+export { FFMPEG_PATH_ENV, FFPROBE_PATH_ENV } from "@hanzo/frame-parsers/ff-binaries";
 
 export type H264EncoderMode = "software" | "gpu";
 

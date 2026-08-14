@@ -17,7 +17,7 @@
  * original untouched. On-disk project files are never modified — only the
  * in-memory archive file map passed in by `publish.ts` (built via
  * `buildPublishFileMap`, baked here, then zipped via `zipPublishFileMap`).
- * `cloud render` never calls this: it builds and zips the file map without an
+ * The feedback repro publish never calls this: it builds and zips the file map without an
  * intermediate baking transform (R2 in the plan).
  *
  * Alpha-bearing sources bake as VP8/WebM so transparency survives. A failed
@@ -28,23 +28,23 @@
 import { readFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { parseHTML } from "linkedom";
-import { rewriteAssetPath } from "@frames/parsers/asset-paths";
+import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   resolveLocalAssetCandidates,
-} from "@frames/parsers/asset-resolution";
+} from "@hanzo/frame-parsers/asset-resolution";
 import {
   proxyVariantFor,
   scanProjectMediaCodecMap,
   type HtmlSourceLike,
-} from "@frames/studio-server/media-codec-map";
+} from "@hanzo/frame-studio-server/media-codec-map";
 import {
   ProxyTranscodeError,
   resolveProxy,
   waitForProxy,
   TRANSCODE_TIMEOUT_MS,
-} from "@frames/studio-server/proxy-transcoder";
+} from "@hanzo/frame-studio-server/proxy-transcoder";
 import { rewriteHtmlAttributes } from "./publishProject.js";
 
 /** Archive-path prefix for baked proxy files, mirroring `localizeExternalAssets`'s `_ext/`. */

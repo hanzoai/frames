@@ -1,11 +1,11 @@
-# @frames/studio
+# @hanzo/frame-studio
 
 Browser-based composition editor UI for Hyperframes. Provides a visual timeline, code editor, and live preview for building video compositions.
 
 ## Install
 
 ```bash
-npm install @frames/studio
+npm install @hanzo/frame-studio
 ```
 
 ## What it does
@@ -42,5 +42,5 @@ Full documentation: [frames.hanzo.ai/packages/studio](https://frames.hanzo.ai/pa
 
 ## Related packages
 
-- [`@frames/core`](../core) — types and parsers used by the editor
+- [`@hanzo/frame-core`](../core) — types and parsers used by the editor
 - [`frames`](../cli) — CLI that serves the studio via `frames preview`

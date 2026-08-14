@@ -7,7 +7,7 @@
       "devDependencies": {
         "@commitlint/cli": "^20.5.0",
         "@commitlint/config-conventional": "^20.5.0",
-        "@frames/player": "workspace:*",
+        "@hanzo/frame-player": "workspace:*",
         "@types/node": "^25.0.10",
         "concurrently": "^8.2.0",
         "fallow": "^2.75.0",
@@ -22,12 +22,12 @@
       },
     },
     "packages/aws-lambda": {
-      "name": "@frames/aws-lambda",
+      "name": "@hanzo/frame-aws-lambda",
       "version": "0.7.81",
       "dependencies": {
         "@aws-sdk/client-s3": "^3.700.0",
         "@aws-sdk/client-sfn": "^3.700.0",
-        "@frames/producer": "workspace:^",
+        "@hanzo/frame-producer": "workspace:^",
         "@sparticuz/chromium": "148.0.0",
         "ffmpeg-static": "^5.2.0",
         "ffprobe-static": "^3.1.0",
@@ -55,7 +55,7 @@
       ],
     },
     "packages/cli": {
-      "name": "@frames/cli",
+      "name": "@hanzo/frame",
       "version": "0.7.81",
       "bin": {
         "frames": "./bin/frames.mjs",
@@ -81,15 +81,15 @@
       },
       "devDependencies": {
         "@clack/prompts": "^1.1.0",
-        "@frames/aws-lambda": "workspace:*",
-        "@frames/core": "workspace:*",
-        "@frames/engine": "workspace:*",
-        "@frames/gcp-cloud-run": "workspace:*",
-        "@frames/lint": "workspace:*",
-        "@frames/parsers": "workspace:*",
-        "@frames/producer": "workspace:*",
-        "@frames/studio": "workspace:*",
-        "@frames/studio-server": "workspace:*",
+        "@hanzo/frame-aws-lambda": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
+        "@hanzo/frame-engine": "workspace:*",
+        "@hanzo/frame-gcp-cloud-run": "workspace:*",
+        "@hanzo/frame-lint": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
+        "@hanzo/frame-producer": "workspace:*",
+        "@hanzo/frame-studio": "workspace:*",
+        "@hanzo/frame-studio-server": "workspace:*",
         "@types/fontkit": "^2.0.9",
         "@types/mime-types": "^3.0.1",
         "@types/node": "^25.0.10",
@@ -105,13 +105,13 @@
       },
     },
     "packages/core": {
-      "name": "@frames/core",
+      "name": "@hanzo/frame-core",
       "version": "0.7.81",
       "dependencies": {
         "@chenglou/pretext": "^0.0.5",
-        "@frames/lint": "workspace:*",
-        "@frames/parsers": "workspace:*",
-        "@frames/studio-server": "workspace:*",
+        "@hanzo/frame-lint": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
+        "@hanzo/frame-studio-server": "workspace:*",
         "bpm-detective": "^2.0.5",
         "linkedom": "^0.18.12",
         "postcss": "^8.5.8",
@@ -130,11 +130,11 @@
       },
     },
     "packages/engine": {
-      "name": "@frames/engine",
+      "name": "@hanzo/frame-engine",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/core": "workspace:^",
-        "@frames/parsers": "workspace:^",
+        "@hanzo/frame-core": "workspace:^",
+        "@hanzo/frame-parsers": "workspace:^",
         "@hono/node-server": "^2.0.5",
         "hono": "^4.6.0",
         "linkedom": "^0.18.12",
@@ -149,10 +149,10 @@
       },
     },
     "packages/gcp-cloud-run": {
-      "name": "@frames/gcp-cloud-run",
+      "name": "@hanzo/frame-gcp-cloud-run",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/producer": "workspace:^",
+        "@hanzo/frame-producer": "workspace:^",
         "@google-cloud/storage": "^7.14.0",
         "@google-cloud/workflows": "^4.2.0",
         "@hono/node-server": "^2.0.5",
@@ -170,10 +170,10 @@
       },
     },
     "packages/lint": {
-      "name": "@frames/lint",
+      "name": "@hanzo/frame-lint",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/parsers": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
         "htmlparser2": "^10.1.0",
         "linkedom": "^0.18.12",
         "postcss": "^8.5.8",
@@ -188,7 +188,7 @@
       },
     },
     "packages/parsers": {
-      "name": "@frames/parsers",
+      "name": "@hanzo/frame-parsers",
       "version": "0.7.81",
       "dependencies": {
         "@babel/parser": "^7.27.0",
@@ -199,7 +199,7 @@
         "recast": "^0.23.11",
       },
       "devDependencies": {
-        "@frames/core": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
         "@types/node": "^25.0.10",
         "tsup": "^8.0.0",
         "tsx": "^4.21.0",
@@ -208,10 +208,10 @@
       },
     },
     "packages/player": {
-      "name": "@frames/player",
+      "name": "@hanzo/frame-player",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/core": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
       },
       "devDependencies": {
         "@types/bun": "^1.1.0",
@@ -223,7 +223,7 @@
       },
     },
     "packages/producer": {
-      "name": "@frames/producer",
+      "name": "@hanzo/frame-producer",
       "version": "0.7.81",
       "dependencies": {
         "@fontsource/archivo-black": "^5.2.8",
@@ -237,11 +237,11 @@
         "@fontsource/oswald": "^5.2.8",
         "@fontsource/outfit": "^5.2.8",
         "@fontsource/space-mono": "^5.2.9",
-        "@frames/core": "workspace:^",
-        "@frames/engine": "workspace:^",
-        "@frames/lint": "workspace:^",
-        "@frames/parsers": "workspace:^",
-        "@frames/studio-server": "workspace:^",
+        "@hanzo/frame-core": "workspace:^",
+        "@hanzo/frame-engine": "workspace:^",
+        "@hanzo/frame-lint": "workspace:^",
+        "@hanzo/frame-parsers": "workspace:^",
+        "@hanzo/frame-studio-server": "workspace:^",
         "@hono/node-server": "^2.0.5",
         "hono": "^4.6.0",
         "linkedom": "^0.18.12",
@@ -258,7 +258,7 @@
         "@fontsource/poppins": "^5.2.7",
         "@fontsource/roboto": "^5.2.10",
         "@fontsource/source-code-pro": "^5.2.7",
-        "@frames/aws-lambda": "workspace:*",
+        "@hanzo/frame-aws-lambda": "workspace:*",
         "@types/node": "^25.0.10",
         "@webgpu/types": "^0.1.69",
         "esbuild": "^0.25.12",
@@ -268,11 +268,11 @@
       },
     },
     "packages/sdk": {
-      "name": "@frames/sdk",
+      "name": "@hanzo/frame-sdk",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/core": "workspace:*",
-        "@frames/parsers": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
         "linkedom": "^0.18.12",
       },
       "devDependencies": {
@@ -283,11 +283,11 @@
       },
     },
     "packages/sdk-playground": {
-      "name": "@frames/sdk-playground",
+      "name": "@hanzo/frame-sdk-playground",
       "version": "0.6.106",
       "dependencies": {
-        "@frames/core": "workspace:*",
-        "@frames/sdk": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
+        "@hanzo/frame-sdk": "workspace:*",
         "gsap": "^3.15.0",
       },
       "devDependencies": {
@@ -298,7 +298,7 @@
       },
     },
     "packages/shader-transitions": {
-      "name": "@frames/shader-transitions",
+      "name": "@hanzo/frame-shader-transitions",
       "version": "0.7.81",
       "dependencies": {
         "html2canvas": "^1.4.1",
@@ -310,7 +310,7 @@
       },
     },
     "packages/studio": {
-      "name": "@frames/studio",
+      "name": "@hanzo/frame-studio",
       "version": "0.7.81",
       "dependencies": {
         "@codemirror/autocomplete": "^6.20.1",
@@ -324,11 +324,11 @@
         "@codemirror/state": "^6.6.0",
         "@codemirror/theme-one-dark": "^6.1.2",
         "@codemirror/view": "6.40.0",
-        "@frames/core": "workspace:*",
-        "@frames/parsers": "workspace:*",
-        "@frames/player": "workspace:*",
-        "@frames/sdk": "workspace:*",
-        "@frames/studio-server": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
+        "@hanzo/frame-player": "workspace:*",
+        "@hanzo/frame-sdk": "workspace:*",
+        "@hanzo/frame-studio-server": "workspace:*",
         "@phosphor-icons/react": "^2.1.10",
         "bpm-detective": "^2.0.5",
         "dompurify": "^3.2.4",
@@ -337,7 +337,7 @@
         "mediabunny": "^1.45.3",
       },
       "devDependencies": {
-        "@frames/producer": "workspace:*",
+        "@hanzo/frame-producer": "workspace:*",
         "@types/react": "19",
         "@types/react-dom": "19",
         "@vitejs/plugin-react": "^4.0.0",
@@ -358,11 +358,11 @@
       },
     },
     "packages/studio-server": {
-      "name": "@frames/studio-server",
+      "name": "@hanzo/frame-studio-server",
       "version": "0.7.81",
       "dependencies": {
-        "@frames/core": "workspace:*",
-        "@frames/parsers": "workspace:*",
+        "@hanzo/frame-core": "workspace:*",
+        "@hanzo/frame-parsers": "workspace:*",
         "hono": "^4.0.0",
         "linkedom": "^0.18.12",
         "postcss": "^8.5.8",
@@ -706,33 +706,33 @@
 
     "@fontsource/space-mono": ["@fontsource/space-mono@5.2.9", "", {}, "sha512-b61faFOHEISQ/pD25G+cfGY9o/WW6lRv6hBQQfpWvEJ4y1V+S4gmth95EVyBE2VL3qDYHeVQ8nBzrplzdXTDDg=="],
 
-    "@frames/aws-lambda": ["@frames/aws-lambda@workspace:packages/aws-lambda"],
+    "@hanzo/frame-aws-lambda": ["@hanzo/frame-aws-lambda@workspace:packages/aws-lambda"],
 
-    "@frames/cli": ["@frames/cli@workspace:packages/cli"],
+    "@hanzo/frame": ["@hanzo/frame@workspace:packages/cli"],
 
-    "@frames/core": ["@frames/core@workspace:packages/core"],
+    "@hanzo/frame-core": ["@hanzo/frame-core@workspace:packages/core"],
 
-    "@frames/engine": ["@frames/engine@workspace:packages/engine"],
+    "@hanzo/frame-engine": ["@hanzo/frame-engine@workspace:packages/engine"],
 
-    "@frames/gcp-cloud-run": ["@frames/gcp-cloud-run@workspace:packages/gcp-cloud-run"],
+    "@hanzo/frame-gcp-cloud-run": ["@hanzo/frame-gcp-cloud-run@workspace:packages/gcp-cloud-run"],
 
-    "@frames/lint": ["@frames/lint@workspace:packages/lint"],
+    "@hanzo/frame-lint": ["@hanzo/frame-lint@workspace:packages/lint"],
 
-    "@frames/parsers": ["@frames/parsers@workspace:packages/parsers"],
+    "@hanzo/frame-parsers": ["@hanzo/frame-parsers@workspace:packages/parsers"],
 
-    "@frames/player": ["@frames/player@workspace:packages/player"],
+    "@hanzo/frame-player": ["@hanzo/frame-player@workspace:packages/player"],
 
-    "@frames/producer": ["@frames/producer@workspace:packages/producer"],
+    "@hanzo/frame-producer": ["@hanzo/frame-producer@workspace:packages/producer"],
 
-    "@frames/sdk": ["@frames/sdk@workspace:packages/sdk"],
+    "@hanzo/frame-sdk": ["@hanzo/frame-sdk@workspace:packages/sdk"],
 
-    "@frames/sdk-playground": ["@frames/sdk-playground@workspace:packages/sdk-playground"],
+    "@hanzo/frame-sdk-playground": ["@hanzo/frame-sdk-playground@workspace:packages/sdk-playground"],
 
-    "@frames/shader-transitions": ["@frames/shader-transitions@workspace:packages/shader-transitions"],
+    "@hanzo/frame-shader-transitions": ["@hanzo/frame-shader-transitions@workspace:packages/shader-transitions"],
 
-    "@frames/studio": ["@frames/studio@workspace:packages/studio"],
+    "@hanzo/frame-studio": ["@hanzo/frame-studio@workspace:packages/studio"],
 
-    "@frames/studio-server": ["@frames/studio-server@workspace:packages/studio-server"],
+    "@hanzo/frame-studio-server": ["@hanzo/frame-studio-server@workspace:packages/studio-server"],
 
     "@google-cloud/paginator": ["@google-cloud/paginator@5.0.2", "", { "dependencies": { "arrify": "^2.0.0", "extend": "^3.0.2" } }, "sha512-DJS3s0OVH4zFDB1PzjxAsHqJT6sKVbRwwML0ZBP9PbU7Yebtu/7SWMRzvO2J3nUi9pRNITCfu4LJeooM2w4pjg=="],
 

@@ -66,12 +66,12 @@ vi.mock("./staticProjectServer.js", () => ({
 }));
 
 // `preResolveHostileMediaProxies` reaches these two studio-server helpers via
-vi.mock("@frames/studio-server/media-codec-map", async (importOriginal) => ({
-  ...(await importOriginal<typeof import("@frames/studio-server/media-codec-map")>()),
+vi.mock("@hanzo/frame-studio-server/media-codec-map", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@hanzo/frame-studio-server/media-codec-map")>()),
   scanProjectMediaCodecMap: mocks.scanProjectMediaCodecMap,
   proxyVariantFor: (facts: { hasAlpha?: boolean }) => (facts.hasAlpha ? "vp8" : "h264"),
 }));
-vi.mock("@frames/studio-server/proxy-transcoder", () => ({
+vi.mock("@hanzo/frame-studio-server/proxy-transcoder", () => ({
   resolveProxy: mocks.resolveProxy,
 }));
 
@@ -470,10 +470,7 @@ describe("preResolveHostileMediaProxies", () => {
 
   it("does nothing (no scan, no resolveProxy) when autoProxy is off in frames.json", async () => {
     const projectDir = mkProjectDir();
-    writeFileSync(
-      join(projectDir, "frames.json"),
-      JSON.stringify({ media: { autoProxy: false } }),
-    );
+    writeFileSync(join(projectDir, "frames.json"), JSON.stringify({ media: { autoProxy: false } }));
 
     await preResolveHostileMediaProxies(projectDir, "<html></html>");
 

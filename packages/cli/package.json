@@ -1,6 +1,6 @@
 {
-  "name": "@frames/cli",
-  "version": "0.7.81",
+  "name": "@hanzo/frame",
+  "version": "0.7.82",
   "description": "Frames CLI — create, preview, and render HTML video compositions",
   "license": "Apache-2.0",
   "repository": {
@@ -16,6 +16,9 @@
     "dist"
   ],
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "vitest run",
     "dev": "tsx src/cli.ts",
@@ -49,15 +52,15 @@
   },
   "devDependencies": {
     "@clack/prompts": "^1.1.0",
-    "@frames/aws-lambda": "workspace:*",
-    "@frames/core": "workspace:*",
-    "@frames/engine": "workspace:*",
-    "@frames/gcp-cloud-run": "workspace:*",
-    "@frames/lint": "workspace:*",
-    "@frames/parsers": "workspace:*",
-    "@frames/producer": "workspace:*",
-    "@frames/studio": "workspace:*",
-    "@frames/studio-server": "workspace:*",
+    "@hanzo/frame-aws-lambda": "workspace:*",
+    "@hanzo/frame-core": "workspace:*",
+    "@hanzo/frame-engine": "workspace:*",
+    "@hanzo/frame-gcp-cloud-run": "workspace:*",
+    "@hanzo/frame-lint": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
+    "@hanzo/frame-producer": "workspace:*",
+    "@hanzo/frame-studio": "workspace:*",
+    "@hanzo/frame-studio-server": "workspace:*",
     "@types/fontkit": "^2.0.9",
     "@types/mime-types": "^3.0.1",
     "@types/node": "^25.0.10",

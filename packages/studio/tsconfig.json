@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@frames/player": ["../player/src/frames-player.ts"]
+      "@hanzo/frame-player": ["../player/src/frames-player.ts"]
     },
     "jsx": "react-jsx",
     "strict": true,

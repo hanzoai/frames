@@ -10,7 +10,7 @@ import {
   utimesSync,
 } from "node:fs";
 import { basename, dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { findFfBinary } from "@frames/parsers/ff-binaries";
+import { findFfBinary } from "@hanzo/frame-parsers/ff-binaries";
 import { probeMediaMetadata } from "./mediaMetadata.js";
 import { cleanupProxyCache } from "./proxyCache.js";
 import { PROXY_VARIANT_CONFIG, type ProxyVariant } from "./mediaCodecMap.js";

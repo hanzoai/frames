@@ -1,8 +1,8 @@
 import type { HdrTransfer } from "../utils/hdr.js";
-import type { Fps } from "@frames/core";
+import type { Fps } from "@hanzo/frame-core";
 
 export interface EncoderOptions {
-  /** Frame rate as an exact rational; see `Fps` in @frames/core. */
+  /** Frame rate as an exact rational; see `Fps` in @hanzo/frame-core. */
   fps: Fps;
   width: number;
   height: number;

@@ -9,12 +9,12 @@ import { VariablesPanel, type StudioEditPersistenceProps } from "./panels/Variab
 import { PanelTabButton } from "./PanelTabButton";
 import { usePreviewVariablesStore } from "../hooks/previewVariablesStore";
 import type { RenderJob } from "./renders/useRenderQueue";
-import type { BlockParam } from "@frames/core/registry";
+import type { BlockParam } from "@hanzo/frame-core/registry";
 import {
   STUDIO_FLAT_INSPECTOR_ENABLED,
   STUDIO_INSPECTOR_PANELS_ENABLED,
 } from "./editor/manualEditingAvailability";
-import type { Composition } from "@frames/sdk";
+import type { Composition } from "@hanzo/frame-sdk";
 import type { EditHistoryKind } from "../utils/editHistory";
 import { useSlideshowPersist, type UseSlideshowPersistParams } from "../hooks/useSlideshowPersist";
 import { useSlideshowTabState } from "../hooks/useSlideshowTabState";

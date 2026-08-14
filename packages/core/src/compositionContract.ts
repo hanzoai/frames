@@ -1,1 +1,1 @@
-export * from "@frames/parsers/composition-contract";
+export * from "@hanzo/frame-parsers/composition-contract";

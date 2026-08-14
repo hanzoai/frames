@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { existsSync, writeFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-import { findFfBinary } from "@frames/parsers/ff-binaries";
+import { findFfBinary } from "@hanzo/frame-parsers/ff-binaries";
 
 const SAMPLE_RATE = 4000;
 const PEAK_COUNT = 4000;

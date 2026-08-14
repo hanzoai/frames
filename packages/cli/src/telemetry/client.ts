@@ -102,7 +102,7 @@ export function showTelemetryNotice(): boolean {
   diag.notice(`  ${c.dim("Hyperframes collects anonymous usage data to improve the tool.")}`);
   diag.notice(`  ${c.dim("File paths and composition content are never collected.")}`);
   diag.notice(
-    `  ${c.dim("If you sign in to HeyGen, your account (email, or username) is linked to your usage.")}`,
+    `  ${c.dim("If you sign in, your account (email, or username) is linked to your usage.")}`,
   );
   diag.notice();
   diag.notice(`  ${c.dim("Disable anytime:")} ${c.accent("frames telemetry disable")}`);

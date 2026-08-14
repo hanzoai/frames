@@ -1,6 +1,6 @@
 {
-  "name": "@frames/gcp-cloud-run",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-gcp-cloud-run",
+  "version": "0.7.82",
   "description": "Google Cloud Run + Workflows adapter for Frames distributed rendering — request handler, client-side SDK, and Terraform module.",
   "repository": {
     "type": "git",
@@ -70,8 +70,8 @@
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",
     "@google-cloud/workflows": "^4.2.0",
+    "@hanzo/frame-producer": "workspace:^",
     "@hono/node-server": "^2.0.5",
-    "@frames/producer": "workspace:^",
     "hono": "^4.6.0",
     "puppeteer-core": "^25.2.1",
     "tar": "^7.4.3"

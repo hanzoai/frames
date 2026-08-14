@@ -51,24 +51,24 @@ var __dirname = __hf_dirname(__filename);`,
     // a node binary. Keep it external; the lambda subverb files dynamic-
     // import it only when the user runs `frames lambda *`, so the
     // CLI's cold start doesn't load it. Runtime resolution comes from
-    // @frames/aws-lambda being a `dependencies` entry in package.json.
-    "@frames/aws-lambda",
-    "@frames/aws-lambda/sdk",
+    // @hanzo/frame-aws-lambda being a `dependencies` entry in package.json.
+    "@hanzo/frame-aws-lambda",
+    "@hanzo/frame-aws-lambda/sdk",
     // Same treatment for the GCP adapter: the cloudrun subverb files
-    // dynamic-import `@frames/gcp-cloud-run/sdk` only when the user runs
+    // dynamic-import `@hanzo/frame-gcp-cloud-run/sdk` only when the user runs
     // `frames cloudrun *`. Keep it external; runtime resolution comes
     // from the `dependencies`/workspace entry, not the bundled CLI.
-    "@frames/gcp-cloud-run",
-    "@frames/gcp-cloud-run/sdk",
-    "@frames/gcp-cloud-run/terraform",
+    "@hanzo/frame-gcp-cloud-run",
+    "@hanzo/frame-gcp-cloud-run/sdk",
+    "@hanzo/frame-gcp-cloud-run/terraform",
   ],
   noExternal: [
-    "@frames/core",
-    "@frames/parsers",
-    "@frames/studio-server",
-    "@frames/lint",
-    "@frames/producer",
-    "@frames/engine",
+    "@hanzo/frame-core",
+    "@hanzo/frame-parsers",
+    "@hanzo/frame-studio-server",
+    "@hanzo/frame-lint",
+    "@hanzo/frame-producer",
+    "@hanzo/frame-engine",
     "@clack/prompts",
     "@clack/core",
     "picocolors",

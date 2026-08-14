@@ -2,7 +2,7 @@
 
 import React, { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import type { GsapAnimation, PropertyGroupName } from "@frames/core/gsap-parser";
+import type { GsapAnimation, PropertyGroupName } from "@hanzo/frame-core/gsap-parser";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { TimelineClipDiamonds } from "./TimelineClipDiamonds";
 import {

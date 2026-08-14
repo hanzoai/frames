@@ -3,8 +3,8 @@ import path from "node:path";
 import type { Plugin } from "vite";
 import type { Connect } from "vite";
 import type { ServerResponse } from "node:http";
-import { createFsAdapter } from "@frames/sdk/adapters/fs";
-import type { PersistAdapter } from "@frames/sdk";
+import { createFsAdapter } from "@hanzo/frame-sdk/adapters/fs";
+import type { PersistAdapter } from "@hanzo/frame-sdk";
 
 const COMP_ROOT = path.resolve(import.meta.dirname);
 const COMP_PATH = "composition.html";

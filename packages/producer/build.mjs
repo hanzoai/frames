@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build script for @frames/producer (public OSS package)
+ * Build script for @hanzo/frame-producer (public OSS package)
  *
  * Bundles src/server.ts → dist/public-server.js (standalone server).
  */
@@ -38,10 +38,13 @@ const workspaceAliases = {
 const workspaceAliasPlugin = {
   name: "workspace-alias",
   setup(build) {
-    build.onResolve({ filter: /^@frames\/(?:engine|core)(?:\/.*)?$/ }, (args) => {
-      const path = workspaceAliases[args.path];
-      return path ? { path } : undefined;
-    });
+    build.onResolve(
+      { filter: /^@hanzo\/frame-(?:engine|core)|@hanzo\/frame-(?:engine|core)(?:\/.*)?$/ },
+      (args) => {
+        const path = workspaceAliases[args.path];
+        return path ? { path } : undefined;
+      },
+    );
   },
 };
 

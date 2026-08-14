@@ -34,8 +34,8 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import { applyFaststart, muxVideoWithAudio, runFfmpeg } from "@frames/engine";
-import { fpsToFfmpegArg } from "@frames/core";
+import { applyFaststart, muxVideoWithAudio, runFfmpeg } from "@hanzo/frame-engine";
+import { fpsToFfmpegArg } from "@hanzo/frame-core";
 import { defaultLogger, type ProducerLogger } from "../../logger.js";
 import { formatExportFrameName } from "../../utils/paths.js";
 import { padOrTrimAudioToVideoFrameCount } from "../render/audioPadTrim.js";

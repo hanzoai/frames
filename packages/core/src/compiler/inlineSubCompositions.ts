@@ -19,7 +19,7 @@ import {
   wrapInlineScriptWithErrorBoundary,
   wrapScopedCompositionScript,
 } from "./compositionScoping";
-import { checkSubCompositionUsability } from "@frames/parsers/sub-composition-validity";
+import { checkSubCompositionUsability } from "@hanzo/frame-parsers/sub-composition-validity";
 
 // ---------------------------------------------------------------------------
 // Public interface
@@ -186,7 +186,7 @@ export function inlineSubCompositions(
     if (!src) continue;
 
     const compHtml = resolveHtml(src);
-    // Shared with lint + render pre-flight (@frames/parsers'
+    // Shared with lint + render pre-flight (@hanzo/frame-parsers'
     // subCompositionValidity.ts) so all three callers agree on what counts
     // as a usable sub-composition file. This path stays intentionally
     // tolerant (skip, don't throw) — preview and studio must keep bundling

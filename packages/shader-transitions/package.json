@@ -1,6 +1,6 @@
 {
-  "name": "@frames/shader-transitions",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-shader-transitions",
+  "version": "0.7.82",
   "description": "WebGL shader transitions for Frames compositions",
   "repository": {
     "type": "git",

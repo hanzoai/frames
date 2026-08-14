@@ -1,11 +1,11 @@
-# @frames/producer
+# @hanzo/frame-producer
 
 Full HTML-to-video rendering pipeline: capture frames with Chrome's BeginFrame API, encode with FFmpeg, mix audio — all in one call.
 
 ## Install
 
 ```bash
-npm install @frames/producer
+npm install @hanzo/frame-producer
 ```
 
 **Requirements:** Node.js >= 22, Chrome/Chromium (auto-downloaded), FFmpeg
@@ -15,7 +15,7 @@ npm install @frames/producer
 ### Render a video
 
 ```typescript
-import { createRenderJob, executeRenderJob } from "@frames/producer";
+import { createRenderJob, executeRenderJob } from "@hanzo/frame-producer";
 
 const job = createRenderJob({
   inputPath: "./my-composition.html",
@@ -37,7 +37,7 @@ console.log(result.outputPath); // ./output.mp4
 The producer can also run as a render server, accepting render requests over HTTP:
 
 ```typescript
-import { startServer } from "@frames/producer";
+import { startServer } from "@hanzo/frame-producer";
 
 await startServer({ port: 8080 });
 // POST /render with a RenderConfig body
@@ -72,7 +72,7 @@ The producer can render HTML compositions to formats that carry a **true alpha c
 ### Example
 
 ```typescript
-import { createRenderJob, executeRenderJob } from "@frames/producer";
+import { createRenderJob, executeRenderJob } from "@hanzo/frame-producer";
 
 const job = createRenderJob({
   inputPath: "./my-composition.html",
@@ -112,7 +112,7 @@ Don't paint a fullscreen background in your HTML. The default body background is
 For renders too large for a single machine, the producer ships a public set of distributed-render primitives. They are pure functions over local file paths — networking and orchestration live in adapter packages (Temporal, AWS Lambda + Step Functions, Cloud Run Jobs, K8s Jobs).
 
 ```typescript
-import { plan, renderChunk, assemble } from "@frames/producer/distributed";
+import { plan, renderChunk, assemble } from "@hanzo/frame-producer/distributed";
 
 // Controller-side: produce a self-contained planDir + content-addressed planHash.
 const planResult = await plan(
@@ -135,7 +135,7 @@ await assemble(
 );
 ```
 
-The three activity functions plus their result types are also re-exported from `@frames/producer` so callers that pin the main package don't need a separate subpath import. Supported formats: `mp4` SDR, `mov` ProRes 4444, and `png-sequence`. webm and HDR mp4 trip a typed `FormatNotSupportedInDistributedError` — use the in-process renderer (`executeRenderJob`) for those.
+The three activity functions plus their result types are also re-exported from `@hanzo/frame-producer` so callers that pin the main package don't need a separate subpath import. Supported formats: `mp4` SDR, `mov` ProRes 4444, and `png-sequence`. webm and HDR mp4 trip a typed `FormatNotSupportedInDistributedError` — use the in-process renderer (`executeRenderJob`) for those.
 
 ## How it works
 
@@ -151,6 +151,6 @@ Full documentation: [frames.hanzo.ai/packages/producer](https://frames.hanzo.ai/
 
 ## Related packages
 
-- [`@frames/core`](../core) — types, parsers, frame adapters
-- [`@frames/engine`](../engine) — lower-level capture and encode primitives
+- [`@hanzo/frame-core`](../core) — types, parsers, frame adapters
+- [`@hanzo/frame-engine`](../engine) — lower-level capture and encode primitives
 - [`frames`](../cli) — CLI

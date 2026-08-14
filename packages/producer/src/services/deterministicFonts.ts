@@ -4,11 +4,11 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { defaultLogger } from "../logger.js";
 
-import { FONT_ALIAS_MAP } from "@frames/core/fonts/aliases";
+import { FONT_ALIAS_MAP } from "@hanzo/frame-core/fonts/aliases";
 import {
   locateSystemFontVariants,
   SYSTEM_FONT_SIZE_LIMIT,
-} from "@frames/core/fonts/system-locator";
+} from "@hanzo/frame-core/fonts/system-locator";
 import { parseHTML } from "linkedom";
 import postcss, { type AtRule, type Declaration, type Rule } from "postcss";
 import { EMBEDDED_FONT_DATA } from "./fontData.generated.js";
@@ -373,11 +373,11 @@ const CANONICAL_FONTS: Record<string, CanonicalFontSpec> = {
   },
 };
 
-// FONT_ALIASES derives from the shared alias map in @frames/core.
+// FONT_ALIASES derives from the shared alias map in @hanzo/frame-core.
 // The cast is safe: every value in FONT_ALIAS_MAP is a valid CANONICAL_FONTS key.
 export const FONT_ALIASES = FONT_ALIAS_MAP as Record<string, keyof typeof CANONICAL_FONTS>;
 
-export { FONT_ALIAS_KEYS } from "@frames/core/fonts/aliases";
+export { FONT_ALIAS_KEYS } from "@hanzo/frame-core/fonts/aliases";
 
 function normalizeFamilyName(family: string): string {
   return family

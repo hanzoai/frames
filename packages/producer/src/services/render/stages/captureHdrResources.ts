@@ -34,8 +34,8 @@ import {
   queryElementStacking,
   resampleRgb48leObjectFit,
   runFfmpeg,
-} from "@frames/engine";
-import { fpsToFfmpegArg, fpsToNumber } from "@frames/core";
+} from "@hanzo/frame-engine";
+import { fpsToFfmpegArg, fpsToNumber } from "@hanzo/frame-core";
 import type { ProducerLogger } from "../../../logger.js";
 import type { HdrImageBuffer, HdrVideoFrameSource } from "../../hdrCompositor.js";
 import type { HdrDiagnostics, RenderJob } from "../../renderOrchestrator.js";

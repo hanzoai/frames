@@ -10,7 +10,7 @@
  */
 
 import { useMemo, useState } from "react";
-import type { Composition, CompositionVariable } from "@frames/sdk";
+import type { Composition, CompositionVariable } from "@hanzo/frame-sdk";
 import type { DomEditSelection } from "../editor/domEditingTypes";
 
 import { VARIABLES_INPUT_CLASS } from "./VariablesValueControls";

@@ -26,7 +26,7 @@
 
 import { cpSync, existsSync, mkdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
-import { type CanvasResolution, fpsToNumber } from "@frames/core";
+import { type CanvasResolution, fpsToNumber } from "@hanzo/frame-core";
 import {
   type EngineConfig,
   type VideoFrameFormat,
@@ -34,7 +34,7 @@ import {
   normalizeVp9CpuUsed,
   resolveConfig,
   type AudioProcessingFailure,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import { defaultLogger, type ProducerLogger } from "../../logger.js";
 import {
   applyRenderWarningPolicy,
@@ -245,7 +245,7 @@ export interface DistributedRenderConfig {
    * JSON-serializable plain object — `freezePlan`'s canonical-JSON pass
    * throws on non-serializable values (functions, Symbols, BigInts) when
    * the variables reach this layer. Adapters that ship to Lambda (the
-   * `@frames/aws-lambda` SDK) also validate the shape client-side
+   * `@hanzo/frame-aws-lambda` SDK) also validate the shape client-side
    * before any AWS call so the rejection lands at the SDK boundary
    * rather than mid-plan; the producer-side throw is the fallback.
    */
@@ -623,7 +623,7 @@ export function buildChunkSlices(
 }
 
 /**
- * Hash the deterministic-font bundle that ships inside `@frames/producer`.
+ * Hash the deterministic-font bundle that ships inside `@hanzo/frame-producer`.
  * The compiled HTML already inlines per-family `@font-face` data URIs, so the
  * snapshot SHA exists primarily to detect cross-version font-bundle drift on
  * chunk workers. Mixed into `planHash`.
@@ -978,7 +978,7 @@ export async function plan(
     // Close inside a try/catch — leaking a Chrome process here would mask
     // the original plan() result on cancellation paths.
     try {
-      const { closeCaptureSession } = await import("@frames/engine");
+      const { closeCaptureSession } = await import("@hanzo/frame-engine");
       await closeCaptureSession(probeResult.probeSession);
     } catch (err) {
       log.warn("[plan] probe session close failed", {

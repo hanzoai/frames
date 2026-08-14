@@ -6,12 +6,12 @@ import { failCommand } from "../utils/commandResult.js";
  * `runXxx(args)` async function. The subcommand surface is intentionally
  * thin glue: argument parsing + help text here; the actual work
  * (`renderToLambda` / `getRenderProgress` / `deploySite` / SAM driver)
- * lives in `@frames/aws-lambda/sdk`.
+ * lives in `@hanzo/frame-aws-lambda/sdk`.
  */
 
 import { defineCommand } from "citty";
-import type { DistributedFormat } from "@frames/aws-lambda/sdk";
-import { type CanvasResolution } from "@frames/core";
+import type { DistributedFormat } from "@hanzo/frame-aws-lambda/sdk";
+import { type CanvasResolution } from "@hanzo/frame-core";
 import { parseOutputResolutionFlag } from "../utils/parseOutputResolution.js";
 import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
@@ -214,7 +214,7 @@ export default defineCommand({
     const regionFlag = args.region as string | undefined;
     if (regionFlag) process.env.AWS_REGION = regionFlag;
 
-    // The lambda subverbs dynamic-import `@frames/aws-lambda` at call
+    // The lambda subverbs dynamic-import `@hanzo/frame-aws-lambda` at call
     // time. We keep aws-lambda as a workspace devDependency (not a runtime
     // dep) so the published CLI install stays small for users who don't
     // deploy to Lambda. Subverbs other than `policies` need aws-lambda;
@@ -229,15 +229,15 @@ export default defineCommand({
     ]);
     if (verbsNeedingSDK.has(subcommand)) {
       try {
-        await import("@frames/aws-lambda/sdk");
+        await import("@hanzo/frame-aws-lambda/sdk");
       } catch (err) {
         if ((err as NodeJS.ErrnoException).code === "ERR_MODULE_NOT_FOUND") {
           console.error(
-            `${c.error("@frames/aws-lambda is not installed.")} The ${c.accent(`frames lambda ${subcommand}`)} command needs it at runtime.\n` +
+            `${c.error("@hanzo/frame-aws-lambda is not installed.")} The ${c.accent(`frames lambda ${subcommand}`)} command needs it at runtime.\n` +
               `Install it alongside the CLI:\n` +
-              `  ${c.accent("npm install -g @frames/aws-lambda")}\n` +
+              `  ${c.accent("npm install -g @hanzo/frame-aws-lambda")}\n` +
               `Or, for an opt-in dev setup:\n` +
-              `  ${c.accent("npm install @frames/aws-lambda")}`,
+              `  ${c.accent("npm install @hanzo/frame-aws-lambda")}`,
           );
           failCommand();
         }
@@ -268,9 +268,7 @@ export default defineCommand({
         }
         const projectDir = args.extra as string | undefined;
         if (!projectDir) {
-          console.error(
-            "[lambda sites create] usage: frames lambda sites create <projectDir>",
-          );
+          console.error("[lambda sites create] usage: frames lambda sites create <projectDir>");
           failCommand();
         }
         const { runSitesCreate } = await import("./lambda/sites.js");

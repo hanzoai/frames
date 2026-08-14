@@ -57,7 +57,7 @@ function resetRetryMocks() {
   durationProbeSessions.length = 0;
 }
 
-mock.module("@frames/engine", () => ({
+mock.module("@hanzo/frame-engine", () => ({
   createCaptureSession: async (
     _url: string,
     _dir: string,

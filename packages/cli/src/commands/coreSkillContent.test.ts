@@ -49,17 +49,6 @@ describe("frames-core contract docs", () => {
     expect(renderReference).toContain("timeline:");
     expect(renderReference).toContain("buildCompositionCensus");
   });
-
-  it("teaches safe cloud archive size remediation", () => {
-    const skill = read("skills", "frames-cli", "SKILL.md");
-    const cloudReference = read("skills", "frames-cli", "references", "cloud.md");
-
-    expect(skill).toContain("cloud render --dry-run --json");
-    expect(skill).toContain("Never ignore an asset merely because it is large");
-    expect(cloudReference).toContain(".framesignore");
-    expect(cloudReference).toContain("Never ignore all of `assets/`");
-    expect(cloudReference).toContain("dynamically computed asset path");
-  });
 });
 
 describe("media-use TTS documentation", () => {
@@ -70,7 +59,6 @@ describe("media-use TTS documentation", () => {
     expect(tts).not.toMatch(/frames tts[^\n]*--provider/);
     expect(tts).not.toMatch(/frames tts[^\n]*--words/);
     expect(captions).not.toMatch(/frames tts[^\n]*--provider/);
-    expect(captions).toContain("heygen-tts.mjs");
   });
 });
 

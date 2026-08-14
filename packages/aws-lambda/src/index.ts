@@ -1,5 +1,5 @@
 /**
- * `@frames/aws-lambda` — Lambda adapter for the Frames
+ * `@hanzo/frame-aws-lambda` — Lambda adapter for the Frames
  * distributed render pipeline.
  *
  * Two surfaces, one package:
@@ -16,9 +16,9 @@
  * The CDK L2 construct lives at the `./cdk` subpath export so SDK-only
  * consumers don't pull `aws-cdk-lib` into their runtime graph:
  *
- *     import { HyperframesRenderStack } from "@frames/aws-lambda/cdk";
+ *     import { HyperframesRenderStack } from "@hanzo/frame-aws-lambda/cdk";
  *
- * The package is NOT a dependency of `@frames/producer`; consumers
+ * The package is NOT a dependency of `@hanzo/frame-producer`; consumers
  * install it separately.
  */
 

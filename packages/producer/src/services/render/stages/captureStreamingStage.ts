@@ -69,7 +69,7 @@ import {
   initializeSession,
   prepareCaptureSessionForReuse,
   spawnStreamingEncoder,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import type { FileServerHandle } from "../../fileServer.js";
 import type { ProducerLogger } from "../../../logger.js";
 import type { ProgressCallback, RenderJob } from "../../renderOrchestrator.js";
@@ -222,7 +222,7 @@ export type CaptureStreamingStageResult =
       success: false;
     };
 
-// psnrDb moved to @frames/engine (utils/psnr.ts) so the parallel
+// psnrDb moved to @hanzo/frame-engine (utils/psnr.ts) so the parallel
 // disk-path verify (parallelCoordinator) and this drain guard share one
 // comparison implementation.
 

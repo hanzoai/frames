@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { lintHyperframeHtml, shouldBlockRender } from "./browser.js";
 
-// Guards that @frames/lint/browser exposes a working, node-free rule engine.
+// Guards that @hanzo/frame-lint/browser exposes a working, node-free rule engine.
 // (The platform:"browser" tsup build is the compile-time node-free guarantee;
 // this verifies the API actually runs.)
-describe("@frames/lint/browser", () => {
+describe("@hanzo/frame-lint/browser", () => {
   it("lints an HTML string with no filesystem access", async () => {
     const html = `<html><body>
       <div data-composition-id="main" data-width="1920" data-height="1080"></div>

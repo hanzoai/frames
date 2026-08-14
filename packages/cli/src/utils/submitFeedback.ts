@@ -1,7 +1,7 @@
-import { getPublishApiBaseUrl } from "./publishProject.js";
+import { apiUrl } from "../api.js";
 import { FEEDBACK_RATING_SCALE } from "./feedbackRating.js";
 
-// Match the backend DTO caps (HyperframesFeedbackRequest). Truncate here so an
+// Match the backend DTO caps. Truncate here so an
 // over-long field (e.g. a pasted stack trace) is still forwarded truncated,
 // rather than rejected by the backend with a 422 the best-effort path swallows.
 const MAX_COMMENT = 2000;
@@ -20,8 +20,7 @@ export async function submitFeedback(input: {
   env?: string;
 }): Promise<void> {
   try {
-    const apiBaseUrl = getPublishApiBaseUrl();
-    await fetch(`${apiBaseUrl}/v1/frames/feedback`, {
+    await fetch(apiUrl("/v1/frames/feedback"), {
       method: "POST",
       body: JSON.stringify({
         rating: input.rating,
@@ -30,10 +29,7 @@ export async function submitFeedback(input: {
         cli_version: cap(input.cliVersion, MAX_CLI_VERSION),
         env: cap(input.env, MAX_ENV),
       }),
-      headers: {
-        "content-type": "application/json",
-        heygen_route: "canary",
-      },
+      headers: { "content-type": "application/json" },
       signal: AbortSignal.timeout(5000),
     });
   } catch {

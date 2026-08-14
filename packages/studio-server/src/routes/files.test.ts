@@ -24,7 +24,7 @@ const recastImportGate = vi.hoisted<{
   onEnter: (() => void) | null;
 }>(() => ({ wait: null, onEnter: null }));
 
-vi.mock("@frames/parsers/gsap-parser-recast", async (importOriginal) => {
+vi.mock("@hanzo/frame-parsers/gsap-parser-recast", async (importOriginal) => {
   recastImportGate.onEnter?.();
   if (recastImportGate.wait) await recastImportGate.wait;
   return importOriginal();

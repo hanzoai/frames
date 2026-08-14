@@ -1,21 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const getPublishApiBaseUrlMock = vi.hoisted(() => vi.fn(() => "https://api.example.com"));
-
-vi.mock("./publishProject.js", () => ({
-  getPublishApiBaseUrl: getPublishApiBaseUrlMock,
-}));
-
 import { submitFeedback } from "./submitFeedback.js";
 
 describe("submitFeedback", () => {
   beforeEach(() => {
-    getPublishApiBaseUrlMock.mockReturnValue("https://api.example.com");
+    vi.stubEnv("HANZO_API_URL", "https://api.example.com");
   });
 
   afterEach(() => {
     vi.clearAllMocks();
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   it("posts feedback to the backend endpoint", async () => {
@@ -30,12 +25,11 @@ describe("submitFeedback", () => {
     });
 
     expect(fetchMock).toHaveBeenCalledOnce();
-    expect(getPublishApiBaseUrlMock).toHaveBeenCalledOnce();
     expect(fetchMock).toHaveBeenCalledWith(
       "https://api.example.com/v1/frames/feedback",
       expect.objectContaining({
         method: "POST",
-        headers: { "content-type": "application/json", heygen_route: "canary" },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
           rating: 4,
           rating_scale: 10,

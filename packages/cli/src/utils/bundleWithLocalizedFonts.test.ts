@@ -6,7 +6,7 @@ const producerMocks = vi.hoisted(() => ({
   })),
 }));
 
-vi.mock("@frames/core/compiler", () => ({
+vi.mock("@hanzo/frame-core/compiler", () => ({
   bundleToSingleHtml: vi.fn(async () => "<html><body>bundled</body></html>"),
 }));
 

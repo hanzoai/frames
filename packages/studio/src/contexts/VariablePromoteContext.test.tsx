@@ -2,7 +2,7 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { describe, expect, it, vi } from "vitest";
-import type { Composition } from "@frames/sdk";
+import type { Composition } from "@hanzo/frame-sdk";
 import type { DomEditSelection } from "../components/editor/domEditingTypes";
 import {
   VariablePromoteProvider,

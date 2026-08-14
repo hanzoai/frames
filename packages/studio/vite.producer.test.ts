@@ -40,7 +40,7 @@ describe("ensureProducerDist", () => {
     });
     expect(exec).toHaveBeenCalledWith(
       "bun",
-      ["run", "--filter", "@frames/producer", "build"],
+      ["run", "--filter", "@hanzo/frame-producer", "build"],
       {
         cwd: resolve("/repo"),
         stdio: "pipe",

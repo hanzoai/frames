@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { CompositionVariable } from "@frames/sdk";
+import type { CompositionVariable } from "@hanzo/frame-sdk";
 import type { BindAction } from "../components/panels/VariablesBindElement";
 import {
   matchAction,

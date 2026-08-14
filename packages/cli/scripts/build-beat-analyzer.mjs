@@ -7,7 +7,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const coreRoot = dirname(require.resolve("@frames/core/package.json"));
+const coreRoot = dirname(require.resolve("@hanzo/frame-core/package.json"));
 const entry = join(coreRoot, "src/beats/beatDetection.ts");
 
 await build({

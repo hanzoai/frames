@@ -36,8 +36,8 @@
  */
 
 import { join } from "node:path";
-import type { EngineConfig } from "@frames/engine";
-import { suggestMatchingPreset, type CanvasResolution } from "@frames/core";
+import type { EngineConfig } from "@hanzo/frame-engine";
+import { suggestMatchingPreset, type CanvasResolution } from "@hanzo/frame-core";
 import type { CompiledComposition } from "../../htmlCompiler.js";
 import { compileForRender } from "../../htmlCompiler.js";
 import type { ProducerLogger } from "../../../logger.js";

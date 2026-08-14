@@ -783,7 +783,7 @@ describe("detectShaderTransitionUsage", () => {
   it("detects authored HyperShader initialization", () => {
     const html = `<!doctype html>
 <html><body>
-  <script src="https://cdn.jsdelivr.net/npm/@frames/shader-transitions/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@hanzo/frame-shader-transitions/dist/index.global.js"></script>
   <script>
     window.HyperShader.init({
       scenes: ["s1", "s2"],
@@ -798,7 +798,7 @@ describe("detectShaderTransitionUsage", () => {
   it("ignores comments and external scripts by themselves", () => {
     const html = `<!doctype html>
 <html><body>
-  <script src="https://cdn.jsdelivr.net/npm/@frames/shader-transitions/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@hanzo/frame-shader-transitions/dist/index.global.js"></script>
   <script>
     // window.HyperShader.init({ scenes: ["s1", "s2"], transitions: [] });
     const label = "safe";

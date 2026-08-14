@@ -30,8 +30,8 @@ describe("telemetry client policy", () => {
     expect(shouldTrack()).toBe(false);
   });
 
-  it("tracks when the config is enabled and no runtime override applies", async () => {
+  it("does not track when no analytics project is configured", async () => {
     const shouldTrack = await loadShouldTrack({});
-    expect(shouldTrack()).toBe(true);
+    expect(shouldTrack()).toBe(false);
   });
 });

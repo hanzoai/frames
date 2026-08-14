@@ -271,7 +271,7 @@ async function renderCompareVariant(
   opts: { atSeconds: number; framePath: string; timeoutMs: number },
 ): Promise<{ framePath: string; renderReadyTimedOut: boolean }> {
   try {
-    const { bundleToSingleHtml } = await import("@frames/core/compiler");
+    const { bundleToSingleHtml } = await import("@hanzo/frame-core/compiler");
     const html = await bundleToSingleHtml(variant.projectDir);
     const server = await serveStaticProjectHtml(variant.projectDir, html);
     try {

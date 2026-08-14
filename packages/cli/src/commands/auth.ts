@@ -1,14 +1,8 @@
 /**
- * `frames auth` — credential management for HeyGen.
+ * `frames auth` — the credential this CLI presents to api.hanzo.ai.
  *
- * Subverbs:
- *   - `login`   sign in via API key (OAuth coming next)
- *   - `status`  show the active credential + identity
- *   - `logout`  remove the stored credential
- *
- * Each subverb lives in `./auth/<name>.ts` and is dynamic-imported on
- * demand. Keeps cold-start fast and lets the auth library load only
- * when the user is doing auth work.
+ * Hanzo IAM issues credentials and `hanzo login` performs the sign-in; this
+ * CLI only reads what they leave behind, so `status` is the whole surface.
  */
 
 import { defineCommand } from "citty";
@@ -16,41 +10,31 @@ import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
 
 export const examples: Example[] = [
-  ["Sign in via browser (OAuth)", "frames auth login"],
-  ["Save an API key (interactive)", "frames auth login --api-key"],
-  ["Save an API key from stdin", "echo $HEYGEN_API_KEY | frames auth login --api-key"],
-  ["Check who you're signed in as", "frames auth status"],
-  ["Force-refresh the OAuth access token", "frames auth refresh"],
-  ["Sign out", "frames auth logout"],
+  ["Check which credential is active", "frames auth status"],
+  ["Machine-readable status", "frames auth status --json"],
 ];
 
 const HELP = `
 ${c.bold("frames auth")} ${c.dim("<subcommand> [args]")}
 
-Manage HeyGen credentials. Credentials live in
-${c.accent("~/.heygen/credentials")} and are shared with heygen-cli.
+Show the credential used for ${c.accent("api.hanzo.ai")}. Sign in with
+${c.accent("hanzo login")} — it runs the Hanzo IAM device flow and writes
+${c.accent("~/.hanzo/credentials.json")}, which this CLI reads.
 
 ${c.bold("SUBCOMMANDS:")}
-  ${c.accent("login")}    ${c.dim("Sign in via browser (default) or --api-key for a long-lived key.")}
-  ${c.accent("status")}   ${c.dim("Show the active credential's source, type, and identity.")}
-  ${c.accent("refresh")}  ${c.dim("Force-refresh the OAuth access token.")}
-  ${c.accent("logout")}   ${c.dim("Remove the stored credential (--keep-api-key for OAuth-only).")}
+  ${c.accent("status")}   ${c.dim("Show the active credential's source and whether the gateway accepts it.")}
 
 ${c.bold("ENV VARS:")}
-  ${c.accent("HEYGEN_API_KEY")}              Override the stored credential.
-  ${c.accent("FRAMES_API_KEY")}         Alias for HEYGEN_API_KEY.
-  ${c.accent("HEYGEN_API_URL")}              Override the API base URL (default https://api.heygen.com).
-  ${c.accent("HEYGEN_CONFIG_DIR")}           Override the credentials directory (default ~/.heygen).
-  ${c.accent("FRAMES_OAUTH_CLIENT_ID")} Override the OAuth client_id (for dev/test).
+  ${c.accent("HANZO_API_KEY")}   Platform key, delivered from Hanzo KMS. Wins over everything.
+  ${c.accent("HANZO_TOKEN")}     IAM access token. Wins over the stored credential.
+  ${c.accent("HANZO_HOME")}      Override the credential directory (default ~/.hanzo).
+  ${c.accent("HANZO_API_URL")}   Override the API base URL (default https://api.hanzo.ai).
 `;
 
 export default defineCommand({
-  meta: { name: "auth", description: "Sign in to HeyGen and manage credentials" },
+  meta: { name: "auth", description: "Show the credential used for api.hanzo.ai" },
   subCommands: {
-    login: () => import("./auth/login.js").then((m) => m.default),
     status: () => import("./auth/status.js").then((m) => m.default),
-    logout: () => import("./auth/logout.js").then((m) => m.default),
-    refresh: () => import("./auth/refresh.js").then((m) => m.default),
   },
   async run({ args }) {
     if (!args._?.[0]) console.log(HELP);

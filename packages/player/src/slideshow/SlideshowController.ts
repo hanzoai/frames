@@ -1,4 +1,4 @@
-import type { ResolvedSlideshow, ResolvedSlide } from "@frames/core/slideshow";
+import type { ResolvedSlideshow, ResolvedSlide } from "@hanzo/frame-core/slideshow";
 
 export interface PlayerPort {
   seek(t: number): void;

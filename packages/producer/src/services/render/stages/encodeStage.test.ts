@@ -31,7 +31,7 @@ const runFfmpegMock = mock(async () => ({
   durationMs: 1,
 }));
 
-mock.module("@frames/engine", () => ({
+mock.module("@hanzo/frame-engine", () => ({
   DEFAULT_CONFIG: { ffmpegEncodeTimeout: 600_000 },
   encodeFramesChunkedConcat: encodeFramesChunkedConcatMock,
   encodeFramesFromDir: encodeFramesFromDirMock,

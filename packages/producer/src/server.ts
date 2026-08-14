@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * @frames/producer — Public Server
+ * @hanzo/frame-producer — Public Server
  *
  * Clean HTTP API for rendering HTML compositions to video.
  *
@@ -39,7 +39,7 @@ import {
 } from "./services/renderOrchestrator.js";
 import { prepareHyperframeLintBody, runHyperframeLint } from "./services/hyperframeLint.js";
 import { startHealthWorker, type HealthWorkerHandle } from "./services/healthWorker.js";
-import { isVideoFrameFormat } from "@frames/engine";
+import { isVideoFrameFormat } from "@hanzo/frame-engine";
 import { resolveRenderPaths } from "./utils/paths.js";
 import { defaultLogger, type ProducerLogger } from "./logger.js";
 import { Semaphore } from "./utils/semaphore.js";
@@ -48,7 +48,7 @@ import {
   normalizeResolutionFlag,
   isAspectAgnosticResolutionAlias,
   type CanvasResolution,
-} from "@frames/core";
+} from "@hanzo/frame-core";
 import { createRenderRequest, renderConfigFromRequest } from "./renderRequest.js";
 
 // ---------------------------------------------------------------------------
@@ -80,7 +80,7 @@ export interface ServerOptions extends HandlerOptions {
 interface RenderInput {
   projectDir: string;
   outputPath?: string | null;
-  fps: import("@frames/core").Fps;
+  fps: import("@hanzo/frame-core").Fps;
   quality: "draft" | "standard" | "high";
   format?: "mp4" | "webm" | "mov";
   videoFrameFormat?: RenderConfig["videoFrameFormat"];
@@ -903,7 +903,7 @@ export function startServer(options: ServerOptions = {}) {
 
   async function shutdown(signal: string) {
     log.info(`Received ${signal}, shutting down`);
-    const { drainBrowserPool } = await import("@frames/engine");
+    const { drainBrowserPool } = await import("@hanzo/frame-engine");
     await drainBrowserPool().catch(() => {});
     // Bounded await: if the worker hasn't come online within 1.5s of
     // shutdown there's no useful cleanup left to do — `worker.terminate()`

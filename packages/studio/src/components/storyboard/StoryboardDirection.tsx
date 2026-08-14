@@ -1,4 +1,4 @@
-import type { StoryboardGlobals } from "@frames/core/storyboard";
+import type { StoryboardGlobals } from "@hanzo/frame-core/storyboard";
 
 export interface StoryboardDirectionProps {
   globals: StoryboardGlobals;

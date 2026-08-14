@@ -11,7 +11,7 @@
 
 import { selectMediaObserverTargets } from "./mediaObserverScope.js";
 import { isRealmElement, isRealmHtmlMediaElement } from "./media-element-guards.js";
-import { readClipTiming } from "@frames/core/composition-contract";
+import { readClipTiming } from "@hanzo/frame-core/composition-contract";
 
 /** Minimum absolute drift before a currentTime correction is attempted. */
 const MIRROR_DRIFT_THRESHOLD_SECONDS = 0.05;

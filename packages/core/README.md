@@ -1,11 +1,11 @@
-# @frames/core
+# @hanzo/frame-core
 
 Types, parsers, generators, compiler, linter, runtime, and frame adapters for the Hyperframes video framework.
 
 ## Install
 
 ```bash
-npm install @frames/core
+npm install @hanzo/frame-core
 ```
 
 > Most users don't need to install core directly — the [CLI](../cli), [producer](../producer), and [studio](../studio) packages depend on it internally.
@@ -27,7 +27,7 @@ npm install @frames/core
 A frame adapter tells the engine how to seek your animation to a specific frame:
 
 ```typescript
-import { createGSAPFrameAdapter } from "@frames/core";
+import { createGSAPFrameAdapter } from "@hanzo/frame-core";
 
 const adapter = createGSAPFrameAdapter({
   getTimeline: () => gsap.timeline(),
@@ -38,7 +38,7 @@ const adapter = createGSAPFrameAdapter({
 Implement `FrameAdapter` for custom animation runtimes:
 
 ```typescript
-import type { FrameAdapter } from "@frames/core";
+import type { FrameAdapter } from "@hanzo/frame-core";
 
 const myAdapter: FrameAdapter = {
   id: "my-adapter",
@@ -52,7 +52,7 @@ const myAdapter: FrameAdapter = {
 ## Parsing and generating HTML
 
 ```typescript
-import { parseHtml, generateHyperframesHtml } from "@frames/core";
+import { parseHtml, generateHyperframesHtml } from "@hanzo/frame-core";
 
 const { elements, metadata } = parseHtml(htmlString);
 const html = generateHyperframesHtml(spec);
@@ -61,7 +61,7 @@ const html = generateHyperframesHtml(spec);
 ## Linting
 
 ```typescript
-import { lintHyperframeHtml } from "@frames/core/lint";
+import { lintHyperframeHtml } from "@hanzo/frame-core/lint";
 
 const result = lintHyperframeHtml(htmlString);
 // result.findings: { severity, message, elementId }[]
@@ -73,6 +73,6 @@ Full documentation: [frames.hanzo.ai/packages/core](https://frames.hanzo.ai/pack
 
 ## Related packages
 
-- [`@frames/engine`](../engine) — rendering engine that drives the browser
-- [`@frames/producer`](../producer) — full render pipeline (capture + encode)
+- [`@hanzo/frame-engine`](../engine) — rendering engine that drives the browser
+- [`@hanzo/frame-producer`](../producer) — full render pipeline (capture + encode)
 - [`frames`](../cli) — CLI

@@ -1,4 +1,4 @@
-import { ensureHfIds } from "@frames/parsers/hf-ids";
+import { ensureHfIds } from "@hanzo/frame-parsers/hf-ids";
 import {
   closeSync,
   constants,

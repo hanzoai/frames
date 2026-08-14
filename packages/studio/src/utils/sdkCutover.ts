@@ -1,4 +1,4 @@
-import type { Composition, GsapTweenSpec } from "@frames/sdk";
+import type { Composition, GsapTweenSpec } from "@hanzo/frame-sdk";
 import type { DomEditSelection } from "../components/editor/domEditing";
 import type { PatchOperation } from "./sourcePatcher";
 import * as studioAvailability from "../components/editor/manualEditingAvailability";

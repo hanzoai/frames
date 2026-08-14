@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { HyperframeLintFinding } from "@frames/core/lint";
+import type { HyperframeLintFinding } from "@hanzo/frame-core/lint";
 import { formatLintFindings } from "./lintFormat.js";
 import type { ProjectLintResult } from "./lintProject.js";
 

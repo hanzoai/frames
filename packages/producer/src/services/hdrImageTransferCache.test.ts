@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { convertTransfer } from "@frames/engine";
+import { convertTransfer } from "@hanzo/frame-engine";
 import { createHdrImageTransferCache } from "./hdrImageTransferCache.ts";
 
 /**

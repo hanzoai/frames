@@ -12,7 +12,7 @@ import {
   type SdkResolverMismatch,
 } from "./sdkResolverShadow";
 import type { PatchOperation } from "./sourcePatcher";
-import { openComposition } from "@frames/sdk";
+import { openComposition } from "@hanzo/frame-sdk";
 
 // ─── Telemetry capture ────────────────────────────────────────────────────────
 

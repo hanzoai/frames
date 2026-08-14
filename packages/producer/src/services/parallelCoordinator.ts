@@ -1,5 +1,5 @@
 /**
- * Re-exported from @frames/engine.
+ * Re-exported from @hanzo/frame-engine.
  * @see engine/src/services/parallelCoordinator.ts for implementation.
  */
 export {
@@ -11,4 +11,4 @@ export {
   type WorkerTask,
   type WorkerResult,
   type ParallelProgress,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";

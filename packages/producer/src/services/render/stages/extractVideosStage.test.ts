@@ -4,7 +4,7 @@ import type {
   ExtractionResult,
   VideoElement,
   VideoExtractionFailure,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import {
   appendAutoDetectedVideoAudio,
   assertVideoExtractionSucceeded,

@@ -1,5 +1,5 @@
 /**
- * Re-exported from @frames/engine with ProducerConfig alias.
+ * Re-exported from @hanzo/frame-engine with ProducerConfig alias.
  * @see engine/src/config.ts for implementation.
  */
 export {
@@ -7,4 +7,4 @@ export {
   type EngineConfig as ProducerConfig,
   DEFAULT_CONFIG,
   resolveConfig,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";

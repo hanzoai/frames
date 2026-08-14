@@ -5,11 +5,12 @@ import { join, relative } from "node:path";
 import AdmZip from "adm-zip";
 
 const authMocks = vi.hoisted(() => ({
-  tryResolveCredential: vi.fn(),
+  credential: vi.fn(),
 }));
 
-vi.mock("../auth/index.js", () => ({
-  tryResolveCredential: authMocks.tryResolveCredential,
+vi.mock("../api.js", async () => ({
+  ...(await vi.importActual<typeof import("../api.js")>("../api.js")),
+  credential: authMocks.credential,
 }));
 
 const linkMocks = vi.hoisted(() => ({
@@ -20,10 +21,10 @@ vi.mock("./projectLink.js", () => ({
   writeProjectLink: linkMocks.writeProjectLink,
 }));
 
+import { apiBaseUrl } from "../api.js";
 import {
   buildPublishFileMap,
   createPublishArchive,
-  getPublishApiBaseUrl,
   localizeExternalAssets,
   publishProjectArchive,
   uploadTimeoutMs,
@@ -160,14 +161,9 @@ function expectFetchCall(
   );
 }
 
-/** Resolves `tryResolveCredential` to a stubbed OAuth token for authenticated-request tests. */
-function withOAuthCredential(): void {
-  authMocks.tryResolveCredential.mockResolvedValue({
-    type: "oauth",
-    access_token: "test-token",
-    source: "file_json",
-    refreshable: false,
-  });
+/** Resolves `credential` to a stubbed token for authenticated-request tests. */
+function withCredential(): void {
+  authMocks.credential.mockResolvedValue({ token: "test-token", source: "store" });
 }
 
 /** Asserts the given fetch call carried the stubbed bearer token. */
@@ -182,7 +178,7 @@ async function runAuthenticatedPublish(
   fetchMock: ReturnType<typeof vi.fn>,
   dir: string,
 ): Promise<void> {
-  withOAuthCredential();
+  withCredential();
   vi.stubGlobal("fetch", fetchMock);
   writeFileSync(join(dir, "index.html"), "<html></html>", "utf-8");
   await publishProjectArchive(dir);
@@ -530,10 +526,9 @@ describe("uploadTimeoutMs", () => {
 // Shared across every `publishProjectArchive` group below (file-scoped, not
 // nested in a describe) so the reset logic isn't duplicated per group.
 beforeEach(() => {
-  authMocks.tryResolveCredential.mockReset().mockResolvedValue(null);
+  authMocks.credential.mockReset().mockResolvedValue(null);
   linkMocks.writeProjectLink.mockReset();
-  vi.stubEnv("FRAMES_PUBLISHED_PROJECTS_API_URL", "");
-  vi.stubEnv("HEYGEN_API_URL", "");
+  vi.stubEnv("HANZO_API_URL", "");
 });
 
 afterEach(() => {
@@ -541,7 +536,7 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 
-const jsonHeaders = { "content-type": "application/json", heygen_route: "canary" };
+const jsonHeaders = { "content-type": "application/json" };
 const signedStagedS3Url =
   "https://s3.example.com/upload?X-Amz-SignedHeaders=content-length;content-type;host;x-amz-server-side-encryption";
 
@@ -566,21 +561,16 @@ describe("publishProjectArchive", () => {
 
       const result = await publishProjectArchive(dir);
 
-      expect(getPublishApiBaseUrl()).toBe("https://api2.heygen.com");
+      expect(apiBaseUrl()).toBe("https://api.hanzo.ai");
       expect(result).toMatchObject({
         projectId: "hfp_123",
         url: "https://frames.hanzo.ai/p/hfp_123",
       });
       expect(fetchMock).toHaveBeenCalledTimes(3);
-      expectFetchCall(
-        fetchMock,
-        1,
-        "https://api2.heygen.com/v1/frames/projects/publish/upload",
-        {
-          method: "POST",
-          headers: jsonHeaders,
-        },
-      );
+      expectFetchCall(fetchMock, 1, "https://api.hanzo.ai/v1/frames/projects/publish/upload", {
+        method: "POST",
+        headers: jsonHeaders,
+      });
       expectFetchCall(fetchMock, 2, signedStagedS3Url, {
         method: "PUT",
         headers: {
@@ -589,15 +579,10 @@ describe("publishProjectArchive", () => {
           "x-amz-server-side-encryption": "AES256",
         },
       });
-      expectFetchCall(
-        fetchMock,
-        3,
-        "https://api2.heygen.com/v1/frames/projects/publish/complete",
-        {
-          method: "POST",
-          headers: jsonHeaders,
-        },
-      );
+      expectFetchCall(fetchMock, 3, "https://api.hanzo.ai/v1/frames/projects/publish/complete", {
+        method: "POST",
+        headers: jsonHeaders,
+      });
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }
@@ -612,7 +597,7 @@ describe("publishProjectArchive", () => {
     try {
       await runAuthenticatedPublish(fetchMock, dir);
 
-      expect(authMocks.tryResolveCredential).toHaveBeenCalledTimes(1);
+      expect(authMocks.credential).toHaveBeenCalledTimes(1);
       expectAuthorizedHeaders(fetchMock, 0);
       expect(fetchMock.mock.calls[1]![1].headers).not.toHaveProperty("authorization");
       expectAuthorizedHeaders(fetchMock, 2);
@@ -628,7 +613,7 @@ describe("publishProjectArchive", () => {
     try {
       await runAuthenticatedPublish(fetchMock, dir);
 
-      expect(authMocks.tryResolveCredential).toHaveBeenCalledTimes(1);
+      expect(authMocks.credential).toHaveBeenCalledTimes(1);
       expectAuthorizedHeaders(fetchMock, 0);
       expectAuthorizedHeaders(fetchMock, 1);
     } finally {
@@ -650,9 +635,9 @@ describe("publishProjectArchive", () => {
 
       expect(result.projectId).toBe("hfp_123");
       expect(fetchMock).toHaveBeenCalledTimes(2);
-      expectFetchCall(fetchMock, 2, "https://api2.heygen.com/v1/frames/projects/publish", {
+      expectFetchCall(fetchMock, 2, "https://api.hanzo.ai/v1/frames/projects/publish", {
         method: "POST",
-        headers: { heygen_route: "canary" },
+        headers: {},
       });
     } finally {
       rmSync(dir, { recursive: true, force: true });
@@ -743,7 +728,7 @@ function ownedStagedFetch() {
 
 describe("publishProjectArchive", () => {
   it("sends and persists a stable project id when authenticated", async () => {
-    withOAuthCredential();
+    withCredential();
     const dir = makeProjectDir();
     const fetchMock = ownedStagedFetch();
     vi.stubGlobal("fetch", fetchMock);
@@ -789,8 +774,8 @@ describe("publishProjectArchive", () => {
   async function publishWithTeamSpace(authed: boolean) {
     // Set explicitly (not just for the authed case) so calling this twice in one test —
     // authed then anonymous — doesn't leak the credential mock across calls.
-    if (authed) withOAuthCredential();
-    else authMocks.tryResolveCredential.mockResolvedValue(null);
+    if (authed) withCredential();
+    else authMocks.credential.mockResolvedValue(null);
     const dir = makeProjectDir();
     const fetchMock = ownedStagedFetch();
     vi.stubGlobal("fetch", fetchMock);

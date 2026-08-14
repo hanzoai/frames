@@ -1,5 +1,5 @@
 {
-  "package": "@frames/core",
+  "package": "@hanzo/frame-core",
   "localNodeRuntime": true,
   "subpaths": {
     ".": {

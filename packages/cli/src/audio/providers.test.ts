@@ -1,49 +1,39 @@
 import { describe, expect, it } from "vitest";
 import { decideMusic, decideVoice, KOKORO_PIP, MUSICGEN_PIP } from "./providers.js";
 
-describe("decideVoice — mirrors the skill's heygen → elevenlabs → kokoro order", () => {
-  it("prefers HeyGen when configured", () => {
-    const r = decideVoice({ hasHeygen: true, elevenlabs: true, kokoro: true });
-    expect(r.engine).toBe("heygen");
+describe("decideVoice — mirrors the skill's hanzo → kokoro order", () => {
+  it("prefers Hanzo speech when a credential is present", () => {
+    const r = decideVoice({ hosted: true, kokoro: true });
+    expect(r.engine).toBe("hanzo");
     expect(r.ready).toBe(true);
   });
 
-  it("falls to ElevenLabs only when key + module are both present", () => {
-    expect(decideVoice({ hasHeygen: false, elevenlabs: true, kokoro: true }).engine).toBe(
-      "elevenlabs",
-    );
-  });
-
-  it("falls to Kokoro when no cloud provider is usable", () => {
-    expect(decideVoice({ hasHeygen: false, elevenlabs: false, kokoro: true }).engine).toBe(
-      "kokoro",
-    );
+  it("falls to Kokoro when nothing is hosted", () => {
+    expect(decideVoice({ hosted: false, kokoro: true }).engine).toBe("kokoro");
   });
 
   it("flags Kokoro as not-ready with a pip hint when deps are missing", () => {
-    const r = decideVoice({ hasHeygen: false, elevenlabs: false, kokoro: false });
+    const r = decideVoice({ hosted: false, kokoro: false });
     expect(r.engine).toBe("kokoro");
     expect(r.ready).toBe(false);
     expect(r.setupHint).toBe(KOKORO_PIP);
   });
 
   it("omits the hint when Kokoro is ready", () => {
-    expect(
-      decideVoice({ hasHeygen: false, elevenlabs: false, kokoro: true }).setupHint,
-    ).toBeUndefined();
+    expect(decideVoice({ hosted: false, kokoro: true }).setupHint).toBeUndefined();
   });
 });
 
-describe("decideMusic — mirrors the skill's heygen → lyria → musicgen order", () => {
-  it("prefers HeyGen, then Lyria, then MusicGen", () => {
-    expect(decideMusic({ hasHeygen: true, lyria: true, musicgen: true }).engine).toBe("heygen");
-    expect(decideMusic({ hasHeygen: false, lyria: true, musicgen: true }).engine).toBe("lyria");
-    expect(decideMusic({ hasHeygen: false, lyria: false, musicgen: true }).engine).toBe("musicgen");
+describe("decideMusic — MusicGen runs locally", () => {
+  it("reports MusicGen as ready when its deps are installed", () => {
+    const r = decideMusic({ musicgen: true });
+    expect(r.engine).toBe("musicgen");
+    expect(r.ready).toBe(true);
+    expect(r.setupHint).toBeUndefined();
   });
 
   it("flags MusicGen as not-ready with a pip hint when deps are missing", () => {
-    const r = decideMusic({ hasHeygen: false, lyria: false, musicgen: false });
-    expect(r.engine).toBe("musicgen");
+    const r = decideMusic({ musicgen: false });
     expect(r.ready).toBe(false);
     expect(r.setupHint).toBe(MUSICGEN_PIP);
   });

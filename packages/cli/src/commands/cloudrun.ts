@@ -5,7 +5,7 @@ import { failCommand } from "../utils/commandResult.js";
  * Cloud Run + Cloud Workflows.
  *
  * The GCP counterpart to `frames lambda`. Thin glue: argument parsing
- * + help here; the work lives in `@frames/gcp-cloud-run/sdk`
+ * + help here; the work lives in `@hanzo/frame-gcp-cloud-run/sdk`
  * (`deploySite` / `renderToCloudRun` / `getRenderProgress`) plus `terraform`
  * and `gcloud` for provisioning + the image build.
  *
@@ -19,7 +19,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { defineCommand } from "citty";
-import { type CanvasResolution } from "@frames/core";
+import { type CanvasResolution } from "@hanzo/frame-core";
 import { parseOutputResolutionFlag } from "../utils/parseOutputResolution.js";
 import type { Example } from "./_examples.js";
 import { c } from "../ui/colors.js";
@@ -50,10 +50,7 @@ export const examples: Example[] = [
     "frames cloudrun render-batch ./my-template --batch ./users.jsonl --width 1920 --height 1080 --max-concurrent 10",
   ],
   ["Check progress for a started render", "frames cloudrun progress <executionName>"],
-  [
-    "Pre-upload a project so renders share the upload",
-    "frames cloudrun sites create ./my-project",
-  ],
+  ["Pre-upload a project so renders share the upload", "frames cloudrun sites create ./my-project"],
   ["Tear the stack down", "frames cloudrun destroy --project my-gcp-project"],
 ];
 
@@ -87,14 +84,14 @@ interface StackState {
   workflowId: string;
 }
 
-type CloudRunAdapter = typeof import("@frames/gcp-cloud-run/sdk") &
-  typeof import("@frames/gcp-cloud-run/terraform");
+type CloudRunAdapter = typeof import("@hanzo/frame-gcp-cloud-run/sdk") &
+  typeof import("@hanzo/frame-gcp-cloud-run/terraform");
 let cloudRunAdapterPromise: Promise<CloudRunAdapter> | undefined;
 
 function loadCloudRunAdapter(): Promise<CloudRunAdapter> {
   cloudRunAdapterPromise ??= Promise.all([
-    import("@frames/gcp-cloud-run/sdk"),
-    import("@frames/gcp-cloud-run/terraform"),
+    import("@hanzo/frame-gcp-cloud-run/sdk"),
+    import("@hanzo/frame-gcp-cloud-run/terraform"),
   ]).then(([sdk, terraform]) => ({ ...sdk, ...terraform }));
   return cloudRunAdapterPromise;
 }
@@ -102,17 +99,17 @@ function loadCloudRunAdapter(): Promise<CloudRunAdapter> {
 export function isMissingCloudRunAdapterError(error: unknown): boolean {
   return (
     (error as NodeJS.ErrnoException)?.code === "ERR_MODULE_NOT_FOUND" &&
-    normalizeErrorMessage(error).includes("@frames/gcp-cloud-run")
+    normalizeErrorMessage(error).includes("@hanzo/frame-gcp-cloud-run")
   );
 }
 
 export function missingCloudRunAdapterMessage(subcommand: string): string {
   return (
-    `${c.error("@frames/gcp-cloud-run is not installed.")} The ${c.accent(`frames cloudrun ${subcommand}`)} command needs it at runtime.\n` +
+    `${c.error("@hanzo/frame-gcp-cloud-run is not installed.")} The ${c.accent(`frames cloudrun ${subcommand}`)} command needs it at runtime.\n` +
     `Install it alongside the CLI:\n` +
-    `  ${c.accent("npm install -g @frames/gcp-cloud-run")}\n` +
+    `  ${c.accent("npm install -g @hanzo/frame-gcp-cloud-run")}\n` +
     `Or, for an opt-in project setup:\n` +
-    `  ${c.accent("npm install @frames/gcp-cloud-run")}`
+    `  ${c.accent("npm install @hanzo/frame-gcp-cloud-run")}`
   );
 }
 
@@ -575,9 +572,7 @@ async function runRender(args: Record<string, unknown>): Promise<void> {
     else {
       console.log(`${c.accent("✓ render started")} renderId=${handle.renderId}`);
       console.log(`  output → ${handle.outputGcsUri}`);
-      console.log(
-        `  progress: ${c.accent(`frames cloudrun progress ${handle.executionName}`)}`,
-      );
+      console.log(`  progress: ${c.accent(`frames cloudrun progress ${handle.executionName}`)}`);
     }
     return;
   }

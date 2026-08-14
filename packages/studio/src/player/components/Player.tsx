@@ -1,9 +1,9 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { isLottieAnimationLoaded } from "@frames/core/runtime/lottie-readiness";
+import { isLottieAnimationLoaded } from "@hanzo/frame-core/runtime/lottie-readiness";
 import { useMountEffect } from "../../hooks/useMountEffect";
 import { applyPreviewVariablesToUrl } from "../../hooks/previewVariablesStore";
 import { HyperframesLoader } from "../../components/ui";
-// NOTE: importing "@frames/player" registers a class extending HTMLElement
+// NOTE: importing "@hanzo/frame-player" registers a class extending HTMLElement
 // at module load, which throws under SSR. Defer the import to the mount effect
 // so it only runs in the browser.
 
@@ -161,7 +161,7 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
       let cleanup: (() => void) | undefined;
 
       // Dynamic import registers the custom element in the browser only.
-      import("@frames/player").then(() => {
+      import("@hanzo/frame-player").then(() => {
         if (canceled) return;
 
         // Create the web component imperatively to avoid JSX custom-element typing.

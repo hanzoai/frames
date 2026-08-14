@@ -1,4 +1,4 @@
-import type { CompositionVariable, VariableValidationIssue } from "@frames/core/variables";
+import type { CompositionVariable, VariableValidationIssue } from "@hanzo/frame-core/variables";
 
 /**
  * Cross-referenced variable usage for a whole composition: the per-script
@@ -342,7 +342,7 @@ export interface PatchEvent {
  * may forward patch events across. The namespace prefix keeps collision risk
  * with host-chosen origins negligible.
  */
-export const ORIGIN_APPLY_PATCHES = "@frames/sdk:applyPatches" as const;
+export const ORIGIN_APPLY_PATCHES = "@hanzo/frame-sdk:applyPatches" as const;
 
 /** Default origin when none specified — UI-driven dispatch. */
 export const ORIGIN_LOCAL = "local" as const;

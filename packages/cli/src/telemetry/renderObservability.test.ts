@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { RenderObservabilitySummary } from "@frames/producer";
+import type { RenderObservabilitySummary } from "@hanzo/frame-producer";
 import { renderObservabilityTelemetryPayload } from "./renderObservability.js";
 
 function makeSummary(

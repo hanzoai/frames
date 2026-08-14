@@ -14,7 +14,7 @@ import {
   COLOR_GRADING_MAX_SECONDARIES,
   COLOR_GRADING_TOP_LEVEL_KEYS,
   COLOR_GRADING_WHEEL_KEYS,
-} from "@frames/parsers/color-grading-contract";
+} from "@hanzo/frame-parsers/color-grading-contract";
 
 export type { HfColorCurvePoint, HfHueCurvePoint } from "./colorGradingCurves";
 export {

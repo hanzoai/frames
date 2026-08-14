@@ -24,8 +24,8 @@ import {
   decideMediaProxyEligibility,
   proxyVariantFor,
   scanProjectMediaCodecMap,
-} from "@frames/studio-server/media-codec-map";
-import { resolveProxy } from "@frames/studio-server/proxy-transcoder";
+} from "@hanzo/frame-studio-server/media-codec-map";
+import { resolveProxy } from "@hanzo/frame-studio-server/proxy-transcoder";
 import { rectToBbox } from "./checkTypes.js";
 import type {
   AnchoredLayoutIssue,
@@ -116,9 +116,7 @@ export async function preResolveHostileMediaProxies(
   try {
     codecMap = await scanProjectMediaCodecMap(projectDir, [{ html }]);
   } catch (err) {
-    console.info(
-      `[frames] media proxy pre-resolve: scan failed (${normalizeErrorMessage(err)})`,
-    );
+    console.info(`[frames] media proxy pre-resolve: scan failed (${normalizeErrorMessage(err)})`);
     return;
   }
   const hostileEntries = Object.entries(codecMap).filter(
@@ -181,7 +179,7 @@ export async function runBrowserCheck(
     // slot silently shortens the slot at render time — invisible to lint (no
     // intrinsic durations statically) and to the runtime listeners (nothing
     // errors). The session is already open, so this is one extra evaluate.
-    const { analyzeClipMediaFit } = await import("@frames/engine");
+    const { analyzeClipMediaFit } = await import("@hanzo/frame-engine");
     for (const entry of await auditClipDurations(page, analyzeClipMediaFit, options.timeout)) {
       drafts.push({ code: "clip_media_fit", severity: entry.level, message: entry.text, time: 0 });
     }

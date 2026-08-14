@@ -1,4 +1,4 @@
-import type { RenderJob, RenderPerfSummary } from "@frames/producer";
+import type { RenderJob, RenderPerfSummary } from "@hanzo/frame-producer";
 import type { RenderObservabilityTelemetryPayload } from "./events.js";
 
 type RenderObservabilitySummary = NonNullable<RenderPerfSummary["observability"]>;

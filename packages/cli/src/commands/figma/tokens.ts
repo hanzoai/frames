@@ -16,7 +16,7 @@ import {
   type CompositionVariableEntry,
   type FigmaClient,
   type FigmaTokensSidecar,
-} from "@frames/core/figma";
+} from "@hanzo/frame-core/figma";
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { withFigmaErrors } from "./cliError.js";

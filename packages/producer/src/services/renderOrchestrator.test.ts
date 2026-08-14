@@ -2,15 +2,15 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, win32 } from "node:path";
 import { tmpdir } from "node:os";
-import type { CaptureOptions, EngineConfig, ExtractedFrames } from "@frames/engine";
-import { executeParallelCapture, mergeWorkerFrames } from "@frames/engine";
+import type { CaptureOptions, EngineConfig, ExtractedFrames } from "@hanzo/frame-engine";
+import { executeParallelCapture, mergeWorkerFrames } from "@hanzo/frame-engine";
 import type { CompiledComposition } from "./htmlCompiler.js";
 
 // Replace only the two engine functions the adaptive-retry loop uses to touch
 // disk; everything else (distributeFrames, types, etc.) stays real so the loop
 // runs for real against a temp framesDir.
-vi.mock("@frames/engine", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@frames/engine")>();
+vi.mock("@hanzo/frame-engine", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hanzo/frame-engine")>();
   return { ...actual, executeParallelCapture: vi.fn(), mergeWorkerFrames: vi.fn() };
 });
 
@@ -498,9 +498,9 @@ describe("createCompiledFrameSrcResolver", () => {
   it("maps extracted frame paths under compiledDir to encoded server URLs", () => {
     const resolver = createCompiledFrameSrcResolver("/tmp/hf job/compiled");
 
-    expect(
-      resolver("/tmp/hf job/compiled/__frames_video_frames/video 1/frame_00001.jpg"),
-    ).toBe("/__frames_video_frames/video%201/frame_00001.jpg");
+    expect(resolver("/tmp/hf job/compiled/__frames_video_frames/video 1/frame_00001.jpg")).toBe(
+      "/__frames_video_frames/video%201/frame_00001.jpg",
+    );
   });
 
   it("returns null for paths outside compiledDir", () => {
@@ -522,13 +522,13 @@ describe("createCompiledFrameSrcResolver", () => {
   it("encodes reserved characters in frame path segments", () => {
     const resolver = createCompiledFrameSrcResolver("/tmp/hf-job/compiled");
 
-    expect(
-      resolver("/tmp/hf-job/compiled/__frames_video_frames/video#1/frame_00001.jpg"),
-    ).toBe("/__frames_video_frames/video%231/frame_00001.jpg");
+    expect(resolver("/tmp/hf-job/compiled/__frames_video_frames/video#1/frame_00001.jpg")).toBe(
+      "/__frames_video_frames/video%231/frame_00001.jpg",
+    );
 
-    expect(
-      resolver("/tmp/hf-job/compiled/__frames_video_frames/video?q=1/frame_00001.jpg"),
-    ).toBe("/__frames_video_frames/video%3Fq%3D1/frame_00001.jpg");
+    expect(resolver("/tmp/hf-job/compiled/__frames_video_frames/video?q=1/frame_00001.jpg")).toBe(
+      "/__frames_video_frames/video%3Fq%3D1/frame_00001.jpg",
+    );
   });
 });
 

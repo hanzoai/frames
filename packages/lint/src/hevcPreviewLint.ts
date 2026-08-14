@@ -1,12 +1,12 @@
 import { execFile } from "node:child_process";
-import { rewriteAssetPath } from "@frames/parsers/asset-paths";
-import { findFfBinary } from "@frames/parsers/ff-binaries";
+import { rewriteAssetPath } from "@hanzo/frame-parsers/asset-paths";
+import { findFfBinary } from "@hanzo/frame-parsers/ff-binaries";
 import {
   cleanAssetUrl,
   isRemoteOrInlineUrl,
   maskNonScannableRanges,
   resolveExistingLocalAsset,
-} from "@frames/parsers/asset-resolution";
+} from "@hanzo/frame-parsers/asset-resolution";
 import type { HyperframeLintFinding } from "./types.js";
 
 /** Structurally compatible with `project.ts`'s (unexported) `HtmlSource` —

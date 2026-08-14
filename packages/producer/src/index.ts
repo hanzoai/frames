@@ -1,5 +1,5 @@
 /**
- * @frames/producer
+ * @hanzo/frame-producer
  *
  * Generic HTML-to-video rendering engine using Chrome's BeginFrame API.
  * Framework-agnostic: works with GSAP, Lottie, Three.js, CSS animations,
@@ -83,7 +83,7 @@ export {
 } from "./services/fileServer.js";
 
 // ── Video frame injection (Hyperframes-specific hook) ───────────────────────
-export { createVideoFrameInjector } from "@frames/engine";
+export { createVideoFrameInjector } from "@hanzo/frame-engine";
 
 // ── Configuration ───────────────────────────────────────────────────────────
 export { resolveConfig, DEFAULT_CONFIG, type ProducerConfig } from "./config.js";
@@ -133,9 +133,9 @@ export {
 } from "./services/hyperframeLint.js";
 
 // ── Distributed render primitives ───────────────────────────────────────────
-// The full surface lives at `@frames/producer/distributed`; we
+// The full surface lives at `@hanzo/frame-producer/distributed`; we
 // additionally re-export the three activity functions + their result
-// types here so callers that pin `@frames/producer` don't need a
+// types here so callers that pin `@hanzo/frame-producer` don't need a
 // separate subpath import.
 export {
   assemble,

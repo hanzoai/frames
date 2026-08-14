@@ -9,7 +9,7 @@ import {
   classifyPropertyGroup,
   type GsapAnimation,
   type PropertyGroupName,
-} from "@frames/core/gsap-parser";
+} from "@hanzo/frame-core/gsap-parser";
 
 export type LaneValues = Record<string, number | string>;
 

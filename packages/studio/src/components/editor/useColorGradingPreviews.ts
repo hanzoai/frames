@@ -7,7 +7,7 @@ import {
   type HfColorGradingActiveEffectKey,
   type HfColorGradingTarget,
   type NormalizedHfColorGrading,
-} from "@frames/core/color-grading";
+} from "@hanzo/frame-core/color-grading";
 
 export interface ColorGradingPresetPreviews {
   status: "idle" | "loading" | "ready" | "unavailable";

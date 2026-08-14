@@ -2,14 +2,14 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import type { AudioElement } from "@frames/engine";
+import type { AudioElement } from "@hanzo/frame-engine";
 
 const { processCompositionAudioMock } = vi.hoisted(() => ({
   processCompositionAudioMock: vi.fn(),
 }));
 
-vi.mock("@frames/engine", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@frames/engine")>();
+vi.mock("@hanzo/frame-engine", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hanzo/frame-engine")>();
   return { ...actual, processCompositionAudio: processCompositionAudioMock };
 });
 

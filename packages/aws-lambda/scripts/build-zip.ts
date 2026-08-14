@@ -190,25 +190,25 @@ async function bundleHandler(stagingDir: string): Promise<void> {
   const workspaceAliasPlugin: esbuild.Plugin = {
     name: "workspace-alias",
     setup(build) {
-      build.onResolve({ filter: /^@frames\/producer\/distributed$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-producer\/distributed$/ }, () => ({
         path: resolve(monorepoRoot, "packages/producer/src/distributed.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/producer$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-producer$/ }, () => ({
         path: resolve(monorepoRoot, "packages/producer/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/engine$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-engine$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/engine\/alpha-blit$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-engine\/alpha-blit$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/utils/alphaBlit.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/engine\/shader-transitions$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-engine\/shader-transitions$/ }, () => ({
         path: resolve(monorepoRoot, "packages/engine/src/utils/shaderTransitions.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/core$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-core$/ }, () => ({
         path: resolve(monorepoRoot, "packages/core/src/index.ts"),
       }));
-      build.onResolve({ filter: /^@frames\/core\/lint$/ }, () => ({
+      build.onResolve({ filter: /^@hanzo\/frame-core\/lint$/ }, () => ({
         path: resolve(monorepoRoot, "packages/core/src/lint/index.ts"),
       }));
     },
@@ -335,7 +335,7 @@ function stageHyperframeRuntime(stagingDir: string): void {
   if (!existsSync(manifestSrc) || !existsSync(iifeSrc)) {
     throw new Error(
       `[build-zip] hyperframe runtime artifacts missing under ${coreDist}. ` +
-        `Run 'bun run --filter @frames/core build:frames-runtime:modular' first.`,
+        `Run 'bun run --filter @hanzo/frame-core build:frames-runtime:modular' first.`,
     );
   }
   cpSync(manifestSrc, join(stagingDir, "hyperframe.manifest.json"));

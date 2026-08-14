@@ -2,7 +2,7 @@
 
 import React, { act } from "react";
 import { createRoot } from "react-dom/client";
-import type { RegistryItem } from "@frames/core/registry";
+import type { RegistryItem } from "@hanzo/frame-core/registry";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   deriveMediaOverlayPlacement,
@@ -58,11 +58,7 @@ describe("FlatOverlaysSection", () => {
   });
 
   it("keeps only tagged Registry overlay blocks", () => {
-    const overlay = registryItem(
-      "camcorder-hud",
-      [MEDIA_TREATMENT_OVERLAY_TAG],
-      "frames:block",
-    );
+    const overlay = registryItem("camcorder-hud", [MEDIA_TREATMENT_OVERLAY_TAG], "frames:block");
     const ordinary = registryItem("caption", ["caption"]);
     const taggedComponent = registryItem("scene", [MEDIA_TREATMENT_OVERLAY_TAG]);
 

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { buildSlideshowIslandHtml } from "./setSlideshowManifest";
-import { parseSlideshowManifest } from "@frames/core/slideshow";
+import { parseSlideshowManifest } from "@hanzo/frame-core/slideshow";
 import type { CutoverDeps } from "./sdkCutover";
 
 // Fix 3: vi.mock must be at module top level so Vitest can hoist them.
@@ -127,8 +127,7 @@ describe("persistSlideshowManifest — op construction", () => {
     const written: string = writeProjectFile.mock.calls[0]?.[1] as string;
 
     // Count occurrences of the island script open tag
-    const islandCount = (written.match(/type="application\/frames-slideshow\+json"/g) ?? [])
-      .length;
+    const islandCount = (written.match(/type="application\/frames-slideshow\+json"/g) ?? []).length;
     expect(islandCount).toBe(1);
     expect(written).toContain('"sceneId": "fresh"');
     expect(written).not.toContain('"sceneId": "old-1"');

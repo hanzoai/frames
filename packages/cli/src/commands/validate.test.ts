@@ -22,7 +22,7 @@ import { waitForPreferredSeekTarget } from "../capture/captureCompositionFrame.j
 import type { ProjectLintResult } from "../utils/lintProject.js";
 
 // validateInBrowser lazy-loads the producer localize helpers via loadProducer;
-// mock it so these unit tests never resolve @frames/producer's built dist.
+// mock it so these unit tests never resolve @hanzo/frame-producer's built dist.
 vi.mock("../utils/producer.js", () => ({
   loadProducer: vi.fn(async () => ({
     localizeRemoteMediaSources: vi.fn(async (html: string) => ({
@@ -161,7 +161,7 @@ describe("shouldIgnoreRequestFailure", () => {
     );
     expect(
       shouldIgnoreRequestFailure(
-        "https://www.heygenverse.com/s/50f13ccf-9002-4d80-b567-9d4c0eac30d8/raw",
+        "https://cdn.example.com/s/50f13ccf-9002-4d80-b567-9d4c0eac30d8/raw",
         "net::ERR_ABORTED",
         "media",
       ),
@@ -174,7 +174,7 @@ describe("shouldIgnoreRequestFailure", () => {
     ).toBe(false);
     expect(
       shouldIgnoreRequestFailure(
-        "https://www.heygenverse.com/s/50f13ccf-9002-4d80-b567-9d4c0eac30d8/raw",
+        "https://cdn.example.com/s/50f13ccf-9002-4d80-b567-9d4c0eac30d8/raw",
         "net::ERR_ABORTED",
         "xhr",
       ),

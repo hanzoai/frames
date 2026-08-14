@@ -9,8 +9,8 @@ const coreRoot = resolve(fileURLToPath(new URL("../core/src", import.meta.url)))
 export default defineConfig({
   resolve: {
     alias: {
-      "@frames/core/slideshow": resolve(coreRoot, "slideshow/index.ts"),
-      "@frames/core/runtime/protocol": resolve(coreRoot, "runtime/protocol.ts"),
+      "@hanzo/frame-core/slideshow": resolve(coreRoot, "slideshow/index.ts"),
+      "@hanzo/frame-core/runtime/protocol": resolve(coreRoot, "runtime/protocol.ts"),
     },
   },
   test: {

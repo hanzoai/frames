@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import type { Fps } from "@frames/core";
+import type { Fps } from "@hanzo/frame-core";
 
 export interface GifEncodeArgsInput {
   framesDir: string;

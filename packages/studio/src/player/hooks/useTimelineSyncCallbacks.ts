@@ -11,7 +11,7 @@
 import { useCallback } from "react";
 import { liveTime, usePlayerStore } from "../store/playerStore";
 import type { TimelineElement, DomClipChild } from "../store/playerStore";
-import { resolveCssStackingContextId } from "@frames/core/runtime/stacking-context";
+import { resolveCssStackingContextId } from "@hanzo/frame-core/runtime/stacking-context";
 import type { PlaybackAdapter, ClipManifestClip, IframeWindow } from "../lib/playbackTypes";
 import {
   parseTimelineFromDOM,
@@ -158,7 +158,7 @@ export function useTimelineSyncCallbacks({
 
       try {
         const iframeWin = iframeRef.current?.contentWindow as
-          | (Window & { __clipTree?: import("@frames/core/runtime/clipTree").ClipTree })
+          | (Window & { __clipTree?: import("@hanzo/frame-core/runtime/clipTree").ClipTree })
           | null;
         const clipTree = iframeWin?.__clipTree;
         const parentMap = new Map<string, string>();

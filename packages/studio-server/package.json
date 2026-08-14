@@ -1,6 +1,6 @@
 {
-  "name": "@frames/studio-server",
-  "version": "0.7.81",
+  "name": "@hanzo/frame-studio-server",
+  "version": "0.7.82",
   "repository": {
     "type": "git",
     "url": "https://github.com/hanzoai/frames",
@@ -134,8 +134,8 @@
     "prepublishOnly": "echo skip"
   },
   "dependencies": {
-    "@frames/core": "workspace:*",
-    "@frames/parsers": "workspace:*",
+    "@hanzo/frame-core": "workspace:*",
+    "@hanzo/frame-parsers": "workspace:*",
     "hono": "^4.0.0",
     "linkedom": "^0.18.12",
     "postcss": "^8.5.8",

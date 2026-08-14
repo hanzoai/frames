@@ -237,16 +237,16 @@ Full documentation: [frames.hanzo.ai/introduction](https://frames.hanzo.ai/intro
 
 ## Packages
 
-| Package                                                     | Description                                                       |
-| ----------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`@hanzo/frame`](packages/cli)                              | CLI for creating, previewing, linting, and rendering compositions |
-| [`@frames/core`](packages/core)                             | Types, parsers, generators, linter, runtime, and frame adapters   |
-| [`@frames/engine`](packages/engine)                         | Seekable page-to-video capture engine using Puppeteer and FFmpeg  |
-| [`@frames/producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
-| [`@frames/studio`](packages/studio)                         | Browser-based composition editor UI                               |
-| [`@frames/player`](packages/player)                         | Embeddable `<frames-player>` web component                        |
-| [`@frames/shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                         |
-| [`@frames/aws-lambda`](packages/aws-lambda)                 | AWS Lambda SDK and deployment surface for distributed renders     |
+| Package                                                          | Description                                                       |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [`@hanzo/frame`](packages/cli)                                         | CLI for creating, previewing, linting, and rendering compositions |
+| [`@hanzo/frame-core`](packages/core)                             | Types, parsers, generators, linter, runtime, and frame adapters   |
+| [`@hanzo/frame-engine`](packages/engine)                         | Seekable page-to-video capture engine using Puppeteer and FFmpeg  |
+| [`@hanzo/frame-producer`](packages/producer)                     | Full rendering pipeline for capture, encode, and audio mix        |
+| [`@hanzo/frame-studio`](packages/studio)                         | Browser-based composition editor UI                               |
+| [`@hanzo/frame-player`](packages/player)                         | Embeddable `<frames-player>` web component                        |
+| [`@hanzo/frame-shader-transitions`](packages/shader-transitions) | WebGL shader transitions for compositions                         |
+| [`@hanzo/frame-aws-lambda`](packages/aws-lambda)                 | AWS Lambda SDK and deployment surface for distributed renders     |
 
 ## Community
 

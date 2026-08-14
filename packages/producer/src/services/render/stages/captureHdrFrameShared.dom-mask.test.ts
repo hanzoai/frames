@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { ElementStackingInfo } from "@frames/engine";
+import type { ElementStackingInfo } from "@hanzo/frame-engine";
 import {
   applyDomLayerMask,
   blitRgba8OverRgb48le,
   captureAlphaPng,
   decodePng,
   removeDomLayerMask,
-} from "@frames/engine";
+} from "@hanzo/frame-engine";
 import type { ProducerLogger } from "../../../logger.js";
 import type { HdrCompositeContext } from "../../hdrCompositor.js";
 import { captureSceneIntoBuffer } from "./captureHdrFrameShared.js";
 
-vi.mock("@frames/engine", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("@frames/engine")>();
+vi.mock("@hanzo/frame-engine", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@hanzo/frame-engine")>();
   return {
     ...actual,
     applyDomLayerMask: vi.fn(async () => undefined),

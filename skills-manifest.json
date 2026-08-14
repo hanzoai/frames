@@ -6,67 +6,67 @@
       "files": 140
     },
     "faceless-explainer": {
-      "hash": "3f83583c4db3770e",
+      "hash": "b9cb2691b14aba33",
       "files": 22
     },
     "figma": {
-      "hash": "3bef085459d6ce2a",
+      "hash": "db9d862ce80ff313",
       "files": 2
     },
-    "general-video": {
-      "hash": "448a50313de08bca",
-      "files": 4
-    },
-    "hyperframes": {
-      "hash": "97358be15b9fcab3",
+    "frames": {
+      "hash": "cb32b613cdec7f4b",
       "files": 17
     },
-    "hyperframes-animation": {
+    "frames-animation": {
       "hash": "777c9c41514abea6",
       "files": 121
     },
-    "hyperframes-cli": {
-      "hash": "4e004b5031487c79",
+    "frames-cli": {
+      "hash": "eab61861b83d63d5",
       "files": 11
     },
-    "hyperframes-core": {
-      "hash": "afd55646e1b6deb9",
+    "frames-core": {
+      "hash": "40d8a0344c545702",
       "files": 19
     },
-    "hyperframes-creative": {
+    "frames-creative": {
       "hash": "5a45c344db173849",
       "files": 78
     },
-    "hyperframes-keyframes": {
+    "frames-keyframes": {
       "hash": "e407cca40e2e9795",
       "files": 3
     },
-    "hyperframes-registry": {
-      "hash": "fe6fc8fc2fe3705f",
+    "frames-registry": {
+      "hash": "7288c7add391c2c9",
       "files": 10
     },
+    "general-video": {
+      "hash": "102ee3439678ed64",
+      "files": 4
+    },
     "media-use": {
-      "hash": "29eb505e4579d68e",
+      "hash": "b1e6e7824b3a3360",
       "files": 124
     },
     "motion-graphics": {
-      "hash": "e0859c835eae20f9",
+      "hash": "94c70b5768d1c723",
       "files": 23
     },
     "music-to-video": {
-      "hash": "641ace28acc37ec9",
+      "hash": "830886a4e6c12aab",
       "files": 132
     },
     "pr-to-video": {
-      "hash": "5c295974d3757ef3",
+      "hash": "fc5bbdad43ff7965",
       "files": 29
     },
     "product-launch-video": {
-      "hash": "ce14818198999f96",
+      "hash": "e05f0311225f8fe1",
       "files": 26
     },
-    "remotion-to-hyperframes": {
-      "hash": "5a3bb9af8311822e",
+    "remotion-to-frames": {
+      "hash": "b99129eff9f20bfb",
       "files": 70
     },
     "slideshow": {

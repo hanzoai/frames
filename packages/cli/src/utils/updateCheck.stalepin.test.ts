@@ -44,7 +44,7 @@ describe("printStalePinNotice", () => {
   it("warns once when the project pins an older version", () => {
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { render: "npx --yes frames@0.7.48 render" } }),
+      JSON.stringify({ scripts: { render: "npx --yes @hanzo/frames@0.7.48 render" } }),
     );
     printStalePinNotice(dir);
     printStalePinNotice(dir); // throttled — second call silent
@@ -56,7 +56,7 @@ describe("printStalePinNotice", () => {
   it("silent when project pin is current", () => {
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { render: "npx --yes frames@0.7.55 render" } }),
+      JSON.stringify({ scripts: { render: "npx --yes @hanzo/frames@0.7.55 render" } }),
     );
     printStalePinNotice(dir);
     expect(writes.join("")).toBe("");
@@ -66,7 +66,7 @@ describe("printStalePinNotice", () => {
     process.env.CI = "true";
     writeFileSync(
       join(dir, "package.json"),
-      JSON.stringify({ scripts: { render: "npx --yes frames@0.7.48 render" } }),
+      JSON.stringify({ scripts: { render: "npx --yes @hanzo/frames@0.7.48 render" } }),
     );
     printStalePinNotice(dir);
     expect(writes.join("")).toBe("");

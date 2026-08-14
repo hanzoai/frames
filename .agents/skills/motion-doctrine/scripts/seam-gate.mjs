@@ -71,7 +71,7 @@ async function ensureServer() {
     const port = 5380 + Math.floor(Math.random() * 20);
     const env = { ...process.env };
     delete env.HYPERFRAME_RUNTIME_URL; // wrong value fails silently as 200 HTML
-    const cmd = flag("server-cmd", `npx --yes frames preview --no-open --port ${port}`);
+    const cmd = flag("server-cmd", `npx --yes @hanzo/frames preview --no-open --port ${port}`);
     const child = spawn("sh", ["-c", cmd.replace(/\{port\}/g, String(port))], {
       cwd: project,
       env,

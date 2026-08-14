@@ -39,10 +39,10 @@ function expectScaffoldedScripts(target: string): void {
     scripts?: Record<string, string>;
   };
   expect(pkg.scripts).toMatchObject({
-    dev: "npx --yes frames preview",
-    check: "npx --yes frames check",
-    render: "npx --yes frames render",
-    publish: "npx --yes frames publish",
+    dev: "npx --yes @hanzo/frames preview",
+    check: "npx --yes @hanzo/frames check",
+    render: "npx --yes @hanzo/frames render",
+    publish: "npx --yes @hanzo/frames publish",
   });
   expect(Object.keys(pkg.scripts ?? {}).sort()).toEqual(["check", "dev", "publish", "render"]);
 }

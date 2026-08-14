@@ -1,0 +1,155 @@
+name: publish
+
+# Publishes the workspace packages whose version npmjs does not serve yet.
+#
+# There is ONE question here — "which packages does the registry not have at
+# this tree's version?" — and the plan step asks the registry itself. A paths
+# filter would guess the same answer from the shape of a diff and guess wrong
+# in both directions, so there is none: the job is idempotent and a push that
+# changes nothing publishes nothing.
+#
+# The tarball is packed by bun and uploaded by npm. That split is deliberate.
+# Every package depends on its siblings through `workspace:` specifiers, which
+# npm cannot resolve; bun rewrites them to the concrete version as it packs.
+# npm then does the half it is good at — registry auth and upload. Neither tool
+# is asked to do the other's job, and no manifest is rewritten in place.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: hanzo-build-linux-amd64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # validate-release-channel resolves the channel from the branches
+          # that contain HEAD, so it needs the remote refs.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+
+      # The runner image carries no bun, and this repo is bun-native.
+      - name: Install bun
+        run: |
+          command -v bun >/dev/null 2>&1 || curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
+
+      - name: Plan
+        id: plan
+        run: |
+          node --input-type=module -e '
+            import { appendFileSync, readdirSync, readFileSync } from "node:fs";
+            import { expectedDistTag } from "./scripts/validate-release-channel.mjs";
+
+            const pending = [];
+            let version = "";
+            for (const dir of readdirSync("packages")) {
+              let pkg;
+              try {
+                pkg = JSON.parse(readFileSync(`packages/${dir}/package.json`, "utf8"));
+              } catch {
+                continue;
+              }
+              if (pkg.private || !pkg.name || !pkg.version) continue;
+              version = pkg.version;
+              const url = `https://registry.npmjs.org/${pkg.name.replace("/", "%2f")}/${pkg.version}`;
+              const res = await fetch(url);
+              if (res.status === 404) {
+                pending.push(dir);
+                console.log(`publish  ${pkg.name}@${pkg.version}`);
+              } else if (res.ok) {
+                console.log(`skip     ${pkg.name}@${pkg.version} (already on the registry)`);
+              } else {
+                console.error(`::error::registry lookup for ${pkg.name}@${pkg.version} answered ${res.status}`);
+                process.exit(1);
+              }
+            }
+
+            const out = process.env.GITHUB_OUTPUT;
+            appendFileSync(out, `pending=${pending.join(" ")}\n`);
+            appendFileSync(out, `version=${version}\n`);
+            appendFileSync(out, `dist_tag=${expectedDistTag(version)}\n`);
+          '
+
+      # A prerelease version must not land on `latest`, and a stable one must
+      # come from a branch that is allowed to cut it.
+      - name: Validate release channel
+        if: steps.plan.outputs.pending != ''
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+          DIST_TAG: ${{ steps.plan.outputs.dist_tag }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: node scripts/validate-release-channel.mjs
+
+      # dist/ is gitignored, so publishing without a build ships empty packages.
+      # verify:packed-manifests then checks each tarball carries the entrypoints
+      # its manifest promises.
+      - name: Build
+        if: steps.plan.outputs.pending != ''
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+          bun run verify:packed-manifests
+
+      - name: Fetch the npm token from KMS
+        id: npmtok
+        if: steps.plan.outputs.pending != ''
+        # KMS is where a secret lives. The token is read at run time with the
+        # same machine identity the rest of the fleet uses, so there is nothing
+        # new to rotate and no npm credential sits on the forge.
+        env:
+          KMS_CLIENT_ID: ${{ secrets.KMS_CLIENT_ID }}
+          KMS_CLIENT_SECRET: ${{ secrets.KMS_CLIENT_SECRET }}
+          KMS_ENDPOINT: ${{ vars.KMS_ENDPOINT || 'https://kms.hanzo.ai' }}
+          KMS_SECRET_ENV: ${{ vars.KMS_SECRET_ENV || 'prod' }}
+          # NPM_TOKEN sits at the org root. Empty means root; set KMS_NPM_PATH
+          # to move it without editing this file.
+          KMS_NPM_PATH: ${{ vars.KMS_NPM_PATH || '' }}
+        run: |
+          token=$(curl -fsS "${KMS_ENDPOINT}/v1/kms/auth/login" \
+            -H 'Content-Type: application/json' \
+            -d "{\"clientId\":\"${KMS_CLIENT_ID}\",\"clientSecret\":\"${KMS_CLIENT_SECRET}\"}" \
+            | jq -r '.accessToken // empty')
+          if [ -z "${token}" ]; then
+            echo "::error::KMS login failed at ${KMS_ENDPOINT}/v1/kms/auth/login (check KMS_CLIENT_ID/KMS_CLIENT_SECRET)."
+            exit 1
+          fi
+          # The read is org-scoped by the token's owner claim, not by a path
+          # segment: the flat form answers {name, env, value}.
+          secret_url="${KMS_ENDPOINT}/v1/kms/secrets/${KMS_NPM_PATH:+${KMS_NPM_PATH}/}NPM_TOKEN?env=${KMS_SECRET_ENV}"
+          # No -f: a 404 must report WHICH path was empty, not just exit 22.
+          npm_token=$(curl -sS "${secret_url}" -H "Authorization: Bearer ${token}" | jq -r '.value // empty')
+          if [ -z "${npm_token}" ]; then
+            echo "::error::No NPM_TOKEN at ${secret_url}."
+            echo "::error::Put it there, or set the KMS_NPM_PATH variable to the path that has it."
+            exit 1
+          fi
+          # Masked before it is ever an output, so it cannot surface in a log.
+          echo "::add-mask::${npm_token}"
+          echo "token=${npm_token}" >> "$GITHUB_OUTPUT"
+
+      # --no-provenance: a token publish 422s without it.
+      - name: Publish
+        if: steps.plan.outputs.pending != ''
+        env:
+          NODE_AUTH_TOKEN: ${{ steps.npmtok.outputs.token }}
+          DIST_TAG: ${{ steps.plan.outputs.dist_tag }}
+        run: |
+          set -e
+          mkdir -p "$RUNNER_TEMP/tarballs"
+          for dir in ${{ steps.plan.outputs.pending }}; do
+            ( cd "packages/$dir" && bun pm pack --destination "$RUNNER_TEMP/tarballs" )
+          done
+          for tarball in "$RUNNER_TEMP"/tarballs/*.tgz; do
+            echo "publishing $(basename "$tarball")"
+            npm publish "$tarball" --access public --no-provenance --tag "$DIST_TAG"
+          done

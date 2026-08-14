@@ -9,7 +9,7 @@ description: >
   Unclear → /frames.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx frames skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update slideshow`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 > **figma source**: If the deck's content or storyboard comes from a figma.com URL, run `/figma` first — asset export, brand tokens, and storyboard reconstruction if the source is a strip of scene frames — then build from its output. Don't drive Figma via raw MCP tools directly: that skips SVG sanitization, `.media/manifest.jsonl` provenance, and brand-token `var()` binding, so a later brand change can't propagate without a full re-import.
 
@@ -21,9 +21,9 @@ A Frames slideshow is a normal Frames composition — scenes, clips, GSAP timeli
 
 ## Output — a navigable deck, not a linear MP4
 
-A slideshow's output is the **running deck**: serve it with `frames present <project-dir>` (or Studio present mode) — the player's `SlideshowController` reads the island and drives navigation, fragments, branching, and presenter mode. See **Presenting and handoff** below.
+A slideshow's output is the **running deck**: serve it with `hanzo frame present <project-dir>` (or Studio present mode) — the player's `SlideshowController` reads the island and drives navigation, fragments, branching, and presenter mode. See **Presenting and handoff** below.
 
-**Do not `frames render` a slideshow into a single MP4.** A deck is authored as several top-level scene compositions (one `data-composition-id` per slide) with **no master-root composition** wrapping them, so `render` resolves only the **first** composition and emits a **silently truncated** MP4 (e.g. 6s of a 40-second deck). A linear main-line export (main slides only, branch sequences excluded) is **deferred** — until it ships, the supported outputs are the live `present` deck and per-slide `snapshot` stills. If a user needs a linear MP4 today, surface this limitation rather than pointing `render` at the deck.
+**Do not `hanzo frame render` a slideshow into a single MP4.** A deck is authored as several top-level scene compositions (one `data-composition-id` per slide) with **no master-root composition** wrapping them, so `render` resolves only the **first** composition and emits a **silently truncated** MP4 (e.g. 6s of a 40-second deck). A linear main-line export (main slides only, branch sequences excluded) is **deferred** — until it ships, the supported outputs are the live `present` deck and per-slide `snapshot` stills. If a user needs a linear MP4 today, surface this limitation rather than pointing `render` at the deck.
 
 ## Intent confirmation
 
@@ -458,7 +458,7 @@ Do not add a second mute button inside the composition. If a wrapper script crea
 
 The same cross-realm rule applies here: global mute must reach iframe `<video>` / `<audio>` elements through the child frame's DOM realm. A passing unit test in a single DOM realm is not enough; verify in a browser that the actual iframe media elements report `muted: true` after clicking the nav mute button.
 
-`frames present` serves built bundles from `packages/player/dist`. After changing player or slideshow chrome behavior, run `bun run build` in `packages/player` and restart the present server before testing in a browser.
+`hanzo frame present` serves built bundles from `packages/player/dist`. After changing player or slideshow chrome behavior, run `bun run build` in `packages/player` and restart the present server before testing in a browser.
 
 Presenter notes are editable in the presenter view. Edits are stored in `localStorage` per deck and slide, layered over the manifest notes without rewriting the composition file. Do not add one-off note-editing scripts to decks; rely on the shared slideshow player behavior. If a standalone/custom wrapper truly needs to implement this outside the shared player, use the deterministic storage snippet in `skills/slideshow/references/standalone-harness.md`.
 
@@ -488,13 +488,13 @@ Do not add a second mute button inside the composition. If a wrapper script crea
 
 The same cross-realm rule applies here: global mute must reach iframe `<video>` / `<audio>` elements through the child frame's DOM realm. A passing unit test in a single DOM realm is not enough; verify in a browser that the actual iframe media elements report `muted: true` after clicking the nav mute button.
 
-`frames present` serves built bundles from `packages/player/dist`. After changing player or slideshow chrome behavior, run `bun run build` in `packages/player` and restart the present server before testing in a browser.
+`hanzo frame present` serves built bundles from `packages/player/dist`. After changing player or slideshow chrome behavior, run `bun run build` in `packages/player` and restart the present server before testing in a browser.
 
 ---
 
 ## Running a slideshow standalone (interim)
 
-The **durable answer** is engine-hosted: `frames preview --slideshow` / studio present mode will host the composition over the real Frames engine, which drives seek-timelines, owns the gesture frame, and reads the island from the composition. That path is coming; prefer it once it ships.
+The **durable answer** is engine-hosted: `hanzo frame preview --slideshow` / studio present mode will host the composition over the real Frames engine, which drives seek-timelines, owns the gesture frame, and reads the island from the composition. That path is coming; prefer it once it ships.
 
 Until then, standalone demos (a composition opened via the bare player bundle in a browser, without the engine) require workarounds for three gaps: the composition must expose a seekable root timeline, the island must be duplicated into the wrapper, and wrapper-owned SFX/global audio should live in the parent frame. These patterns are documented in:
 
@@ -515,7 +515,7 @@ Validate the direct-open path before handoff. If `file://` browser restrictions 
 For a completed slideshow deck, the primary user-facing next step is presenter mode, not Studio. Run or provide:
 
 ```bash
-npx frames present <project-dir>
+npx @hanzo/frame present <project-dir>
 ```
 
 Studio/`preview` is useful for editing a composition, but it is not a clear final destination for a slideshow user. If you create a `package.json` for a slideshow project where the raw composition lives in `composition/`, make the default runnable script start presenter mode:
@@ -523,8 +523,8 @@ Studio/`preview` is useful for editing a composition, but it is not a clear fina
 ```json
 {
   "scripts": {
-    "dev": "npx frames present ./composition",
-    "studio": "npx frames preview ./composition"
+    "dev": "npx @hanzo/frame present ./composition",
+    "studio": "npx @hanzo/frame preview ./composition"
   }
 }
 ```
@@ -538,13 +538,13 @@ At handoff, include the local presenter URL printed by the command and the minim
 After authoring or editing a slideshow composition, run:
 
 ```bash
-npx frames lint
+npx @hanzo/frame lint
 ```
 
 Then run runtime validation:
 
 ```bash
-npx frames check
+npx @hanzo/frame check
 ```
 
 Treat lint errors and validation `StaticGuard` contract messages as blockers even if a command exits successfully. Fix the file and rerun until lint reports `0 error(s)` and validation reports no runtime errors.

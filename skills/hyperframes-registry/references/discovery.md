@@ -3,17 +3,17 @@
 ## Use the catalog command first
 
 ```bash
-npx frames catalog
-npx frames catalog --type block
-npx frames catalog --type component
-npx frames catalog --type block --tag social
-npx frames catalog --json
-npx frames catalog --human-friendly
+npx @hanzo/frame catalog
+npx @hanzo/frame catalog --type block
+npx @hanzo/frame catalog --type component
+npx @hanzo/frame catalog --type block --tag social
+npx @hanzo/frame catalog --json
+npx @hanzo/frame catalog --human-friendly
 ```
 
 - Default output is a readable table. It does not install anything.
 - `--type` accepts `block` or `component`; `--tag` may narrow either result.
-- `--json` is the deterministic agent and CI surface. Select a name, then run `npx frames add <name>`.
+- `--json` is the deterministic agent and CI surface. Select a name, then run `npx @hanzo/frame add <name>`.
 - `--human-friendly` opens a picker and installs the selected item immediately.
 
 ## Read the registry manifest as a fallback
@@ -54,7 +54,7 @@ Where `<type-dir>` is `examples`, `blocks`, or `components`.
 
 ### Blocks
 
-For an always-current list run `npx frames catalog --type block`. The tables below group the 97 blocks by category. **Block name ≠ shader name**: shader-transition blocks (e.g. `domain-warp-dissolve`) wrap a HyperShader runtime whose internal name omits the `-dissolve`/`-warp` suffix — see the showcase HTML installed alongside the block for the canonical name.
+For an always-current list run `npx @hanzo/frame catalog --type block`. The tables below group the 97 blocks by category. **Block name ≠ shader name**: shader-transition blocks (e.g. `domain-warp-dissolve`) wrap a HyperShader runtime whose internal name omits the `-dissolve`/`-warp` suffix — see the showcase HTML installed alongside the block for the canonical name.
 
 #### Shader transitions (14)
 
@@ -198,7 +198,7 @@ A code/terminal window that **types a code or shell session per-character**. The
 
 #### Code Animations (9)
 
-The richer, motion-first counterpart to the static `code-snippet-*` window themes above: each is a self-contained 1920×1080 block (~5–8s) with a paused, deterministic GSAP timeline that _animates_ code — typing, diffing, morphing, spotlighting, or GPU hero reveals — rather than typing a fixed snippet inside editor/terminal chrome. **Reuse-first**: `npx frames add <name>`, then customize the baked code/diff content in place; hand-author only when no block covers the motion you need.
+The richer, motion-first counterpart to the static `code-snippet-*` window themes above: each is a self-contained 1920×1080 block (~5–8s) with a paused, deterministic GSAP timeline that _animates_ code — typing, diffing, morphing, spotlighting, or GPU hero reveals — rather than typing a fixed snippet inside editor/terminal chrome. **Reuse-first**: `npx @hanzo/frame add <name>`, then customize the baked code/diff content in place; hand-author only when no block covers the motion you need.
 
 **DOM / text reveal (6):**
 

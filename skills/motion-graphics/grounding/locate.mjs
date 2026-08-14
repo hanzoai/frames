@@ -21,7 +21,7 @@
  *        redo step 2/3 with corrected strips. Never skip this.
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { existsSync, mkdirSync, copyFileSync, readFileSync } from "node:fs";
 
 const N1 = 9,
   PAD1 = 0.4; // stage 1: strips per axis, padding in STRIP units
@@ -187,35 +187,42 @@ if (cmd === "overlay") {
     next: "READ it — red box on the target? If off, redo region/final with corrected strips.",
   });
 } else if (cmd === "auto") {
-  // OPTIONAL fast path — only if a strong detector key happens to exist. Never assume it.
-  const key = process.env.GEMINI_API_KEY;
+  // OPTIONAL fast path — only when a credential happens to exist. Never assume it.
+  const key = process.env.HANZO_API_KEY;
   if (!key) {
-    console.error(
-      "auto needs GEMINI_API_KEY; use the grid loop instead (overlay→region→final→mark)",
-    );
+    console.error("auto needs HANZO_API_KEY; use the grid loop instead (overlay→region→final→mark)");
     process.exit(1);
   }
   const target = pos[1];
-  const b64 = execFileSync("base64", ["-i", img]).toString().replace(/\n/g, "");
+  const b64 = readFileSync(img).toString("base64");
   const mime = img.match(/\.png$/i) ? "image/png" : "image/jpeg";
-  const body = {
-    contents: [
-      {
-        parts: [
-          { inline_data: { mime_type: mime, data: b64 } },
-          {
-            text: `Detect "${target}". Return ONLY {"box_2d":[ymin,xmin,ymax,xmax]} integers 0-1000.`,
-          },
-        ],
-      },
-    ],
-    generationConfig: { temperature: 0, response_mime_type: "application/json" },
-  };
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${key}`,
-    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) },
-  );
-  const t = (await res.json()).candidates[0].content.parts[0].text;
+  const base = process.env.HANZO_BASE_URL || "https://api.hanzo.ai";
+  const res = await fetch(`${base}/v1/chat/completions`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "zen-vl",
+      temperature: 0,
+      response_format: { type: "json_object" },
+      messages: [
+        {
+          role: "user",
+          content: [
+            { type: "image_url", image_url: { url: `data:${mime};base64,${b64}` } },
+            {
+              type: "text",
+              text: `Detect "${target}". Return ONLY {"box_2d":[ymin,xmin,ymax,xmax]} integers 0-1000.`,
+            },
+          ],
+        },
+      ],
+    }),
+  });
+  if (!res.ok) {
+    console.error(`auto: HTTP ${res.status} from ${base}/v1/chat/completions`);
+    process.exit(1);
+  }
+  const t = (await res.json()).choices[0].message.content;
   let bb = JSON.parse(t.match(/\{[\s\S]*\}/)[0]).box_2d;
   if (Array.isArray(bb[0])) bb = bb[0];
   const s = Math.max(...bb) > 1.5 ? 1000 : 1;

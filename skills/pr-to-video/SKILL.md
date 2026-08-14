@@ -3,9 +3,9 @@ name: pr-to-video
 description: "Turn a GitHub pull request (a PR URL, owner/repo#N, or 'this PR' in a checked-out repo) into a code-change explainer video — changelog, feature reveal, fix, or refactor walkthrough built from the diff, commits, and files: the input is a code change, not a website. Not a product promo (/product-launch-video) or a no-PR topic explainer (/faceless-explainer). Unclear → /frames."
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx frames skills update pr-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update pr-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
-> **media-use**: Before sourcing audio/images/logos, call `/media-use` to resolve BGM/SFX/images from the HeyGen catalog and brand logos from their official sources. Run `--adopt` first to register existing assets. See `/media-use` skill.
+> **media-use**: Before sourcing audio/images/logos, call `/media-use` to resolve BGM/SFX/images from the shared catalog and brand logos from their official sources. Run `--adopt` first to register existing assets. See `/media-use` skill.
 
 # PR to Frames
 
@@ -42,20 +42,20 @@ The capability preflight runs before fetch, story work, audio, or frame dispatch
 
 Initialize only if `$PROJECT_DIR/frames.json` is missing. Its basename comes from the PR, such as `acme-sdk-pr-1842`; never use the workspace name or a timestamp.
 
-`npx frames init "$PROJECT_DIR" --non-interactive --example=blank --skill=pr-to-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
+`npx @hanzo/frame init "$PROJECT_DIR" --non-interactive --example=blank --skill=pr-to-video` — `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 Every relative-path command below runs with `$PROJECT_DIR` as its working directory. Examples without an explicit subshell mean `(cd "$PROJECT_DIR" && …)`; never change the caller repository's working tree.
 
 **Write `BRIEF.md` immediately after init** (never before — `init` refuses a non-empty directory): the intent layer's locked brief, shape per `../frames-core/references/brief-format.md`. Resolve `<MEDIA_DIR>` as the installed `/media-use` skill directory. Then record each preference-backed answer with `node <MEDIA_DIR>/scripts/prefs.mjs record --frames .` (`brief-format.md` names the subset). If the intent layer adopted a recipe, run `node <MEDIA_DIR>/scripts/recipe.mjs use --frames . --name <name>`; it copies its `frame.md` into the project (Step 2 is then skipped) and returns the skeletons Step 3 drafts from. A recipe fills answers, not approvals; the review gates still run.
 
-**Show sign-in status before proceeding past Setup** — run `npx frames auth status` and relay its output verbatim. It reports whether voice/BGM will use HeyGen or local engines and, when signed out, how to sign in. Apply one branch:
+**Check the credential before proceeding past Setup** — run `node <MEDIA_DIR>/scripts/resolve.mjs --doctor` and relay its output verbatim. It reports whether `$HANZO_API_KEY` and `$HANZO_ORG` are set, and therefore whether voice, music, and the shared catalog are available at all. Apply one branch:
 
-- **Collaborative:** wait for the user to sign in or explicitly choose `offline` / `go`.
-- **Autonomous:** state the status and continue through the available local engines.
+- **Collaborative:** wait for the user to export a credential or explicitly choose to continue without one.
+- **Autonomous:** state what is available and continue with the rungs that work — the bundled sound effects and the local grade/LUT builders need no credential.
 
-Do not silently omit a required capability when no offline provider exists; surface the blocker. Do not fold this decision into another question or write keys into a per-repo `.env`. Auth ownership and offline fallbacks: `/media-use` `references/setup-providers.md` § Providers.
+Do not silently omit a required capability when nothing can serve it; surface the blocker. Do not fold this decision into another question, and never write a key into a per-repo `.env` — the token lives in Hanzo KMS. Credential and provider table: `/media-use` `references/setup-providers.md`.
 
-**Gate:** `frames.json` and `BRIEF.md` exist; the PR ref is captured in the brief; the preference-backed answers were recorded (brief contract § 2); sign-in status was shown (signed in, or continuing offline).
+**Gate:** `frames.json` and `BRIEF.md` exist; the PR ref is captured in the brief; the preference-backed answers were recorded (brief contract § 2); the credential check was shown (set, or continuing without one).
 
 ---
 
@@ -127,11 +127,11 @@ Goal: Generate narration, word timings, music, and audio metadata from the appro
 
 Start audio after Step 3 approval. Run it in the background, then continue to Step 4.
 
-**Choose the narration voice from the user's ask before invoking.** If the request named a voice, gender, or tone, pick a matching voice id and pass it with `--voice <id>`. The pipeline default is otherwise **Marcia (female)** on HeyGen / `am_michael` on Kokoro — so a request like "a male voice" is silently ignored unless you pass the flag. Voice ids are provider-specific; resolve against whichever provider Step 0's sign-in status selected: **HeyGen** (signed in) via `node <MEDIA_DIR>/audio/scripts/heygen-tts.mjs --list` (or `GET /v3/voices?engine=starfish`); **Kokoro** (offline) via the voice table in `<MEDIA_DIR>/audio/references/tts.md` (prefixes `am_`/`bm_` male, `af_`/`bf_` female). When the user expressed no preference, fall back to the remembered voice (brief contract § 2) before the pipeline default, and say which one you used; omit `--voice` only when neither names one. When the user explicitly picked a voice this run, record it (`prefs.mjs record --key voice`).
+**Choose the narration voice from the user's ask before invoking.** If the request named a voice, gender, or tone, pick a matching voice id and pass it with `--voice <id>`. Omit `--voice` and the speech service picks its own default — so a request like "a male voice" is silently ignored unless you pass the flag. Voice ids are whatever the speech service accepts; media-use keeps no second catalog to drift out of step with theirs. When the user expressed no preference, fall back to the remembered voice (brief contract § 2) before the pipeline default, and say which one you used; omit `--voice` only when neither names one. When the user explicitly picked a voice this run, record it (`prefs.mjs record --key voice`).
 
 `node <SKILL_DIR>/scripts/audio.mjs --script ./SCRIPT.md --storyboard ./STORYBOARD.md --frames . --out ./audio_meta.json --voice <voice-id> &`
 
-The audio script handles narration, word timings, BGM lookup from HeyGen's music library, and timing metadata. BGM mood comes from the storyboard's `music:` field. This uses the HeyGen Audio API for retrieval, not generation, and the same `~/.heygen` credential as TTS. For provider details, read `../media-use/audio/references/tts.md`.
+The audio script handles narration, word timings, BGM lookup from the shared catalog, and timing metadata. BGM mood comes from the storyboard's `music:` field. The catalog is a listing, not a generator: an empty or unmatched shelf is reported and BGM is skipped. For provider details, read `../media-use/audio/references/tts.md`.
 
 If there is no narration and no `SCRIPT.md`, skip voice generation. BGM may still run if the storyboard has a music mood.
 
@@ -173,7 +173,7 @@ Duration sync is mechanical: real voice duration wins; silent frames keep estima
 
 **Pre-install the registry blocks** named across `STORYBOARD.md` once, before dispatch, so parallel workers don't race on the registry:
 
-`for b in <each registry block named in the storyboard>; do npx frames add "$b"; done`
+`for b in <each registry block named in the storyboard>; do npx @hanzo/frame add "$b"; done`
 
 Before dispatch, read `../frames-core/references/subagent-dispatch.md`. Build bounded packets and the worker role payload:
 
@@ -211,11 +211,11 @@ Inject transitions, run checks, pause for review, then render.
 
 `node <SKILL_DIR>/scripts/transitions.mjs verify --storyboard ./STORYBOARD.md --index ./index.html`
 
-`npx frames lint`
+`npx @hanzo/frame lint`
 
-`npx frames check`
+`npx @hanzo/frame check`
 
-`npx frames snapshot --at <frame-midpoints>`
+`npx @hanzo/frame snapshot --at <frame-midpoints>`
 
 `snapshot` stitches the captured frames into one contact sheet (`snapshots/contact-sheet.jpg`). Glance at it; if nothing is obviously broken, move on — don't linger here.
 
@@ -225,15 +225,15 @@ If a command fails, surface stderr and stop — don't pile on recovery commands.
 
 After checks pass, pause for user review — the review loop's final look (`../frames-core/references/review-loop.md` § 4): one question, on the Studio that has been open since Step 3 — render now, or what changes? (Autonomous: the one kept question, preview first or render — open the preview with the command below on a yes.) Then deliver the MP4 with the contact sheet and the frame ids so revisions can target a single frame.
 
-Preview: `npx frames preview "$PROJECT_DIR" --background`
+Preview: `npx @hanzo/frame preview "$PROJECT_DIR" --background`
 
 Render only after user approval (autonomous mode: after the preview-or-render question):
 
-`npx frames render --skill=pr-to-video --quality high --output renders/video.mp4`
+`npx @hanzo/frame render --skill=pr-to-video --quality high --output renders/video.mp4`
 
 Do not rerun `lint`, `check`, or `snapshot` after rendering unless the user asks.
 
-After the user is done reviewing (or after render when no more live edits are expected), stop only this project's background server: `npx frames preview "$PROJECT_DIR" --stop`. Never tear it down while waiting for review.
+After the user is done reviewing (or after render when no more live edits are expected), stop only this project's background server: `npx @hanzo/frame preview "$PROJECT_DIR" --stop`. Never tear it down while waiting for review.
 
 **Gate:** `lint` and `check` passed and the snapshots were inspected before render; user approved at the review pause (autonomous: checks passed and the delivery includes the contact sheet); `renders/video.mp4` exists. Final reply states the MP4 path and final duration.
 
@@ -245,7 +245,7 @@ After the user is done reviewing (or after render when no more live edits are ex
 
 **PR deltas vs a captured-asset workflow:** no Step 1 capture (the `gh` CLI ingests the PR into a synthetic `capture/extracted/` package — `tokens.json` + `visible-text.txt` + `people.json`); the only real assets are the contributors' `assets/<login>.png` avatars (the credits close); no `asset-descriptions.md`, no asset-staging step. Code beats are rendered by the `code-*` registry blocks on code-editorial's navy Code Surface; the style is always **code-editorial**.
 
-**Background scripts:** the workflow ships these under `scripts/`: `fetch-pr` (PR → `capture/pr.json` + `diff.patch` via `gh`; large-PR-safe, no scratch), `ingest` (→ synthetic capture package; offline), and `fetch-people-avatars` (contributor avatars → `assets/`); plus the shared engine — `build-frame` (adopt + brand-remix a preset into `frame.md` + caption skin), `audio` (TTS, BGM, SFX, duration sync), `captions`, `transitions` (inject + verify), and `assemble-index`. Everything else is the `frames` CLI. Code blocks install via `npx frames add <name>`.
+**Background scripts:** the workflow ships these under `scripts/`: `fetch-pr` (PR → `capture/pr.json` + `diff.patch` via `gh`; large-PR-safe, no scratch), `ingest` (→ synthetic capture package; offline), and `fetch-people-avatars` (contributor avatars → `assets/`); plus the shared engine — `build-frame` (adopt + brand-remix a preset into `frame.md` + caption skin), `audio` (TTS, BGM, SFX, duration sync), `captions`, `transitions` (inject + verify), and `assemble-index`. Everything else is the `frames` CLI. Code blocks install via `npx @hanzo/frame add <name>`.
 
 The reusable, domain-agnostic shot shapes live in `../frames-animation/blueprints/` (indexed by `../frames-animation/blueprints-index.md`); the `code-*` registry blocks are the code-beat vocabulary (`references/code-vocabulary.md`).
 

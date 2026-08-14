@@ -36,8 +36,8 @@ Open Design produces a **valid first draft** of a Frames composition — palette
     ```bash
     cd .od/projects/<id>
     npx skills add hanzoai/frames   # install skills (one-time)
-    npx frames lint                     # should pass with zero errors
-    npx frames preview                  # open the studio
+    npx @hanzo/frame lint                     # should pass with zero errors
+    npx @hanzo/frame preview                  # open the studio
     ```
   </Step>
 </Steps>
@@ -140,8 +140,8 @@ If you want the Claude Design loop without lock-in, Open Design is the same arti
 
 ## Known limitations
 
-- **Render still happens locally** — Open Design produces the HTML; `npx frames render` and HDR encoding still need FFmpeg + Node 22+ on your machine.
-- **In-pane preview is sandboxed iframe** — full browser playback is reliable; for frame-accurate scrubbing use `npx frames preview` after handoff.
+- **Render still happens locally** — Open Design produces the HTML; `npx @hanzo/frame render` and HDR encoding still need FFmpeg + Node 22+ on your machine.
+- **In-pane preview is sandboxed iframe** — full browser playback is reliable; for frame-accurate scrubbing use `npx @hanzo/frame preview` after handoff.
 - **Shader passthrough requires WebGL** — same as the Claude Design path; Open Design's iframe sandbox supports it.
 - **Skill pre-flight is daemon-side** — if you bypass the skill picker and paste raw HTML into chat, you lose the side-file injection and 5-dim critique gate. Use the skill.
 
@@ -152,8 +152,8 @@ Open Design's project folder is the agent's `cwd`. There's no "export then re-im
 ```bash
 cd .od/projects/<your-project-id>
 npx skills add hanzoai/frames   # one-time setup
-npx frames lint                     # verify structure
-npx frames preview                  # open the studio
+npx @hanzo/frame lint                     # verify structure
+npx @hanzo/frame preview                  # open the studio
 ```
 
 Then iterate the same way as the Claude Design path:

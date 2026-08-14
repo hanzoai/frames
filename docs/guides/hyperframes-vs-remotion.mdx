@@ -3,13 +3,13 @@ title: Hyperframes vs Remotion
 description: "Why we built Hyperframes, how it differs from Remotion in practice, and where each tool fits."
 ---
 
-[Remotion](https://www.remotion.dev) is an awesome project, and we used Remotion in HeyGen's production pipelines for many months. Remotion promoted the idea of using code to orchestrate and animate video production, and it proved that headless Chrome could be a reliable, deterministic video renderer. Several patterns in the Hyperframes source come directly from what the Remotion team pioneered — Chrome launch flags, port selection, image2pipe streaming into FFmpeg, in-order frame buffering. We kept attribution comments in our code on purpose so the lineage stays visible to anyone reading the source.
+[Remotion](https://www.remotion.dev) is an awesome project, and we used Remotion in production pipelines for many months. Remotion promoted the idea of using code to orchestrate and animate video production, and it proved that headless Chrome could be a reliable, deterministic video renderer. Several patterns in the Hyperframes source come directly from what the Remotion team pioneered — Chrome launch flags, port selection, image2pipe streaming into FFmpeg, in-order frame buffering. We kept attribution comments in our code on purpose so the lineage stays visible to anyone reading the source.
 
 This guide is the honest breakdown of where Hyperframes and Remotion differ, written by the team that built Hyperframes. We picked different bets; each one has strengths the other doesn't, and this doc walks through both.
 
 ## Why we built Hyperframes
 
-As we scaled our code-to-video pipelines at HeyGen, we kept running into the same kinds of limits inside a React-first authoring model. We debated internally whether to keep building on Remotion or write a renderer from scratch. Two factors pushed us to build Hyperframes.
+As we scaled our code-to-video pipelines, we kept running into the same kinds of limits inside a React-first authoring model. We debated internally whether to keep building on Remotion or write a renderer from scratch. Two factors pushed us to build Hyperframes.
 
 ### 1. The agent-native workflow
 
@@ -70,13 +70,13 @@ We gave both tools the same 4-second GSAP timeline: 11 letters of "FRAMES" enter
 
 **Hyperframes output — what the animation is meant to look like:**
 
-<img src="https://static.heygen.ai/frames-oss/docs/images/comparisons/gsap-hf.gif" alt="Hyperframes GSAP render — letters enter, hold, then fall away over the full 4 seconds" />
+<img src="/images/comparisons/gsap-hf.gif" alt="Hyperframes GSAP render — letters enter, hold, then fall away over the full 4 seconds" />
 
 All four seconds are used. Letters fly in one by one, the full word holds in the center for about a second and a half, then the letters spin and drop away.
 
 **Remotion output — same timeline, same code:**
 
-<img src="https://static.heygen.ai/frames-oss/docs/images/comparisons/gsap-remotion.gif" alt="Remotion GSAP render — GSAP plays through its entire timeline in the first second, leaving most of the render as an empty stage" />
+<img src="/images/comparisons/gsap-remotion.gif" alt="Remotion GSAP render — GSAP plays through its entire timeline in the first second, leaving most of the render as an empty stage" />
 
 GSAP plays through its entire 4-second animation in roughly the first second of render wall-clock time. By the time Remotion captures later frames, GSAP's timeline has already completed and every letter has exited — the remainder of the render captures an empty stage.
 
@@ -152,7 +152,7 @@ The single difference between Remotion and Hyperframes is the choice of React vs
 3. Highest creative ceiling — anything the browser can render, HTML can represent.
 4. HTML is both the render layer and the editable source of truth. The same DOM is what you see and what you edit.
 
-We at HeyGen are all-in on Hyperframes, but we can't do this alone — that's why we open-sourced it under Apache 2.0, so together we can build the foundation for agentic video creation.
+We are all-in on Hyperframes, but we can't do this alone — that's why we open-sourced it under Apache 2.0, so together we can build the foundation for agentic video creation.
 
 ## Further reading
 

@@ -7,7 +7,7 @@ description: "Author a Claude Design as a single-file Frames composition for the
 
 > This guide is **fully self-contained**: everything needed to author a valid "Send to Frames" composition is inline here. Do not rely on fetching any other document — produce the composition from this guide alone.
 
-Your medium is a **Frames composition**: plain HTML + CSS + a paused GSAP timeline. When the user clicks **"Send to Frames"**, that composition is imported into a hosted HeyGen project, previewed in Frames, and rendered to MP4 in the cloud. You produce a **valid first draft** — a Frames motion-design agent enhances it afterward (sound, media, polish). You are not producing the final video.
+Your medium is a **Frames composition**: plain HTML + CSS + a paused GSAP timeline. When the user clicks **"Send to Frames"**, that composition is imported into a hosted Frames project, previewed, and rendered to MP4 in the cloud. You produce a **valid first draft** — a Frames motion-design agent enhances it afterward (sound, media, polish). You are not producing the final video.
 
 ---
 
@@ -29,8 +29,8 @@ The single most important consequence: **there is no file tree on the other side
 ## The workflow you're feeding into
 
 1. **You (Claude Design)** — author a valid Frames composition as a single self-contained HTML.
-2. **Send to Frames** — one click. The importer fetches your HTML, validates it, and creates a hosted HeyGen project. **Import is free.**
-3. **Enhance in Frames** — a motion-design agent adds what your export can't: sound effects, background music, and (later) HeyGen media. **Enhance turns are free.**
+2. **Send to Frames** — one click. The importer fetches your HTML, validates it, and creates a hosted Frames project. **Import is free.**
+3. **Enhance in Frames** — a motion-design agent adds what your export can't: sound effects, background music, and (later) catalog media. **Enhance turns are free.**
 4. **Render** — the cloud pipeline produces the MP4. **Render is the paid step:** free accounts get 3 renders per month; paid plans are charged 20 credits per rendered minute.
 
 Your job is step 1: a composition that imports cleanly and is a strong on-brand starting point.
@@ -398,7 +398,7 @@ Your export is **silent** and visual-only. Sending it to Frames levels it up wit
 
 - **Sound** — background music and sound effects timed to the animation (the immediate win).
 - **Motion polish** — easing, timing, transition refinement via a purpose-built motion-design agent.
-- **HeyGen media (later)** — images/icons, and eventually avatars/voice.
+- **Catalog media (later)** — images and icons from the shared catalog.
 
 You don't author any of this. Produce a clean, on-brand, correctly-timed silent composition; the enhance step does the rest.
 

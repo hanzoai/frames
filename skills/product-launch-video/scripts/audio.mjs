@@ -9,9 +9,9 @@
 // STORYBOARD.md, which is product-launch-specific).
 //
 // Three modes (unchanged CLI surface):
-//   (default) generate — engine --only tts,bgm. BGM mode is "retrieve" (strict:
-//        no HeyGen credential ⇒ skip, never a detached generate, since this
-//        workflow has no wait-bgm step). Runs in the background during Step 4.
+//   (default) generate — engine --only tts,bgm. BGM mode is "catalog" (strict:
+//        an empty or unmatched shelf is reported and skipped, never composed
+//        behind the caller's back). Runs in the background during Step 4.
 //   sync-durations — write real voice durations into STORYBOARD.md (local).
 //   fetch-sfx      — engine --only sfx, merged into the existing meta (Step 5,
 //        after the frames' `sfx:` cues exist).
@@ -124,7 +124,6 @@ function runGenerate(argv) {
   const scriptPath = resolve(flag(argv, "script", join(framesDir, "SCRIPT.md")));
   const outPath = resolve(flag(argv, "out", join(framesDir, "audio_meta.json")));
   const userVoice = flag(argv, "voice", null);
-  const provider = flag(argv, "provider", process.env.HF_TTS_PROVIDER || "auto");
   const speed = Number(flag(argv, "speed", "1.0")) || 1.0;
 
   if (!existsSync(storyboardPath)) die(`STORYBOARD.md not found at ${storyboardPath}`);
@@ -155,16 +154,15 @@ function runGenerate(argv) {
   }
   if (!lines.length) console.error("· no SCRIPT.md — silent film (BGM only)");
 
-  // BGM mood: storyboard `music:` → message → arc → default. `mode: retrieve` is
-  // strict here (no wait-bgm step downstream).
+  // BGM mood: storyboard `music:` → message → arc → default. `mode: catalog` is
+  // strict here: the shelf answers or BGM is skipped.
   const query = (g.extra && g.extra.music) || g.message || g.arc || "calm cinematic underscore";
   const request = {
-    provider,
     speed,
     lines,
     bgm: bgmOff
       ? { mode: "none" }
-      : { mode: "retrieve", query, blob: g.message || "", arc: g.arc || "" },
+      : { mode: "catalog", query, blob: g.message || "", arc: g.arc || "" },
   };
   if (userVoice) request.voice = userVoice;
 

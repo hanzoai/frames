@@ -9,7 +9,7 @@ User has an existing Frames project and wants to add an animated chart alongside
 ### 1. Install the block
 
 ```bash
-frames add data-chart
+hanzo frame add data-chart
 ```
 
 ### 2. Wire into index.html
@@ -42,8 +42,8 @@ frames add data-chart
 ### 3. Lint and preview
 
 ```bash
-frames lint
-frames preview
+hanzo frame lint
+hanzo frame preview
 ```
 
 ### 4. Customize (optional)

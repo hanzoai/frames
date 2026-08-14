@@ -97,26 +97,26 @@ Apply the correct template based on type. See [templates.md](templates.md) for c
 ### Step 4: Validate
 
 ```bash
-frames lint                    # 0 errors required
-frames check --no-contrast  # 0 console errors required
+hanzo frame lint                    # 0 errors required
+hanzo frame check --no-contrast  # 0 console errors required
 ```
 
 ### Step 5: Preview
 
 ```bash
 # Render preview video
-frames render -o preview.mp4
+hanzo frame render -o preview.mp4
 
 # Snapshot for visual QA
-frames snapshot --at "1.0,3.0,5.0,7.0"
+hanzo frame snapshot --at "1.0,3.0,5.0,7.0"
 
 # Publish to frames.hanzo.ai for review
-npx frames publish
+npx @hanzo/frame publish
 ```
 
 **Catalog preview image** — The catalog card uses a PNG at `docs/images/catalog/{kind}/{name}.png` (where `{kind}` is `blocks` or `components`). Generate it from a snapshot, then:
 
-- **HeyGen internal contributors:** run `scripts/upload-docs-images.sh` (requires AWS profile `engineering-767398024897`)
+- **Maintainers:** regenerate previews with `bun run generate:catalog-previews`; they are served from the docs site's own `/images/` path, so nothing is uploaded anywhere
 - **External contributors:** attach the preview MP4 to your PR description. A maintainer will generate and upload the catalog image before merging.
 
 ### Step 6: Ship
@@ -139,7 +139,7 @@ npx oxfmt registry/{kind}/{name}/*.html
 npx tsx scripts/generate-catalog-pages.ts
 
 # 5. Publish to frames.hanzo.ai so reviewers can preview
-npx frames publish
+npx @hanzo/frame publish
 
 # 6. Stage everything
 git add registry/{kind}/{name}/ registry/registry.json docs/catalog/
@@ -156,11 +156,11 @@ gh pr create --title "feat(registry): {name}" --body "preview: {frames.hanzo.ai-
 
 ## Quality Gate
 
-- [ ] `frames lint` → 0 errors
-- [ ] `frames check` → 0 console errors
+- [ ] `hanzo frame lint` → 0 errors
+- [ ] `hanzo frame check` → 0 console errors
 - [ ] `npx oxfmt --check` passes
 - [ ] `registry/registry.json` updated with new entry
 - [ ] `scripts/generate-catalog-pages.ts` run (docs page generated)
-- [ ] `npx frames publish` run (claim your project URL)
+- [ ] `npx @hanzo/frame publish` run (claim your project URL)
 - [ ] Preview MP4 attached to PR (external) or catalog PNG uploaded (internal)
 - [ ] All IDs unique and prefixed

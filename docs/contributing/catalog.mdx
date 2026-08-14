@@ -8,7 +8,7 @@ Your agent already knows how to build video components. It writes HTML. Frames r
 This guide shows you how to add to it.
 
 <Info>
-**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `frames lint` + `validate`. Publish with `npx frames publish`. Open a PR.
+**Quick version** — Fork the repo. Write one HTML file with a paused GSAP timeline. Add `registry-item.json`. Run `hanzo frame lint` + `validate`. Publish with `npx @hanzo/frame publish`. Open a PR.
 </Info>
 
 ## Why Contribute?
@@ -16,7 +16,7 @@ This guide shows you how to add to it.
 Every block in the registry exists because someone needed it and built it. When you add a block, every Frames user gets it with one command:
 
 ```bash
-npx frames add instagram-follow
+npx @hanzo/frame add instagram-follow
 ```
 
 The registry grows, Frames gets more useful, and your work ships to everyone.
@@ -140,8 +140,8 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Validate">
     ```bash
-    frames lint
-    frames check
+    hanzo frame lint
+    hanzo frame check
     npx oxfmt your-block.html
     ```
   </Step>
@@ -154,12 +154,12 @@ Not everything belongs in the registry. The bar is production quality.
   </Step>
   <Step title="Render preview">
     ```bash
-    frames render -o preview.mp4
+    hanzo frame render -o preview.mp4
     ```
   </Step>
   <Step title="Publish and PR">
     ```bash
-    npx frames publish
+    npx @hanzo/frame publish
     ```
     Open a PR with your [frames.hanzo.ai](https://frames.hanzo.ai) preview link.
   </Step>
@@ -167,7 +167,7 @@ Not everything belongs in the registry. The bar is production quality.
 
 **External contributors:** attach the preview MP4 to your PR. A maintainer handles the catalog image.
 
-**HeyGen internal:** run `scripts/upload-docs-images.sh` to push catalog PNGs.
+Previews are served from the docs site's own `/images/` path, so a regenerate is all that is needed — nothing is uploaded anywhere.
 
 ## What's Needed Right Now
 

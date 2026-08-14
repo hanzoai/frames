@@ -1,11 +1,11 @@
 ---
 name: frames-registry
-description: Install, discover, and wire registry blocks and components into Frames compositions. Use when running frames add or frames catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with frames.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea → scaffold → validate → PR).
+description: Install, discover, and wire registry blocks and components into Frames compositions. Use when running hanzo frame add or hanzo frame catalog, installing one item or every block matching a tag, wiring an installed item into index.html, or working with frames.json. Covers discovery, install locations, block sub-composition wiring, component snippet merging, and authoring a new block or component to contribute upstream (idea → scaffold → validate → PR).
 ---
 
 # Frames Registry
 
-The registry provides reusable blocks and components installable via `frames add <name>`.
+The registry provides reusable blocks and components installable via `hanzo frame add <name>`.
 
 - **Blocks** — standalone sub-compositions (own dimensions, duration, timeline). Included via `data-composition-src` in a host composition.
 - **Components** — effect snippets (no own dimensions). Pasted directly into a host composition's HTML.
@@ -13,17 +13,17 @@ The registry provides reusable blocks and components installable via `frames add
 ## Quick reference
 
 ```bash
-frames add data-chart              # install a block
-frames add grain-overlay           # install a component
-frames add captions                # install every block tagged captions
-frames add shimmer-sweep --dir .   # target a specific project
-frames add data-chart --json       # machine-readable output
-frames add data-chart --no-clipboard  # skip clipboard (CI/headless)
+hanzo frame add data-chart              # install a block
+hanzo frame add grain-overlay           # install a component
+hanzo frame add captions                # install every block tagged captions
+hanzo frame add shimmer-sweep --dir .   # target a specific project
+hanzo frame add data-chart --json       # machine-readable output
+hanzo frame add data-chart --no-clipboard  # skip clipboard (CI/headless)
 ```
 
 After install, the CLI prints which files were written and a snippet to paste into your host composition. The snippet is a starting point — you'll need to add `data-composition-id` (must match the block's internal composition ID), `data-start`, and `data-track-index` attributes when wiring blocks.
 
-The positional value is resolved as an exact item name first. If no item matches and the value is a tag, the command installs every block with that tag. Registry dependencies are installed before the requested item. `frames add` works only for blocks and components; for examples, use `frames init <dir> --example <name>` instead.
+The positional value is resolved as an exact item name first. If no item matches and the value is a tag, the command installs every block with that tag. Registry dependencies are installed before the requested item. `hanzo frame add` works only for blocks and components; for examples, use `hanzo frame init <dir> --example <name>` instead.
 
 ## Install locations
 
@@ -88,15 +88,15 @@ See [wiring-components.md](./references/wiring-components.md) for full details.
 Use the CLI as the primary discovery surface:
 
 ```bash
-npx frames catalog
-npx frames catalog --type block
-npx frames catalog --type component
-npx frames catalog --type block --tag social
-npx frames catalog --json
-npx frames catalog --human-friendly
+npx @hanzo/frame catalog
+npx @hanzo/frame catalog --type block
+npx @hanzo/frame catalog --type component
+npx @hanzo/frame catalog --type block --tag social
+npx @hanzo/frame catalog --json
+npx @hanzo/frame catalog --human-friendly
 ```
 
-The normal table and `--json` modes only list matches; install a selected name with `frames add <name>`. `--human-friendly` opens an interactive picker and installs the selected item immediately. In CI or agent workflows, prefer `--json` followed by an explicit `add`.
+The normal table and `--json` modes only list matches; install a selected name with `hanzo frame add <name>`. `--human-friendly` opens an interactive picker and installs the selected item immediately. In CI or agent workflows, prefer `--json` followed by an explicit `add`.
 
 If the CLI cannot reach the configured registry, inspect the raw manifest as a fallback:
 

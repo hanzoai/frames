@@ -49,14 +49,14 @@ paint order follows its authored track and CSS `z-index`.
     frames:
 
     ```bash Terminal
-    npx frames media-treatment \
+    npx @hanzo/frame media-treatment \
       --project . \
       --file compositions/interview.html \
       --selector '#interview' \
       --analyze \
       --json
 
-    npx frames media-treatment \
+    npx @hanzo/frame media-treatment \
       --project . \
       --file compositions/interview.html \
       --selector '#interview' \
@@ -168,9 +168,9 @@ Start with the concise capability overview, then query only the contract needed
 for the current intent:
 
 ```bash Terminal
-npx frames media-treatment --capabilities --json
-npx frames media-treatment --capability grading --json
-npx frames media-treatment --capability curves --json
+npx @hanzo/frame media-treatment --capabilities --json
+npx @hanzo/frame media-treatment --capability grading --json
+npx @hanzo/frame media-treatment --capability curves --json
 ```
 
 Focused queries such as `wheels`, `hue-curves`, `secondary`, `scopes`, or `lut`
@@ -231,8 +231,8 @@ bounds. Query the current contract instead of copying bounds into agent
 instructions:
 
 ```bash Terminal
-npx frames media-treatment --capability secondary --json
-npx frames media-treatment --all --json
+npx @hanzo/frame media-treatment --capability secondary --json
+npx @hanzo/frame media-treatment --all --json
 ```
 
 Use `--all` only for exhaustive tooling or contract inspection.

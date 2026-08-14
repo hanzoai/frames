@@ -13,7 +13,7 @@ Analyze spoken content to determine caption style. If user specifies a style, us
 ]
 ```
 
-`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `frames transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
+`id` (`w0`, `w1`, …) is the stable reference for per-word overrides and is added by `hanzo frame transcribe`. It's optional for backwards compatibility with hand-authored transcripts. See [`../transcribe.md`](../transcribe.md) → "Output Shape" for how this is produced, and [`transcript-handling.md`](transcript-handling.md) for cleanup before consumption.
 
 ## Style Detection (When No Style Specified)
 
@@ -113,11 +113,11 @@ tl.seek(0);
 
 ## Pre-Built Caption Components
 
-Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx frames add <name>` and wire as a sub-composition via `data-composition-src` (see `frames-registry`).
+Before building caption styles from scratch, check the registry — 15 ready-to-use caption components cover the most common styles. Install with `npx @hanzo/frame add <name>` and wire as a sub-composition via `data-composition-src` (see `frames-registry`).
 
 ```bash
-npx frames catalog --tag caption-style   # list all caption components
-npx frames add caption-highlight         # install a specific one
+npx @hanzo/frame catalog --tag caption-style   # list all caption components
+npx @hanzo/frame add caption-highlight         # install a specific one
 ```
 
 | Style                     | Component                    | Best for                     |

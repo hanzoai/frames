@@ -13,14 +13,14 @@ description: >
 Before relying on this workflow, run:
 
 ```bash
-npx frames skills update general-video
+npx @hanzo/frame skills update general-video
 ```
 
 A successful no-op means the skill is current. Surface an update failure instead of continuing from memory.
 
 ## 1. Apply cross-cutting source adapters
 
-- **Media:** For any audio, image, icon, logo, voice, grade, LUT, treatment/effect, caption, or media-operation need, load `/media-use` and follow its adoption, resolution, provider, provenance, and reuse contracts. Vague footage feedback and named styles use its `media-treatments.md` policy before editing; do not improvise supported media effects with CSS/SVG/opacity. Before the first authenticated provider action, run `npx frames auth status` and relay its output verbatim. If signed out, apply the gate in `../frames-core/references/brief-contract.md`: collaborative waits for sign-in or an explicit offline choice; autonomous states the status and continues through an available offline provider. Surface a blocker when no offline provider can satisfy a required capability. Local adoption alone does not require an auth gate.
+- **Media:** For any audio, image, icon, logo, voice, grade, LUT, treatment/effect, caption, or media-operation need, load `/media-use` and follow its adoption, resolution, provider, provenance, and reuse contracts. Vague footage feedback and named styles use its `media-treatments.md` policy before editing; do not improvise supported media effects with CSS/SVG/opacity. Before the first authenticated provider action, run `npx @hanzo/frame auth status` and relay its output verbatim. If signed out, apply the gate in `../frames-core/references/brief-contract.md`: collaborative waits for sign-in or an explicit offline choice; autonomous states the status and continues through an available offline provider. Surface a blocker when no offline provider can satisfy a required capability. Local adoption alone does not require an auth gate.
 - **Figma:** If any input is a `figma.com` URL, run `/figma` first. Build from its exported assets, tokens, components, or storyboard frames. Do not use raw Figma connector calls because they skip SVG sanitization, media provenance, and brand-token binding.
 
 These adapters do not change the workflow selected by `/frames`.
@@ -39,7 +39,7 @@ Apply the first matching row; do not evaluate lower state rows:
 For a new project, choose a kebab-case directory name from the brief and scaffold before writing the brief:
 
 ```bash
-npx frames init "videos/<project>" --non-interactive --example=blank --skill=general-video
+npx @hanzo/frame init "videos/<project>" --non-interactive --example=blank --skill=general-video
 ```
 
 Then write `BRIEF.md` at the project root using `../frames-core/references/brief-format.md`. In an existing project, the root is the directory containing `frames.json`. Record only the confirmed preference-backed fields named by the brief format, using `node <MEDIA_DIR>/scripts/prefs.mjs record --frames <PROJECT_ROOT>`; never record inferred defaults. Here `<MEDIA_DIR>` is the installed `/media-use` skill directory and `<PROJECT_ROOT>` is the directory containing `frames.json`. If the intent layer adopted a recipe, apply it now with `node <MEDIA_DIR>/scripts/recipe.mjs use --frames <PROJECT_ROOT> --name <name>` and do not ask again.
@@ -105,7 +105,7 @@ Use this dependency order. Skip a stage only when its input is absent.
 
 5. **Merge motion sidecars.** Collect the workers' `compositions/<frame_id>.motion.json` files and carry their durations and exit/entry vectors into assembly; where the doctrine chain (`/motion-doctrine`) is installed, translate them into the project ledger before stamping seams.
 6. **Assemble.** Mount scenes, media, transitions, captions, and audio using the production loop. Real voice duration overrides estimates.
-7. **Verify.** Use `npx frames lint` for fast feedback after the first HTML pass and structural changes. For the final gate, run `npx frames check`; it reruns lint internally, so do not run a redundant standalone lint immediately before it. For sub-compositions, inspect midpoint snapshots. For multi-scene work, review the animation map.
+7. **Verify.** Use `npx @hanzo/frame lint` for fast feedback after the first HTML pass and structural changes. For the final gate, run `npx @hanzo/frame check`; it reruns lint internally, so do not run a redundant standalone lint immediately before it. For sub-compositions, inspect midpoint snapshots. For multi-scene work, review the animation map.
 8. **Final approval.** Open the final Studio preview only after checks pass. Ask whether to render or revise. Render only after approval.
 
 ## 6. Gates that always apply
@@ -135,7 +135,7 @@ Timed elements use `class="clip"`; the root and relevant ancestors are sized; ea
 
 ### Borrow workflows safely
 
-When the piece resembles a shipped workflow, borrow its genre references as examples. First run `npx frames skills update <workflow-name>`. Borrow its story shape and taste, not its private scripts, pipeline state, or directory contract. The generic build remains owned by this skill.
+When the piece resembles a shipped workflow, borrow its genre references as examples. First run `npx @hanzo/frame skills update <workflow-name>`. Borrow its story shape and taste, not its private scripts, pipeline state, or directory contract. The generic build remains owned by this skill.
 
 ## 7. Done
 
@@ -143,7 +143,7 @@ A run is complete only when:
 
 - requested scope is implemented;
 - for `flow: companion`, the treatment is delivered, not just the scope: every scene's cited blueprint or rules realized, the audio identity present (or the silence chosen and said), the open and close designed rather than defaulted;
-- `npx frames check` passes, including its built-in lint stage;
+- `npx @hanzo/frame check` passes, including its built-in lint stage;
 - design adherence is reviewed against `/frames-creative` → `references/design-adherence.md` when a design spec exists;
 - contrast findings are resolved;
 - sub-composition snapshots are inspected when applicable;

@@ -10,7 +10,7 @@ Search or generate one **hero asset** with strong geometric affordance. `asset_n
 
 1. Classify the **data type** (temporal / quantitative / proportion / spatial).
 2. Read the asset's **geometric affordance** — linearity → timeline/gauge · volume/texture → pie · height → bar · container → exploded view.
-3. `element_positions`: **GROUND with the locate protocol — never eyeball pixel coords.** Read **`grounding/PROTOCOL.md`** and run the loop with `node grounding/locate.mjs` (`overlay` → read strips → `region` → read crop → `final` → **`mark` + verify**). Zero keys/deps assumed (node + ffmpeg only); the optional `auto` fast path exists only when `GEMINI_API_KEY` happens to be set. Why: eyeballing put rings off-subject (~16–24% center error on weak vision models); the grid loop pulls it to ~2–4% (measured E2E: eyeball 6.5% → protocol 2.3% avg center error, no case worse).
+3. `element_positions`: **GROUND with the locate protocol — never eyeball pixel coords.** Read **`grounding/PROTOCOL.md`** and run the loop with `node grounding/locate.mjs` (`overlay` → read strips → `region` → read crop → `final` → **`mark` + verify**). Zero keys/deps assumed (node + ffmpeg only); the optional `auto` fast path exists only when `HANZO_API_KEY` happens to be set. Why: eyeballing put rings off-subject (~16–24% center error on weak vision models); the grid loop pulls it to ~2–4% (measured E2E: eyeball 6.5% → protocol 2.3% avg center error, no case worse).
 4. **Eyedropper palette** from the asset (never generic #FFF/#000).
 
 ## Highlight + circle recipe (the common case)

@@ -15,15 +15,13 @@ All three templates use the same shape:
 
 - **Preview** the bundled `ui-3d-reveal` composition in the browser via the [`<frames-player>`](/packages/player) web component.
 - **Render** to MP4 by POSTing to `/api/render`. The handler ships the composition to a sandboxed runtime that has Chromium, FFmpeg, and `frames` pre-installed, then streams the MP4 back to storage and returns a URL.
-- **Author locally**, deploy the preview + render API. Compositions are still built on your machine with `npx frames init`, then dropped into the template's compositions directory.
+- **Author locally**, deploy the preview + render API. Compositions are still built on your machine with `npx @hanzo/frame init`, then dropped into the template's compositions directory.
 
 ## Choosing a template
 
 <Tabs>
   <Tab title="Vercel">
     Pick this if you already deploy on Vercel, want zero-config Blob storage, or want to reuse Vercel's CI/preview environments.
-
-    [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheygen-com%2Fframes-vercel-template&stores=%5B%7B%22type%22%3A%22blob%22%2C%22access%22%3A%22public%22%7D%5D)
 
     **What you get**
 
@@ -105,7 +103,7 @@ All three templates follow the same flow: the browser plays a preview locally, t
 ```
  Browser                    Edge / Function              Sandboxed renderer
 ┌──────────────────┐       ┌────────────────────┐       ┌──────────────────────────┐
-│ <frames-    │ ────▶ │ /api/render        │ ────▶ │ frames render       │
+│ <frames-    │ ────▶ │ /api/render        │ ────▶ │ hanzo frame render       │
 │  player>         │       │  ship composition  │       │  (Chromium + FFmpeg,     │
 │ preview iframe   │       │  → renderer        │       │   pre-installed)         │
 │                  │ ◀──── │  ← stream MP4      │ ◀──── │                          │
@@ -126,9 +124,9 @@ All three templates ship with one bundled composition (`ui-3d-reveal`). To use y
     Compositions are HTML — author them on your machine with the [CLI](/packages/cli):
 
     ```bash Terminal
-    npx frames init my-video
+    npx @hanzo/frame init my-video
     cd my-video
-    npx frames preview
+    npx @hanzo/frame preview
     ```
   </Step>
   <Step title="Drop the bundle into the template">
@@ -159,7 +157,7 @@ Templates are optimized for **a single render endpoint behind a preview UI**. Th
 
 - A **render queue** with retries, deduplication, or priorities — start from a template, then add your own queue (e.g. Vercel Queues, Cloudflare Queues, SQS).
 - **Multi-tenant rendering** with per-user composition uploads — start from a template, replace the bundled composition with a runtime-fetched one.
-- **Self-hosted** rendering — see the [Rendering guide](/guides/rendering) and run `frames render --docker` on your own infrastructure.
+- **Self-hosted** rendering — see the [Rendering guide](/guides/rendering) and run `hanzo frame render --docker` on your own infrastructure.
 
 For everything else, the templates are the recommended starting point.
 

@@ -23,7 +23,7 @@ A header block, then one section per spoken line.
 ```markdown
 # SCRIPT — acme-launch
 
-**Voice:** Rachel (ElevenLabs)
+**Voice:** the service default
 **Voice settings:** stability 0.35 · similarity 0.75 · style 0.20
 **Voice direction:** Confident, warm, a little playful.
 
@@ -47,6 +47,6 @@ A header block, then one section per spoken line.
 ## To TTS
 
 Feed each line's spoken text to the provider documented in
-`media-use/audio/references/tts.md`. The `frames tts` command is
-Kokoro-only; use its `--voice` flag, or use the bundled HeyGen helper when word
+`media-use/audio/references/tts.md`. The `hanzo frame tts` command is
+Pass `--voice` to choose a voice, or use the bundled `speak.mjs` helper when word
 timestamps are required. Real per-word timing replaces the `**Time:**` guides.

@@ -16,7 +16,7 @@ never eyeball coordinates; localize by discrete choice. (RSVP, ACL 2025.)
 
 ## Routing — pick the cheapest path that's actually available
 
-1. **A strong detector is available** (e.g. `GEMINI_API_KEY` in env) →
+1. **A strong detector is available** (e.g. `HANZO_API_KEY` in env) →
    `node grounding/locate.mjs auto <img> "<target>"` — one call, done.
    **Never assume the key exists.** No key → path 2.
 2. **No detector (the normal case)** → YOU are the localizer; run the grid loop.

@@ -1,36 +1,36 @@
-# cloud — HeyGen-hosted rendering (zero-infra)
+# cloud — hosted rendering (zero-infra)
 
-`frames cloud render` renders a composition on HeyGen's managed cloud. The CLI zips the project, uploads it, runs the render on HeyGen's infrastructure (Chromium + FFmpeg), and downloads the finished video. Nothing to deploy, and no Chrome/FFmpeg/AWS to manage; you pay per credit.
+`hanzo frame cloud render` renders a composition on Hanzo Cloud. The CLI zips the project, uploads it, runs the render (Chromium + FFmpeg) there, and downloads the finished video. Nothing to deploy, and no Chrome/FFmpeg/AWS to manage; the render is metered against the org's balance.
 
 ```bash
-npx frames auth login            # one-time sign-in
-npx frames cloud render          # zip, upload, render, download
+export HANZO_API_KEY=...          # from Hanzo KMS
+npx @hanzo/frame cloud render           # zip, upload, render, download
 ```
 
 ## When to use managed cloud, Lambda, Cloud Run, or local
 
-- **`frames render`** (local): fastest iteration loop, use while authoring.
-- **`frames cloud render`**: zero-infra. HeyGen runs the render and you pay per credit. This is the default answer to "render in the cloud" when you don't want to manage Chrome/FFmpeg/AWS.
-- **`frames lambda render`**: bring-your-own-AWS distributed rendering with chunked parallelism. Only worth it when you've already invested in AWS (see `lambda.md`).
-- **`frames cloudrun render`**: bring-your-own-GCP distributed rendering through Cloud Run and Workflows. Use only when GCP ownership is explicit (see `cloudrun.md`).
+- **`hanzo frame render`** (local): fastest iteration loop, use while authoring.
+- **`hanzo frame cloud render`**: zero-infra. Hanzo Cloud runs the render, metered against the org's balance. This is the default answer to "render in the cloud" when you don't want to manage Chrome/FFmpeg/AWS.
+- **`hanzo frame lambda render`**: bring-your-own-AWS distributed rendering with chunked parallelism. Only worth it when you've already invested in AWS (see `lambda.md`).
+- **`hanzo frame cloudrun render`**: bring-your-own-GCP distributed rendering through Cloud Run and Workflows. Use only when GCP ownership is explicit (see `cloudrun.md`).
 
 ## Authentication
 
-Cloud rendering needs a HeyGen credential, stored at `~/.heygen/credentials` (`0600`) and shared with the [`heygen` CLI](https://github.com/heygen-com/heygen-cli): sign in with one and the other picks up the session.
+Cloud rendering uses the same credential as everything else: a Hanzo IAM token
+in `$HANZO_API_KEY`, read from Hanzo KMS (`kms.hanzo.ai`). There is no separate
+sign-in, no credential file, and no per-repo `.env` — one token, every surface.
 
 ```bash
-npx frames auth login              # OAuth 2.0 + PKCE, opens the browser
-npx frames auth login --api-key    # CI/headless: hidden prompt, or pipe: echo "$HEYGEN_API_KEY" | ... --api-key
-npx frames auth status             # active credential source, identity, billing snapshot
-                                        #   exit 0 = signed in and verified; exit 1 = not signed in,
-                                        #   or the credential was rejected — signed-out exit 1 is the
-                                        #   normal offline state (scripts: `auth status || echo offline`),
-                                        #   not a command failure
-npx frames auth refresh            # force-refresh an OAuth token before a long job
-npx frames auth logout             # clear the stored credential
+export HANZO_API_KEY=...           # from Hanzo KMS; in CI, injected by the pipeline
+npx @hanzo/frame auth status             # which credential is in use, identity, balance
+                                   #   exit 0 = usable; exit 1 = absent or rejected.
+                                   #   Exit 1 is the normal no-credential state
+                                   #   (scripts: `auth status || echo offline`), not a
+                                   #   command failure.
 ```
 
-Credential resolution order (first match wins): `HEYGEN_API_KEY`, then `FRAMES_API_KEY`, then `~/.heygen/credentials`. Point at a different backend with `HEYGEN_API_URL` (default `https://api.heygen.com`).
+`HANZO_BASE_URL` points the CLI at a different deployment (default
+`https://api.hanzo.ai`).
 
 ## The render pipeline
 
@@ -38,20 +38,20 @@ Credential resolution order (first match wins): `HEYGEN_API_KEY`, then `FRAMES_A
 
 1. **Resolve the project**: a local directory (default `.`), or skip the upload with `--asset-id` / `--url`.
 2. **Auto-detect aspect ratio** from the entry HTML's `data-width`/`data-height`.
-3. **Zip** the project (same ignore set as `frames publish`, including `.framesignore`).
+3. **Zip** the project (same ignore set as `hanzo frame publish`, including `.framesignore`).
 4. **Upload** the zip through the direct-to-S3 asset flow, yielding an `asset_id`.
-5. **Submit** the render to `POST /v3/frames/renders`, yielding a `render_id`.
-6. **Poll** `GET /v3/frames/renders/{id}` until it completes or fails (skip with `--no-wait`).
+5. **Submit** the render, yielding a `render_id`.
+6. **Poll** that render until it completes or fails (skip with `--no-wait`).
 7. **Download** the signed video URL to disk.
 
 ## Archive size and `.framesignore`
 
-The direct-upload limit is 200 MB. Frames automatically excludes root-level `renders/` and `snapshots/`, along with its existing development exclusions such as `.git`, `node_modules`, `dist`, `.next`, `coverage`, and dotfiles. Add project-specific gitignore-style rules to `<project>/.framesignore` when other generated or intermediate assets are not required at render time. The same rules affect `frames publish`.
+The direct-upload limit is 200 MB. Frames automatically excludes root-level `renders/` and `snapshots/`, along with its existing development exclusions such as `.git`, `node_modules`, `dist`, `.next`, `coverage`, and dotfiles. Add project-specific gitignore-style rules to `<project>/.framesignore` when other generated or intermediate assets are not required at render time. The same rules affect `hanzo frame publish`.
 
 Inspect the exact archive without authenticating, uploading, spending credits, or starting a render:
 
 ```bash
-npx frames cloud render <project> --dry-run --json
+npx @hanzo/frame cloud render <project> --dry-run --json
 ```
 
 The result reports compressed `size_bytes`, `file_count`, the 200 MB limit, and the ten largest included files.
@@ -63,7 +63,7 @@ When a cloud upload reports a size-limit error, agents must use this workflow:
 3. Before excluding anything else, search `src`, `href`, `url()`, `data-composition-src`, JavaScript strings, manifests, and variable-driven paths across every HTML, CSS, and JavaScript entry.
 4. Preserve existing `.framesignore` comments and rules. Add the narrowest verified-unneeded root-relative paths; prefer an exact directory or file over a broad wildcard.
 5. Never ignore `index.html`, the selected composition, mounted sub-compositions, fonts, images, audio, video, scripts, or manifests merely because they are large. Never ignore all of `assets/`.
-6. Rerun dry-run until the archive is below the limit, then run `npx frames check`. Remember that `check` sees the source directory, so it cannot prove a dynamically computed asset path remains in the filtered archive; the reference audit is still required.
+6. Rerun dry-run until the archive is below the limit, then run `npx @hanzo/frame check`. Remember that `check` sees the source directory, so it cannot prove a dynamically computed asset path remains in the filtered archive; the reference audit is still required.
 
 Example:
 
@@ -92,11 +92,11 @@ Rules support comments, globs, and negation. A later rule can override a default
 | `--dry-run`            | off                         | Build and inspect a local project zip without authenticating, uploading, or rendering.                                         |
 
 ```bash
-npx frames cloud render . \
+npx @hanzo/frame cloud render . \
   --composition compositions/intro.html \
   --output ./renders/intro.mp4
 
-npx frames cloud render --quality high --fps 60
+npx @hanzo/frame cloud render --quality high --fps 60
 ```
 
 `--resolution 4k` cannot combine with `--format webm`/`mov`: the 4k supersampling path has no alpha channel. Render 4k as mp4, or render alpha at native resolution.
@@ -106,9 +106,9 @@ npx frames cloud render --quality high --fps 60
 Cloud rendering supports [composition variables](../../frames-core/references/variables-and-media.md#variables): declare `data-composition-variables` on the composition, then fill them at render time.
 
 ```bash
-npx frames cloud render --variables '{"title":"Q4 Recap","theme":"dark"}'
-npx frames cloud render --variables-file ./vars.json
-npx frames cloud render --variables '{"title":"Q4 Recap"}' --strict-variables
+npx @hanzo/frame cloud render --variables '{"title":"Q4 Recap","theme":"dark"}'
+npx @hanzo/frame cloud render --variables-file ./vars.json
+npx @hanzo/frame cloud render --variables '{"title":"Q4 Recap"}' --strict-variables
 ```
 
 For a **local project** the CLI validates `--variables` against the declared schema _before_ uploading. For `--asset-id`/`--url` the schema lives server-side, so mismatches surface as a `frames_project_invalid` API error.
@@ -116,9 +116,9 @@ For a **local project** the CLI validates `--variables` against the declared sch
 **Upload once, re-render many** is the idiomatic template loop: render a local project to get its `asset_id`, then re-submit against that asset with new values (no re-zip, no re-upload).
 
 ```bash
-npx frames cloud render ./card-template                              # note the asset_id printed on upload
-npx frames cloud render --asset-id asst_abc123 --variables '{"name":"Ada"}'
-npx frames cloud render --asset-id asst_abc123 --variables '{"name":"Linus"}'
+npx @hanzo/frame cloud render ./card-template                              # note the asset_id printed on upload
+npx @hanzo/frame cloud render --asset-id asst_abc123 --variables '{"name":"Ada"}'
+npx @hanzo/frame cloud render --asset-id asst_abc123 --variables '{"name":"Linus"}'
 ```
 
 For high-volume personalized batches, both self-managed paths provide JSONL fan-out: AWS Lambda (`lambda.md`) and Google Cloud Run (`cloudrun.md`). The full variables schema (types, declarative bindings, sub-composition overrides, precedence) lives in the `frames-core` skill.
@@ -128,8 +128,8 @@ For high-volume personalized batches, both self-managed paths provide JSONL fan-
 By default the CLI blocks, polls, and downloads. Combine `--no-wait` (submit and exit with just the `render_id`) with `--callback-url` (HTTPS webhook on terminal status) for true fire-and-forget:
 
 ```bash
-npx frames cloud render --callback-url https://example.com/hf-hook --no-wait
-#    Poll later with: frames cloud get hfr_def456
+npx @hanzo/frame cloud render --callback-url https://example.com/hf-hook --no-wait
+#    Poll later with: hanzo frame cloud get hfr_def456
 ```
 
 | Flag              | Meaning                                             |
@@ -143,19 +143,19 @@ npx frames cloud render --callback-url https://example.com/hf-hook --no-wait
 ## Managing renders
 
 ```bash
-npx frames cloud list                 # recent renders (--limit, --token, --all)
-npx frames cloud get hfr_def456       # full detail + short-lived signed video_url
-npx frames cloud delete hfr_def456    # soft-delete (--no-confirm to skip the prompt)
+npx @hanzo/frame cloud list                 # recent renders (--limit, --token, --all)
+npx @hanzo/frame cloud get hfr_def456       # full detail + short-lived signed video_url
+npx @hanzo/frame cloud delete hfr_def456    # soft-delete (--no-confirm to skip the prompt)
 ```
 
 `video_url` and `thumbnail_url` are short-lived presigned URLs, so re-fetch with `cloud get` rather than caching them.
 
 ## Safe retries
 
-The CLI transparently retries a `401` by force-refreshing the OAuth token and replaying. That's harmless for reads, but the zip upload (`POST /v3/assets`) is **not** idempotent: a blind retry creates a duplicate asset and bills twice. Pass `--idempotency-key` so retries are safe:
+A retry is harmless for reads, but the zip upload is **not** idempotent: a blind retry creates a duplicate asset and meters twice. Pass `--idempotency-key` so retries are safe:
 
 ```bash
-npx frames cloud render . --idempotency-key "$(uuidgen)"
+npx @hanzo/frame cloud render . --idempotency-key "$(uuidgen)"
 ```
 
 The key is forwarded to both upload and submit (the server scopes idempotency per-endpoint, so reusing one value is safe). Use any opaque string in `[A-Za-z0-9_:.-]`, 1–255 chars.

@@ -16,8 +16,8 @@ Frames owns media _playback_; media-use owns everything else. Each row is enforc
 | No transcript-driven cutting               | `scripts/transcript-cut.mjs` compiles word-timestamp edits into cut lists                                                                                                       |
 | No auto-duck / publish loudness            | `scripts/audio-duck.mjs` + `references/operations.md` loudnorm/sidechain recipes                                                                                                |
 | No cross-project memory                    | global content-addressed cache + auto-promote (`~/.media`)                                                                                                                      |
-| Grade recipes and LUT freezing             | `resolve --type grade` emits a paste-ready recipe and `resolve --type lut` freezes validated `.cube` files; direct element analysis/authoring lives in `frames media-treatment` |
-| No image generation                        | RAM-graded local mflux (FLUX) via `scripts/lib/mflux-provider.mjs`, codex `image_gen` upsell (`scripts/lib/codex-provider.mjs`)                                                 |
+| Grade recipes and LUT freezing             | `resolve --type grade` emits a paste-ready recipe and `resolve --type lut` freezes validated `.cube` files; direct element analysis/authoring lives in `hanzo frame media-treatment` |
+| No image generation                        | `resolve --type image` — the shared catalog, then `POST /v1/images/generations` (`scripts/lib/image-provider.mjs`)                                                              |
 | No video generation                        | `resolve --type video` (`POST /v1/videos/generations`), frozen and ledgered like any other asset (`references/operations.md`)                                                   |
 | Scattered provider setup                   | One credential, one host: `$HANZO_API_KEY` against `api.hanzo.ai` (`scripts/lib/api.mjs`)                                                                                       |
 

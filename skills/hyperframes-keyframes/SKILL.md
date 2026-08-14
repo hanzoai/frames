@@ -3,7 +3,7 @@ name: frames-keyframes
 description: >
   Use when a Frames composition needs seek-safe 2D/3D keyframes, GSAP
   timelines, CSS keyframes, Anime.js, WAAPI, FLIP, paths, masks, SVG morph/draw,
-  text trails, 3D depth, or `frames keyframes` diagnostics.
+  text trails, 3D depth, or `hanzo frame keyframes` diagnostics.
   Don't use for broad scene strategy, brand design, media sourcing, captions, or
   general video planning.
 ---
@@ -19,7 +19,7 @@ Use `frames-animation` for broad scene recipes. Use `frames-cli` for full comman
 1. Identify the animated subject, visible states, final state, and runtime.
 2. Choose the smallest mechanism that proves the prompt. Read `references/keyframe-patterns.md` only if the mechanism is unclear.
 3. Author seek-safe keyframes in the declared runtime. Build synchronously and register the runtime instance.
-4. Verify with `frames lint`, `frames check`, `frames keyframes`, one focused `--shot`, and snapshots at proof times.
+4. Verify with `hanzo frame lint`, `hanzo frame check`, `hanzo frame keyframes`, one focused `--shot`, and snapshots at proof times.
 5. If proof fails, fix the source keyframes and rerun the smallest failing diagnostic before rendering.
 
 ## Contract
@@ -176,15 +176,15 @@ Keyframe camera position, camera target, object transform, material opacity, sha
 ## CLI Proof
 
 ```bash
-npx frames lint
-npx frames check
-npx frames keyframes .
-npx frames keyframes . --json
-npx frames keyframes . --runtime all
-npx frames keyframes . --selector "<selector>" --shot "<file>" --samples <n>
-npx frames keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
-npx frames keyframes . --shot "<file>" --ghost --angle <angle>
-npx frames snapshot . --at <times>
+npx @hanzo/frame lint
+npx @hanzo/frame check
+npx @hanzo/frame keyframes .
+npx @hanzo/frame keyframes . --json
+npx @hanzo/frame keyframes . --runtime all
+npx @hanzo/frame keyframes . --selector "<selector>" --shot "<file>" --samples <n>
+npx @hanzo/frame keyframes . --selector "<selector>" --shot "<file>" --layout strip --from <t0> --to <t1>
+npx @hanzo/frame keyframes . --shot "<file>" --ghost --angle <angle>
+npx @hanzo/frame snapshot . --at <times>
 ```
 
 Choose `<selector>` for the real animated subject. Choose `<times>` for first frame, proof poses, final-minus-hold, and exact final. Choose `<angle>` only when depth must be proven.
@@ -226,4 +226,4 @@ A helper-selector shot is not proof. An onion shot over a broken full frame is n
 
 ## Done
 
-Run `frames lint`, `frames check`, `frames keyframes`, one focused `--shot`, and snapshots. Confirm first frame, proof poses, final-minus-hold, exact final, subject-owned motion, and no debug overlays.
+Run `hanzo frame lint`, `hanzo frame check`, `hanzo frame keyframes`, one focused `--shot`, and snapshots. Confirm first frame, proof poses, final-minus-hold, exact final, subject-owned motion, and no debug overlays.

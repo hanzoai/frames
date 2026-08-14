@@ -56,14 +56,10 @@ const die = (m) => {
 };
 const r3 = (x) => Number(x.toFixed(3));
 
-// Two independent reports of an unbounded Promise.all over TTS lines
-// overwhelming a machine: one OOM'd 12/13 concurrent Kokoro TTS +
-// whisper-transcribe lines on a resource-constrained laptop, the other saw
-// 7/8 lines fail on first run (concurrent cold-start model loads) and pass on
-// retry once the model was cached. Kokoro/Whisper each load their own local
-// model per subprocess, so firing every line at once multiplies that cost by
-// the line count. mapWithConcurrency caps how many run at once — still
-// parallel, just bounded.
+// Each line is two requests (speech, then alignment), so an unbounded
+// Promise.all over a long script opens two connections per line at once and
+// gets throttled — the whole batch then fails together rather than degrading.
+// mapWithConcurrency caps how many run at once: still parallel, just bounded.
 const ttsConcurrency = Math.max(1, Number(process.env.FRAMES_TTS_CONCURRENCY) || 4);
 
 const framesDir = resolve(flag("frames", "."));

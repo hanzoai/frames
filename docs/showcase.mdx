@@ -20,8 +20,8 @@ Videos is the deeper teardown.
   >
     <video
       className="aspect-video w-full object-cover bg-zinc-100 dark:bg-zinc-900"
-      src="https://static.heygen.ai/frames-oss/docs/images/showcase/frames-launch-preview.mp4"
-      poster="https://static.heygen.ai/frames-oss/docs/images/showcase/frames-launch-poster.jpg"
+      src="/images/showcase/frames-launch-preview.mp4"
+      poster="/images/showcase/frames-launch-poster.jpg"
       controls
       muted
       loop
@@ -49,8 +49,8 @@ Videos is the deeper teardown.
   >
     <video
       className="aspect-video w-full object-cover bg-zinc-100 dark:bg-zinc-900"
-      src="https://static.heygen.ai/frames-oss/docs/images/showcase/website-to-frames-preview.mp4"
-      poster="https://static.heygen.ai/frames-oss/docs/images/showcase/website-to-frames-poster.jpg"
+      src="/images/showcase/website-to-frames-preview.mp4"
+      poster="/images/showcase/website-to-frames-poster.jpg"
       controls
       muted
       loop
@@ -78,8 +78,8 @@ Videos is the deeper teardown.
   >
     <video
       className="aspect-video w-full object-cover bg-zinc-100 dark:bg-zinc-900"
-      src="https://static.heygen.ai/frames-oss/docs/images/showcase/timeline-editor-preview.mp4"
-      poster="https://static.heygen.ai/frames-oss/docs/images/showcase/timeline-editor-poster.jpg"
+      src="/images/showcase/timeline-editor-preview.mp4"
+      poster="/images/showcase/timeline-editor-poster.jpg"
       controls
       muted
       loop
@@ -107,8 +107,8 @@ Videos is the deeper teardown.
   >
     <video
       className="aspect-video w-full object-cover bg-zinc-100 dark:bg-zinc-900"
-      src="https://static.heygen.ai/frames-oss/docs/images/showcase/texture-launch-preview.mp4"
-      poster="https://static.heygen.ai/frames-oss/docs/images/showcase/texture-launch-poster.jpg"
+      src="/images/showcase/texture-launch-preview.mp4"
+      poster="/images/showcase/texture-launch-poster.jpg"
       controls
       muted
       loop
@@ -136,8 +136,8 @@ Videos is the deeper teardown.
   >
     <video
       className="aspect-video w-full object-cover bg-zinc-100 dark:bg-zinc-900"
-      src="https://static.heygen.ai/frames-oss/docs/images/showcase/vfx-heygen-preview.mp4"
-      poster="https://static.heygen.ai/frames-oss/docs/images/showcase/vfx-heygen-poster.jpg"
+      src="/images/showcase/vfx-combined-preview.mp4"
+      poster="/images/showcase/vfx-combined-poster.jpg"
       controls
       muted
       loop
@@ -146,14 +146,14 @@ Videos is the deeper teardown.
     />
     <div className="p-4">
       <div className="text-xs uppercase tracking-wide text-zinc-500">VFX system</div>
-      <h3 className="mt-1 text-lg font-semibold text-zinc-950 dark:text-zinc-50">VFX x HeyGen combined</h3>
+      <h3 className="mt-1 text-lg font-semibold text-zinc-950 dark:text-zinc-50">VFX combined</h3>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
         A rendered effects reel combining Three.js, HTML-in-canvas, generated
         media, text animation, and product UI beats.
       </p>
       <a
         className="mt-3 block text-sm font-medium text-zinc-950 dark:text-zinc-50"
-        href="https://github.com/hanzoai/frames-launches/tree/main/vfx-heygen-combined"
+        href="https://github.com/hanzoai/frames-launches/tree/main/vfx-combined"
       >
         View source ->
       </a>
@@ -196,7 +196,7 @@ Videos is the deeper teardown.
     these launches.
   </Card>
   <Card title="Source Repository" icon="github" href="https://github.com/hanzoai/frames-launches">
-    Open the full collection of HeyGen launch compositions.
+    Open the full collection of launch compositions.
   </Card>
 </CardGroup>
 
@@ -208,8 +208,8 @@ Videos is the deeper teardown.
 | A website-to-video product tour | [Website to Frames](https://github.com/hanzoai/frames-launches/tree/main/website-to-frames) | Shows captured website footage, agent prompts, captions, VO, and SFX. |
 | A product UI reveal | [Timeline editor launch](https://github.com/hanzoai/frames-launches/tree/main/timeline-launch) | Shows mockups, interface closeups, and feature storytelling. |
 | A texture or title-card system | [Texture launch](https://github.com/hanzoai/frames-launches/tree/main/texture-launch-video) | Shows expressive text treatment and shader-backed motion. |
-| An effects-heavy launch reel | [VFX x HeyGen combined](https://github.com/hanzoai/frames-launches/tree/main/vfx-heygen-combined) | Shows Three.js, generated media, and HTML-in-canvas in one render. |
-| A starter project | [Examples](/examples) | Scaffold working templates with `npx frames init --example <name>`. |
+| An effects-heavy launch reel | [VFX combined](https://github.com/hanzoai/frames-launches/tree/main/vfx-combined) | Shows Three.js, generated media, and HTML-in-canvas in one render. |
+| A starter project | [Examples](/examples) | Scaffold working templates with `npx @hanzo/frame init --example <name>`. |
 | A reusable motion part | [Catalog](/catalog/blocks/data-chart) | Add blocks and components to an existing composition. |
 
 ## Run One Locally
@@ -224,8 +224,8 @@ git lfs install
 git clone https://github.com/hanzoai/frames-launches.git
 cd frames-launches/website-to-frames
 
-npx frames preview
-npx frames render
+npx @hanzo/frame preview
+npx @hanzo/frame render
 ```
 
 To skip pulling every launch asset up front, clone first and pull only the
@@ -237,7 +237,7 @@ cd frames-launches
 git lfs pull --include="website-to-frames/**"
 cd website-to-frames
 
-npx frames preview
+npx @hanzo/frame preview
 ```
 
 The launch projects include source HTML, sub-compositions, assets, rendered
@@ -248,7 +248,7 @@ outputs, and production notes such as `STORYBOARD.md`, `DESIGN.md`, and
 
 <CardGroup cols={2}>
   <Card title="Starter Examples" icon="layer-group" href="/examples">
-    Scaffold remixable templates with `npx frames init --example`.
+    Scaffold remixable templates with `npx @hanzo/frame init --example`.
   </Card>
   <Card title="Community Playground" icon="play" href="https://www.frames.hanzo.ai/">
     Open shared projects, preview videos, and publish your own.

@@ -21,11 +21,11 @@ The CLI ships a built-in `remove-background` command that runs locally — no AP
     sudo apt install ffmpeg
     ```
 
-    Confirm with `npx frames doctor` — both should be green.
+    Confirm with `npx @hanzo/frame doctor` — both should be green.
   </Step>
   <Step title="Remove the background from your video">
     ```bash Terminal
-    npx frames remove-background subject.mp4 -o transparent.webm
+    npx @hanzo/frame remove-background subject.mp4 -o transparent.webm
     ```
 
     On the first run, the CLI downloads ~168 MB of model weights to `~/.cache/frames/background-removal/models/`. Subsequent runs reuse the cache.
@@ -49,7 +49,7 @@ The CLI ships a built-in `remove-background` command that runs locally — no AP
     </div>
     ```
 
-    Render the composition with the usual `frames render`.
+    Render the composition with the usual `hanzo frame render`.
   </Step>
 </Steps>
 
@@ -75,9 +75,9 @@ The output is encoded with the exact ffmpeg flags Chrome's `<video>` element nee
 | `.png` | PNG with alpha | Single-image cutout (only when the input is also a single image) | varies |
 
 ```bash Terminal
-npx frames remove-background subject.mp4 -o transparent.webm        # web playback
-npx frames remove-background subject.mp4 -o transparent.mov         # editing
-npx frames remove-background portrait.jpg -o cutout.png       # still image
+npx @hanzo/frame remove-background subject.mp4 -o transparent.webm        # web playback
+npx @hanzo/frame remove-background subject.mp4 -o transparent.mov         # editing
+npx @hanzo/frame remove-background portrait.jpg -o cutout.png       # still image
 ```
 
 ## Layer separation: emit the cutout and the background plate together
@@ -85,7 +85,7 @@ npx frames remove-background portrait.jpg -o cutout.png       # still image
 Pass `--background-output` (alias `-b`) to write a *second* transparent video alongside the cutout. Same source RGB, alpha is the *inverse* mask — opaque where the surroundings were, transparent where the subject is. The result is a clean two-layer separation in a single inference pass:
 
 ```bash Terminal
-npx frames remove-background subject.mp4 \
+npx @hanzo/frame remove-background subject.mp4 \
   -o subject.webm \
   --background-output plate.webm
 ```
@@ -147,7 +147,7 @@ Constraints: the flag requires a video input and `.webm` or `.mov` for both outp
 
 ## Performance
 
-Real-world numbers from the [matting eval](https://www.heygenverse.com/a/0dd5a431-1832-4858-862d-de7fb7d02654), running u²-net_human_seg on a 4-second 1080p clip:
+Real-world numbers from running u²-net_human_seg on a 4-second 1080p clip:
 
 | Platform | Provider | ms/frame | 30-second clip |
 |----------|----------|----------|----------------|
@@ -165,16 +165,16 @@ Matting is offline preprocessing — you run it once per asset and reuse the out
 - **Force CPU on a GPU box** when you want to keep the GPU free for other work, or are debugging an EP-specific issue:
 
   ```bash Terminal
-  npx frames remove-background subject.mp4 -o transparent.webm --device cpu
+  npx @hanzo/frame remove-background subject.mp4 -o transparent.webm --device cpu
   ```
 
 - **Opt into CUDA** by setting `FRAMES_CUDA=1` and providing a GPU-enabled `onnxruntime-node` build (the bundled build is CPU + CoreML only, to keep the install small for the 99% of users who don't have a GPU):
 
   ```bash Terminal
-  FRAMES_CUDA=1 npx frames remove-background subject.mp4 -o transparent.webm --device cuda
+  FRAMES_CUDA=1 npx @hanzo/frame remove-background subject.mp4 -o transparent.webm --device cuda
   ```
 
-Run `npx frames remove-background --info` to see what providers are detected on your machine and which one `auto` would pick.
+Run `npx @hanzo/frame remove-background --info` to see what providers are detected on your machine and which one `auto` would pick.
 
 ## Using the transparent video in a composition
 
@@ -313,7 +313,7 @@ If your use case hits one of these, see the alternatives below.
 
 ## Alternatives — when the built-in command isn't the right tool
 
-The CLI ships **one model on purpose** — the one that's MIT-licensed, runs everywhere, and produces production-quality output for person/portrait video. The list below leads with **free, open-source tools** that pair naturally with Frames. Each entry calls out the actual catch — license, install effort, hardware needs — so you can pick the right one for your situation. Full benchmarks are in the [matting eval](https://www.heygenverse.com/a/0dd5a431-1832-4858-862d-de7fb7d02654).
+The CLI ships **one model on purpose** — the one that's MIT-licensed, runs everywhere, and produces production-quality output for person/portrait video. The list below leads with **free, open-source tools** that pair naturally with Frames. Each entry calls out the actual catch — license, install effort, hardware needs — so you can pick the right one for your situation. Full benchmarks come from the same 4-second 1080p matting comparison.
 
 ### Free, open-source CLIs and libraries
 
@@ -355,7 +355,7 @@ ffmpeg -i frames-%04d.png -c:v libvpx-vp9 \
 
 ### How to choose
 
-- **Person / portrait video, web playback, MIT-clean** → use the built-in `frames remove-background` (this is what it's tuned for).
+- **Person / portrait video, web playback, MIT-clean** → use the built-in `hanzo frame remove-background` (this is what it's tuned for).
 - **Non-human subject** (product, animal, object) → `rembg` with `isnet-general-use`.
 - **Maximum portrait quality, especially hair** → `BiRefNet` via Python.
 - **Long video where edge flicker would be visible**, GPL is OK → `RVM`.
@@ -379,7 +379,7 @@ Subsequent `remove-background` runs skip the download and use your local copy.
 
 ### "ffmpeg and ffprobe are required"
 
-The pipeline shells out to ffmpeg for decode + encode. Install via `brew install ffmpeg` on macOS or `sudo apt install ffmpeg` on Debian/Ubuntu. Verify with `npx frames doctor`.
+The pipeline shells out to ffmpeg for decode + encode. Install via `brew install ffmpeg` on macOS or `sudo apt install ffmpeg` on Debian/Ubuntu. Verify with `npx @hanzo/frame doctor`.
 
 ### The output WebM looks fully opaque in the browser
 
@@ -406,7 +406,7 @@ The decoded `frame0.png` should be RGBA and have non-trivial alpha values.
 The pipeline auto-falls-back to CPU if CoreML fails to bind, with a warning. If you want to skip the CoreML attempt entirely, force CPU:
 
 ```bash Terminal
-npx frames remove-background subject.mp4 -o transparent.webm --device cpu
+npx @hanzo/frame remove-background subject.mp4 -o transparent.webm --device cpu
 ```
 
 ### The alpha mask has rough or jagged edges
@@ -418,7 +418,7 @@ That usually means the source frame is high-contrast against a similar-toned bac
 
 ## Reference
 
-- CLI: [`frames remove-background`](/packages/cli#remove-background)
-- Eval: [Matting eval — v7](https://www.heygenverse.com/a/0dd5a431-1832-4858-862d-de7fb7d02654)
+- CLI: [`hanzo frame remove-background`](/packages/cli#remove-background)
+- Eval: matting comparison v7, u²-net_human_seg on a 4-second 1080p clip
 - Source model: [danielgatis/rembg](https://github.com/danielgatis/rembg)
 - ONNX runtime: [`onnxruntime-node`](https://www.npmjs.com/package/onnxruntime-node)

@@ -2,7 +2,7 @@
 
 ## 1. Interim framing — why this exists
 
-These patterns are a **temporary workaround** for standalone demos. The durable solution is engine-hosted: a future `frames preview --slideshow` / studio present mode will host the composition over the real Frames engine, which drives seek-timelines frame-by-frame, owns the gesture frame, and reads the slideshow island directly from the composition. When that path ships, most of what follows collapses.
+These patterns are a **temporary workaround** for standalone demos. The durable solution is engine-hosted: a future `hanzo frame preview --slideshow` / studio present mode will host the composition over the real Frames engine, which drives seek-timelines frame-by-frame, owns the gesture frame, and reads the slideshow island directly from the composition. When that path ships, most of what follows collapses.
 
 Until then, a standalone slideshow opened via the bare player bundle must work around three facts:
 
@@ -878,7 +878,7 @@ Do NOT add a mute button inside the composition. The `#sfx-mute` coral button pa
 </script>
 ```
 
-**Sourcing SFX files:** use the HeyGen MCP `search_audio_sounds` tool with `type=sound_effects` and keywords like "whoosh", "click", "transition". Download the results to a local `sfx/` directory next to `demo.html` and reference them by relative path. Do not fetch SFX at render time — the Frames determinism rule forbids runtime network requests; pre-download and commit them.
+**Sourcing SFX files:** run `/media-use` — `resolve --type sfx --intent "whoosh"` takes the bundled library first, then the shared catalog, then foley. Copy the resolved files into a local `sfx/` directory next to `demo.html` and reference them by relative path. Do not fetch SFX at render time — the Frames determinism rule forbids runtime network requests; resolve and commit them first.
 
 ---
 

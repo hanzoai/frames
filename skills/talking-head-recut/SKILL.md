@@ -3,7 +3,7 @@ name: talking-head-recut
 description: Package an existing talking-head / interview / podcast video with timed, designed GRAPHIC OVERLAY cards — kinetic titles, lower-thirds, data callouts, quotes, side panels, picture-in-picture — synced to the transcript, on a 16:9 / 9:16 / 4:5 canvas of your choice; the clip plays untouched underneath. Trigger on "graphic overlays", "on-screen graphics", "package / dress up my video". Not plain subtitles (/embedded-captions). Unclear → /frames.
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx frames skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update talking-head-recut`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # Talking Head Recut
 
@@ -38,11 +38,11 @@ Inspectable intermediate files in the work directory:
 
 ```bash
 # frames — transcription (local Whisper) + rendering the assembled HTML to MP4
-npx frames --help
+npx @hanzo/frame --help
 ```
 
 This skill runs entirely on the **frames** CLI plus system `ffmpeg` / `ffprobe`.
-Transcription is local **Whisper** via `frames transcribe` — no third-party
+Transcription is local **Whisper** via `hanzo frame transcribe` — no third-party
 service, API key, or rate-limited proxy.
 
 ## Workflow
@@ -50,7 +50,7 @@ service, API key, or rate-limited proxy.
 ### 1. Check Environment
 
 ```bash
-npx frames doctor          # ffmpeg, headless browser, render deps
+npx @hanzo/frame doctor          # ffmpeg, headless browser, render deps
 # confirm bundled assets:
 ls "<SKILL_DIR>/assets/fonts" "<SKILL_DIR>/assets/vendor/gsap.min.js"
 ```
@@ -60,9 +60,9 @@ Required:
 - `ffmpeg` / `ffprobe` (system)
 - `<SKILL_DIR>/assets/fonts/*.woff2`, `<SKILL_DIR>/assets/vendor/gsap.min.js` (bundled inside this skill, staged to work dir in Step 9)
 
-Transcription needs no key — `frames transcribe` runs Whisper locally (Step 4).
+Transcription needs no key — `hanzo frame transcribe` runs Whisper locally (Step 4).
 
-Strongly recommended on macOS for `frames render`:
+Strongly recommended on macOS for `hanzo frame render`:
 
 ```bash
 export PRODUCER_BROWSER_GPU_MODE=hardware
@@ -97,7 +97,7 @@ fraction evaluated, e.g. `30000/1001 → 29.97`) + `audio.mp3`.
 ### 4. Transcribe
 
 ```bash
-npx frames transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
+npx @hanzo/frame transcribe "$WORK_DIR/audio.mp3" -d "$WORK_DIR" --json --model small.en
 ```
 
 Local **Whisper** — no API key, no proxy, no rate limit. Writes a word-level
@@ -1165,13 +1165,13 @@ decides where the actual visible card sits.
 
 ```bash
 cd "$WORK_DIR"
-PRODUCER_BROWSER_GPU_MODE=hardware npx frames render public \
+PRODUCER_BROWSER_GPU_MODE=hardware npx @hanzo/frame render public \
   --skill=talking-head-recut \
   -o output.mp4 \
   --fps 30
 ```
 
-`frames render <dir>` reads `<dir>/index.html` and produces the MP4.
+`hanzo frame render <dir>` reads `<dir>/index.html` and produces the MP4.
 The canonical composition keeps the visual `<video>` muted and mounts the same
 source as the root `#source-audio` track, so the rendered MP4 preserves the
 talking-head audio without a manual remux. This uses a separate audio track
@@ -1185,7 +1185,7 @@ For a sanity check before the full render, capture a single frame at a
 specific timestamp:
 
 ```bash
-npx frames snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
+npx @hanzo/frame snapshot public --at 5    # → public/snapshots/frame-00-at-5s.png (a single --at ignores --out)
 ```
 
 ### 11. Report Results
@@ -1204,7 +1204,7 @@ Tell the user:
 **Optional live preview (on request only).** The clip plays unchanged inside `public/index.html` with the overlays on top, so it previews faithfully. **Don't open it during the run.** When the user asks, start a long-lived server **after** render and report the URL:
 
 ```bash
-(cd "$WORK_DIR/public" && npx frames preview)   # or `npx frames play` for a shareable link
+(cd "$WORK_DIR/public" && npx @hanzo/frame preview)   # or `npx @hanzo/frame play` for a shareable link
 ```
 
 Do not delete the work directory unless the user asks.

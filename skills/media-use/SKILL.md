@@ -37,14 +37,14 @@ reveal photographic media, read `references/media-treatments.md` even if they
 do not name color grading or an effect. Inspect the real `<img>`/`<video>`,
 choose one primary intent, then use deterministic persistence and verification.
 Use a matching recipe as an optional tested seed, or inspect
-`frames media-treatment --capabilities --json`, then request one relevant
+`hanzo frame media-treatment --capabilities --json`, then request one relevant
 family/effect with `--capability <id>` and assemble a custom treatment from
 canonical controls. Never load `--all` for ordinary authoring. A treatment may
 compose correction, a preset, finishing, compatible shader effects, supported
 keyframes, and optional Registry overlays. Add only source-justified bounded
 tuning and compatible parts, never effects merely to make the result look more
 sophisticated. Persist the final combined payload with
-`frames media-treatment`.
+`hanzo frame media-treatment`.
 
 Use one progressively escalating workflow. For video, inspect one labeled
 early/middle/late contact sheet rather than reading frames separately. Apply one
@@ -76,7 +76,7 @@ Surface an opportunity only when a concrete signal is present:
 | Image that is a placeholder, tiny, or upscaled-looking   | a better `image` (and/or upscale — see `references/operations.md`)                                     |
 | Hard scene cuts / transitions with no sound              | transition `sfx`                                                                                       |
 | A piece over ~10s with no music bed                      | `bgm`                                                                                                  |
-| Footage that reads under/over-exposed or color-cast      | a corrective grade (inspect it with `frames media-treatment --selector '#hero' --analyze --json`)      |
+| Footage that reads under/over-exposed or color-cast      | a corrective grade (inspect it with `hanzo frame media-treatment --selector '#hero' --analyze --json`)      |
 | Photographic media that feels visually flat or off-topic | one specific source-appropriate preset or custom treatment, with the intended target named             |
 | A meaningful media entrance/reveal that feels static     | one supported seek-safe treatment animation; preserve color unless the request also justifies a preset |
 

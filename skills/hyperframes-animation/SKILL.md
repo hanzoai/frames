@@ -81,4 +81,4 @@ Reads every GSAP timeline registered on `window.__timelines`, enumerates tweens,
 
 - `frames-core` — composition structure, data attributes, sub-compositions, deterministic render contract
 - `frames-creative` — palettes, typography, narration, beat planning (non-animation creative direction)
-- `frames-cli` — `npx frames lint / check / snapshot / preview / render`
+- `frames-cli` — `npx @hanzo/frame lint / check / snapshot / preview / render`

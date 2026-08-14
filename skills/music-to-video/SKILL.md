@@ -3,7 +3,7 @@ name: music-to-video
 description: "Turn a music track (an audio file, a video to pull audio from, or a track generated from a mood brief) into a beat-synced video — lyric video, slideshow, or kinetic promo. The music drives all pacing; any user-supplied images/videos are cut onto the same beat grid, and a complete video needs zero assets. Narrated pieces → the input-matched workflow (see /frames). Unclear → /frames."
 ---
 
-> **First, keep this skill fresh — run silently, don't ask:** `npx frames skills update music-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
+> **First, keep this skill fresh — run silently, don't ask:** `npx @hanzo/frame skills update music-to-video`. A fast no-op when everything is current; otherwise it refreshes this skill plus the core domain skills it depends on before you rely on them.
 
 # music-to-video — one music-grounded, beat-synced video workflow
 
@@ -28,10 +28,10 @@ Goal: Establish the music source, create the Frames project, and note any user-s
 
 **The brief starts at the intent layer.** Opening rule, in order: **(1)** `BRIEF.md` exists → read it and ask nothing it answers — its `flow`/`storyboard` derive the mode (brief contract § 1). **(2)** No `BRIEF.md` but the project exists → resume from what's on disk; never re-interrogate. **(3)** A fresh creation request that arrived here directly → read `/frames` and run its intent layer (`references/intent-interview.md`): it confirms this route's must-haves (the music source, destination → aspect — `../frames/references/routes/music-to-video.md`) and announces what stays deferred — brand and genre are chosen at Step 3 by design. Write `BRIEF.md` immediately after init (never before — `init` refuses a non-empty directory) and record the preference-backed answers (`brief-format.md`). Edit requests skip all of this.
 
-The **music is the spine** — establish one track before anything else. This skill is tuned for **fast, high-energy BGM**: a strong beat grid drives the cuts (calm tracks work, but pace by phrase rather than beat). If the user supplied audio — a music file, or a video to pull audio from — use it. Otherwise choose the mood from the request and generate a track through `/media-use` (`references/bgm.md`). Before the first authenticated provider action, run `npx frames auth status` and relay its output verbatim. If signed out, apply one branch:
+The **music is the spine** — establish one track before anything else. This skill is tuned for **fast, high-energy BGM**: a strong beat grid drives the cuts (calm tracks work, but pace by phrase rather than beat). If the user supplied audio — a music file, or a video to pull audio from — use it. Otherwise choose the mood from the request and generate a track through `/media-use` (`references/bgm.md`). Before the first credentialed action, run `npx @hanzo/frame auth status` and relay its output verbatim. With no credential, apply one branch:
 
-- **Collaborative:** wait for sign-in or an explicit choice to continue offline with the local provider.
-- **Autonomous:** state the status and continue through the available local provider.
+- **Collaborative:** wait for the user to export a credential or explicitly choose to continue without one.
+- **Autonomous:** state what is available and continue with the rungs that work.
 
 If no offline provider can satisfy the required music capability, surface the blocker. Never write keys into a per-repo `.env`. Auth ownership and offline fallbacks live in `/media-use` `references/setup-providers.md` § Providers. The resulting track lands at `assets/bgm.mp3`. Stage supplied images or videos so frames can use them on the beat grid; otherwise typography carries the video.
 
@@ -40,7 +40,7 @@ If no offline provider can satisfy the required music capability, surface the bl
 Initialize only if `frames.json` is missing. Name `<project>` from the brief in kebab-case, such as `midnight-drive-loop` — never a timestamp. `init` checks the installed skills against the latest on GitHub and updates the global set if any are out of date.
 
 ```bash
-npx frames init "videos/<project>" --non-interactive --example=blank --skill=music-to-video
+npx @hanzo/frame init "videos/<project>" --non-interactive --example=blank --skill=music-to-video
 mkdir -p "$PROJECT_DIR/assets" "$PROJECT_DIR/renders"
 cp "<user-music>" "$PROJECT_DIR/assets/bgm.mp3"   # extract from a video first if needed
 # only if the user gave you images/videos:
@@ -153,13 +153,13 @@ Goal: Verify the assembled video, get user approval, and render the final MP4.
 Run the CLI on the **assembled project** — that's the correct unit (the per-frame workers couldn't run it). `check` runs structural lint and the headless-browser runtime, layout, motion, and contrast gate in one pass; `--snapshots` also emits the review frames.
 
 ```bash
-( cd "$PROJECT_DIR" && npx frames check . --snapshots )
+( cd "$PROJECT_DIR" && npx @hanzo/frame check . --snapshots )
 ```
 
 Inspect at `t=0`, each frame start, the strongest DROP / SURGE, every `hard_stops[].t`, and the final frame. On failure, make the **cheapest safe fix** yourself: edit the offending `compositions/frames/NN-*.html`. Never change duration or audio timing to hide a sync issue. Once the gates pass, pause for user review, then render only on approval (autonomous mode: ask the one kept question — "preview first, or render?" — then deliver the MP4 with the contact sheet):
 
 ```bash
-( cd "$PROJECT_DIR" && npx frames render . --skill=music-to-video -q draft -o renders/video.mp4 --fps 30 )
+( cd "$PROJECT_DIR" && npx @hanzo/frame render . --skill=music-to-video -q draft -o renders/video.mp4 --fps 30 )
 ```
 
 **Gate:** `check` passed and the snapshots were inspected; the user approved (autonomous: checks passed and the delivery includes the contact sheet); `renders/video.mp4` exists with audio, duration == `audiomap.audio.duration_sec`. The final reply states the MP4 path and duration.

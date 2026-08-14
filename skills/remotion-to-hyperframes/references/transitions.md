@@ -43,7 +43,7 @@ tl.fromTo(sceneB, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "none" }, 1
 | `fade()`                           | manual `gsap.to(opacity)` crossfade                                                       |
 | `slide({direction: "from-right"})` | `gsap.fromTo(translateX: "100%" → 0)` on incoming + `to(translateX: "-100%")` on outgoing |
 | `wipe({direction: "from-left"})`   | `gsap.fromTo(clip-path: inset(0 100% 0 0) → inset(0 0 0 0))` on incoming                  |
-| `clockWipe()`                      | use HF's `sdf-iris` shader-transition (`npx frames add sdf-iris`)                    |
+| `clockWipe()`                      | use HF's `sdf-iris` shader-transition (`npx @hanzo/frame add sdf-iris`)                    |
 | `flip()`                           | `gsap.to(rotateY)` 180° split between scenes                                              |
 | `cube()`                           | use HF's `cinematic-zoom` or build manually with `rotateY` + `transform-origin`           |
 | `iris()`                           | use HF's `sdf-iris` shader-transition                                                     |
@@ -66,7 +66,7 @@ For transitions Remotion presets that have visually-rich GLSL equivalents
 package. They produce richer output than manual GSAP transforms.
 
 ```bash
-npx frames add sdf-iris
+npx @hanzo/frame add sdf-iris
 ```
 
 Then in the composition:

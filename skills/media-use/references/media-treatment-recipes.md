@@ -4,7 +4,7 @@ These are optional tested seeds, not the complete capability surface. Read the
 shared policy and choose one relevant section through `media-treatments.md`.
 Agents may modify or combine a seed with compatible canonical controls after
 inspecting the media, or assemble a bespoke payload from
-`frames media-treatment --capabilities --json` when no seed fits.
+`hanzo frame media-treatment --capabilities --json` when no seed fits.
 
 ## Natural Portrait
 
@@ -305,7 +305,7 @@ When the narrative benefits from explicit recording-device language, install
 the Registry overlay block:
 
 ```bash
-npx frames add camcorder-hud --no-clipboard
+npx @hanzo/frame add camcorder-hud --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host over the intended media range.
@@ -804,7 +804,7 @@ texture, generic flash, or film-stock emulation.
 Install the Registry overlay block:
 
 ```bash
-npx frames add organic-light-leak-overlay --no-clipboard
+npx @hanzo/frame add organic-light-leak-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host at the intended beat and keep
@@ -824,9 +824,9 @@ Extract the exact deterministic source frame first, then remove its background:
 
 ```bash
 ffmpeg -ss <seconds> -i <source-video> -frames:v 1 -y .media/generated/freeze-source.png
-npx frames remove-background .media/generated/freeze-source.png \
+npx @hanzo/frame remove-background .media/generated/freeze-source.png \
   -o .media/generated/freeze-cutout.png --json
-npx frames add freeze-frame-dressing --no-clipboard
+npx @hanzo/frame add freeze-frame-dressing --no-clipboard
 ```
 
 Add the transparent result as a direct-root timed media layer and insert the
@@ -876,7 +876,7 @@ authored light/motion layers when they do not obscure required information.
 Install the Registry overlay block:
 
 ```bash
-npx frames add editorial-flash-overlay --no-clipboard
+npx @hanzo/frame add editorial-flash-overlay --no-clipboard
 ```
 
 Insert the printed `data-composition-src` host so the block's midpoint lands

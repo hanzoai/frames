@@ -36,10 +36,10 @@ If a fresh request does not identify the subject or input, ask what the video is
 A scaffolded project pins `frames@<version>` in its `package.json` scripts so renders stay reproducible; the pin never advances on its own, and a pinned run of an older CLI prints no warning about it. When resuming a project whose scripts carry a pin, probe once before the first render-affecting command:
 
 ```bash
-npx frames@latest upgrade --project . --check
+npx @hanzo/frame@latest upgrade --project . --check
 ```
 
-The probe is read-only and reports the pin against the latest release; keep the explicit `.` — on older CLI releases a bare `--project` followed by another flag consumes that flag as its directory value. When it reports the project behind — or any CLI output already shows it (the stderr notice `This project pins frames@… (latest …)`, or `_meta.updateAvailable: true` in a `--json` result from a pinned script) — apply with `npx frames@latest upgrade --project .`, then verify with `npx frames check`. A passing check confirms the project's compositions still validate on the new version — not that rendered output is frame-identical to the old pin — so a successful bump is never silent: name the old and new version in the run's summary. A project with no composition yet needs no verification. If the check fails, revert the `package.json` change, continue on the pinned version, and report which version the project stays on and why. Act on the signal rather than relaying it to the user; never leave a bumped pin unverified.
+The probe is read-only and reports the pin against the latest release; keep the explicit `.` — on older CLI releases a bare `--project` followed by another flag consumes that flag as its directory value. When it reports the project behind — or any CLI output already shows it (the stderr notice `This project pins frames@… (latest …)`, or `_meta.updateAvailable: true` in a `--json` result from a pinned script) — apply with `npx @hanzo/frame@latest upgrade --project .`, then verify with `npx @hanzo/frame check`. A passing check confirms the project's compositions still validate on the new version — not that rendered output is frame-identical to the old pin — so a successful bump is never silent: name the old and new version in the run's summary. A project with no composition yet needs no verification. If the check fails, revert the `package.json` change, continue on the pinned version, and report which version the project stays on and why. Act on the signal rather than relaying it to the user; never leave a bumped pin unverified.
 
 ## 2. Route fresh creation
 
@@ -78,7 +78,7 @@ For fresh creation the intent layer (`references/intent-interview.md`) runs the 
 Before reading the selected workflow, install or refresh it and the core domain skills:
 
 ```bash
-npx frames skills update <workflow-name>
+npx @hanzo/frame skills update <workflow-name>
 ```
 
 Use the bare name without `/`. If the command fails, surface the error; do not reconstruct the workflow from memory. Everything else about installation — the core-vs-lazy split, what `init` refreshes, diagnosis, CI opt-out, and the no-CLI fallback — lives in `references/skill-lifecycle.md`.
@@ -89,7 +89,7 @@ Use the bare name without `/`. If the command fails, surface the error; do not r
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------ |
 | Composition structure, timing attributes, tracks, variables, determinism                                            | `/frames-core`      |
 | Motion rules, scene blueprints, transitions, runtime adapters                                                       | `/frames-animation` |
-| Seek-safe GSAP, CSS, Anime.js, WAAPI, FLIP, paths, masks, SVG, 3D keyframes, or `frames keyframes` diagnostics | `/frames-keyframes` |
+| Seek-safe GSAP, CSS, Anime.js, WAAPI, FLIP, paths, masks, SVG, 3D keyframes, or `hanzo frame keyframes` diagnostics | `/frames-keyframes` |
 | Design specs, concept, palette, typography, narration, beat planning                                                | `/frames-creative`  |
 | Images, icons, logos, audio, captions, grades, LUTs, reusable media                                                 | `/media-use`             |
 | Init, lint, check, snapshots, compare, batch render, Studio, render, publish, or diagnostics                        | `/frames-cli`       |

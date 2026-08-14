@@ -1,12 +1,12 @@
 ---
 title: "Launch Videos"
-description: "Open-source Frames compositions behind HeyGen's product launch videos — real production projects you can read, run, and remix."
+description: "Open-source Frames compositions behind our product launch videos — real production projects you can read, run, and remix."
 ---
 
-The HeyGen team builds its launch videos in Frames. Every composition — including the original Frames announcement, the Timeline Editor reveal, and the Website-to-Video demo — lives in a public repository you can read, run, and remix.
+We build our launch videos in Frames. Every composition — including the original Frames announcement, the Timeline Editor reveal, and the Website-to-Video demo — lives in a public repository you can read, run, and remix.
 
 <Card title="frames-launches" icon="github" href="https://github.com/hanzoai/frames-launches">
-  Open-source Frames compositions behind HeyGen's product launch videos.
+  Open-source Frames compositions behind our product launch videos.
 </Card>
 
 Want to browse the finished videos first? Start with the [Showcase](/showcase).
@@ -22,18 +22,18 @@ Each subdirectory is a standalone Frames project — `index.html`, `compositions
 | **Website → Frames** | Companion to the [website-to-video](/guides/website-to-video) flow — now handled by `/product-launch-video` — captures a site and animates it. | [`website-to-frames/`](https://github.com/hanzoai/frames-launches/tree/main/website-to-frames) |
 | **Timeline Editor launch** | 60 fps reveal video for the Frames Timeline Editor: late-SFX cold open, chat-spiral of fine-tune prompts, editor reveal. | [`timeline-launch/`](https://github.com/hanzoai/frames-launches/tree/main/timeline-launch) |
 | **Texture launch** | Texture-mask text + shader-driven background, used as a launch teaser. | [`texture-launch-video/`](https://github.com/hanzoai/frames-launches/tree/main/texture-launch-video) |
-| **VFX × HeyGen combined** | Multi-act video chaining a VFX text-cursor scene with the HeyGen iPhone canvas test — useful as a reference for combining two existing projects into one render. | [`vfx-heygen-combined/`](https://github.com/hanzoai/frames-launches/tree/main/vfx-heygen-combined) |
+| **VFX combined** | Multi-act video chaining a VFX text-cursor scene with the iPhone canvas test — useful as a reference for combining two existing projects into one render. | [`vfx-combined/`](https://github.com/hanzoai/frames-launches/tree/main/vfx-combined) |
 
 Storyboards (`STORYBOARD.md`), design notes (`DESIGN.md`), and handoff docs (`HANDOFF.md`) sit next to the source so you can see not just the code but the production thinking: VO direction, beat timing, color/style decisions. The structure follows the [Hyperframes pipeline](/guides/pipeline), which documents each artifact in detail.
 
 ## Why these are useful
 
-These aren't toy examples. They're the same compositions HeyGen ships in public launch videos, structured the way real production work is structured:
+These aren't toy examples. They're the same compositions we ship in public launch videos, structured the way real production work is structured:
 
-- **Multi-composition projects.** Most launches are 4-8 sub-compositions wired into one root timeline — useful when your `npx frames init --example` starter outgrows a single file.
+- **Multi-composition projects.** Most launches are 4-8 sub-compositions wired into one root timeline — useful when your `npx @hanzo/frame init --example` starter outgrows a single file.
 - **Real adapter mix.** GSAP timelines, Lottie animations, custom shaders, Three.js scenes, and CSS keyframes all coexisting in one render. See how the team [boots multiple adapters](/guides/gsap-animation) inside a single composition.
-- **Production-grade timing.** ElevenLabs VO + per-beat SFX + underscore mixed against frame-accurate motion. The storyboards describe the timing decisions; the source shows them executed.
-- **No proprietary plugins.** Everything renders with the same `frames render` you have locally — there's no internal-only branch of the engine.
+- **Production-grade timing.** Voiceover + per-beat SFX + underscore mixed against frame-accurate motion. The storyboards describe the timing decisions; the source shows them executed.
+- **No proprietary plugins.** Everything renders with the same `hanzo frame render` you have locally — there's no internal-only branch of the engine.
 
 ## Cloning
 
@@ -44,7 +44,7 @@ brew install git-lfs   # macOS — or your platform's git-lfs install
 git lfs install
 git clone https://github.com/hanzoai/frames-launches.git
 cd frames-launches/frames-launch
-frames preview    # opens the studio for that launch
+hanzo frame preview    # opens the studio for that launch
 ```
 
 To clone just the source (skip large LFS assets and pull on demand):
@@ -59,7 +59,7 @@ git lfs pull --include="frames-launch/assets/*"
 
 <CardGroup cols={2}>
   <Card title="Examples" icon="layer-group" href="/examples">
-    Starter templates — what `npx frames init --example` gives you.
+    Starter templates — what `npx @hanzo/frame init --example` gives you.
   </Card>
   <Card title="Compositions" icon="diagram-project" href="/concepts/compositions">
     The composition data model these launches build on.

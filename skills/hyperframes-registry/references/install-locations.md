@@ -16,7 +16,7 @@ The `target` field in each item's `registry-item.json` specifies a default insta
 
 ## frames.json
 
-Created automatically by `frames init`. If it doesn't exist when you run `add`, the CLI creates it with defaults:
+Created automatically by `hanzo frame init`. If it doesn't exist when you run `add`, the CLI creates it with defaults:
 
 ```json
 {
@@ -42,4 +42,4 @@ To install blocks into a `scenes/` directory instead of `compositions/`:
 }
 ```
 
-Then `frames add data-chart` writes to `scenes/data-chart.html` instead of `compositions/data-chart.html`. The snippet output reflects the remapped path.
+Then `hanzo frame add data-chart` writes to `scenes/data-chart.html` instead of `compositions/data-chart.html`. The snippet output reflects the remapped path.

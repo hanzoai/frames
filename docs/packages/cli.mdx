@@ -8,7 +8,7 @@ The `frames` CLI is the primary way to work with Hyperframes. It handles project
 ```bash
 npm install -g frames
 # or use directly with npx
-npx frames <command>
+npx @hanzo/frame <command>
 ```
 
 ## When to Use
@@ -50,18 +50,18 @@ Interactivity is command-specific. For example, `init` uses prompts on TTY by de
   <Tab title="Agent mode (default)">
     ```bash
     # Fully non-interactive — all inputs from flags
-    npx frames init my-video --example blank --video video.mp4
-    npx frames render --output output.mp4 --fps 30 --quality standard
-    npx frames upgrade --check --json
+    npx @hanzo/frame init my-video --example blank --video video.mp4
+    npx @hanzo/frame render --output output.mp4 --fps 30 --quality standard
+    npx @hanzo/frame upgrade --check --json
     ```
   </Tab>
   <Tab title="Human mode">
     ```bash
     # Command-specific interactive flow
-    npx frames init my-video
+    npx @hanzo/frame init my-video
 
     # Interactive picker supported by catalog
-    npx frames catalog --human-friendly
+    npx @hanzo/frame catalog --human-friendly
     ```
   </Tab>
 </Tabs>
@@ -90,7 +90,7 @@ The CLI checks npm for newer versions in the background (cached 24 hours). If an
 
 ```
   Update available: 0.1.4 → 0.1.5
-  Run: npx frames@latest
+  Run: npx @hanzo/frame@latest
 ```
 
 This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDATE_CHECK=1` is set.
@@ -101,11 +101,11 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
   <Step title="Create a project">
     Scaffold a new composition from an example:
     ```bash
-    npx frames init --example warm-grain
+    npx @hanzo/frame init --example warm-grain
     ```
     You will be prompted for a project name, or pass it as an argument:
     ```bash
-    npx frames init my-video --example warm-grain
+    npx @hanzo/frame init my-video --example warm-grain
     ```
     See [Examples](/examples) for all available examples.
   </Step>
@@ -113,14 +113,14 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
     Start the development server with live hot reload:
     ```bash
     cd my-video
-    npx frames preview
+    npx @hanzo/frame preview
     ```
     The Hyperframes Studio opens in your browser. Edit `index.html` and the preview updates instantly.
   </Step>
   <Step title="Lint your composition">
     Check for structural issues before rendering:
     ```bash
-    npx frames lint
+    npx @hanzo/frame lint
     ```
     ```
     ◆  Linting my-project/index.html
@@ -131,15 +131,15 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
   <Step title="Render to MP4">
     Produce the final video:
     ```bash
-    npx frames render --output output.mp4
+    npx @hanzo/frame render --output output.mp4
     ```
     Render a specific composition instead of `index.html`:
     ```bash
-    npx frames render -c compositions/intro.html -o intro.mp4
+    npx @hanzo/frame render -c compositions/intro.html -o intro.mp4
     ```
     For deterministic output, add `--docker`:
     ```bash
-    npx frames render --docker --output output.mp4
+    npx @hanzo/frame render --docker --output output.mp4
     ```
   </Step>
 </Steps>
@@ -154,13 +154,13 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Agent mode (default) — --example is required
-    npx frames init my-video --example blank --video video.mp4
+    npx @hanzo/frame init my-video --example blank --video video.mp4
 
     # Include Tailwind CSS browser-runtime support
-    npx frames init my-video --example blank --tailwind
+    npx @hanzo/frame init my-video --example blank --tailwind
 
     # Human mode — interactive prompts on TTY by default
-    npx frames init my-video
+    npx @hanzo/frame init my-video
     ```
 
     | Flag | Description |
@@ -197,16 +197,16 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Add a block (sub-composition scene)
-    npx frames add claude-code-window
+    npx @hanzo/frame add claude-code-window
 
     # Add a component (effect / snippet)
-    npx frames add shader-wipe
+    npx @hanzo/frame add shader-wipe
 
     # Target a different project dir
-    npx frames add shader-wipe --dir ./my-video
+    npx @hanzo/frame add shader-wipe --dir ./my-video
 
     # Headless / CI (skip clipboard; also: --json for a machine-readable result)
-    npx frames add shader-wipe --no-clipboard --json
+    npx @hanzo/frame add shader-wipe --no-clipboard --json
     ```
 
     | Flag | Description |
@@ -220,7 +220,7 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     Output for a block or component is a set of files plus a **paste snippet** — the `<iframe>` tag (for blocks) or the fragment path (for components) to include in your host composition. The snippet is copied to the clipboard by default; add `--no-clipboard` for CI or headless environments.
 
-    Trying `add` with an example's name (e.g. `frames add warm-grain`) emits a clear error pointing you at `init --example`.
+    Trying `add` with an example's name (e.g. `hanzo frame add warm-grain`) emits a clear error pointing you at `init --example`.
 
     ### `catalog`
 
@@ -228,17 +228,17 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # List everything (default: table output)
-    npx frames catalog
+    npx @hanzo/frame catalog
 
     # Filter by type or tag
-    npx frames catalog --type block
-    npx frames catalog --type block --tag social
+    npx @hanzo/frame catalog --type block
+    npx @hanzo/frame catalog --type block --tag social
 
     # Machine-readable JSON
-    npx frames catalog --json
+    npx @hanzo/frame catalog --json
 
     # Interactive picker — select to install
-    npx frames catalog --human-friendly
+    npx @hanzo/frame catalog --human-friendly
     ```
 
     | Flag | Description |
@@ -255,7 +255,7 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
     List all compositions in the current project:
 
     ```bash
-    npx frames compositions
+    npx @hanzo/frame compositions
     ```
 
     | Flag | Description |
@@ -270,16 +270,16 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     ```bash
     # Transcribe audio/video with local whisper.cpp
-    npx frames transcribe audio.mp3
-    npx frames transcribe video.mp4 --model medium.en --language en
+    npx @hanzo/frame transcribe audio.mp3
+    npx @hanzo/frame transcribe video.mp4 --model medium.en --language en
 
     # Import existing transcripts from other tools
-    npx frames transcribe subtitles.srt
-    npx frames transcribe captions.vtt
-    npx frames transcribe openai-response.json
+    npx @hanzo/frame transcribe subtitles.srt
+    npx @hanzo/frame transcribe captions.vtt
+    npx @hanzo/frame transcribe openai-response.json
 
     # Export caption sidecars from transcript.json
-    npx frames transcribe transcript.json --to srt
+    npx @hanzo/frame transcribe transcript.json --to srt
     ```
 
     | Flag | Description |
@@ -299,7 +299,7 @@ This is suppressed in CI environments, non-TTY shells, and when `FRAMES_NO_UPDAT
 
     | Format | Source |
     |--------|--------|
-    | whisper.cpp JSON | `frames init --video`, `frames transcribe` |
+    | whisper.cpp JSON | `hanzo frame init --video`, `hanzo frame transcribe` |
     | OpenAI Whisper API JSON | `openai.audio.transcriptions.create()` with word timestamps |
     | SRT subtitles | Video editors, YouTube, subtitle tools |
     | VTT subtitles | Web players, YouTube, transcription services |
@@ -318,28 +318,28 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Generate speech from text
-    npx frames tts "Welcome to Frames"
+    npx @hanzo/frame tts "Welcome to Frames"
 
     # Choose a voice
-    npx frames tts "Hello world" --voice am_adam
+    npx @hanzo/frame tts "Hello world" --voice am_adam
 
     # Save to a specific file
-    npx frames tts "Intro" --voice bf_emma --output narration.wav
+    npx @hanzo/frame tts "Intro" --voice bf_emma --output narration.wav
 
     # Adjust speech speed
-    npx frames tts "Slow and clear" --speed 0.8
+    npx @hanzo/frame tts "Slow and clear" --speed 0.8
 
     # Generate Spanish speech (lang auto-detected from the `e` voice prefix)
-    npx frames tts "La reunión empieza a las nueve" --voice ef_dora --output es.wav
+    npx @hanzo/frame tts "La reunión empieza a las nueve" --voice ef_dora --output es.wav
 
     # Override the phonemizer (read English text with a French voice)
-    npx frames tts "Bonjour le monde" --voice af_heart --lang fr-fr
+    npx @hanzo/frame tts "Bonjour le monde" --voice af_heart --lang fr-fr
 
     # Read text from a file
-    npx frames tts script.txt
+    npx @hanzo/frame tts script.txt
 
     # List available voices
-    npx frames tts --list
+    npx @hanzo/frame tts --list
     ```
 
     | Flag | Description |
@@ -365,23 +365,23 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Default: VP9-with-alpha WebM (HTML5-native, ~1 MB / 4s @ 1080p)
-    npx frames remove-background avatar.mp4 -o transparent.webm
+    npx @hanzo/frame remove-background avatar.mp4 -o transparent.webm
 
     # ProRes 4444 .mov for editing round-trip
-    npx frames remove-background avatar.mp4 -o transparent.mov
+    npx @hanzo/frame remove-background avatar.mp4 -o transparent.mov
 
     # Single image → transparent PNG
-    npx frames remove-background portrait.jpg -o cutout.png
+    npx @hanzo/frame remove-background portrait.jpg -o cutout.png
 
     # Layer separation: cutout AND inverse-alpha background plate in one pass
-    npx frames remove-background avatar.mp4 \
+    npx @hanzo/frame remove-background avatar.mp4 \
       -o subject.webm --background-output plate.webm
 
     # Force CPU on a machine that has CoreML or CUDA
-    npx frames remove-background avatar.mp4 -o transparent.webm --device cpu
+    npx @hanzo/frame remove-background avatar.mp4 -o transparent.webm --device cpu
 
     # Inspect detected providers without rendering
-    npx frames remove-background --info
+    npx @hanzo/frame remove-background --info
     ```
 
     | Flag | Description |
@@ -416,9 +416,9 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Capture a website — extract screenshots, design tokens, fonts, assets, and animations for video production:
 
     ```bash
-    npx frames capture https://stripe.com
-    npx frames capture https://linear.app -o linear-capture
-    npx frames capture https://example.com --json
+    npx @hanzo/frame capture https://stripe.com
+    npx @hanzo/frame capture https://linear.app -o linear-capture
+    npx @hanzo/frame capture https://example.com --json
     ```
 
     ```
@@ -451,8 +451,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Start a live preview server with hot reload:
 
     ```bash
-    npx frames preview [dir]
-    npx frames preview --port 4567
+    npx @hanzo/frame preview [dir]
+    npx @hanzo/frame preview --port 4567
     ```
 
     | Flag | Description |
@@ -476,8 +476,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Upload the project and get back a stable `frames.hanzo.ai` URL:
 
     ```bash
-    npx frames publish [dir]
-    npx frames publish --yes
+    npx @hanzo/frame publish [dir]
+    npx @hanzo/frame publish --yes
     ```
 
     | Flag | Description |
@@ -488,16 +488,16 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     The printed URL already includes the claim token, so opening it on `frames.hanzo.ai` lets the intended user claim the uploaded project and continue editing in the web app.
 
-    This flow does not keep a local preview server alive and does not open a tunnel. The published URL resolves to the persisted project stored by HeyGen, so it keeps working after the CLI process exits.
+    This flow does not keep a local preview server alive and does not open a tunnel. The published URL resolves to the persisted project stored in the cloud, so it keeps working after the CLI process exits.
 
     ### `lint`
 
     Check a composition for common issues:
 
     ```bash
-    npx frames lint [dir]
-    npx frames lint [dir] --verbose   # include info-level findings
-    npx frames lint [dir] --json      # machine-readable JSON output
+    npx @hanzo/frame lint [dir]
+    npx @hanzo/frame lint [dir] --verbose   # include info-level findings
+    npx @hanzo/frame lint [dir] --json      # machine-readable JSON output
     ```
     ```
     ◆  Linting my-project/index.html
@@ -527,11 +527,11 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     The browser verification gate: everything the old `validate` → `inspect` → `snapshot` loop did, in **one** command with one browser session:
 
     ```bash
-    npx frames check [dir]
-    npx frames check [dir] --json         # {ok, lint, runtime, layout, motion, contrast, snapshots}
-    npx frames check [dir] --snapshots    # annotated overview frames + per-finding crops
-    npx frames check [dir] --at 1.5,4,7.25
-    npx frames check [dir] --strict       # exit non-zero on warnings too
+    npx @hanzo/frame check [dir]
+    npx @hanzo/frame check [dir] --json         # {ok, lint, runtime, layout, motion, contrast, snapshots}
+    npx @hanzo/frame check [dir] --snapshots    # annotated overview frames + per-finding crops
+    npx @hanzo/frame check [dir] --at 1.5,4,7.25
+    npx @hanzo/frame check [dir] --strict       # exit non-zero on warnings too
     ```
 
     `check` runs the linter first (browser skipped entirely on lint errors), then loads the bundled composition once and sweeps one seek grid running every audit per sample: runtime console errors and failed requests, layout defects (overflow, clipping, held overlaps, occlusion, coordinate-frame drift), `*.motion.json` sidecar assertions, and WCAG AA contrast.
@@ -557,8 +557,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Detect the beats in a composition's music track and write them to a beat file the Studio uses to draw beat guides on the timeline:
 
     ```bash
-    npx frames beats [dir]
-    npx frames beats [dir] --json   # machine-readable JSON output
+    npx @hanzo/frame beats [dir]
+    npx @hanzo/frame beats [dir] --json   # machine-readable JSON output
     ```
 
     The command finds the music track (an `<audio>` element with `data-timeline-role="music"`, or an id like `music`/`bgm`/`soundtrack`), runs the **same** detection the Studio uses inside a headless Chrome (identical decode + BPM analysis), and writes `beats/<audio-path>.json`:
@@ -577,7 +577,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     |------|-------------|
     | `--json` | Output `{ ok, file, count, bpm }` as JSON |
 
-    Requires a local Chrome (the same one used by `render`; run `npx frames browser ensure` if missing). Detection runs the **same** algorithm the Studio uses; results are near-identical (a different headless-Chrome audio sample rate can shift beat times by a frame or two).
+    Requires a local Chrome (the same one used by `render`; run `npx @hanzo/frame browser ensure` if missing). Detection runs the **same** algorithm the Studio uses; results are near-identical (a different headless-Chrome audio sample rate can shift beat times by a frame or two).
 
     ### `inspect`
 
@@ -586,10 +586,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Inspect rendered visual layout across the composition timeline:
 
     ```bash
-    npx frames inspect [dir]
-    npx frames inspect [dir] --json
-    npx frames inspect [dir] --samples 15
-    npx frames inspect [dir] --at 1.5,4,7.25
+    npx @hanzo/frame inspect [dir]
+    npx @hanzo/frame inspect [dir] --json
+    npx @hanzo/frame inspect [dir] --samples 15
+    npx @hanzo/frame inspect [dir] --at 1.5,4,7.25
     ```
 
     ```
@@ -619,7 +619,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     `layout` remains available as a compatibility alias for the same visual inspection pass:
 
     ```bash
-    npx frames layout [dir] --json
+    npx @hanzo/frame layout [dir] --json
     ```
 
     #### Motion verification
@@ -652,8 +652,8 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Capture key frames from a composition as PNG screenshots — verify visual output without a full render:
 
     ```bash
-    npx frames snapshot my-project --at 2.9,10.4,18.7
-    npx frames snapshot my-project --frames 10
+    npx @hanzo/frame snapshot my-project --at 2.9,10.4,18.7
+    npx @hanzo/frame snapshot my-project --frames 10
     ```
 
     ```
@@ -680,22 +680,22 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Local mode (fast iteration)
-    npx frames render --output output.mp4
+    npx @hanzo/frame render --output output.mp4
 
     # Docker mode (deterministic output)
-    npx frames render --docker --output output.mp4
+    npx @hanzo/frame render --docker --output output.mp4
 
     # WebM with transparency (for overlays, captions, lower thirds)
-    npx frames render --format webm --output overlay.webm
+    npx @hanzo/frame render --format webm --output overlay.webm
 
     # With options
-    npx frames render --output output.mp4 --fps 60 --quality high
+    npx @hanzo/frame render --output output.mp4 --fps 60 --quality high
 
     # Opt out of local browser GPU capture
-    npx frames render --no-browser-gpu --output cpu-browser.mp4
+    npx @hanzo/frame render --no-browser-gpu --output cpu-browser.mp4
 
     # Add hardware FFmpeg encoding
-    npx frames render --gpu --output gpu.mp4
+    npx @hanzo/frame render --gpu --output gpu.mp4
     ```
 
     | Flag | Values | Default | Description |
@@ -723,7 +723,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     | `--strict-variables` | — | off | Fail render if any `--variables` key is undeclared or has a wrong type vs the composition's `data-composition-variables`. Without this flag, mismatches print as warnings and the render continues. |
     | `--browser-timeout` | seconds (0.001–86400) | 60 | Puppeteer page-navigation timeout for the entry HTML. Increase when heavy compositions (many videos, fonts, or asset requests) cannot reach `domcontentloaded` within the default 60 s. The flag takes **seconds**; the env fallback `PRODUCER_PAGE_NAVIGATION_TIMEOUT_MS` takes **milliseconds**. This controls `page.goto` only — very heavy compositions may also need `PRODUCER_PUPPETEER_PROTOCOL_TIMEOUT_MS` and/or `PRODUCER_PLAYER_READY_TIMEOUT_MS` bumped (post-navigation `window.__hf` readiness has its own 45 s budget). |
     | `--protocol-timeout` | milliseconds (≥ 1000) | 300000 (5 min) | Puppeteer CDP protocol timeout — the per-call budget for `Runtime.callFunctionOn` seek/paint, `Page.captureScreenshot`, and other CDP round-trips. Raise on RAM-pressured hosts (≤ 8 GB), heavy-asset compositions (many videos + images), or when the render fails with `Runtime.callFunctionOn timed out` / `Target closed`. The default is auto-scaled per composition by output pixel area (a 4K comp bumps the ceiling proportionally, capped at 30 min); an explicit override sets the floor and disables scaling below it. Env fallback `PRODUCER_PUPPETEER_PROTOCOL_TIMEOUT_MS` (also **milliseconds**). |
-    | `--frames-cache-dir` | path or `off` / `none` / `false` / `0` | `<tmpdir>/frames-extract-cache-<uid>` | Directory for the content-addressed extracted-frame cache. Relocate it off the system drive when the OS temp directory lives on a small partition — long renders can accumulate multi-GB of frames, and on Windows `%TEMP%` defaults to `C:` (reporter `ts=1784219488`, CLI 0.7.58, 15 GB laptop: extract cache exhausted C: mid-render). Pass an opt-out alias (`off`, `none`, `false`, `0`) to disable caching entirely; frames then extract into the render's `workDir` and are cleaned up when the render ends. Env fallback `FRAMES_EXTRACT_CACHE_DIR`. `frames doctor` reports the effective directory + free space at that location. |
+    | `--frames-cache-dir` | path or `off` / `none` / `false` / `0` | `<tmpdir>/frames-extract-cache-<uid>` | Directory for the content-addressed extracted-frame cache. Relocate it off the system drive when the OS temp directory lives on a small partition — long renders can accumulate multi-GB of frames, and on Windows `%TEMP%` defaults to `C:` (reporter `ts=1784219488`, CLI 0.7.58, 15 GB laptop: extract cache exhausted C: mid-render). Pass an opt-out alias (`off`, `none`, `false`, `0`) to disable caching entirely; frames then extract into the render's `workDir` and are cleaned up when the render ends. Env fallback `FRAMES_EXTRACT_CACHE_DIR`. `hanzo frame doctor` reports the effective directory + free space at that location. |
 
     CRF and target bitrate default to the `--quality` preset. Use `--crf` or `--video-bitrate` for fine-grained overrides; `RenderConfig.crf` and `RenderConfig.videoBitrate` accept the same overrides programmatically. Use `--video-frame-format png` when source videos are UI recordings, screen captures, or other color-sensitive clips that should avoid JPEG frame extraction.
 
@@ -754,13 +754,13 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Render with declared defaults (preview also uses the defaults)
-    npx frames render --output default.mp4
+    npx @hanzo/frame render --output default.mp4
 
     # Override at render time — missing keys fall through to declared defaults
-    npx frames render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
+    npx @hanzo/frame render --variables '{"title":"Q4 Report","theme":"dark"}' --output q4.mp4
 
     # Pass values from a JSON file
-    npx frames render --variables-file ./vars.json --output out.mp4
+    npx @hanzo/frame render --variables-file ./vars.json --output out.mp4
     ```
 
     `getVariables()` returns the merged result of declared defaults and any `--variables` overrides, so the same composition runs unchanged in dev preview and in production renders.
@@ -771,7 +771,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Render a caption overlay with transparent background
-    npx frames render --format webm --output captions.webm
+    npx @hanzo/frame render --format webm --output captions.webm
 
     # Overlay on another video with FFmpeg
     ffmpeg -c:v libvpx-vp9 -i captions.webm -i background.mp4 \
@@ -789,7 +789,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Find optimal render settings for your system:
 
     ```bash
-    npx frames benchmark [dir]
+    npx @hanzo/frame benchmark [dir]
     ```
 
     | Flag | Values | Default | Description |
@@ -807,17 +807,17 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash Terminal
     # Concise capability index, then one focused contract
-    npx frames media-treatment --capabilities --json
-    npx frames media-treatment --capability grading --json
+    npx @hanzo/frame media-treatment --capabilities --json
+    npx @hanzo/frame media-treatment --capability grading --json
 
     # Analyze and update one selected media element
-    npx frames media-treatment \
+    npx @hanzo/frame media-treatment \
       --project . \
       --file compositions/scene.html \
       --selector '#hero' \
       --analyze \
       --json
-    npx frames media-treatment \
+    npx @hanzo/frame media-treatment \
       --project . \
       --file compositions/scene.html \
       --selector '#hero' \
@@ -852,10 +852,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Check your environment for required dependencies:
 
     ```bash
-    npx frames doctor
+    npx @hanzo/frame doctor
     ```
     ```
-    frames doctor
+    hanzo frame doctor
 
       ✓ Version          0.1.4 (latest)
       ✓ Node.js          v22.x (linux x64)
@@ -874,10 +874,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     Verifies CLI version, Node.js, FFmpeg, FFprobe, Chrome, and Docker availability. If a newer CLI version is available, the version row shows an upgrade hint.
 
-    **CI gating.** `frames doctor --json` always exits 0 on successful execution — the command succeeded if it produced valid output. Whether the environment is healthy is carried in the `ok` field of the payload, so a new CLI release (which flips `Version.ok` to `false`) never breaks your pipeline. Pipe through `jq` to gate on the payload instead:
+    **CI gating.** `hanzo frame doctor --json` always exits 0 on successful execution — the command succeeded if it produced valid output. Whether the environment is healthy is carried in the `ok` field of the payload, so a new CLI release (which flips `Version.ok` to `false`) never breaks your pipeline. Pipe through `jq` to gate on the payload instead:
 
     ```bash
-    frames doctor --json | jq -e '.ok' > /dev/null || handle_failure
+    hanzo frame doctor --json | jq -e '.ok' > /dev/null || handle_failure
     ```
 
     Paths in `detail` and `hint` are redacted in JSON mode — the user's home directory is replaced with the literal `$HOME` so output is safe to paste into bug reports and agent contexts.
@@ -887,7 +887,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Display project metadata:
 
     ```bash
-    npx frames info [dir]
+    npx @hanzo/frame info [dir]
     ```
 
     | Flag | Description |
@@ -901,10 +901,10 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Check for updates and show upgrade instructions:
 
     ```bash
-    npx frames upgrade
-    npx frames upgrade --check         # check and exit (no prompt)
-    npx frames upgrade --check --json  # machine-readable for agents
-    npx frames upgrade --yes           # show upgrade commands without prompting
+    npx @hanzo/frame upgrade
+    npx @hanzo/frame upgrade --check         # check and exit (no prompt)
+    npx @hanzo/frame upgrade --check --json  # machine-readable for agents
+    npx @hanzo/frame upgrade --yes           # show upgrade commands without prompting
     ```
 
     | Flag | Description |
@@ -930,23 +930,23 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Find or download Chrome for rendering
-    npx frames browser ensure
+    npx @hanzo/frame browser ensure
 
     # Print the browser executable path (for scripting)
-    npx frames browser path
+    npx @hanzo/frame browser path
 
     # Remove cached Chrome download
-    npx frames browser clear
+    npx @hanzo/frame browser clear
     ```
 
-    The `path` subcommand outputs only the path, useful in scripts: `$(npx frames browser path)`.
+    The `path` subcommand outputs only the path, useful in scripts: `$(npx @hanzo/frame browser path)`.
 
     ### `docs`
 
     View inline documentation in the terminal:
 
     ```bash
-    npx frames docs [topic]
+    npx @hanzo/frame docs [topic]
     ```
 
     Available topics: `data-attributes`, `examples`, `rendering`, `gsap`, `troubleshooting`, `compositions`. Run without a topic to see the full list.
@@ -957,13 +957,13 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Quick rating (0 = not likely, 10 = extremely likely)
-    npx frames feedback --rating 10
+    npx @hanzo/frame feedback --rating 10
 
     # Rating with optional details
-    npx frames feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
+    npx @hanzo/frame feedback --rating 7 --comment "render succeeded but GSAP timeline didn't animate"
 
     # Also file a pre-filled GitHub issue with a published minimal repro (opt-in, consented)
-    npx frames feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
+    npx @hanzo/frame feedback --rating 3 --comment "GSAP timeline froze on seek" --file-issue
     ```
 
     | Flag | Description |
@@ -985,12 +985,12 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     Manage anonymous usage telemetry:
 
     ```bash
-    npx frames telemetry enable
-    npx frames telemetry disable
-    npx frames telemetry status
+    npx @hanzo/frame telemetry enable
+    npx @hanzo/frame telemetry disable
+    npx @hanzo/frame telemetry status
     ```
 
-    Telemetry collects command names, render performance, render checkpoint/error names, aggregate browser diagnostic counts, browser initialization duration and tween count, aggregate video extraction workload counts (such as extracted frame count and VFR preflight count), example choices, and system info — including a coarse environment fingerprint (OS, kernel string, CPU/memory shape, sandbox runtime such as gVisor or Docker, and the *name* of a coding agent driving the CLI when one is detected, e.g. `claude_code` / `codex` / `cursor`). The agent name is derived from the existence of well-known environment variables; their values are never read. Telemetry redacts local paths and URL query strings from render error/checkpoint messages and does **not** collect project names, video content, or environment variable values. It collects no personally identifiable information until you sign in: when you authenticate with `frames auth login`, your HeyGen account email (or your username, if your account has no email) is linked to your usage so CLI activity can be associated with your account (and your prior anonymous usage is stitched to it). Nothing else personal is collected, and this only happens after you choose to sign in. Disable all telemetry with `FRAMES_NO_TELEMETRY=1` or the command above.
+    Telemetry collects command names, render performance, render checkpoint/error names, aggregate browser diagnostic counts, browser initialization duration and tween count, aggregate video extraction workload counts (such as extracted frame count and VFR preflight count), example choices, and system info — including a coarse environment fingerprint (OS, kernel string, CPU/memory shape, sandbox runtime such as gVisor or Docker, and the *name* of a coding agent driving the CLI when one is detected, e.g. `claude_code` / `codex` / `cursor`). The agent name is derived from the existence of well-known environment variables; their values are never read. Telemetry redacts local paths and URL query strings from render error/checkpoint messages and does **not** collect project names, video content, or environment variable values. It collects no personally identifiable information: usage is keyed to the install id in `~/.frames/config.json` and nothing else — no account, no credential, no email. Disable all telemetry with `FRAMES_NO_TELEMETRY=1` or the command above.
 
     See [Feedback Collection](/guides/feedback) for how the periodic post-render prompt and Studio feedback bar work, what data they collect, and how to opt out.
 
@@ -1000,12 +1000,12 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
 
     ```bash
     # Install to all default targets (Claude Code, Gemini CLI, Codex CLI)
-    npx frames skills
+    npx @hanzo/frame skills
 
     # Install to specific tools
-    npx frames skills --claude
-    npx frames skills --cursor
-    npx frames skills --claude --gemini
+    npx @hanzo/frame skills --claude
+    npx @hanzo/frame skills --cursor
+    npx @hanzo/frame skills --claude --gemini
     ```
 
     | Flag | Description |
@@ -1027,7 +1027,7 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
     └  Installation failed
     ```
 
-    **Using `frames skills` is already fine** — as of v0.4.5 the CLI sets `GIT_CLONE_PROTECTION_ACTIVE=0` on the child environment, which is the opt-in knob Git provides for exactly this case. You don't need to do anything.
+    **Using `hanzo frame skills` is already fine** — as of v0.4.5 the CLI sets `GIT_CLONE_PROTECTION_ACTIVE=0` on the child environment, which is the opt-in knob Git provides for exactly this case. You don't need to do anything.
 
     **If you ran `npx skills add hanzoai/frames` directly** (bypassing the Frames CLI), set the env var yourself:
 
@@ -1039,74 +1039,45 @@ Word-level transcripts (whisper output) are grouped into readable caption cues o
   </Tab>
 </Tabs>
 
-## frames auth
+## hanzo frame auth
 
-Sign in to HeyGen and manage credentials. Credentials are stored in
-`~/.heygen/credentials` (mode `0600`) and are **shared with the
-`heygen` CLI** — sign in with one and the other picks up the session.
-
-Resolution order (first match wins):
-
-1. `HEYGEN_API_KEY` environment variable
-2. `FRAMES_API_KEY` environment variable (frames alias)
-3. `~/.heygen/credentials`
+Inspect the Hanzo credential the CLI is using. The credential is a Hanzo IAM
+token in `HANZO_API_KEY`, read from [Hanzo KMS](https://kms.hanzo.ai) — there is
+nothing to sign into here and nothing written to disk.
 
 ### Subcommands
 
-#### `auth login --api-key`
-
-Save a HeyGen API key. The key is verified against `GET /v3/users/me`
-before the command reports success; a rejected key is not left on disk.
-
-```bash
-# Interactive hidden-input prompt
-frames auth login --api-key
-
-# Pipe a key from stdin (CI-friendly)
-echo "$HEYGEN_API_KEY" | frames auth login --api-key
-```
-
 #### `auth status`
 
-Show the active credential's source, type, and verified identity
-(account + billing snapshot). Exits non-zero when nothing is configured
-or the API rejects the credential, so scripts can check sign-in state.
+Show which credential is in use, the identity behind it, and the org balance.
+Exits non-zero when nothing is configured or the API rejects the credential, so
+scripts can check state.
 
 ```bash
-frames auth status
-frames auth status --json   # machine-readable
-```
-
-#### `auth logout`
-
-Remove the stored credential. Prompts for confirmation on a TTY.
-
-```bash
-frames auth logout
-frames auth logout --keep-api-key   # clear only an OAuth session
-frames auth logout --yes            # skip the confirmation prompt
+hanzo frame auth status
+hanzo frame auth status --json   # machine-readable
 ```
 
 ### Environment variables
 
 | Variable | Description |
 |----------|-------------|
-| `HEYGEN_API_KEY` | Override the stored credential. |
-| `FRAMES_API_KEY` | Alias for `HEYGEN_API_KEY`. |
-| `HEYGEN_API_URL` | API base URL (default `https://api.heygen.com`). |
-| `HEYGEN_CONFIG_DIR` | Credentials directory (default `~/.heygen`). |
+| `HANZO_API_KEY` | The Hanzo IAM token. Read it from Hanzo KMS. |
+| `HANZO_ORG` | The tenant that owns the shared media bucket. |
+| `HANZO_BASE_URL` | API base URL (default `https://api.hanzo.ai`). |
 
-For the keys other capabilities use — ElevenLabs and Gemini for voice/music fallback, OpenRouter/Gemini for capture — and how the skills prioritize them, see [Authentication & API keys](/guides/authentication).
+The same token covers voice, music, sound effects, images, video, the shared
+media catalog, and cloud rendering — see [Authentication](/guides/authentication).
 
-## frames cloud
+## hanzo frame cloud
 
-Render a Frames composition on HeyGen's hosted cloud — no local Chrome, no local ffmpeg, no AWS to manage. Sign in once with `frames auth login` and the same credential drives every `cloud` subcommand.
+Render a Frames composition on Hanzo Cloud — no local Chrome, no local ffmpeg, no AWS to manage. The same `HANZO_API_KEY` drives every `cloud` subcommand.
 
 ```bash
-frames auth login                          # one-time
-frames cloud render ./my-video             # zip + upload + poll + download
-frames cloud render ./my-video --no-wait   # submit and exit with the render_id
-frames cloud list                          # browse recent renders
+hanzo frame auth login                          # one-time
+hanzo frame cloud render ./my-video             # zip + upload + poll + download
+hanzo frame cloud render ./my-video --no-wait   # submit and exit with the render_id
+hanzo frame cloud list                          # browse recent renders
 ```
 
 ### Subcommands
@@ -1115,9 +1086,9 @@ frames cloud list                          # browse recent renders
 
 End-to-end render: zips the project (excluding root `renders`/`snapshots`, `.git`, `node_modules`, `dist`, `.next`, `coverage`, dotfiles, and project `.framesignore` rules), uploads it through the direct-to-S3 asset flow, submits `POST /v3/frames/renders`, polls `GET /v3/frames/renders/{id}` until the render completes or fails, and streams the resulting video to disk.
 
-Use `frames cloud render --dry-run` to inspect the compressed size and largest included files without authenticating, uploading, or starting a render. Project-specific `.framesignore` rules use gitignore syntax and also apply to `frames publish`; keep rules narrow because dynamically selected assets may not have obvious static references.
+Use `hanzo frame cloud render --dry-run` to inspect the compressed size and largest included files without authenticating, uploading, or starting a render. Project-specific `.framesignore` rules use gitignore syntax and also apply to `hanzo frame publish`; keep rules narrow because dynamically selected assets may not have obvious static references.
 
-Render parameters mirror the local `frames render` UX where they overlap:
+Render parameters mirror the local `hanzo frame render` UX where they overlap:
 
 | Flag | Default | Meaning |
 | --- | --- | --- |
@@ -1150,24 +1121,24 @@ Lifecycle / control flags:
 
 ```bash
 # Default flow — render the current directory.
-frames cloud render
+hanzo frame cloud render
 
 # Pick a composition + output path.
-frames cloud render . \
+hanzo frame cloud render . \
   --composition compositions/intro.html \
   --output ./renders/intro.mp4
 
 # Higher quality at 60fps.
-frames cloud render --quality high --fps 60
+hanzo frame cloud render --quality high --fps 60
 
 # Fire-and-forget with a webhook (no local polling).
-frames cloud render --callback-url https://example.com/hf-hook --no-wait
+hanzo frame cloud render --callback-url https://example.com/hf-hook --no-wait
 
 # Re-render an already-uploaded composition (skips zip + upload).
-frames cloud render --asset-id asst_abc123
+hanzo frame cloud render --asset-id asst_abc123
 
 # Render from a public URL (no upload).
-frames cloud render --url https://cdn.example.com/site.zip
+hanzo frame cloud render --url https://cdn.example.com/site.zip
 ```
 
 ##### Safe retries via `--idempotency-key`
@@ -1177,7 +1148,7 @@ The CLI transparently retries on a `401 Unauthorized` by force-refreshing the OA
 Pass `--idempotency-key <key>` whenever you want safe retries on `cloud render`. The key is forwarded to both the upload and submit calls; the server scopes idempotency per-endpoint, so reusing the same value across the two steps is safe and prevents duplicates on either step. Use a UUID per logical render, or any opaque string in `[A-Za-z0-9_:.-]` (1-255 chars).
 
 ```bash
-frames cloud render . --idempotency-key "$(uuidgen)"
+hanzo frame cloud render . --idempotency-key "$(uuidgen)"
 ```
 
 #### `cloud list`
@@ -1185,9 +1156,9 @@ frames cloud render . --idempotency-key "$(uuidgen)"
 Pages through recent renders. Cursor-based: `--limit` caps a single page (1-100), `--token` resumes from a previous `next_token`, `--all` walks the full list until exhausted.
 
 ```bash
-frames cloud list
-frames cloud list --limit 50 --json
-frames cloud list --all
+hanzo frame cloud list
+hanzo frame cloud list --limit 50 --json
+hanzo frame cloud list --all
 ```
 
 #### `cloud get <render_id>`
@@ -1195,8 +1166,8 @@ frames cloud list --all
 Fetches the full detail record for one render, including the short-lived signed `video_url` and `thumbnail_url` (presigned S3 URLs — re-fetch on demand rather than cache).
 
 ```bash
-frames cloud get hfr_abc123
-frames cloud get hfr_abc123 --json
+hanzo frame cloud get hfr_abc123
+hanzo frame cloud get hfr_abc123 --json
 ```
 
 #### `cloud delete <render_id>`
@@ -1204,30 +1175,30 @@ frames cloud get hfr_abc123 --json
 Soft-deletes a render. Subsequent `GET` calls return 404 and the signed video URL stops working shortly after. Prompts for confirmation interactively; pass `--no-confirm` to bypass for scripts.
 
 ```bash
-frames cloud delete hfr_abc123
-frames cloud delete hfr_abc123 --no-confirm --json
+hanzo frame cloud delete hfr_abc123
+hanzo frame cloud delete hfr_abc123 --no-confirm --json
 ```
 
 ### When to pick `cloud` vs `lambda` vs local render
 
-- `frames render` (local): fastest iteration loop. Use during composition authoring.
-- `frames lambda render`: bring-your-own-AWS distributed rendering. Use when you've already invested in AWS and want chunked parallelism on your own account.
-- `frames cloud render`: zero-infra option. HeyGen runs the render; you pay per credit. Use when you don't want to manage Chrome/ffmpeg/AWS locally.
+- `hanzo frame render` (local): fastest iteration loop. Use during composition authoring.
+- `hanzo frame lambda render`: bring-your-own-AWS distributed rendering. Use when you've already invested in AWS and want chunked parallelism on your own account.
+- `hanzo frame cloud render`: zero-infra option. Hanzo Cloud runs the render, metered against the org's balance. Use when you don't want to manage Chrome/ffmpeg/AWS locally.
 
 ### Auth + base URL
 
-`cloud` reuses the credential resolved by `frames auth status`. Override the API base for staging tests with `HEYGEN_API_URL` (default `https://api.heygen.com`).
+`cloud` reuses the credential resolved by `hanzo frame auth status`. Override the API base for staging tests with `HANZO_BASE_URL` (default `https://api.hanzo.ai`).
 
-## frames lambda
+## hanzo frame lambda
 
 Deploy Frames distributed rendering to AWS Lambda and drive renders from your laptop or CI.
 
-The `frames lambda` command group wraps the `@frames/aws-lambda` SDK plus AWS SAM so an end-to-end render is three commands:
+The `hanzo frame lambda` command group wraps the `@frames/aws-lambda` SDK plus AWS SAM so an end-to-end render is three commands:
 
 ```bash
-frames lambda deploy
-frames lambda render ./my-project --width 1920 --height 1080 --wait
-frames lambda destroy   # when you're done
+hanzo frame lambda deploy
+hanzo frame lambda render ./my-project --width 1920 --height 1080 --wait
+hanzo frame lambda destroy   # when you're done
 ```
 
 ### Prerequisites
@@ -1243,7 +1214,7 @@ frames lambda destroy   # when you're done
 Builds `packages/aws-lambda/dist/handler.zip` and SAM-deploys the stack at `examples/aws-lambda/template.yaml`. On success, writes `<cwd>/.frames/lambda-stack-<stackName>.json` so the other subcommands don't need to re-derive the bucket / state-machine ARN.
 
 ```bash
-frames lambda deploy \
+hanzo frame lambda deploy \
   --stack-name=frames-prod \
   --region=us-east-1 \
   --concurrency=8 \
@@ -1257,10 +1228,10 @@ Idempotent — re-running on the same `--stack-name` resolves to a no-op when no
 Tars + uploads `<projectDir>` to S3 with a content-addressed key. Returns a `siteId` you can reuse across multiple renders so a re-render of the same tree skips the upload.
 
 ```bash
-frames lambda sites create ./my-project
+hanzo frame lambda sites create ./my-project
 # → siteId: abc1234deadbeef0  (stable across re-runs of the same tree)
 
-frames lambda render ./my-project --site-id=abc1234deadbeef0 --width 1920 --height 1080
+hanzo frame lambda render ./my-project --site-id=abc1234deadbeef0 --width 1920 --height 1080
 ```
 
 #### `lambda render <projectDir>`
@@ -1268,7 +1239,7 @@ frames lambda render ./my-project --site-id=abc1234deadbeef0 --width 1920 --heig
 Starts a Step Functions execution. Returns immediately with a `renderId` (use `lambda progress` to poll) unless `--wait` is set, in which case the CLI blocks until the render finishes and streams per-chunk progress lines.
 
 ```bash
-frames lambda render ./my-project \
+hanzo frame lambda render ./my-project \
   --width=1920 --height=1080 --fps=30 --format=mp4 \
   --chunk-size=240 --max-parallel-chunks=16 \
   --wait
@@ -1276,16 +1247,16 @@ frames lambda render ./my-project \
 
 `--json` swaps the human-readable output for a machine-parseable JSON snapshot.
 
-The composition can be parameterised with `--variables` / `--variables-file`, mirroring the local `frames render` flags. Variables flow into the Step Functions execution input and reach every chunk worker as `window.__hfVariables`. Mismatches against the composition's `data-composition-variables` declaration print as warnings; pass `--strict-variables` to fail the command instead.
+The composition can be parameterised with `--variables` / `--variables-file`, mirroring the local `hanzo frame render` flags. Variables flow into the Step Functions execution input and reach every chunk worker as `window.__hfVariables`. Mismatches against the composition's `data-composition-variables` declaration print as warnings; pass `--strict-variables` to fail the command instead.
 
 ```bash
-frames lambda render ./my-template --site-id=abc1234deadbeef0 \
+hanzo frame lambda render ./my-template --site-id=abc1234deadbeef0 \
   --width=1920 --height=1080 \
   --variables '{"title":"Hello Alice","accent":"#ff0000"}'
 ```
 
 ```bash
-frames lambda render ./my-template --site-id=abc1234deadbeef0 \
+hanzo frame lambda render ./my-template --site-id=abc1234deadbeef0 \
   --width=1920 --height=1080 \
   --variables-file ./alice.json --strict-variables
 ```
@@ -1305,7 +1276,7 @@ Batch file format (JSONL — one JSON object per line):
 ```
 
 ```bash
-frames lambda render-batch ./my-template \
+hanzo frame lambda render-batch ./my-template \
   --batch ./users.jsonl \
   --width 1920 --height 1080 \
   --max-concurrent 10
@@ -1321,12 +1292,12 @@ Batch dispatched: 3 started, 0 failed-to-start.
   ✓ line 3  renders/carol.mp4  arn:aws:states:us-east-1:1234:execution:hf:hf-carol-001
 ```
 
-Pass `--json` for the machine-readable form. Poll each execution via `frames lambda progress <renderId>` (or use the returned `executionArn`).
+Pass `--json` for the machine-readable form. Poll each execution via `hanzo frame lambda progress <renderId>` (or use the returned `executionArn`).
 
 `--dry-run` skips the AWS calls and prints the manifest with `status: "would-invoke"` for every entry — use it to lint the batch file before committing to N billable executions:
 
 ```bash
-frames lambda render-batch ./my-template --batch ./users.jsonl \
+hanzo frame lambda render-batch ./my-template --batch ./users.jsonl \
   --width 1920 --height 1080 --dry-run --json
 ```
 
@@ -1337,7 +1308,7 @@ frames lambda render-batch ./my-template --batch ./users.jsonl \
 Prints one progress snapshot — overall percent, frames rendered, Lambda invocations, accrued cost, and any errors. Accepts either a bare `renderId` (resolved against the stack's state-machine ARN) or a full SFN execution ARN.
 
 ```bash
-frames lambda progress hf-render-abcd1234
+hanzo frame lambda progress hf-render-abcd1234
 ```
 
 #### `lambda destroy`
@@ -1350,13 +1321,13 @@ Print or validate the minimum IAM policy the CLI needs to deploy / invoke / dest
 
 ```bash
 # Print an inline-policy doc you can attach to an IAM user that runs the CLI.
-frames lambda policies user
+hanzo frame lambda policies user
 
 # Print { TrustRelationship, InlinePolicy } for an IAM role (default: cloudformation principal).
-frames lambda policies role --principal=cloudformation
+hanzo frame lambda policies role --principal=cloudformation
 
 # Validate a checked-in policy still covers the CLI's needs.
-frames lambda policies validate ./infra/iam/frames-deploy.json
+hanzo frame lambda policies validate ./infra/iam/frames-deploy.json
 ```
 
 `validate` reads the JSON doc and checks the union of its `Effect: Allow` actions against the CLI's required action set, expanding `s3:*` / `s3:Get*` / `*` wildcards. Missing actions print to stderr and the command exits non-zero — wire it into CI to catch drift before the next deploy fails.
@@ -1365,16 +1336,16 @@ The actions list is deliberately broad (`Resource: "*"`) because CloudFormation 
 
 ### State files
 
-`frames lambda` keeps per-stack metadata under `<cwd>/.frames/lambda-stack-<name>.json` so the verbs don't need to call `describe-stacks` every time. Commit the file to a repo or `.gitignore` it depending on your workflow — it contains the bucket name, state-machine ARN, and region, none of which are secrets but all of which are AWS-account-identifying.
+`hanzo frame lambda` keeps per-stack metadata under `<cwd>/.frames/lambda-stack-<name>.json` so the verbs don't need to call `describe-stacks` every time. Commit the file to a repo or `.gitignore` it depending on your workflow — it contains the bucket name, state-machine ARN, and region, none of which are secrets but all of which are AWS-account-identifying.
 
-## frames cloudrun
+## hanzo frame cloudrun
 
-The Google Cloud counterpart to `frames lambda`. Deploys Frames distributed rendering to Cloud Run + Cloud Workflows and drives renders from your laptop or CI. Wraps the `@frames/gcp-cloud-run` SDK plus `terraform` (the module shipped with the package) and `gcloud` / Cloud Build for the image.
+The Google Cloud counterpart to `hanzo frame lambda`. Deploys Frames distributed rendering to Cloud Run + Cloud Workflows and drives renders from your laptop or CI. Wraps the `@frames/gcp-cloud-run` SDK plus `terraform` (the module shipped with the package) and `gcloud` / Cloud Build for the image.
 
 ```bash
-frames cloudrun deploy --project my-gcp-project
-frames cloudrun render ./my-project --width 1920 --height 1080 --wait
-frames cloudrun destroy --project my-gcp-project   # when you're done
+hanzo frame cloudrun deploy --project my-gcp-project
+hanzo frame cloudrun render ./my-project --width 1920 --height 1080 --wait
+hanzo frame cloudrun destroy --project my-gcp-project   # when you're done
 ```
 
 #### `cloudrun deploy`
@@ -1382,8 +1353,8 @@ frames cloudrun destroy --project my-gcp-project   # when you're done
 Enables the required APIs, builds + pushes the render image via Cloud Build (unless you pass `--image`), then `terraform apply`s the module that provisions the GCS bucket, Cloud Run service, Cloud Workflows definition, two service accounts, and a runaway-request alert. Caches the resulting bucket / service URL / workflow id so later verbs don't need them re-passed.
 
 ```bash
-frames cloudrun deploy --project my-gcp-project --region us-central1
-frames cloudrun deploy --project my-gcp-project --image us-central1-docker.pkg.dev/my-gcp-project/frames/frames-render:v1
+hanzo frame cloudrun deploy --project my-gcp-project --region us-central1
+hanzo frame cloudrun deploy --project my-gcp-project --image us-central1-docker.pkg.dev/my-gcp-project/frames/frames-render:v1
 ```
 
 Flags: `--project` (required), `--region` (default `us-central1`), `--image` (skip the build), `--repo` (Artifact Registry repo, default `frames`). Machine sizing / scaling: `--cpu` (1/2/4/8, default 4), `--memory` (e.g. `32Gi`, default `16Gi`), `--max-instances` (render fan-out ceiling, default 100), `--timeout` (per-request seconds, max 3600). Omitted sizing flags keep the module defaults; for anything finer, apply the Terraform module directly.
@@ -1414,11 +1385,11 @@ Same trade-off as `lambda`, on Google Cloud instead of AWS. Pick `cloudrun` when
 
 ### State file
 
-`frames cloudrun` caches the deployed stack's coordinates under `~/.frames/cloudrun-state.json` (project id, region, bucket, service URL, workflow id) so `render` / `progress` / `destroy` don't need them re-passed. None are secrets, but all are GCP-project-identifying.
+`hanzo frame cloudrun` caches the deployed stack's coordinates under `~/.frames/cloudrun-state.json` (project id, region, bucket, service URL, workflow id) so `render` / `progress` / `destroy` don't need them re-passed. None are secrets, but all are GCP-project-identifying.
 
 ## frames.json
 
-`frames init` writes a `frames.json` file at the root of every new project. `frames add` reads it to know which registry to pull items from and where to drop them. Edit the file (or delete it to fall back to defaults) to reshape your project layout or point at a custom registry.
+`hanzo frame init` writes a `frames.json` file at the root of every new project. `hanzo frame add` reads it to know which registry to pull items from and where to drop them. Edit the file (or delete it to fall back to defaults) to reshape your project layout or point at a custom registry.
 
 ```json
 {
@@ -1448,7 +1419,7 @@ Missing fields are filled with defaults — you only need to specify what you wa
     The rendering pipeline the CLI calls under the hood. Use directly for programmatic rendering.
   </Card>
   <Card title="Studio" icon="palette" href="/packages/studio">
-    The editor UI that powers `frames preview`. Use directly to embed in your own app.
+    The editor UI that powers `hanzo frame preview`. Use directly to embed in your own app.
   </Card>
   <Card title="Core" icon="cube" href="/packages/core">
     Types, linter, and runtime. Use directly for custom tooling and integrations.

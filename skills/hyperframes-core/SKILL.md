@@ -76,7 +76,7 @@ Surfaced here; full rationale in the linked reference. Do not violate:
 
 Use `frames-cli` for command details
 
-- [ ] `npx frames check` passes (0 findings across lint, runtime, layout, motion, and contrast)
-- [ ] Projects with sub-compositions: `npx frames snapshot --at <midpoints>` and eyeball each frame
-- [ ] `npx frames preview` for review (the user can edit anything in Studio's timeline)
-- [ ] `npx frames render` only after the user approves
+- [ ] `npx @hanzo/frame check` passes (0 findings across lint, runtime, layout, motion, and contrast)
+- [ ] Projects with sub-compositions: `npx @hanzo/frame snapshot --at <midpoints>` and eyeball each frame
+- [ ] `npx @hanzo/frame preview` for review (the user can edit anything in Studio's timeline)
+- [ ] `npx @hanzo/frame render` only after the user approves

@@ -26,9 +26,9 @@ The agent behind `compose` has 25+ Frames-specific skills baked in — typograph
 
 ## Setup
 
-### 1. Get a HeyGen account
+### 1. Get a Hanzo account
 
-The MCP requires a HeyGen account for authentication and credits. Sign up at [heygen.com](https://heygen.com) if you don't have one.
+The MCP authenticates through Hanzo IAM. Sign in or sign up at [hanzo.id](https://hanzo.id) if you don't have an account.
 
 ### 2. Add the connector
 
@@ -46,8 +46,8 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
         https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
-      <Step title="Sign in to HeyGen">
-        OAuth opens in a new window. Authorize the Frames connector to access your HeyGen account.
+      <Step title="Sign in to Hanzo">
+        Sign-in opens in a new window. Authorize the Frames connector against your Hanzo account.
       </Step>
       <Step title="Start a new chat">
         Open a new Claude.ai chat. Try:
@@ -67,7 +67,7 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
         https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
-      <Step title="Sign in to HeyGen">
+      <Step title="Sign in to Hanzo">
         Authorize via OAuth.
       </Step>
       <Step title="Start a new chat">
@@ -88,7 +88,7 @@ The MCP requires a HeyGen account for authentication and credits. Sign up at [he
         https://mcp.hanzo.ai/mcp/frames
         ```
       </Step>
-      <Step title="Sign in to HeyGen">
+      <Step title="Sign in to Hanzo">
         Authorize via OAuth.
       </Step>
       <Step title="Start a new chat">
@@ -191,9 +191,9 @@ You:    "render to webm with alpha"
 Agent:  [render-progress widget, then player widget with download link]
 ```
 
-### Reference your existing HeyGen assets
+### Reference your existing assets
 
-If you've uploaded logos, fonts, or other assets to your HeyGen account, the agent can use them. Just say *"use my logo"* or *"use my brand font."* The agent resolves the asset by name and recency.
+If you've uploaded logos, fonts, or other assets to your Hanzo account, the agent can use them. Just say *"use my logo"* or *"use my brand font."* The agent resolves the asset by name and recency.
 
 ### Pick the right format up front
 
@@ -236,9 +236,9 @@ If progress stops mid-flow, the run failed. The agent's next message should expl
 
 <AccordionGroup>
   <Accordion title="OAuth keeps failing or loops">
-    Verify you're using the production URL: `https://mcp.hanzo.ai/mcp/frames`. The dev URL (`mcp.dev.heygen.com`) only accepts dev accounts.
+    Verify you're using the production URL: `https://mcp.hanzo.ai/mcp/frames`.
 
-    If OAuth completes but you see "not authorized" errors, your HeyGen account may not have access to the MCP — contact support or check your tier.
+    If sign-in completes but you see "not authorized" errors, your Hanzo account may not have access to the MCP — check your tier.
   </Accordion>
 
   <Accordion title="Render is stuck or never completes">
@@ -252,17 +252,17 @@ If progress stops mid-flow, the run failed. The agent's next message should expl
   </Accordion>
 
   <Accordion title='"Composition not found" error'>
-    The `composition_id` is owned by the HeyGen space (account) that created it. If you're signed into a different space, you can't access compositions from another. Run `list_compositions` to see what's available from your current account.
+    The `composition_id` is owned by the account that created it. If you're signed into a different space, you can't access compositions from another. Run `list_compositions` to see what's available from your current account.
   </Accordion>
 
   <Accordion title="Player widget shows blank or loads forever">
-    Usually a transient connection issue between the widget and `mcp.heygen.com`. Refresh the chat or call `get_composition` again.
+    Usually a transient connection issue between the widget and `mcp.hanzo.ai`. Refresh the chat or call `get_composition` again.
 
     If it persists, your composition may reference a media asset that failed to upload — recreate the composition with `compose("regenerate this")`.
   </Accordion>
 
   <Accordion title="Out of credits">
-    The MCP returns an error with an upgrade URL when your credits are exhausted. Visit [heygen.com/pricing](https://heygen.com/pricing) to upgrade your tier.
+    The MCP returns an error with an upgrade URL when your balance is exhausted. Visit [hanzo.ai/pricing](https://hanzo.ai/pricing) to top up.
   </Accordion>
 
   <Accordion title="Tool call timed out in the host">
@@ -290,9 +290,9 @@ For bugs or feature requests, file an issue at [github.com/hanzoai/frames/issues
 
 ## Limitations
 
-- **Cloud-only rendering.** All renders run on HeyGen infrastructure. Use the [CLI](/quickstart) if you need local rendering.
-- **Single-user.** Each composition is owned by one HeyGen account. No team sharing in v1.
-- **No binary uploads from chat.** You can reference assets you've already uploaded to HeyGen via the web UI, but the MCP does not currently accept new file uploads through chat. Upload via [app.heygen.com](https://app.heygen.com) first, then reference the asset by name.
+- **Cloud-only rendering.** All renders run on Hanzo Cloud. Use the [CLI](/quickstart) if you need local rendering.
+- **Single-user.** Each composition is owned by one Hanzo account. No team sharing in v1.
+- **No binary uploads from chat.** You can reference assets you've already uploaded via the web UI, but the MCP does not currently accept new file uploads through chat. Upload first, then reference the asset by name.
 - **Aspect ratios:** `16:9`, `9:16`, `1:1`, `4:5`. Other ratios fall back to the closest match.
 - **No fine-grained editing tools.** Edits go through the agent. For pixel-precise control, use the [CLI](/quickstart) and a coding agent like Claude Code or Cursor.
 - **Widget rendering requires a host that supports MCP widgets.** Claude.ai web/desktop, ChatGPT (Apps SDK), and Grok support widgets today. Text-only MCP clients (Claude Code CLI, Cursor, Windsurf) will see a clickable preview URL instead — full text-mode support is on the roadmap.
@@ -301,11 +301,11 @@ For bugs or feature requests, file an issue at [github.com/hanzoai/frames/issues
 
 [Frames itself is open source](https://github.com/hanzoai/frames) — the HTML composition format, CLI, renderer, and player. You can use Frames locally without the MCP.
 
-The MCP is a HeyGen-hosted product that wraps:
+The MCP is a Hanzo-hosted product that wraps:
 
 - The Frames composition agent (the LLM that authors compositions)
-- HeyGen's cloud rendering pipeline
-- HeyGen's asset libraries
+- The cloud rendering pipeline
+- The shared media catalog
 - OAuth, credits, and tier management
 
 | You want… | Use… |

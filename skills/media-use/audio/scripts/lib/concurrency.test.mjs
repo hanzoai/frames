@@ -3,11 +3,10 @@ import assert from "node:assert/strict";
 import { mapWithConcurrency } from "./concurrency.mjs";
 
 // Regression: audio.mjs used a bare Promise.all(lines.map(synthLine)) to
-// synthesize every TTS line at once, spawning one Kokoro/whisper model load
-// per line concurrently. Two independent reports of this overwhelming a
-// machine (OOM, and cold-start contention causing spurious failures).
-// mapWithConcurrency is the extracted cap; test it in isolation since
-// audio.mjs itself is a script (runs CLI/exit side effects on import).
+// synthesize every TTS line at once, opening two requests per line
+// concurrently — a long script got throttled and the whole batch failed
+// together. mapWithConcurrency is the extracted cap; test it in isolation
+// since audio.mjs itself is a script (CLI/exit side effects on import).
 test("processes every item and preserves input order regardless of completion order", async () => {
   const order = [5, 1, 3, 2, 4];
   const results = await mapWithConcurrency(order, 2, async (n) => {

@@ -30,21 +30,6 @@ writeFileSync(flag("--out"), JSON.stringify({ voices: [], bgm: null, sfx: [] }))
   return JSON.parse(readFileSync(join(dir, "request.json"), "utf8"));
 }
 
-test("passes --provider to the shared audio engine", () => {
-  assert.equal(runAudio({ args: ["--provider", "kokoro"] }).provider, "kokoro");
-});
-
-test("uses HF_TTS_PROVIDER when --provider is omitted", () => {
-  assert.equal(runAudio({ env: { HF_TTS_PROVIDER: "elevenlabs" } }).provider, "elevenlabs");
-});
-
-test("--provider takes precedence over HF_TTS_PROVIDER", () => {
-  assert.equal(
-    runAudio({ args: ["--provider", "kokoro"], env: { HF_TTS_PROVIDER: "elevenlabs" } }).provider,
-    "kokoro",
-  );
-});
-
 // ── the canonical fully-silent marker (SKILL.md Step 3.1) ────────────────────
 // `music: none` in the storyboard's top YAML block + no SCRIPT.md marks the
 // project fully silent: generate must produce nothing (an absent

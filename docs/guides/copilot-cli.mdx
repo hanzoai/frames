@@ -75,7 +75,7 @@ Explicit invocation is more reliable when you have many skills installed — wit
 <Steps>
   <Step title="Scaffold a project">
     ```bash
-    npx frames init my-video
+    npx @hanzo/frame init my-video
     cd my-video
     ```
 
@@ -84,7 +84,7 @@ Explicit invocation is more reliable when you have many skills installed — wit
 
   <Step title="Start the preview server">
     ```bash
-    npx frames preview
+    npx @hanzo/frame preview
     ```
 
     Opens the Frames Studio in your browser. Edits reload automatically.
@@ -121,7 +121,7 @@ Explicit invocation is more reliable when you have many skills installed — wit
 
   <Step title="Render">
     ```bash
-    npx frames render --output output.mp4
+    npx @hanzo/frame render --output output.mp4
     ```
 
     Or ask the agent:
@@ -142,7 +142,7 @@ product launch video with 5 scenes, install the flash-through-white transition
 block, and render to mp4.
 ```
 
-In agent mode, Copilot runs terminal commands (like `npx frames init` and `npx frames render`) on your behalf. Review the commands before approving them — especially if the skill pre-approves `shell` in its `allowed-tools`.
+In agent mode, Copilot runs terminal commands (like `npx @hanzo/frame init` and `npx @hanzo/frame render`) on your behalf. Review the commands before approving them — especially if the skill pre-approves `shell` in its `allowed-tools`.
 
 <Warning>
   Only pre-approve `shell` or `bash` in skill `allowed-tools` for skills you trust. The Frames skills do not pre-approve shell access — the agent will ask for confirmation before running terminal commands.
@@ -168,9 +168,9 @@ Authorize via OAuth when prompted. See the [MCP guide](/guides/mcp) for full det
 
 - **Always start with `/frames`.** It's the entry skill — it orients you to the whole surface and routes your request to the right workflow, pulling in the domain skills (`/frames-core` for composition rules and data attributes, `/frames-animation` for GSAP and other runtime patterns) that generic web knowledge doesn't cover.
 - **Use `/skills` to check skill status.** If output looks wrong, open the skills picker to verify the Frames skills are enabled.
-- **Run `npx frames lint` before rendering.** The linter catches structural issues the agent might miss on complex multi-scene edits.
+- **Run `npx @hanzo/frame lint` before rendering.** The linter catches structural issues the agent might miss on complex multi-scene edits.
 - **Keep the preview server running in a separate terminal.** You see every edit reflected in real time while prompting in Copilot CLI.
-- **Install registry blocks for transitions and effects.** `npx frames add shimmer-sweep` installs pre-built blocks, then prompt the agent to wire them in.
+- **Install registry blocks for transitions and effects.** `npx @hanzo/frame add shimmer-sweep` installs pre-built blocks, then prompt the agent to wire them in.
 
 ## Next steps
 
